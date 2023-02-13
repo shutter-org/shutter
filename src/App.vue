@@ -11,6 +11,7 @@
             to="/"
             class="flex items-center p-2 text-base font-normal rounded-lg"
           >
+            <ShutterIcon />
             <span id="logo-name" class="ml-1 font-semibold text-3xl"
               >Shutter</span
             >
@@ -93,7 +94,9 @@
       </a>
     </div>
   </aside>
-  <RouterView />
+  <div id="router-view" class="left-64">
+    <RouterView />
+  </div>
 </template>
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
@@ -104,8 +107,13 @@ import InboxIcon from "./components/icons/InboxIcon.vue";
 import NotificationsIcon from "./components/icons/NotificationsIcon.vue";
 import CreateIcon from "./components/icons/CreateIcon.vue";
 import LogoutIcon from "./components/icons/LogoutIcon.vue";
+import ShutterIcon from "./components/icons/ShutterIcon.vue";
 </script>
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: row;
+}
 @media (max-width: 1264px) {
   #default-sidebar {
     width: 64px;
@@ -116,6 +124,12 @@ import LogoutIcon from "./components/icons/LogoutIcon.vue";
   #logo-name {
     display: none;
   }
+  #router-view {
+    left: 64px;
+  }
+}
+#logo-name {
+  font-family: "Courier New", Courier, monospace;
 }
 #default-sidebar {
   border-right: 1px solid rgba(84, 84, 84, 0.65);
