@@ -19,7 +19,7 @@ a,
 
 @media (hover: hover) {
   a:hover {
-    background-color: hsla(288, 97%, 53%, 0.2);
+    background-color: var(--hover-color);
   }
 }
 

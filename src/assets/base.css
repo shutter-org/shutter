@@ -19,6 +19,8 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+  --hover-color-dark: hsla(288, 97%, 53%, 0.2);
+  --hover-color-light: hsla(205, 98%, 52%, 0.2);
 }
 
 /* semantic color variables for this project */
@@ -32,8 +34,10 @@
 
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
-
+  
   --section-gap: 160px;
+
+  --hover-color: var(--hover-color-light);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,6 +51,8 @@
 
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
+
+    --hover-color: var(--hover-color-dark);
   }
 }
 
