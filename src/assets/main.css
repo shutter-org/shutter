@@ -7,7 +7,9 @@
 
   font-weight: normal;
 }
-
+svg, span {
+  color: var(--color-text);
+}
 a,
 .green {
   text-decoration: none;
