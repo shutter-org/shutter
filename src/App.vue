@@ -6,12 +6,14 @@
   >
     <div class="h-full px-3 py-4 overflow-y-auto">
       <ul class="space-y-2">
-        <li>
+        <li class="mb-4">
           <router-link
             to="/"
             class="flex items-center p-2 text-base font-normal rounded-lg"
           >
-            <span class="ml-1 text-3xl">Shutter</span>
+            <span id="logo-name" class="ml-1 font-semibold text-3xl"
+              >Shutter</span
+            >
           </router-link>
         </li>
         <li>
@@ -20,7 +22,7 @@
             class="flex items-center p-2 text-base font-normal rounded-lg"
           >
             <HomeIcon />
-            <span class="ml-3">Home</span>
+            <span class="ml-3 whitespace-nowrap">Home</span>
           </router-link>
         </li>
         <li>
@@ -71,7 +73,7 @@
         <li>
           <router-link
             to="/profile"
-            class="flex items-center p-2 text-base font-normal rounded-lg"
+            class="flex items-center p-2 font-normal rounded-lg"
           >
             <img
               class="w-6 h-6 rounded-full"
@@ -79,9 +81,16 @@
               alt="Rounded avatar"
             />
             <span class="flex-1 ml-3 whitespace-nowrap">Profile</span>
-        </router-link>
+          </router-link>
         </li>
       </ul>
+      <a
+        href="#"
+        class="absolute bottom-0 mb-8 flex items-center p-2 font-normal rounded-lg"
+      >
+        <LogoutIcon />
+        <span class="flex-1 ml-3 whitespace-nowrap">Logout</span>
+      </a>
     </div>
   </aside>
   <RouterView />
@@ -94,8 +103,20 @@ import ExploreIcon from "./components/icons/ExploreIcon.vue";
 import InboxIcon from "./components/icons/InboxIcon.vue";
 import NotificationsIcon from "./components/icons/NotificationsIcon.vue";
 import CreateIcon from "./components/icons/CreateIcon.vue";
+import LogoutIcon from "./components/icons/LogoutIcon.vue";
 </script>
 <style scoped>
+@media (max-width: 1264px) {
+  #default-sidebar {
+    width: 64px;
+  }
+  .whitespace-nowrap {
+    display: none;
+  }
+  #logo-name {
+    display: none;
+  }
+}
 #default-sidebar {
   border-right: 1px solid rgba(84, 84, 84, 0.65);
 }
