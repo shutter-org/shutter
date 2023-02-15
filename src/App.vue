@@ -1,7 +1,7 @@
 <template>
-  <aside
+  <div
     id="default-sidebar"
-    class="fixed top-0 left-0 z-40 w-64 h-screen"
+    class="fixed top-0 left-0 w-64 h-screen"
     aria-label="Sidebar"
   >
     <div class="h-full px-3 py-4 overflow-y-auto">
@@ -84,29 +84,19 @@
             <span class="flex-1 ml-3 whitespace-nowrap">Profile</span>
           </router-link>
         </li>
+        <li class="pt-20">
+          <router-link
+            to="#"
+            class="flex items-center p-2 text-base font-normal rounded-lg"
+          >
+            <LogoutIcon />
+            <span class="flex-1 ml-3 whitespace-nowrap">Logout</span>
+          </router-link>
+        </li>
       </ul>
-
-      <a
-        href="#"
-        class="absolute bottom-0 mb-8 flex items-center p-2 font-normal rounded-lg"
-      >
-        <LogoutIcon />
-        <span class="flex-1 ml-3 whitespace-nowrap">Logout</span>
-      </a>
     </div>
-  </aside>
-  <nav class="h-16 absolute bottom-0 w-screen">
-    <div class="flex row justify-around items-center">
-      <a href="#" class="p-2 rounded-lg">
-        <HomeIcon />
-      </a>
-
-      <SearchIcon />
-      <ExploreIcon />
-      <InboxIcon />
-    </div>
-  </nav>
-  <div id="router-view" class="left-64">
+  </div>
+  <div id="router-view" class="ml-auto">
     <RouterView />
   </div>
 </template>
@@ -126,6 +116,15 @@ import ShutterIcon from "./components/icons/ShutterIcon.vue";
   display: flex;
   flex-direction: row;
 }
+@media (min-width: 1264px) {
+  #default-sidebar {
+    width: 16rem;
+  }
+  #router-view {
+    width: calc(100% - 16rem);
+  }
+}
+
 @media (max-width: 1264px) {
   #default-sidebar {
     width: 64px;
@@ -137,19 +136,14 @@ import ShutterIcon from "./components/icons/ShutterIcon.vue";
     display: none;
   }
   #router-view {
-    left: 64px;
+    width: calc(100% - 4rem);
   }
 }
-#router-view {
-  min-height: 100vh;
-}
+
 #logo-name {
   font-family: "Courier New", Courier, monospace;
 }
 #default-sidebar {
   border-right: 1px solid var(--color-border);
-}
-nav {
-  border-top: 1px solid var(--color-border);
 }
 </style>

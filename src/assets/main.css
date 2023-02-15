@@ -1,9 +1,11 @@
 @import './base.css';
 
 #app {
-  min-height: 100vh;
-  min-width: 100vh;
-  margin: 0 auto;
+  flex-direction: column;
+  min-height: inherit;
+  position: relative;
+  display: flex;
+  margin: 0;
 
   font-weight: normal;
 }
@@ -18,7 +20,3 @@ svg, span {
   }
 }
 
-@media (min-width: 1024px) {
-  
-
-}
