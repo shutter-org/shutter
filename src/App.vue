@@ -85,6 +85,7 @@
           </router-link>
         </li>
       </ul>
+
       <a
         href="#"
         class="absolute bottom-0 mb-8 flex items-center p-2 font-normal rounded-lg"
@@ -94,6 +95,17 @@
       </a>
     </div>
   </aside>
+  <nav class="h-16 absolute bottom-0 w-screen">
+    <div class="flex row justify-around items-center">
+      <a href="#" class="p-2 rounded-lg">
+        <HomeIcon />
+      </a>
+
+      <SearchIcon />
+      <ExploreIcon />
+      <InboxIcon />
+    </div>
+  </nav>
   <div id="router-view" class="left-64">
     <RouterView />
   </div>
@@ -128,10 +140,16 @@ import ShutterIcon from "./components/icons/ShutterIcon.vue";
     left: 64px;
   }
 }
+#router-view {
+  min-height: 100vh;
+}
 #logo-name {
   font-family: "Courier New", Courier, monospace;
 }
 #default-sidebar {
-  border-right: 1px solid rgba(84, 84, 84, 0.65);
+  border-right: 1px solid var(--color-border);
+}
+nav {
+  border-top: 1px solid var(--color-border);
 }
 </style>
