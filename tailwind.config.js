@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line no-undef
 module.exports = {
   content: [
     "./index.html",
@@ -6,7 +7,12 @@ module.exports = {
     "./node_modules/flowbite/**/*.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        PRO: { max: "1024px" },
+      },
+    },
   },
+  // eslint-disable-next-line no-undef
   plugins: [require("flowbite/plugin")],
 };
