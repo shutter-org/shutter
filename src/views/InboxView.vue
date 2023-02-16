@@ -12,7 +12,7 @@
     <div class="h-96 bg-indigo-400 p-10">
       <h1 class="text-4xl">Last Content</h1>
     </div>
-  </div>
+</div>
 </template>
 <script setup lang="ts"></script>
 <style></style>

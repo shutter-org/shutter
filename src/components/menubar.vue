@@ -1,34 +1,21 @@
 <template>
-  <div
-    id="default-sidebar"
-    class="fixed z-50 top-0 left-0 h-20 w-screen border-b hidden PRO:block"
-    aria-label="menubar top"
-  >
+  <div id="default-sidebar" class="fixed z-50 top-0 left-0 h-20 w-screen border-b hidden PRO:block"
+    aria-label="menubar top">
     <div class="w-full p-3">
       <ul class="flex flex-row space-x-2">
         <li class="mb-4 mr-auto">
-          <router-link
-            to="/"
-            class="flex items-center p-2 text-base font-normal rounded-lg"
-            ><ShutterIcon />
-            <span id="logo-name" class="ml-1 font-semibold text-3xl"
-              >Shutter</span
-            >
+          <router-link to="/" class="flex items-center p-2 text-base font-normal rounded-lg">
+            <ShutterIcon />
+            <span id="logo-name" class="ml-1 font-semibold text-3xl">Shutter</span>
           </router-link>
         </li>
         <li>
-          <a
-            href="#"
-            class="flex items-center p-2 text-base font-normal rounded-lg"
-          >
+          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg">
             <NotificationsIcon />
           </a>
         </li>
         <li>
-          <router-link
-            to="/inbox"
-            class="flex items-center p-2 text-base font-normal rounded-lg"
-          >
+          <router-link to="/inbox" class="flex items-center p-2 text-base font-normal rounded-lg">
             <InboxIcon />
           </router-link>
         </li>
@@ -36,108 +23,70 @@
     </div>
   </div>
 
-  <div
-    id="default-sidebar"
+  <div id="default-sidebar"
     class="fixed z-50 top-0 left-0 w-64 h-screen border-r PRO:border-t PRO:top-auto PRO:bottom-0 PRO:w-screen PRO:h-20"
-    aria-label="Sidebar"
-  >
+    aria-label="Sidebar">
     <div class="w-full p-3">
-      <ul
-        class="flex flex-col justify-between space-y-5 PRO:flex-row PRO:space-x-2 PRO:space-y-0"
-      >
+      <ul class="flex flex-col justify-between space-y-5 PRO:flex-row PRO:space-x-2 PRO:space-y-0">
         <li class="mb-4 PRO:hidden">
-          <router-link
-            to="/"
-            class="flex items-center p-2 text-base font-normal rounded-lg"
-            ><ShutterIcon />
-            <span id="logo-name" class="ml-1 font-semibold text-3xl"
-              >Shutter</span
-            >
+          <router-link to="/" class="flex items-center p-2 text-base font-normal rounded-lg">
+            <ShutterIcon />
+            <span id="logo-name" class="ml-1 font-semibold text-3xl">Shutter</span>
           </router-link>
         </li>
         <li>
-          <router-link
-            to="/"
-            class="flex items-center p-2 text-base font-normal rounded-lg"
-          >
+          <router-link to="/" class="flex items-center p-2 text-base font-normal rounded-lg">
             <HomeIcon />
             <span class="ml-3 whitespace-nowrap PRO:hidden">Home</span>
           </router-link>
         </li>
         <li>
-          <a
-            href="#"
-            class="flex items-center p-2 text-base font-normal rounded-lg"
-          >
+          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg">
             <SearchIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Search</span>
           </a>
         </li>
         <li>
-          <a
-            href="#"
-            class="flex items-center p-2 text-base font-normal rounded-lg"
-          >
+          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg">
             <ExploreIcon />
-            <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden"
-              >Explore</span
-            >
+            <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Explore</span>
           </a>
         </li>
         <li class="PRO:hidden">
-          <router-link
-            to="/inbox"
-            class="flex items-center p-2 text-base font-normal rounded-lg"
-          >
+          <router-link to="/inbox" class="flex items-center p-2 text-base font-normal rounded-lg">
             <InboxIcon />
             <span class="flex-1 ml-3 whitespace-nowrap">Messages</span>
           </router-link>
         </li>
         <li class="PRO:hidden">
-          <a
-            href="#"
-            class="flex items-center p-2 text-base font-normal rounded-lg"
-          >
+          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg">
             <NotificationsIcon />
             <span class="flex-1 ml-3 whitespace-nowrap">Notifications</span>
           </a>
         </li>
         <li>
-          <a
-            href="#"
-            class="flex items-center p-2 text-base font-normal rounded-lg"
-          >
+          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg">
             <CreateIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Create</span>
           </a>
         </li>
         <li>
-          <router-link
-            to="/profile"
-            class="flex items-center p-2 font-normal rounded-lg"
-          >
-            <img
-              class="w-6 h-6 rounded-full"
+          <router-link to="/profile" class="flex items-center p-2 font-normal rounded-lg">
+            <img class="w-6 h-6 rounded-full"
               src="https://cdn.discordapp.com/attachments/1069318680736964628/1072638173034852463/images.png"
-              alt="Rounded avatar"
-            />
-            <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden"
-              >Profile</span
-            >
+              alt="Rounded avatar" />
+            <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Profile</span>
           </router-link>
         </li>
         <li>
-          <router-link
-            to="#"
-            class="flex items-center p-2 text-base font-normal rounded-lg"
-          >
+          <router-link to="#" class="flex items-center p-2 text-base font-normal rounded-lg">
             <LogoutIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Logout</span>
           </router-link>
         </li>
       </ul>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -169,6 +118,7 @@ export default {
 #logo-name {
   font-family: "Courier New", Courier, monospace;
 }
+
 #default-sidebar {
   border-color: var(--color-border);
   background-color: var(--color-background);
