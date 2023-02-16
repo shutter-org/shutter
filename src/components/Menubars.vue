@@ -1,6 +1,5 @@
 <template>
-  <div id="default-sidebar" class="fixed z-50 top-0 left-0 h-20 w-full border-b hidden PRO:block"
-    aria-label="menubar top">
+  <div id="sidebar" class="fixed z-50 top-0 left-0 h-20 w-full border-b hidden PRO:block" aria-label="menubar top">
     <div class="w-full h-full">
       <ul class="flex flex-row space-x-2 h-full items-center">
         <li class="mr-auto">
@@ -23,7 +22,7 @@
     </div>
   </div>
 
-  <div id="default-sidebar"
+  <div id="sidebar"
     class="fixed z-50 top-0 left-0 w-64 h-screen border-r PRO:border-t PRO:top-auto PRO:bottom-0 PRO:w-full PRO:h-20"
     aria-label="Sidebar">
     <div class="w-full p-3 h-full">
@@ -120,7 +119,7 @@ export default {
   font-family: "Courier New", Courier, monospace;
 }
 
-#default-sidebar {
+#sidebar {
   border-color: var(--color-border);
   background-color: var(--color-background);
 }
