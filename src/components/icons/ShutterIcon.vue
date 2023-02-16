@@ -2,10 +2,8 @@
   <svg
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
     height="30"
     width="30"
-    version="1.1"
     viewBox="0 0 28.3 28.3"
     xml:space="preserve"
   >
