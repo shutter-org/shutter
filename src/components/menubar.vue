@@ -1,6 +1,43 @@
 <template>
   <div
     id="default-sidebar"
+    class="fixed z-50 top-0 left-0 h-20 w-screen border-b hidden PRO:block"
+    aria-label="menubar top"
+  >
+    <div class="w-full p-3">
+      <ul class="flex flex-row space-x-2">
+        <li class="mb-4 mr-auto">
+          <router-link
+            to="/"
+            class="flex items-center p-2 text-base font-normal rounded-lg"
+            ><ShutterIcon />
+            <span id="logo-name" class="ml-1 font-semibold text-3xl"
+              >Shutter</span
+            >
+          </router-link>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="flex items-center p-2 text-base font-normal rounded-lg"
+          >
+            <NotificationsIcon />
+          </a>
+        </li>
+        <li>
+          <router-link
+            to="/inbox"
+            class="flex items-center p-2 text-base font-normal rounded-lg"
+          >
+            <InboxIcon />
+          </router-link>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div
+    id="default-sidebar"
     class="fixed z-50 top-0 left-0 w-64 h-screen border-r PRO:border-t PRO:top-auto PRO:bottom-0 PRO:w-screen PRO:h-20"
     aria-label="Sidebar"
   >
@@ -8,12 +45,12 @@
       <ul
         class="flex flex-col justify-between space-y-5 PRO:flex-row PRO:space-x-2 PRO:space-y-0"
       >
-        <li class="mb-4">
+        <li class="mb-4 PRO:hidden">
           <router-link
             to="/"
             class="flex items-center p-2 text-base font-normal rounded-lg"
             ><ShutterIcon />
-            <span id="logo-name" class="ml-1 font-semibold text-3xl PRO:hidden"
+            <span id="logo-name" class="ml-1 font-semibold text-3xl"
               >Shutter</span
             >
           </router-link>
@@ -47,26 +84,22 @@
             >
           </a>
         </li>
-        <li>
+        <li class="PRO:hidden">
           <router-link
             to="/inbox"
             class="flex items-center p-2 text-base font-normal rounded-lg"
           >
             <InboxIcon />
-            <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden"
-              >Messages</span
-            >
+            <span class="flex-1 ml-3 whitespace-nowrap">Messages</span>
           </router-link>
         </li>
-        <li>
+        <li class="PRO:hidden">
           <a
             href="#"
             class="flex items-center p-2 text-base font-normal rounded-lg"
           >
             <NotificationsIcon />
-            <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden"
-              >Notifications</span
-            >
+            <span class="flex-1 ml-3 whitespace-nowrap">Notifications</span>
           </a>
         </li>
         <li>
