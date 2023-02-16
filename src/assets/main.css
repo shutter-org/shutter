@@ -1,4 +1,4 @@
-@import './base.css';
+@import "./base.css";
 
 #app {
   flex-direction: column;
@@ -9,14 +9,13 @@
 
   font-weight: normal;
 }
-svg, span {
+svg,
+span {
   color: var(--color-text);
 }
-
 
 @media (hover: hover) {
   a:hover {
     background-color: var(--hover-color);
   }
 }
-
