@@ -1,19 +1,22 @@
 <template>
-  <div class="example">
-    <div
-      class="camera_shutter"
-      @mouseover="isHover = true"
-      @mouseleave="isHover = false"
-    >
-      <div class="camera_shutter_triangles">
-        <div
-          class="camera_shutter_triangle"
-          v-for="index in number"
-          :key="index"
-          :style="getItemStyle(index)"
-        ></div>
+  <div
+    class="flex justify-center items-center"
+    @mouseover="isHover = true"
+    @mouseleave="isHover = false"
+  >
+    <div class="example">
+      <div class="camera_shutter" :style="getCercleRotation()">
+        <div class="camera_shutter_triangles">
+          <div
+            class="camera_shutter_triangle"
+            v-for="index in number"
+            :key="index"
+            :style="getTriangleStyle(index)"
+          ></div>
+        </div>
       </div>
     </div>
+    <span id="logo-name" class="flex ml-1 font-semibold text-3xl">Shutter</span>
   </div>
 </template>
 
@@ -23,13 +26,13 @@ export default {
     return {
       number: 8,
       isHover: false,
-      close: 10,
+      close: 15,
       open: 35,
     };
   },
   mounted() {},
   methods: {
-    getItemStyle(index) {
+    getTriangleStyle(index) {
       const angleConst = 2.5 + (360 / this.number) * index;
       let b = this.close;
       if (this.isHover) {
@@ -40,11 +43,24 @@ export default {
         transform: transform,
       };
     },
+    getCercleRotation() {
+      let transform = `rotate(0deg)`;
+      if (this.isHover) {
+        transform = `rotate(45deg)`;
+      }
+      return {
+        transform: transform,
+      };
+    },
   },
 };
 </script>
 
 <style scoped>
+#logo-name {
+  font-family: "Courier New", Courier, monospace;
+}
+
 .example {
   display: inline-block;
   margin: 5px;
@@ -53,7 +69,7 @@ export default {
 }
 
 .camera_shutter {
-  border: 1px solid #000;
+  border: 1px solid #fff;
   border-radius: 100%;
   height: 100%;
   width: 100%;
@@ -65,11 +81,7 @@ export default {
     rgba(29, 71, 253, 1) 50%,
     rgba(69, 252, 241, 1) 100%
   );
-
-  animation: open_shutter 0.5s ease-out forwards;
-}
-.camera_shutter:hover {
-  animation: close_shutter 0.5s ease-out forwards;
+  transition: transform 0.5s ease-out;
 }
 
 .camera_shutter_triangles {
@@ -89,23 +101,4 @@ export default {
   rotate: 30deg;
   transition: transform 0.5s ease-out;
 }
-
-@keyframes open_shutter {
-  from {
-    rotate: 0deg;
-  }
-  to {
-    rotate: 60deg;
-  }
-}
-
-@keyframes close_shutter {
-  from {
-    rotate: 60deg;
-  }
-  to {
-    rotate: 0deg;
-  }
-}
 </style>
->

@@ -52,9 +52,6 @@
             class="flex items-center p-2 text-base font-normal rounded-lg hover:bg-inherit"
           >
             <LogoAnimation />
-            <span id="logo-name" class="ml-1 font-semibold text-3xl"
-              >Shutter</span
-            >
           </router-link>
         </li>
         <li>
@@ -170,10 +167,6 @@ export default {
 </script>
 
 <style scoped>
-#logo-name {
-  font-family: "Courier New", Courier, monospace;
-}
-
 #sidebar {
   border-color: var(--color-border);
   background-color: var(--color-background);
