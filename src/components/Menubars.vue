@@ -11,7 +11,7 @@
             to="/"
             class="flex items-center p-2 text-base font-normal rounded-lg hover:bg-inherit"
           >
-            <ShutterIcon />
+            <LogoAnimation />
             <span id="logo-name" class="ml-1 font-semibold text-3xl"
               >Shutter</span
             >

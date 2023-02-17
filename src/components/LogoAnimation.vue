@@ -106,7 +106,7 @@ export default {
 
 .camera_shutter_triangle {
   background: var(--color-text);
-  border: 1.5px solid var(--color-background);
+  border: 2px solid var(--color-background);
   transform-origin: 100% 100%;
   height: 100%;
   position: absolute;
