@@ -1,9 +1,21 @@
 <template>
-  <div class="flex justify-center items-center" @mouseover="isHover = true" @mouseleave="isHover = false">
+  <div
+    class="flex justify-center items-center"
+    @mouseover="isHover = true"
+    @mouseleave="isHover = false"
+  >
     <div class="example">
-      <div class="camera_shutter" :style="getCercleRotation()">
-        <div class="camera_shutter_triangles">
-          <div class="camera_shutter_triangle" v-for="index in number" :key="index" :style="getTriangleStyle(index)">
+      <div class="camera_shutter1">
+        <div class="camera_shutter2">
+          <div class="camera_shutter_lens" :style="getCercleRotation()">
+            <div class="camera_shutter_triangles">
+              <div
+                class="camera_shutter_triangle"
+                v-for="index in number"
+                :key="index"
+                :style="getTriangleStyle(index)"
+              ></div>
+            </div>
           </div>
         </div>
       </div>
@@ -22,7 +34,7 @@ export default {
       open: 35,
     };
   },
-  mounted() { },
+  mounted() {},
   methods: {
     getTriangleStyle(index) {
       const angleConst = (360 / this.number) * index;
@@ -31,8 +43,9 @@ export default {
         b = this.open;
       }
       const diff = this.number - 6;
-      const transform = `rotate(${angleConst}deg) skew(${15 + 2.5 * diff}deg, ${15 + 2.5 * diff
-        }deg) translate(${b}%, -${b}%)`;
+      const transform = `rotate(${angleConst}deg) skew(${15 + 2.5 * diff}deg, ${
+        15 + 2.5 * diff
+      }deg) translate(${b}%, -${b}%)`;
       return {
         transform: transform,
       };
@@ -62,17 +75,32 @@ export default {
   width: 40px;
 }
 
-.camera_shutter {
-  border: 1px solid red;
+.camera_shutter1 {
+  border: 1px solid var(--color-text);
+  border-radius: 100%;
+  height: 100%;
+  width: 100%;
+}
+.camera_shutter2 {
+  border: 2px solid var(--color-background);
+  border-radius: 100%;
+  height: 100%;
+  width: 100%;
+}
+
+.camera_shutter_lens {
+  border: 1px solid var(--color-text);
   border-radius: 100%;
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: var(--color-background);
-  background-image: radial-gradient(circle,
-      rgba(131, 58, 180, 1) 0%,
-      rgba(29, 71, 253, 1) 50%,
-      rgba(69, 252, 241, 1) 100%);
+  background: rgba(131, 58, 180, 1);
+  background-image: radial-gradient(
+    circle,
+    rgba(131, 58, 180, 1) 0%,
+    rgba(29, 71, 253, 1) 50%,
+    rgba(69, 252, 241, 1) 100%
+  );
   transition: transform 0.5s ease-out;
 }
 
@@ -84,8 +112,8 @@ export default {
 }
 
 .camera_shutter_triangle {
-  background: var(--color-text);
-  border: 1px solid var(--color-background);
+  background: var(--color-background);
+  border: 1px solid var(--color-text);
   transform-origin: 100% 100%;
   height: 100%;
   position: absolute;
