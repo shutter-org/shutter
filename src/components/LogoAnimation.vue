@@ -24,7 +24,7 @@
 export default {
   data() {
     return {
-      number: 8,
+      number: 9,
       isHover: false,
       close: 15,
       open: 35,
@@ -33,12 +33,15 @@ export default {
   mounted() {},
   methods: {
     getTriangleStyle(index) {
-      const angleConst = 2.5 + (360 / this.number) * index;
+      const angleConst = (360 / this.number) * index;
       let b = this.close;
       if (this.isHover) {
         b = this.open;
       }
-      const transform = `rotate(${angleConst}deg) skew(15deg, 15deg) translate(${b}%, -${b}%)`;
+      const diff = this.number - 6;
+      const transform = `rotate(${angleConst}deg) skew(${15 + 2.5 * diff}deg, ${
+        15 + 2.5 * diff
+      }deg) translate(${b}%, -${b}%)`;
       return {
         transform: transform,
       };
@@ -98,7 +101,6 @@ export default {
   height: 100%;
   position: absolute;
   width: 100%;
-  rotate: 30deg;
   transition: transform 0.5s ease-out;
 }
 </style>
