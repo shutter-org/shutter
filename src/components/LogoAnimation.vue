@@ -5,21 +5,20 @@
     @mouseleave="isHover = false"
   >
     <div class="example">
-      <div class="camera_shutter1">
-        <div class="camera_shutter2">
-          <div class="camera_shutter_lens" :style="getCercleRotation()">
-            <div class="camera_shutter_triangles">
-              <div
-                class="camera_shutter_triangle"
-                v-for="index in number"
-                :key="index"
-                :style="getTriangleStyle(index)"
-              ></div>
-            </div>
+      <div class="camera_shutter">
+        <div class="camera_shutter_lens" :style="getCercleRotation()">
+          <div class="camera_shutter_triangles">
+            <div
+              class="camera_shutter_triangle"
+              v-for="index in number"
+              :key="index"
+              :style="getTriangleStyle(index)"
+            ></div>
           </div>
         </div>
       </div>
     </div>
+
     <span id="logo-name" class="flex ml-1 font-semibold text-3xl">Shutter</span>
   </div>
 </template>
@@ -75,21 +74,15 @@ export default {
   width: 40px;
 }
 
-.camera_shutter1 {
-  border: 1px solid var(--color-text);
-  border-radius: 100%;
-  height: 100%;
-  width: 100%;
-}
-.camera_shutter2 {
-  border: 2px solid var(--color-background);
+.camera_shutter {
+  border: 2px solid var(--color-text);
   border-radius: 100%;
   height: 100%;
   width: 100%;
 }
 
 .camera_shutter_lens {
-  border: 1px solid var(--color-text);
+  border: 2px solid var(--color-background);
   border-radius: 100%;
   height: 100%;
   width: 100%;
@@ -112,8 +105,8 @@ export default {
 }
 
 .camera_shutter_triangle {
-  background: var(--color-background);
-  border: 1px solid var(--color-text);
+  background: var(--color-text);
+  border: 1.5px solid var(--color-background);
   transform-origin: 100% 100%;
   height: 100%;
   position: absolute;
