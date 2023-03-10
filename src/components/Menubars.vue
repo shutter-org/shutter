@@ -5,17 +5,6 @@
         <li class="mr-auto">
           <router-link to="/" class="flex items-center p-2 text-base font-normal rounded-lg hover:bg-inherit">
             <LogoAnimation />
-            <span id="logo-name" class="ml-1 font-semibold text-3xl">Shutter</span>
-          </router-link>
-        </li>
-        <li>
-          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg">
-            <NotificationsIcon />
-          </a>
-        </li>
-        <li>
-          <router-link to="/inbox" class="flex items-center p-2 text-base font-normal rounded-lg">
-            <InboxIcon />
           </router-link>
         </li>
       </ul>
@@ -51,18 +40,6 @@
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Explore</span>
           </a>
         </li>
-        <li class="PRO:hidden">
-          <router-link to="/inbox" class="flex items-center p-2 text-base font-normal rounded-lg">
-            <InboxIcon />
-            <span class="flex-1 ml-3 whitespace-nowrap">Messages</span>
-          </router-link>
-        </li>
-        <li class="PRO:hidden">
-          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg">
-            <NotificationsIcon />
-            <span class="flex-1 ml-3 whitespace-nowrap">Notifications</span>
-          </a>
-        </li>
         <li>
           <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg">
             <CreateIcon />
@@ -88,31 +65,14 @@
   </div>
 </template>
 
-<script>
-import ShutterIcon from "@/components/icons/ShutterIcon.vue";
+<script setup>
 import HomeIcon from "@/components/icons/HomeIcon.vue";
 import SearchIcon from "@/components/icons/SearchIcon.vue";
 import ExploreIcon from "@/components/icons/ExploreIcon.vue";
-import InboxIcon from "@/components/icons/InboxIcon.vue";
-import NotificationsIcon from "@/components/icons/NotificationsIcon.vue";
 import CreateIcon from "@/components/icons/CreateIcon.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import LogoAnimation from "../components/LogoAnimation.vue";
 
-export default {
-  name: "default-menubar",
-  components: {
-    LogoAnimation,
-    LogoutIcon,
-    CreateIcon,
-    NotificationsIcon,
-    InboxIcon,
-    ExploreIcon,
-    SearchIcon,
-    HomeIcon,
-    ShutterIcon,
-  },
-};
 </script>
 
 <style scoped>

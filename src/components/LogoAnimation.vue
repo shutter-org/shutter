@@ -25,7 +25,6 @@ export default {
       open: 35,
     };
   },
-  mounted() { },
   methods: {
     getTriangleStyle(index) {
       const angleConst = (360 / this.number) * index;
