@@ -12,9 +12,6 @@
             class="flex items-center p-2 text-base font-normal rounded-lg hover:bg-inherit"
           >
             <LogoAnimation />
-            <span id="logo-name" class="ml-1 font-semibold text-3xl"
-              >Shutter</span
-            >
           </router-link>
         </li>
         <li>
@@ -140,7 +137,6 @@
 </template>
 
 <script>
-import ShutterIcon from "@/components/icons/ShutterIcon.vue";
 import HomeIcon from "@/components/icons/HomeIcon.vue";
 import SearchIcon from "@/components/icons/SearchIcon.vue";
 import ExploreIcon from "@/components/icons/ExploreIcon.vue";
@@ -161,13 +157,13 @@ export default {
     ExploreIcon,
     SearchIcon,
     HomeIcon,
-    ShutterIcon,
   },
 };
 </script>
 
 <style scoped>
 #sidebar {
+  border-right-width: 2px;
   border-color: var(--color-border);
   background-color: var(--color-background);
 }
