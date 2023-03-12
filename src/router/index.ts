@@ -13,11 +13,11 @@ const router = createRouter({
       name: "profile",
       component: () => import("../views/ProfileView.vue"),
     },
-    {
+    /*{
       path: "/inbox",
       name: "inbox",
       component: () => import("../views/InboxView.vue"),
-    },
+    },*/
   ],
 });
 
