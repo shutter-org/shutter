@@ -1,4 +1,5 @@
 <template>
+
   <div class="home p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
     <Publication :publication="this.publications[0]"></Publication>
     <Publication :publication="this.publications[1]"></Publication>
