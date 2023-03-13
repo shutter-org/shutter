@@ -5,13 +5,13 @@
       <RouterView />
     </div>
   </div>
-  <Authentification v-if="!isLoggedIn" @logged-in="LoggedIn" />
+  <Auth v-if="!isLoggedIn" @logged-in="LoggedIn" />
 </template>
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import { ref } from "vue";
 import Menubars from "@/components/Menubars.vue";
-import Authentification from "@/components/Authentification.vue";
+import Auth from "@/components/Auth.vue";
 
 const isLoggedIn = ref(false);
 function LoggedIn() {
