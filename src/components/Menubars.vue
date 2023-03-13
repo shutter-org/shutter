@@ -29,10 +29,11 @@
           </router-link>
         </li>
         <li>
-          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg">
+          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="showModal">
             <SearchIcon />
-            <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Search</span>
+            <span class="flex-1 ml-3 PRO:hidden">Search</span>
           </a>
+          <SearchModal v-if="isShowModal" @close="closeModal" />
         </li>
         <li>
           <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg">
@@ -71,8 +72,17 @@ import SearchIcon from "@/components/icons/SearchIcon.vue";
 import ExploreIcon from "@/components/icons/ExploreIcon.vue";
 import CreateIcon from "@/components/icons/CreateIcon.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
-import LogoAnimation from "../components/LogoAnimation.vue";
+import LogoAnimation from "@/components/LogoAnimation.vue";
+import SearchModal from "@/components/SearchModal.vue";
 
+import { ref } from 'vue'
+const isShowModal = ref(false)
+function closeModal() {
+  isShowModal.value = false
+}
+function showModal() {
+  isShowModal.value = true
+}
 </script>
 
 <style scoped>

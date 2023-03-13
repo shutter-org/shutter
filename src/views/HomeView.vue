@@ -1,4 +1,5 @@
 <template>
+
   <div class="home p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
     <Publication
       username="Blond141"

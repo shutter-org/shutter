@@ -21,6 +21,8 @@
   --vt-c-text-dark-2: rgba(235, 235, 235, 1);
   --hover-color-dark: hsla(288, 97%, 53%, 0.2);
   --hover-color-light: hsla(205, 98%, 52%, 0.2);
+  --modal-color-dark: rgb(55 65 81);
+  --modal-color-light: rgb(229 231 235);
 }
 
 /* semantic color variables for this project */
@@ -38,6 +40,8 @@
   --section-gap: 160px;
 
   --hover-color: var(--hover-color-light);
+
+  --modal-color: var(--modal-color-light);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -53,6 +57,8 @@
     --color-text: var(--vt-c-text-dark-2);
 
     --hover-color: var(--hover-color-dark);
+
+    --modal-color: var(--modal-color-dark);
   }
 }
 
