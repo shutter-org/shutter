@@ -4,6 +4,7 @@ export interface User {
   profile_picture: string;
 }
 export interface Comment {
+  id: string;
   user: User;
   date: string;
   content: string;
@@ -12,6 +13,7 @@ export interface Comment {
 }
 
 export interface Publication {
+  id: string;
   user: User;
   date: string;
   picture: string;

@@ -11,6 +11,8 @@
     />
     <div class="flex flex-row justify-between w-full p-1">
       <RatingInterface
+        @vote-up="this.$emit('voteUpPub', publication.id)"
+        @vote-down="this.$emit('voteDownPub', publication.id)"
         :total_rate="publication.total_rate"
         :user_rate="publication.user_rate"
       ></RatingInterface>
@@ -24,6 +26,8 @@
     ></Comment>
     <Comment
       v-for="comment of publication.comments.filter(() => areCommentsShown)"
+      @vote-up="this.$emit('voteUpComment', $event, publication.id)"
+      @vote-down="this.$emit('voteDownComment', $event, publication.id)"
       :comment="comment"
       :key="comment.id"
       class="colored-top-border w-full border-t-2 p-2"
@@ -31,7 +35,7 @@
     <button
       v-if="publication.comments.length !== 0 && !areCommentsShown"
       class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6"
-      @click="showComments"
+      @click="this.areCommentsShown = true"
     >
       Show {{ publication.comments.length }} comment{{
         publication.comments.length === 1 ? "" : "s"
@@ -40,7 +44,7 @@
     <button
       v-else-if="publication.comments.length !== 0"
       class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6"
-      @click="hideComments"
+      @click="this.areCommentsShown = false"
     >
       hide
     </button>
@@ -73,12 +77,6 @@ export default {
   methods: {
     addToGallery() {
       console.log("add to gallery");
-    },
-    showComments() {
-      this.areCommentsShown = true;
-    },
-    hideComments() {
-      this.areCommentsShown = false;
     },
   },
 };
