@@ -1,55 +1,96 @@
 <template>
-  <div class="post flex flex-col gap-2 items-center rounded-lg p-4">
-    <User
-      class="h-14 mr-auto"
-      :profile_picture="profile_picture"
-      :username="username"
-    ></User>
+  <div class="post flex flex-col gap-2 items-center rounded-lg p-4 border-2">
+    <div class="flex flex-row items-center justify-between w-full">
+      <User class="h-14 mr-auto" :user="publication.user"></User>
+      <p class="text-xl p-2">{{ publication.date }}</p>
+    </div>
     <img
       class="w-full object-cover aspect-square rounded-lg"
-      :src="image"
+      :src="publication.picture"
       alt=""
     />
-    <RatingInterface
-      :total_rate="total_rate"
-      :user_rate="user_rate"
-    ></RatingInterface>
+    <div class="flex flex-row justify-between w-full p-1">
+      <RatingInterface
+        :total_rate="publication.total_rate"
+        :user_rate="publication.user_rate"
+      ></RatingInterface>
+      <button @click="addToGallery">
+        <GalleryIcon></GalleryIcon>
+      </button>
+    </div>
     <Comment
-      class="w-full"
-      :profile_picture="profile_picture"
-      :username="username"
-      :comment_content="desc"
+      class="w-full p-2"
+      :comment="{ user: publication.user, content: publication.desc }"
     ></Comment>
+    <Comment
+      v-for="comment of publication.comments.filter(() => areCommentsShown)"
+      :comment="comment"
+      :key="comment.id"
+      class="colored-top-border w-full border-t-2 p-2"
+    ></Comment>
+    <button
+      v-if="publication.comments.length !== 0 && !areCommentsShown"
+      class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6"
+      @click="showComments"
+    >
+      Show {{ publication.comments.length }} comment{{
+        publication.comments.length === 1 ? "" : "s"
+      }}
+    </button>
+    <button
+      v-else-if="publication.comments.length !== 0"
+      class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6"
+      @click="hideComments"
+    >
+      hide
+    </button>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import User from "@/components/User.vue";
 import Comment from "@/components/Comment.vue";
 import RatingInterface from "@/components/RatingInterface.vue";
+import GalleryIcon from "@/components/icons/GalleryIcon.vue";
+import type { Publication } from "@/api/type";
+
 export default {
   components: {
+    GalleryIcon,
     RatingInterface,
     User,
     Comment,
   },
   name: "default-publication",
   props: {
-    username: String,
-    profile_picture: String,
-    image: String,
-    desc: String,
-    tags: String,
-    total_rate: Number,
-    user_rate: Number,
+    publication: {} as Publication,
+  },
+  data() {
+    return {
+      areCommentsShown: false,
+    };
+  },
+  methods: {
+    addToGallery() {
+      console.log("add to gallery");
+    },
+    showComments() {
+      this.areCommentsShown = true;
+    },
+    hideComments() {
+      this.areCommentsShown = false;
+    },
   },
 };
 </script>
 
 <style scoped>
 .post {
-  border-width: 2px;
   border-color: var(--color-border);
   background-color: var(--color-background);
+}
+
+.colored-top-border {
+  border-color: var(--color-background-mute);
 }
 </style>
