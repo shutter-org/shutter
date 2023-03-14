@@ -24,6 +24,15 @@
       class="w-full p-2"
       :comment="{ user: publication.user, content: publication.desc }"
     ></Comment>
+    <div class="w-full flex flex-wrap gap-2 justify-start p-2">
+      <button
+        v-for="tag of publication.tags"
+        :key="tag"
+        class="tag text-xl underline overflow-hidden whitespace-nowrap overflow-ellipsis"
+      >
+        #{{ tag }}
+      </button>
+    </div>
     <Comment
       v-for="comment of publication.comments.filter(() => areCommentsShown)"
       @vote-up="this.$emit('voteUpComment', $event, publication.id)"
@@ -90,5 +99,9 @@ export default {
 
 .colored-top-border {
   border-color: var(--color-background-mute);
+}
+
+.tag {
+  color: var(--tag-color);
 }
 </style>

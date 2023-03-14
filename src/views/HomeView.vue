@@ -63,7 +63,7 @@ const pub1 = {
   picture:
     "https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?cs=srgb&dl=pexels-pixabay-206359.jpg&fm=jpg",
   desc: "Belle photo au Canadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!",
-  tags: [],
+  tags: ["USA"],
   total_rate: 12,
   user_rate: 0,
   comments: [com1, com2],
@@ -76,7 +76,11 @@ const pub2 = {
   picture:
     "https://pm1.narvii.com/6522/78ef51ad4b97e65dba9a865fdd0a7760595b3790_hq.jpg",
   desc: "fuck league",
-  tags: [],
+  tags: [
+    "niao",
+    "china",
+    "testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+  ],
   total_rate: 420,
   user_rate: 1,
   comments: [],
@@ -89,7 +93,7 @@ const pub3 = {
   picture:
     "https://cdn.redmondpie.com/wp-content/uploads/2019/05/macbook-pro-fire-1200px.jpg",
   desc: "brule mon mac parce que c'est trash",
-  tags: [],
+  tags: ["apple"],
   total_rate: -1,
   user_rate: -1,
   comments: [],
