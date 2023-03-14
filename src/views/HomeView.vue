@@ -5,6 +5,8 @@
       @vote-down-pub="voteDownPub"
       @vote-up-comment="voteUpComment"
       @vote-down-comment="voteDownComment"
+      @search-tag="searchTag"
+      @add-to-gallery="addToGallery"
       v-for="pub in publications"
       :publication="pub"
       :key="pub.id"
@@ -168,6 +170,12 @@ export default defineComponent({
           }
         }
       }
+    },
+    searchTag(tag: string) {
+      console.log("searching tag : " + tag);
+    },
+    addToGallery(pubId: string) {
+      console.log("add publication " + pubId + " to gallery");
     },
   },
 });

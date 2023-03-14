@@ -16,7 +16,7 @@
         :total_rate="publication.total_rate"
         :user_rate="publication.user_rate"
       ></RatingInterface>
-      <button @click="addToGallery">
+      <button @click="this.$emit('addToGallery', publication.id)">
         <GalleryIcon></GalleryIcon>
       </button>
     </div>
@@ -29,6 +29,7 @@
         v-for="tag of publication.tags"
         :key="tag"
         class="tag text-xl underline overflow-hidden whitespace-nowrap overflow-ellipsis"
+        @click="this.$emit('searchTag', tag)"
       >
         #{{ tag }}
       </button>
