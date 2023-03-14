@@ -2,10 +2,12 @@
     <div class="fixed inset-0 z-40 flex justify-center items-center">
         <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full" @click="close">
         </div>
-        <div class="big-this relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-md PRO:mx-4">
-            <div class="rounded-md this">
-                <input class="mb-5 this-input rounded-md h-12" v-focus placeholder="Search..." />
-                <a href="#" class="this-link rounded-md" v-for="user in hardcoded_users.users" :key="user">
+        <div class="modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-md PRO:mx-4">
+            <div class="rounded-md items-center flex flex-col relative max-w-full">
+                <div class="mb-5 w-full rounded-md h-12 input-color pl-4">
+                    <input class="z-2 outline-none input-color border-0 box-border h-12" v-focus placeholder="Search..." />
+                </div>
+                <a href="#" class="w-full rounded-md" v-for="user in hardcoded_users.users" :key="user">
                     <div class="py-3 px-1 h-14 flex flex-row items-center">
                         <img class="w-10 h-10 rounded-full mr-8"
                             src="https://cdn.discordapp.com/attachments/1069318680736964628/1072638173034852463/images.png" />
@@ -15,7 +17,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="#" class="this-link rounded-md" v-for="hastag in hardcoded_hashtags.hashtags" :key="hastag">
+                <a href="#" class="w-full rounded-md" v-for="hastag in hardcoded_hashtags.hashtags" :key="hastag">
                     <div class="py-3 px-1 h-14 flex flex-row items-center">
                         <div class="w-10 h-10 rounded-full mr-8 border border-slate-400 flex justify-center items-center">
                             <div class="w-5 h-5">
@@ -111,42 +113,12 @@ function test(event) {
 }
 </script>
 <style>
-.container {
-    overflow-y: visible;
-    border-bottom-left-radius: 0;
-    flex-direction: column;
-    box-sizing: border-box;
-    position: static;
-    align-items: stretch;
-    overflow-x: visible;
-    justify-content: flex-start;
-}
-
-.big-this {
+.modal-color {
     background: var(--modal-color);
 }
 
-.this {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-
-    position: relative;
-    max-width: 100%;
-}
-
-.this-input {
+.input-color {
     background: var(--color-background);
-    border: 0;
-    box-sizing: border-box;
     color: var(--color-text);
-    outline: none;
-    padding: 3px 16px;
-    width: 100%;
-    z-index: 2;
-}
-
-.this-link {
-    width: 100%;
 }
 </style>
