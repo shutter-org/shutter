@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-row gap-2">
     <button>
-      <UpvoteIcon v-if="rate !== 1" @click="voteUp" />
-      <FilledUpvoteIcon v-else @click="voteUp" />
+      <UpvoteIcon v-if="user_rate !== 1" @click="this.$emit('voteUp')" />
+      <FilledUpvoteIcon v-else @click="this.$emit('voteUp')" />
     </button>
-    <p class="font-bold text-xl">{{ this.total }}</p>
+    <p class="font-bold text-xl">{{ total_rate }}</p>
     <button>
-      <DownvoteIcon v-if="rate !== -1" @click="voteDown" />
-      <FilledDownvoteIcon v-else @click="voteDown" />
+      <DownvoteIcon v-if="user_rate !== -1" @click="this.$emit('voteDown')" />
+      <FilledDownvoteIcon v-else @click="this.$emit('voteDown')" />
     </button>
   </div>
 </template>
@@ -29,32 +29,6 @@ export default {
   props: {
     total_rate: Number,
     user_rate: Number,
-  },
-  data: function () {
-    return {
-      rate: this.user_rate,
-      total: this.total_rate,
-    };
-  },
-  methods: {
-    voteUp() {
-      this.total -= this.rate;
-      if (this.rate === 1) {
-        this.rate = 0;
-      } else {
-        this.rate = 1;
-      }
-      this.total += this.rate;
-    },
-    voteDown() {
-      this.total -= this.rate;
-      if (this.rate === -1) {
-        this.rate = 0;
-      } else {
-        this.rate = -1;
-      }
-      this.total += this.rate;
-    },
   },
 };
 </script>

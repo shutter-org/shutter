@@ -23,8 +23,14 @@
   --hover-color-light: hsla(205, 98%, 52%, 0.2);
   --modal-color-dark: rgb(47, 60, 81);
   --modal-color-light: rgb(229 231 235);
+
   --special-text-color-light: rgb(13, 153, 253);
   --special-text-color-dark: rgb(205, 19, 251);
+
+
+  --tag-color-dark: hsla(288, 97%, 53%, 0.8);
+  --tag-color-light: hsla(205, 98%, 52%, 0.8);
+
 }
 
 /* semantic color variables for this project */
@@ -45,7 +51,11 @@
 
   --modal-color: var(--modal-color-light);
 
+
   --special-text-color: var(--special-text-color-light);
+
+  --tag-color: var(--tag-color-light)
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -64,7 +74,11 @@
 
     --modal-color: var(--modal-color-dark);
 
+
     --special-text-color: var(--special-text-color-dark);
+
+    --tag-color: var(--tag-color-dark)
+
   }
 }
 

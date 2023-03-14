@@ -5,30 +5,31 @@
   >
     <img
       class="h-full object-cover aspect-square rounded-full border-2"
-      :src="profile_picture"
+      :src="user.profile_picture"
       alt=""
     />
     <p
       v-if="smaller === true"
       class="font-bold text-xl inline overflow-hidden whitespace-nowrap overflow-ellipsis"
     >
-      {{ username }}
+      {{ user.username }}
     </p>
     <p
       v-else
       class="w-full font-bold text-2xl inline overflow-hidden whitespace-nowrap overflow-ellipsis"
     >
-      {{ username }}
+      {{ user.username }}
     </p>
   </router-link>
 </template>
 
-<script>
+<script lang="ts">
+import type { User } from "@/api/type";
+
 export default {
   name: "default-user",
   props: {
-    profile_picture: String,
-    username: String,
+    user: {} as User,
     smaller: Boolean,
   },
 };
