@@ -1,7 +1,7 @@
 <template>
   <div v-if="isLoggedIn">
     <Menubars />
-    <div class="ml-64 PRO:ml-0 PRO:mb-20 PRO:mt-20 modal-color">
+    <div class="main ml-64 PRO:ml-0 PRO:mb-20 PRO:mt-20">
       <RouterView />
     </div>
   </div>
@@ -15,7 +15,11 @@ import Auth from "@/components/Auth.vue";
 
 const isLoggedIn = ref(false);
 function LoggedIn() {
-  isLoggedIn.value = true
+  isLoggedIn.value = true;
 }
 </script>
-<style scoped></style>
+<style scoped>
+.main {
+  background-color: var(--back-alt-color);
+}
+</style>

@@ -31,6 +31,8 @@
   --tag-color-dark: hsla(288, 97%, 53%, 0.8);
   --tag-color-light: hsla(205, 98%, 52%, 0.8);
 
+  --back-alt-color-dark: #1B212B;
+  --back-alt-color-light: #ECECEC;
 }
 
 /* semantic color variables for this project */
@@ -54,8 +56,9 @@
 
   --special-text-color: var(--special-text-color-light);
 
-  --tag-color: var(--tag-color-light)
+  --tag-color: var(--tag-color-light);
 
+  --back-alt-color: var(--back-alt-color-light);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -77,8 +80,9 @@
 
     --special-text-color: var(--special-text-color-dark);
 
-    --tag-color: var(--tag-color-dark)
+    --tag-color: var(--tag-color-dark);
 
+    --back-alt-color: var(--back-alt-color-dark);
   }
 }
 

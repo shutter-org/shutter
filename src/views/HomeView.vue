@@ -1,8 +1,16 @@
 <template>
   <div class="p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
-    <publication @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub" @vote-up-comment="voteUpComment"
-      @vote-down-comment="voteDownComment" @search-tag="searchTag" @add-to-gallery="addToGallery"
-      v-for="pub in publications" :publication="pub" :key="pub.id"></publication>
+    <publication
+      @vote-up-pub="voteUpPub"
+      @vote-down-pub="voteDownPub"
+      @vote-up-comment="voteUpComment"
+      @vote-down-comment="voteDownComment"
+      @search-tag="searchTag"
+      @add-to-gallery="addToGallery"
+      v-for="pub in publications"
+      :publication="pub"
+      :key="pub.id"
+    ></publication>
   </div>
 </template>
 
