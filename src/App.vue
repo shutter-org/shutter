@@ -1,13 +1,21 @@
 <template>
-  <div>
+  <div v-if="isLoggedIn">
     <Menubars />
-    <div id="router-view" class="ml-64 PRO:ml-0 PRO:mb-20 PRO:mt-20">
+    <div class="ml-64 PRO:ml-0 PRO:mb-20 PRO:mt-20 modal-color">
       <RouterView />
     </div>
   </div>
+  <Auth v-if="!isLoggedIn" @logged-in="LoggedIn" />
 </template>
 <script setup lang="ts">
 import { RouterView } from "vue-router";
+import { ref } from "vue";
 import Menubars from "@/components/Menubars.vue";
+import Auth from "@/components/Auth.vue";
+
+const isLoggedIn = ref(false);
+function LoggedIn() {
+  isLoggedIn.value = true
+}
 </script>
 <style scoped></style>
