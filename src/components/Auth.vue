@@ -23,13 +23,6 @@
                     </div>
                 </div>
                 <div v-if="!login" class="rounded-md this">
-                    <div class="w-full rounded-md h-24 input-color px-4">
-                        <textarea
-                            class="z-2 outline-none input-color border-0 box-border h-24 w-full resize-none focus:ring-0 px-0"
-                            maxlength="250" placeholder="Bio" v-model="bio"></textarea>
-                    </div>
-                </div>
-                <div v-if="!login" class="rounded-md this">
                     <div class="w-full rounded-md h-10 input-color px-4">
                         <input class="z-2 outline-none input-color border-0 box-border h-10 w-full" placeholder="Birthdate"
                             v-model="birthdate">
@@ -79,7 +72,13 @@ function isLoggedIn() {
 }
 
 function switchView() {
-    //delete values
+    email.value = ''
+    username.value = ''
+    password.value = ''
+    name.value = ''
+    bio.value = ''
+    birthdate.value = ''
+
     login.value = !login.value
 }
 async function SignIn() {
@@ -87,16 +86,19 @@ async function SignIn() {
         username: username.value,
         password: password.value,
     };
-    await SignInAPI(newUser).then((res) => {
-        console.log(res);
-    });
-    console.log(email.value);
-    console.log(name.value);
-    console.log(username.value);
-    console.log(bio.value);
-    console.log(password.value);
 
-    isLoggedIn()
+    await SignInAPI(newUser).then((res) => {
+        if (res.status == 200) {
+            //get user
+            //add it to store
+            //if status == 200
+            //emit logged in
+            isLoggedIn()
+        }
+        if (res.status == 400) {
+            //afficher message derreur
+        }
+    });
 }
 function SignUp() {
     isLoggedIn()
