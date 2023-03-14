@@ -1,7 +1,7 @@
 <template>
   <div v-if="isLoggedIn">
     <Menubars />
-    <div class="ml-64 PRO:ml-0 PRO:mb-20 PRO:mt-20">
+    <div class="ml-64 PRO:ml-0 PRO:mb-20 PRO:mt-20 modal-color">
       <RouterView />
     </div>
   </div>

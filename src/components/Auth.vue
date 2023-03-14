@@ -99,6 +99,7 @@ async function SignIn() {
             //afficher message derreur
         }
     });
+    isLoggedIn()
 }
 function SignUp() {
     isLoggedIn()
