@@ -29,11 +29,12 @@
           </router-link>
         </li>
         <li>
-          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="showModal">
+
+          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="showSearchModal">
             <SearchIcon />
             <span class="flex-1 ml-3 PRO:hidden">Search</span>
           </a>
-          <SearchModal v-if="isShowModal" @close="closeModal" />
+          <SearchModal v-if="isSearchModalShown" @close="closeSearchModal" />
         </li>
         <li>
           <router-link to="/explore" class="flex items-center p-2 text-base font-normal rounded-lg">
@@ -42,10 +43,13 @@
           </router-link>
         </li>
         <li>
-          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg">
+
+          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="showCreateModal">
+
             <CreateIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Create</span>
           </a>
+          <PublicationCreatorModal v-if="isCreateModalShown" @close="closeCreateModal" :user="user1" />
         </li>
         <li>
           <router-link to="/profile" class="flex items-center p-2 font-normal rounded-lg">
@@ -73,15 +77,31 @@ import ExploreIcon from "@/components/icons/ExploreIcon.vue";
 import CreateIcon from "@/components/icons/CreateIcon.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import LogoAnimation from "@/components/LogoAnimation.vue";
-import SearchModal from "@/components/SearchModal.vue";
+import SearchModal from "@/components/modals/SearchModal.vue";
+import PublicationCreatorModal from "@/components/modals/PublicationCreatorModal.vue";
 
 import { ref } from "vue";
-const isShowModal = ref(false);
-function closeModal() {
-  isShowModal.value = false;
+
+const isSearchModalShown = ref(false);
+const isCreateModalShown = ref(false);
+
+const user1 = {
+  id: "u1",
+  username: "Blond141",
+  profile_picture:
+    "https://h5p.org/sites/default/files/h5p/content/1209180/images/file-6113d5f8845dc.jpeg",
+};
+function closeSearchModal() {
+  isSearchModalShown.value = false;
 }
-function showModal() {
-  isShowModal.value = true;
+function showSearchModal() {
+  isSearchModalShown.value = true;
+}
+function closeCreateModal() {
+  isCreateModalShown.value = false;
+}
+function showCreateModal() {
+  isCreateModalShown.value = true;
 }
 </script>
 

@@ -24,12 +24,12 @@
 </template>
 
 <script lang="ts">
-import type { User } from "@/api/type";
+import type { SimplifiedUser } from "@/api/type";
 
 export default {
   name: "default-user",
   props: {
-    user: {} as User,
+    user: {} as SimplifiedUser,
     smaller: Boolean,
   },
 };
