@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import User from "@/components/User.vue";
+import User from "@/components/UserComponent.vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
 import type { SimplifiedUser as UserType } from "@/api/type";
 import type { PropType } from "vue";

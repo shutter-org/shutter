@@ -7,7 +7,7 @@
     >
       <img
         class="h-full PRO:h-1/2 object-cover aspect-square rounded-full border-2"
-        :src="user.profile_picture"
+        :src="props.user.profile_picture"
         alt=""
       />
       <div
@@ -16,12 +16,12 @@
         <p
           class="w-full font-bold text-4xl inline overflow-hidden whitespace-nowrap overflow-ellipsis PRO:text-center"
         >
-          {{ user.username }}
+          {{ props.user.username }}
         </p>
         <p
           class="w-full font-bold text-2xl inline overflow-hidden whitespace-nowrap overflow-ellipsis PRO:text-center"
         >
-          {{ user.name }} • {{ user.age }}
+          {{ props.user.name }} • {{ props.user.age }}
         </p>
       </div>
     </div>
@@ -31,17 +31,17 @@
       <p
         class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center"
       >
-        {{ user.posts.length }} Posts
+        {{ props.user.posts.length }} Posts
       </p>
       <p
         class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center"
       >
-        {{ user.nb_follower }} Followers
+        {{ props.user.nb_follower }} Followers
       </p>
       <p
         class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center"
       >
-        {{ user.nb_following }} Following
+        {{ props.user.nb_following }} Following
       </p>
     </div>
     <div class="w-full h-16 flex flex-row p-2 justify-evenly">
@@ -65,7 +65,7 @@
       class="w-full h-full grid grid-cols-3 PRO:grid-cols-2 gap-6 PRO:gap-4 p-4 pt-10"
     >
       <button
-        v-for="post of user.posts"
+        v-for="post of props.user.posts"
         @click="openPublicationModal(post.id)"
         :key="post.id"
       >
@@ -80,60 +80,49 @@
     <p
       class="text-xs text-center font-bold w-full p-2 pt-4 border-t-2 bottom-border mt-6"
     >
-      member since {{ user.created_date }}
+      member since {{ props.user.created_date }}
     </p>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { User } from "@/api/type";
-import { defineComponent } from "vue";
+import { ref } from "vue";
 import type { PropType } from "vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 
-export default defineComponent({
-  components: {
-    ImageIcon,
-    GalleryIcon,
-  },
-  name: "default-profile",
-  props: {
-    user: {} as PropType<User>,
-  },
-  data() {
-    return {
-      isPictureTabShown: true,
-    };
-  },
-  methods: {
-    openPublicationModal(id: string) {
-      console.log("ouverture post " + id);
-    },
-    togglePictureTab() {
-      this.isPictureTabShown = true;
-
-      let pictureTabButton = document.getElementById("pictureTabButton")!;
-      pictureTabButton.classList.add("selected-bottom-border");
-      pictureTabButton.classList.remove("bottom-border");
-
-      let galleryTabButton = document.getElementById("galleryTabButton")!;
-      galleryTabButton.classList.add("bottom-border");
-      galleryTabButton.classList.remove("selected-bottom-border");
-    },
-    toggleGalleryTab() {
-      this.isPictureTabShown = false;
-
-      let galleryTabButton = document.getElementById("galleryTabButton")!;
-      galleryTabButton.classList.add("selected-bottom-border");
-      galleryTabButton.classList.remove("bottom-border");
-
-      let pictureTabButton = document.getElementById("pictureTabButton")!;
-      pictureTabButton.classList.add("bottom-border");
-      pictureTabButton.classList.remove("selected-bottom-border");
-    },
-  },
+const props = defineProps({
+  user: {} as PropType<User>,
 });
+
+const isPictureTabShown = ref(true);
+
+const openPublicationModal = (id: string) => {
+  console.log("ouverture post " + id);
+};
+const togglePictureTab = () => {
+  isPictureTabShown.value = true;
+
+  let pictureTabButton = document.getElementById("pictureTabButton")!;
+  pictureTabButton.classList.add("selected-bottom-border");
+  pictureTabButton.classList.remove("bottom-border");
+
+  let galleryTabButton = document.getElementById("galleryTabButton")!;
+  galleryTabButton.classList.add("bottom-border");
+  galleryTabButton.classList.remove("selected-bottom-border");
+};
+const toggleGalleryTab = () => {
+  isPictureTabShown.value = false;
+
+  let galleryTabButton = document.getElementById("galleryTabButton")!;
+  galleryTabButton.classList.add("selected-bottom-border");
+  galleryTabButton.classList.remove("bottom-border");
+
+  let pictureTabButton = document.getElementById("pictureTabButton")!;
+  pictureTabButton.classList.add("bottom-border");
+  pictureTabButton.classList.remove("selected-bottom-border");
+};
 </script>
 
 <style scoped>

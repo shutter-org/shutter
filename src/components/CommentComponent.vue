@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import User from "@/components/User.vue";
+import User from "@/components/UserComponent.vue";
 import type { Comment } from "@/api/type";
 import RatingInterface from "@/components/RatingInterface.vue";
 import type { PropType } from "vue";
@@ -29,10 +29,10 @@ const props = defineProps({
 
 const emit = defineEmits({
   voteUp: (commentId: string) => {
-    return commentId;
+    return !!commentId;
   },
   voteDown: (commentId: string) => {
-    return commentId;
+    return !!commentId;
   },
 });
 </script>

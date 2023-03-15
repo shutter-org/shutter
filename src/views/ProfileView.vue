@@ -9,7 +9,7 @@
 <script lang="ts">
 import type { User, SimplifiedPost } from "@/api/type";
 import { defineComponent } from "vue";
-import Profile from "@/components/Profile.vue";
+import Profile from "@/components/ProfileComponent.vue";
 
 const post1 = {
   id: "p1",

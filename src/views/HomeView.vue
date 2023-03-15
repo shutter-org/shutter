@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import Publication from "@/components/Publication.vue";
+import Publication from "@/components/PublicationComponent.vue";
 import type { Publication as Pub, SimplifiedUser, Comment } from "@/api/type";
 import { defineComponent } from "vue";
 

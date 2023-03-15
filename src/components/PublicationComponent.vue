@@ -59,8 +59,8 @@
 </template>
 
 <script setup lang="ts">
-import User from "@/components/User.vue";
-import Comment from "@/components/Comment.vue";
+import User from "@/components/UserComponent.vue";
+import Comment from "@/components/CommentComponent.vue";
 import RatingInterface from "@/components/RatingInterface.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import type { Publication, Comment as Com } from "@/api/type";
@@ -68,7 +68,10 @@ import { ref } from "vue";
 import type { PropType } from "vue";
 
 const props = defineProps({
-  publication: {} as PropType<Publication>,
+  publication: {
+    type: {} as PropType<Publication>,
+    required: true,
+  },
 });
 
 const descAsComment = ref({
@@ -78,22 +81,22 @@ const descAsComment = ref({
 
 const emit = defineEmits({
   voteUpPub: (publicationId: string) => {
-    return publicationId;
+    return !!publicationId;
   },
   voteDownPub: (publicationId: string) => {
-    return publicationId;
+    return !!publicationId;
   },
   addToGallery: (publicationId: string) => {
-    return publicationId;
+    return !!publicationId;
   },
   searchTag: (tag: string) => {
-    return tag;
+    return !!tag;
   },
   voteUpComment: (commentId: string, publicationId: string) => {
-    return commentId && publicationId;
+    return !!commentId && !!publicationId;
   },
   voteDownComment: (commentId: string, publicationId: string) => {
-    return commentId && publicationId;
+    return !!commentId && !!publicationId;
   },
 });
 

@@ -10,8 +10,8 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import { ref } from "vue";
-import Menubars from "@/components/Menubars.vue";
-import Auth from "@/components/Auth.vue";
+import Menubars from "@/components/MenuBars.vue";
+import Auth from "@/components/AuthComponent.vue";
 
 const isLoggedIn = ref(false);
 function LoggedIn() {
