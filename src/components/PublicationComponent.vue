@@ -69,7 +69,7 @@ import type { PropType } from "vue";
 
 const props = defineProps({
   publication: {
-    type: {} as PropType<Publication>,
+    type: Object as PropType<Publication>,
     required: true,
   },
 });

@@ -24,7 +24,7 @@ import RatingInterface from "@/components/RatingInterface.vue";
 import type { PropType } from "vue";
 
 const props = defineProps({
-  comment: {} as PropType<Comment>,
+  comment: Object as PropType<Comment>,
 });
 
 const emit = defineEmits({

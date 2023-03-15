@@ -93,7 +93,7 @@ import ImageIcon from "@/components/icons/ImageIcon.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 
 const props = defineProps({
-  user: {} as PropType<User>,
+  user: Object as PropType<User>,
 });
 
 const isPictureTabShown = ref(true);

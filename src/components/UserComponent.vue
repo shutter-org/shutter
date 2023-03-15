@@ -28,7 +28,7 @@ import type { SimplifiedUser } from "@/api/type";
 import type { PropType } from "vue";
 
 const props = defineProps({
-  user: {} as PropType<SimplifiedUser>,
+  user: Object as PropType<SimplifiedUser>,
   smaller: Boolean,
 });
 </script>

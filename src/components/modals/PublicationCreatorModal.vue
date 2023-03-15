@@ -62,7 +62,7 @@ import type { PropType } from "vue";
 import { ref } from "vue";
 
 const props = defineProps({
-  user: {} as PropType<UserType>,
+  user: Object as PropType<UserType>,
 });
 
 const isPictureUploaded = ref(false);
