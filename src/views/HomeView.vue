@@ -1,5 +1,5 @@
 <template>
-  <div class="p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
+  <div class="h-full p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
     <publication
       @vote-up-pub="voteUpPub"
       @vote-down-pub="voteDownPub"
@@ -16,29 +16,26 @@
 
 <script lang="ts">
 import Publication from "@/components/Publication.vue";
-import type { Publication as Pub, User, Comment } from "@/api/type";
+import type { Publication as Pub, SimplifiedUser, Comment } from "@/api/type";
 import { defineComponent } from "vue";
 
 const user1 = {
-  id: "u1",
   username: "Blond141",
   profile_picture:
     "https://h5p.org/sites/default/files/h5p/content/1209180/images/file-6113d5f8845dc.jpeg",
-} as User;
+} as SimplifiedUser;
 
 const user2 = {
-  id: "u2",
   username: "Chinman69",
   profile_picture:
     "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Chinese_flag_%28Beijing%29_-_IMG_1104.jpg/220px-Chinese_flag_%28Beijing%29_-_IMG_1104.jpg",
-} as User;
+} as SimplifiedUser;
 
 const user3 = {
-  id: "u3",
   username: "Alex_Prudent",
   profile_picture:
     "https://i5.walmartimages.ca/images/Enlarge/061/024/999999-773554061024.jpg",
-} as User;
+} as SimplifiedUser;
 
 const com1 = {
   id: "c1",

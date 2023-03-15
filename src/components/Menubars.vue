@@ -117,8 +117,8 @@ import ExploreIcon from "@/components/icons/ExploreIcon.vue";
 import CreateIcon from "@/components/icons/CreateIcon.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import LogoAnimation from "@/components/LogoAnimation.vue";
-import SearchModal from "@/components/SearchModal.vue";
-import PublicationCreatorModal from "@/components/PublicationCreatorModal.vue";
+import SearchModal from "@/components/modals/SearchModal.vue";
+import PublicationCreatorModal from "@/components/modals/PublicationCreatorModal.vue";
 
 import { ref } from "vue";
 

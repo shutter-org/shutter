@@ -5,7 +5,7 @@
       <p class="text-xl p-2">{{ publication.date }}</p>
     </div>
     <img
-      class="w-full object-cover aspect-square rounded-lg"
+      class="picture w-full object-cover aspect-square rounded-lg border-2"
       :src="publication.picture"
       alt=""
     />
@@ -96,6 +96,10 @@ export default {
 .post {
   border-color: var(--color-border);
   background-color: var(--color-background);
+}
+
+.picture {
+  border-color: var(--color-border);
 }
 
 .colored-top-border {

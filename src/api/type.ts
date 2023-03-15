@@ -1,10 +1,10 @@
-export interface User {
+export interface SimplifiedUser {
   username: string;
   profile_picture: string;
 }
 export interface Comment {
   id: string;
-  user: User;
+  user: SimplifiedUser;
   date: string;
   content: string;
   total_rate: number;
@@ -13,7 +13,7 @@ export interface Comment {
 
 export interface Publication {
   id: string;
-  user: User;
+  user: SimplifiedUser;
   date: string;
   picture: string;
   desc: string;
@@ -21,4 +21,21 @@ export interface Publication {
   total_rate: number;
   user_rate: number;
   comments: Comment[];
+}
+
+export interface SimplifiedPost {
+  id: string;
+  picture: string;
+}
+
+export interface User {
+  username: string;
+  name: string;
+  profile_picture: string;
+  nb_follower: number;
+  nb_following: number;
+  biography: string;
+  age: number;
+  created_date: string;
+  posts: SimplifiedPost[];
 }

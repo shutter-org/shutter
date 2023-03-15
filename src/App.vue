@@ -1,7 +1,9 @@
 <template>
   <div v-if="isLoggedIn">
     <Menubars />
-    <div class="main ml-64 PRO:ml-0 PRO:mb-20 PRO:mt-20">
+    <div
+      class="main min-h-screen PRO:min-h-[calc(100vh-160px)] ml-64 PRO:ml-0 PRO:mb-20 PRO:mt-20"
+    >
       <RouterView />
     </div>
   </div>
