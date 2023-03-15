@@ -58,12 +58,11 @@
 import User from "@/components/User.vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
 import type { SimplifiedUser as UserType } from "@/api/type";
+import type { PropType } from "vue";
 import { ref } from "vue";
 
-const emit = defineEmits(["close"]);
-
 const props = defineProps({
-  user: {} as UserType,
+  user: {} as PropType<UserType>,
 });
 
 const isPictureUploaded = ref(false);
@@ -71,6 +70,7 @@ const picture = ref(Blob);
 const desc = ref("");
 const tags = ref("");
 
+const emit = defineEmits(["close"]);
 const openUploadForm = () => {
   document.getElementById("imgInput")!.click();
 };
