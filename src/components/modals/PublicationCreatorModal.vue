@@ -2,13 +2,13 @@
   <div class="fixed inset-0 z-40 flex justify-center items-center">
     <div
       class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10"
-      @click="this.$emit('close')"
+      @click="emit('close')"
     ></div>
     <div
       class="post flex flex-col gap-4 items-center rounded-lg p-4 relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4"
     >
       <div class="flex flex-row items-center justify-between w-full">
-        <User class="h-14 mr-auto" :user="user"></User>
+        <User class="h-14 mr-auto" :user="props.user"></User>
       </div>
       <img
         id="picture"
@@ -54,70 +54,61 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import User from "@/components/User.vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
 import type { SimplifiedUser as UserType } from "@/api/type";
-import type { PropType } from "vue";
-import { defineComponent } from "vue";
+import { ref } from "vue";
 
-export default defineComponent({
-  components: {
-    ImageIcon,
-    User,
-  },
-  name: "default-publication",
-  data() {
-    return {
-      areCommentsShown: false,
-      isPictureUploaded: false,
-      picture: Blob,
-      desc: "",
-      tags: "",
-    };
-  },
-  props: {
-    user: {} as PropType<UserType>,
-  },
-  methods: {
-    openUploadForm() {
-      document.getElementById("imgInput")!.click();
-    },
-    loadPicture(event: any) {
-      let picture = document.getElementById("picture") as HTMLImageElement;
-      URL.revokeObjectURL(picture.src);
-      if (event.target.files[0] === undefined) {
-        this.isPictureUploaded = false;
-      } else {
-        this.picture = event.target.files[0];
-        picture.src = URL.createObjectURL(event.target.files[0]);
-        this.isPictureUploaded = true;
-      }
-    },
-    post() {
-      if (this.isPictureUploaded) {
-        let tagsArray = this.tags
-          .replace(/\s/g, "")
-          .split("#")
-          .slice(1)
-          .filter((tag) => tag.length <= 50);
+const emit = defineEmits(["close"]);
 
-        console.log(this.picture);
-        console.log(this.desc);
-        console.log(tagsArray);
-
-        let picture = document.getElementById("picture") as HTMLImageElement;
-        URL.revokeObjectURL(picture.src);
-
-        this.isPictureUploaded = false;
-        this.desc = "";
-        this.tags = "";
-
-        this.$emit("close");
-      }
-    },
-  },
+const props = defineProps({
+  user: {} as UserType,
 });
+
+const isPictureUploaded = ref(false);
+const picture = ref(Blob);
+const desc = ref("");
+const tags = ref("");
+
+const openUploadForm = () => {
+  document.getElementById("imgInput")!.click();
+};
+const loadPicture = (event: any) => {
+  let pictureComponent = document.getElementById("picture") as HTMLImageElement;
+  URL.revokeObjectURL(pictureComponent.src);
+  if (event.target.files[0] === undefined) {
+    isPictureUploaded.value = false;
+  } else {
+    picture.value = event.target.files[0];
+    pictureComponent.src = URL.createObjectURL(event.target.files[0]);
+    isPictureUploaded.value = true;
+  }
+};
+const post = () => {
+  if (isPictureUploaded.value) {
+    let tagsArray = tags.value
+      .replace(/\s/g, "")
+      .split("#")
+      .slice(1)
+      .filter((tag) => tag.length <= 50);
+
+    console.log(picture.value);
+    console.log(desc.value);
+    console.log(tagsArray);
+
+    let pictureComponent = document.getElementById(
+      "picture"
+    ) as HTMLImageElement;
+    URL.revokeObjectURL(pictureComponent.src);
+
+    isPictureUploaded.value = false;
+    desc.value = "";
+    tags.value = "";
+
+    emit("close");
+  }
+};
 </script>
 
 <style scoped>
