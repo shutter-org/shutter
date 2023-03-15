@@ -5,34 +5,32 @@
   >
     <img
       class="h-full object-cover aspect-square rounded-full border-2"
-      :src="user.profile_picture"
+      :src="props.user.profile_picture"
       alt=""
     />
     <p
-      v-if="smaller === true"
+      v-if="props.smaller === true"
       class="font-bold text-xl inline overflow-hidden whitespace-nowrap overflow-ellipsis"
     >
-      {{ user.username }}
+      {{ props.user.username }}
     </p>
     <p
       v-else
       class="w-full font-bold text-2xl inline overflow-hidden whitespace-nowrap overflow-ellipsis"
     >
-      {{ user.username }}
+      {{ props.user.username }}
     </p>
   </router-link>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { SimplifiedUser } from "@/api/type";
+import type { PropType } from "vue";
 
-export default {
-  name: "default-user",
-  props: {
-    user: {} as SimplifiedUser,
-    smaller: Boolean,
-  },
-};
+const props = defineProps({
+  user: {} as PropType<SimplifiedUser>,
+  smaller: Boolean,
+});
 </script>
 
 <style scoped></style>
