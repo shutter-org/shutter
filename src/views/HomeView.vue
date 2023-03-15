@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
+  <div class="home h-full p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
     <publication
       @vote-up-pub="voteUpPub"
       @vote-down-pub="voteDownPub"
@@ -178,4 +178,8 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style>
+.home {
+  background-color: var(--color-background-mute);
+}
+</style>

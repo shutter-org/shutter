@@ -107,6 +107,6 @@ export default {
 }
 
 .tag {
-  color: var(--tag-color);
+  color: var(--special-text-color);
 }
 </style>
