@@ -138,7 +138,7 @@ export default defineComponent({
 .tags {
   box-shadow: none;
   resize: none;
-  color: var(--tag-color);
+  color: var(--special-text-color);
 }
 
 .postButton {
@@ -146,6 +146,6 @@ export default defineComponent({
 }
 
 .postButton:hover {
-  background-color: var(--tag-color);
+  background-color: var(--special-text-color);
 }
 </style>
