@@ -5,7 +5,7 @@
       <p class="text-xl p-2">{{ publication.date }}</p>
     </div>
     <img
-      class="picture w-full object-cover aspect-square rounded-lg border-2"
+      class="w-full object-cover aspect-square rounded-lg"
       :src="publication.picture"
       alt=""
     />
@@ -35,7 +35,7 @@
       </button>
     </div>
     <Comment
-      v-for="comment of publication.comments.filter(() => areCommentsShown)"
+      v-for="comment of publication.comments.slice(0, nbCommentsShown)"
       @vote-up="this.$emit('voteUpComment', $event, publication.id)"
       @vote-down="this.$emit('voteDownComment', $event, publication.id)"
       :comment="comment"
@@ -43,18 +43,18 @@
       class="colored-top-border w-full border-t-2 p-2"
     ></Comment>
     <button
-      v-if="publication.comments.length !== 0 && !areCommentsShown"
+      v-if="publication.comments.length > nbCommentsShown"
       class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6"
-      @click="this.areCommentsShown = true"
+      @click="showMoreComments"
     >
-      Show {{ publication.comments.length }} comment{{
+      Show {{ publication.comments.length - nbCommentsShown }} comment{{
         publication.comments.length === 1 ? "" : "s"
       }}
     </button>
     <button
-      v-else-if="publication.comments.length !== 0"
+      v-if="publication.comments.length !== 0 && nbCommentsShown > 0"
       class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6"
-      @click="this.areCommentsShown = false"
+      @click="this.nbCommentsShown = 0"
     >
       hide
     </button>
@@ -67,8 +67,10 @@ import Comment from "@/components/Comment.vue";
 import RatingInterface from "@/components/RatingInterface.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import type { Publication } from "@/api/type";
+import { defineComponent } from "vue";
+import type { PropType } from "vue";
 
-export default {
+export default defineComponent({
   components: {
     GalleryIcon,
     RatingInterface,
@@ -77,29 +79,28 @@ export default {
   },
   name: "default-publication",
   props: {
-    publication: {} as Publication,
+    publication: {} as PropType<Publication>,
   },
   data() {
     return {
-      areCommentsShown: false,
+      nbCommentsShown: 0,
     };
   },
   methods: {
     addToGallery() {
       console.log("add to gallery");
     },
+    showMoreComments() {
+      this.nbCommentsShown += 10;
+    },
   },
-};
+});
 </script>
 
 <style scoped>
 .post {
   border-color: var(--color-border);
   background-color: var(--color-background);
-}
-
-.picture {
-  border-color: var(--color-border);
 }
 
 .colored-top-border {

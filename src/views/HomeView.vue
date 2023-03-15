@@ -1,5 +1,7 @@
 <template>
-  <div class="home h-full p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
+  <div
+    class="home min-h-screen PRO:min-h-[calc(100vh-160px)] p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8"
+  >
     <publication
       @vote-up-pub="voteUpPub"
       @vote-down-pub="voteDownPub"
@@ -65,7 +67,24 @@ const pub1 = {
   tags: ["USA"],
   total_rate: 12,
   user_rate: 0,
-  comments: [com1, com2],
+  comments: [
+    com1,
+    com2,
+    com2,
+    com2,
+    com2,
+    com2,
+    com2,
+    com2,
+    com2,
+    com2,
+    com2,
+    com2,
+    com2,
+    com2,
+    com2,
+    com2,
+  ],
 } as Pub;
 
 const pub2 = {

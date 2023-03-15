@@ -1,5 +1,7 @@
 <template>
-  <div class="h-full w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8">
+  <div
+    class="profile min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8"
+  >
     <Profile :user="user"></Profile>
   </div>
 </template>
@@ -57,4 +59,8 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style>
+.profile {
+  background-color: var(--color-background-mute);
+}
+</style>
