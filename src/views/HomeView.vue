@@ -67,24 +67,7 @@ const pub1 = {
   tags: ["USA"],
   total_rate: 12,
   user_rate: 0,
-  comments: [
-    com1,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-  ],
+  comments: [com1, com2],
 } as Pub;
 
 const pub2 = {

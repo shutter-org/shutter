@@ -1,100 +1,110 @@
 <template>
   <div class="post flex flex-col gap-2 items-center rounded-lg p-4 border-2">
     <div class="flex flex-row items-center justify-between w-full">
-      <User class="h-14 mr-auto" :user="publication.user"></User>
-      <p class="text-xl p-2">{{ publication.date }}</p>
+      <User class="h-14 mr-auto" :user="props.publication.user"></User>
+      <p class="text-xl p-2">{{ props.publication.date }}</p>
     </div>
     <img
       class="w-full object-cover aspect-square rounded-lg"
-      :src="publication.picture"
+      :src="props.publication.picture"
       alt=""
     />
     <div class="flex flex-row justify-between w-full p-1">
       <RatingInterface
-        @vote-up="this.$emit('voteUpPub', publication.id)"
-        @vote-down="this.$emit('voteDownPub', publication.id)"
-        :total_rate="publication.total_rate"
-        :user_rate="publication.user_rate"
+        @vote-up="emit('voteUpPub', props.publication.id)"
+        @vote-down="emit('voteDownPub', props.publication.id)"
+        :total_rate="props.publication.total_rate"
+        :user_rate="props.publication.user_rate"
       ></RatingInterface>
-      <button @click="this.$emit('addToGallery', publication.id)">
+      <button @click="emit('addToGallery', props.publication.id)">
         <GalleryIcon></GalleryIcon>
       </button>
     </div>
-    <Comment
-      class="w-full p-2"
-      :comment="{ user: publication.user, content: publication.desc }"
-    ></Comment>
+    <Comment class="w-full p-2" :comment="descAsComment"></Comment>
     <div class="w-full flex flex-wrap gap-2 justify-start p-2">
       <button
-        v-for="tag of publication.tags"
+        v-for="tag of props.publication.tags"
         :key="tag"
         class="tag text-xl underline overflow-hidden whitespace-nowrap overflow-ellipsis"
-        @click="this.$emit('searchTag', tag)"
+        @click="emit('searchTag', tag)"
       >
         #{{ tag }}
       </button>
     </div>
     <Comment
-      v-for="comment of publication.comments.slice(0, nbCommentsShown)"
-      @vote-up="this.$emit('voteUpComment', $event, publication.id)"
-      @vote-down="this.$emit('voteDownComment', $event, publication.id)"
+      v-for="comment of props.publication.comments.slice(0, nbCommentsShown)"
+      @vote-up="emit('voteUpComment', $event, props.publication.id)"
+      @vote-down="emit('voteDownComment', $event, props.publication.id)"
       :comment="comment"
       :key="comment.id"
       class="colored-top-border w-full border-t-2 p-2"
     ></Comment>
     <button
-      v-if="publication.comments.length > nbCommentsShown"
+      v-if="props.publication.comments.length > nbCommentsShown"
       class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6"
       @click="showMoreComments"
     >
-      Show {{ publication.comments.length - nbCommentsShown }} comment{{
-        publication.comments.length === 1 ? "" : "s"
+      Show {{ props.publication.comments.length - nbCommentsShown }} comment{{
+        props.publication.comments.length === 1 ? "" : "s"
       }}
     </button>
     <button
-      v-if="publication.comments.length !== 0 && nbCommentsShown > 0"
+      v-if="props.publication.comments.length !== 0 && nbCommentsShown > 0"
       class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6"
-      @click="this.nbCommentsShown = 0"
+      @click="hideComments"
     >
       hide
     </button>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import User from "@/components/User.vue";
 import Comment from "@/components/Comment.vue";
 import RatingInterface from "@/components/RatingInterface.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
-import type { Publication } from "@/api/type";
-import { defineComponent } from "vue";
+import type { Publication, Comment as Com } from "@/api/type";
+import { ref } from "vue";
 import type { PropType } from "vue";
 
-export default defineComponent({
-  components: {
-    GalleryIcon,
-    RatingInterface,
-    User,
-    Comment,
+const props = defineProps({
+  publication: {} as PropType<Publication>,
+});
+
+const descAsComment = ref({
+  user: props.publication.user,
+  content: props.publication.desc,
+} as Com);
+
+const emit = defineEmits({
+  voteUpPub: (publicationId: string) => {
+    return publicationId;
   },
-  name: "default-publication",
-  props: {
-    publication: {} as PropType<Publication>,
+  voteDownPub: (publicationId: string) => {
+    return publicationId;
   },
-  data() {
-    return {
-      nbCommentsShown: 0,
-    };
+  addToGallery: (publicationId: string) => {
+    return publicationId;
   },
-  methods: {
-    addToGallery() {
-      console.log("add to gallery");
-    },
-    showMoreComments() {
-      this.nbCommentsShown += 10;
-    },
+  searchTag: (tag: string) => {
+    return tag;
+  },
+  voteUpComment: (commentId: string, publicationId: string) => {
+    return commentId && publicationId;
+  },
+  voteDownComment: (commentId: string, publicationId: string) => {
+    return commentId && publicationId;
   },
 });
+
+const nbCommentsShown = ref(0);
+
+const showMoreComments = () => {
+  nbCommentsShown.value += 10;
+};
+const hideComments = () => {
+  nbCommentsShown.value = 0;
+};
 </script>
 
 <style scoped>
