@@ -45,7 +45,7 @@
       </p>
     </div>
     <div
-      class="post w-full h-full grid grid-cols-3 PRO:grid-cols-2 gap-10 PRO:gap-6 p-4 border-t-2 pt-10"
+      class="colored-top-border w-full h-full grid grid-cols-3 PRO:grid-cols-2 gap-10 PRO:gap-6 p-4 border-t-2 pt-10"
     >
       <button
         v-for="post of user.posts"
@@ -81,5 +81,9 @@ export default {
 
 .post {
   border-color: var(--color-border);
+}
+
+.colored-top-border {
+  border-color: var(--color-background-mute);
 }
 </style>
