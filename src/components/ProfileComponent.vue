@@ -66,7 +66,7 @@
     >
       <button
         v-for="post of props.user.posts"
-        @click="openPublicationModal(post.id)"
+        @click="emit('openPublicationModal', post.id)"
         :key="post.id"
       >
         <img
@@ -98,9 +98,12 @@ const props = defineProps({
 
 const isPictureTabShown = ref(true);
 
-const openPublicationModal = (id: string) => {
-  console.log("ouverture post " + id);
-};
+const emit = defineEmits({
+  openPublicationModal: (publicationId: string) => {
+    return !!publicationId;
+  },
+});
+
 const togglePictureTab = () => {
   isPictureTabShown.value = true;
 
