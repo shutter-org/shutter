@@ -6,7 +6,7 @@
     <PublicationModal class="PRO:my-[80px] p-12" v-if="isPublicationModalShown" :publication="shownPublication"
       @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub" @vote-up-comment="voteUpComment"
       @vote-down-comment="voteDownComment" @search-tag="searchTag" @add-to-gallery="addToGallery"
-      @add-comment="(publicationId: string, message: string) => addComment(message)" @close="closePublicationModal" />
+      @add-comment="addComment" @close="closePublicationModal" />
     <ProfileModificationModal v-if="isProfileModificationShown" :user="user" @close="closeProfileModificationModal" />
   </div>
 </template>

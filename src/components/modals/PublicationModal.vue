@@ -2,12 +2,10 @@
   <div class="fixed inset-0 z-50 flex justify-center overflow-y-scroll">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
     <div class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
-      <publication-component class="" @vote-up-pub="emit('voteUpPub', $event)"
-        @vote-down-pub="emit('voteDownPub', $event)"
-        @vote-up-comment="(commentId: string, publicationId: string) => emit('voteUpComment', commentId, publicationId)"
-        @vote-down-comment="(commentId: string, publicationId: string) => emit('voteDownComment', commentId, publicationId)"
-        @search-tag="emit('searchTag', $event)" @add-to-gallery="emit('addToGallery', $event)"
-        @add-comment="(publicationId: string, message: string) => emit('addComment', publicationId, message)"
+      <publication-component class="" @vote-up-pub="emit('voteUpPub')" @vote-down-pub="emit('voteDownPub')"
+        @vote-up-comment="emit('voteUpComment', $event)" @vote-down-comment="emit('voteDownComment', $event)"
+        @search-tag="emit('searchTag', $event)" @add-to-gallery="emit('addToGallery')"
+        @add-comment="(publicationId: string, message: string) => emit('addComment', message)"
         :publication="props.publication"></publication-component>
       <div class="h-10"></div>
     </div>
@@ -30,26 +28,26 @@ const emit = defineEmits({
   close: () => {
     return true;
   },
-  voteUpPub: (publicationId: string) => {
-    return !!publicationId;
+  voteUpPub: () => {
+    return true;
   },
-  voteDownPub: (publicationId: string) => {
-    return !!publicationId;
+  voteDownPub: () => {
+    return true;
   },
-  addToGallery: (publicationId: string) => {
-    return !!publicationId;
+  addToGallery: () => {
+    return true;
   },
   searchTag: (tag: string) => {
     return !!tag;
   },
-  voteUpComment: (commentId: string, publicationId: string) => {
-    return !!commentId && !!publicationId;
+  voteUpComment: (commentId: string) => {
+    return !!commentId;
   },
-  voteDownComment: (commentId: string, publicationId: string) => {
-    return !!commentId && !!publicationId;
+  voteDownComment: (commentId: string) => {
+    return !!commentId;
   },
-  addComment: (publicationId: string, message: string) => {
-    return !!publicationId && !!message;
+  addComment: (message: string) => {
+    return !!message;
   },
 });
 </script>
