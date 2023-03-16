@@ -14,5 +14,5 @@ export const SignInAPI = async (user: SignInUser) => {
     },
     body: JSON.stringify(user),
   });
-  return response.json();
+  return response;
 };

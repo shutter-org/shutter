@@ -4,10 +4,11 @@
     <div
       class="modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-md PRO:mx-4 translate-x-[126px] PRO:translate-x-0">
       <div class="rounded-md items-center flex flex-col relative max-w-full">
-        <div class="mb-5 w-full rounded-md h-12 input-color pl-4">
-          <input class="z-2 outline-none input-color border-0 box-border h-12" v-focus placeholder="Search..." />
+        <div class="mb-5 w-full rounded-md h-12 border-2 input-color border-color pl-4 self-center flex items-center">
+          <input class="z-2 outline-none input-color box-border h-11 w-full" v-focus placeholder="Search..." />
+          <CrossIcon class="h-6 pr-2" />
         </div>
-        <a href="#" class="w-full rounded-md" v-for="user in hardcoded_users.users" :key="user">
+        <a href="#" class="w-full rounded-md" v-for="user in hardcoded_users.users">
           <div class="py-3 px-1 h-14 flex flex-row items-center">
             <img class="w-10 h-10 rounded-full mr-8"
               src="https://cdn.discordapp.com/attachments/1069318680736964628/1072638173034852463/images.png" alt="" />
@@ -17,7 +18,7 @@
             </div>
           </div>
         </a>
-        <a href="#" class="w-full rounded-md" v-for="hastag in hardcoded_hashtags.hashtags" :key="hastag">
+        <a href="#" class="w-full rounded-md" v-for="hastag in hardcoded_hashtags.hashtags">
           <div class="py-3 px-1 h-14 flex flex-row items-center">
             <div class="w-10 h-10 rounded-full mr-8 border border-slate-400 flex justify-center items-center">
               <div class="w-5 h-5">
@@ -39,7 +40,8 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import CrossIcon from '../icons/CrossIcon.vue';
 const hardcoded_users = {
   users: [
     {
@@ -89,9 +91,9 @@ function close() {
   emit("close");
 }
 const vFocus = {
-  mounted: (el) => el.focus(),
+  mounted: (el: { focus: () => any; }) => el.focus(),
 };
-function test(event) {
+function test(this: any, event: { keyCode: any; }) {
   switch (event.keyCode) {
     case 38:
       if (this.focus === null) {
