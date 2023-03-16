@@ -5,7 +5,8 @@
       @open-profile-modification-modal="openProfileModificationModal"></Profile>
     <PublicationModal class="PRO:my-[80px] p-12" v-if="isPublicationModalShown" :publicationId="shownPublicationId"
       @close="closePublicationModal" />
-    <ProfileModificationModal v-if="isProfileModificationShown" :user="user" @close="closeProfileModificationModal" />
+    <ProfileModificationModal v-if="isProfileModificationShown" :user="user" @close="closeProfileModificationModal"
+      @save="save" />
   </div>
 </template>
 
@@ -73,11 +74,17 @@ const closePublicationModal = () => {
   isPublicationModalShown.value = false;
 };
 const openProfileModificationModal = () => {
-  isProfileModificationShown.value = true
+  isProfileModificationShown.value = true;
 };
 const closeProfileModificationModal = () => {
-  isProfileModificationShown.value = false
+  isProfileModificationShown.value = false;
 };
+const save = (picture_url: string) => {
+  if (user.value.profile_picture !== picture_url) {
+    user.value.profile_picture = picture_url;
+  }
+  isProfileModificationShown.value = false;
+}
 </script>
 
 <style>

@@ -4,7 +4,8 @@
     <div class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
       <publication-component class="" @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub"
         @vote-up-comment="voteUpComment" @vote-down-comment="voteDownComment" @search-tag="searchTag"
-        @add-to-gallery="addToGallery" @add-comment="addComment" :publication="shownPublication"></publication-component>
+        @add-to-gallery="addToGallery" @add-comment="(publicationId: string, message: string) => addComment(message)"
+        :publication="shownPublication"></publication-component>
       <div class="h-10"></div>
     </div>
   </div>

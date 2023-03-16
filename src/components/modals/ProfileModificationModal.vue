@@ -33,7 +33,8 @@
                         {{ props.user.nb_following }} Following
                     </p>
                 </div>
-                <button class="text-xl p-2 rounded-lg pr-10 pl-10 saveButton">save</button>
+                <button class="text-xl p-2 rounded-lg pr-10 pl-10 saveButton"
+                    @click="emit('save', picture_url)">save</button>
             </div>
         </div>
     </div>
@@ -57,6 +58,9 @@ const picture_url = ref(props.user.profile_picture);
 const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
+    },
+    save: (picture_url: string) => {
+        return !!picture_url;
     },
     close: () => {
         return true;
