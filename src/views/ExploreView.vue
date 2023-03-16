@@ -6,16 +6,29 @@
             <CrossIcon class="h-6 pr-2" />
         </div>
         <div class="flex flex-wrap justify-center gap-4">
-            <button href="#" class="w-52 h-52 rounded-lg" v-for="post in posts" :key="post.id">
-                <img class="w-full object-cover aspect-square rounded-lg" :src="post.picture" />
+            <button class="w-52 h-52 rounded-lg" v-for="(post, index) in posts" :key="index">
+                <img @click="openPublicationModal(index)" class="w-full object-cover aspect-square rounded-lg"
+                    :src="post.picture" />
+                <PublicationModal v-if="showVisitModals[index]" @close="closePublicationModal(index)" />
 
             </button>
         </div>
     </div>
 </template>
 <script setup lang="ts">
+import { ref } from "vue";
 import type { SimplifiedPost } from "@/api/type";
 import CrossIcon from "@/components/icons/CrossIcon.vue";
+import PublicationModal from "@/components/modals/PublicationModalAlex.vue";
+
+function openPublicationModal(index: number) {
+    showVisitModals.value[index] = true;
+}
+const closePublicationModal = (index: number) => {
+    console.log(index)
+    showVisitModals.value[index] = false;
+    console.log(showVisitModals.value)
+};
 const post1 = {
     id: "p1",
     picture:
@@ -67,4 +80,6 @@ const post9 = {
 } as SimplifiedPost;
 
 const posts = [post1, post2, post3, post4, post5, post6, post7, post8, post9];
+
+let showVisitModals = ref(Array(posts.length).fill(false));
 </script>
