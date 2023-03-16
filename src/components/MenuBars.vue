@@ -1,5 +1,7 @@
 <template>
-  <div id="sidebar" class="fixed z-50 top-0 left-0 h-20 w-full border-b-2 hidden PRO:block" aria-label="menubar top">
+  <div
+    class=" shutter-border-color shutter-background-color fixed z-50 top-0 left-0 h-20 w-full border-b-2 hidden PRO:block"
+    aria-label="menubar top">
     <div class="w-full h-full">
       <ul class="flex flex-row space-x-2 h-full items-center">
         <li class="mr-auto">
@@ -12,7 +14,7 @@
   </div>
 
   <div id="sidebar"
-    class="fixed z-50 top-0 left-0 w-64 h-screen border-r-2 PRO:border-r-0 PRO:border-t-2 PRO:top-auto PRO:bottom-0 PRO:w-full PRO:h-20"
+    class=" shutter-border-color shutter-background-color fixed z-50 top-0 left-0 w-64 h-screen border-r-2 PRO:border-r-0 PRO:border-t-2 PRO:top-auto PRO:bottom-0 PRO:w-full PRO:h-20"
     aria-label="Sidebar">
     <div class="w-full p-3 h-full">
       <ul
@@ -102,9 +104,3 @@ function showCreateModal() {
 }
 </script>
 
-<style scoped>
-#sidebar {
-  border-color: var(--color-border);
-  background-color: var(--color-background);
-}
-</style>
