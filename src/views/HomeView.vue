@@ -9,6 +9,7 @@
       @vote-down-comment="voteDownComment"
       @search-tag="searchTag"
       @add-to-gallery="addToGallery"
+      @add-comment="addComment"
       v-for="pub in publications"
       :publication="pub"
       :key="pub.id"
@@ -16,10 +17,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import Publication from "@/components/Publication.vue";
+<script setup lang="ts">
+import Publication from "@/components/PublicationComponent.vue";
 import type { Publication as Pub, SimplifiedUser, Comment } from "@/api/type";
-import { defineComponent } from "vue";
+import { ref } from "vue";
+
+let nbNewComment = 0;
 
 const user1 = {
   username: "Blond141",
@@ -67,24 +70,7 @@ const pub1 = {
   tags: ["USA"],
   total_rate: 12,
   user_rate: 0,
-  comments: [
-    com1,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-    com2,
-  ],
+  comments: [com1, com2],
 } as Pub;
 
 const pub2 = {
@@ -117,84 +103,94 @@ const pub3 = {
   comments: [],
 } as Pub;
 
-export default defineComponent({
-  components: {
-    Publication,
-  },
-  data() {
-    return {
-      publications: [pub1, pub2, pub3] as Pub[],
-    };
-  },
-  methods: {
-    voteUpPub(pubId: string) {
-      for (let pub of this.publications) {
-        if (pub.id === pubId) {
-          pub.total_rate -= pub.user_rate;
-          if (pub.user_rate === 1) {
-            pub.user_rate = 0;
+const publications = ref([] as Pub[]);
+publications.value.push(pub1);
+publications.value.push(pub2);
+publications.value.push(pub3);
+console.log(publications.value);
+
+const voteUpPub = (pubId: string) => {
+  for (let pub of publications.value) {
+    if (pub.id === pubId) {
+      pub.total_rate -= pub.user_rate;
+      if (pub.user_rate === 1) {
+        pub.user_rate = 0;
+      } else {
+        pub.user_rate = 1;
+      }
+      pub.total_rate += pub.user_rate;
+    }
+  }
+};
+const voteDownPub = (pubId: string) => {
+  for (let pub of publications.value) {
+    if (pub.id === pubId) {
+      pub.total_rate -= pub.user_rate;
+      if (pub.user_rate === -1) {
+        pub.user_rate = 0;
+      } else {
+        pub.user_rate = -1;
+      }
+      pub.total_rate += pub.user_rate;
+    }
+  }
+};
+const voteUpComment = (commentId: string, pubId: string) => {
+  for (let pub of publications.value) {
+    if (pub.id === pubId) {
+      for (let comment of pub.comments) {
+        if (comment.id === commentId) {
+          comment.total_rate -= comment.user_rate;
+          if (comment.user_rate === 1) {
+            comment.user_rate = 0;
           } else {
-            pub.user_rate = 1;
+            comment.user_rate = 1;
           }
-          pub.total_rate += pub.user_rate;
+          comment.total_rate += comment.user_rate;
         }
       }
-    },
-    voteDownPub(pubId: string) {
-      for (let pub of this.publications) {
-        if (pub.id === pubId) {
-          pub.total_rate -= pub.user_rate;
-          if (pub.user_rate === -1) {
-            pub.user_rate = 0;
+    }
+  }
+};
+const voteDownComment = (commentId: string, pubId: string) => {
+  for (let pub of publications.value) {
+    if (pub.id === pubId) {
+      for (let comment of pub.comments) {
+        if (comment.id === commentId) {
+          comment.total_rate -= comment.user_rate;
+          if (comment.user_rate === -1) {
+            comment.user_rate = 0;
           } else {
-            pub.user_rate = -1;
+            comment.user_rate = -1;
           }
-          pub.total_rate += pub.user_rate;
+          comment.total_rate += comment.user_rate;
         }
       }
-    },
-    voteUpComment(commentId: string, pubId: string) {
-      for (let pub of this.publications) {
-        if (pub.id === pubId) {
-          for (let comment of pub.comments) {
-            if (comment.id === commentId) {
-              comment.total_rate -= comment.user_rate;
-              if (comment.user_rate === 1) {
-                comment.user_rate = 0;
-              } else {
-                comment.user_rate = 1;
-              }
-              comment.total_rate += comment.user_rate;
-            }
-          }
-        }
-      }
-    },
-    voteDownComment(commentId: string, pubId: string) {
-      for (let pub of this.publications) {
-        if (pub.id === pubId) {
-          for (let comment of pub.comments) {
-            if (comment.id === commentId) {
-              comment.total_rate -= comment.user_rate;
-              if (comment.user_rate === -1) {
-                comment.user_rate = 0;
-              } else {
-                comment.user_rate = -1;
-              }
-              comment.total_rate += comment.user_rate;
-            }
-          }
-        }
-      }
-    },
-    searchTag(tag: string) {
-      console.log("searching tag : " + tag);
-    },
-    addToGallery(pubId: string) {
-      console.log("add publication " + pubId + " to gallery");
-    },
-  },
-});
+    }
+  }
+};
+const addComment = (pubId: string, message: string) => {
+  const newCom = {
+    id: "id reponse serveur" + nbNewComment++,
+    user: user1,
+    content: message,
+    date: new Date().toString().toString().substring(4, 15),
+    total_rate: 0,
+    user_rate: 0,
+  } as Comment;
+
+  for (let pub of publications.value) {
+    if (pub.id === pubId) {
+      pub.comments.push(newCom);
+    }
+  }
+};
+const searchTag = (tag: string) => {
+  console.log("searching tag : " + tag);
+};
+const addToGallery = (pubId: string) => {
+  console.log("add publication " + pubId + " to gallery");
+};
 </script>
 
 <style>

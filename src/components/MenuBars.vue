@@ -43,9 +43,7 @@
           </router-link>
         </li>
         <li>
-
           <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="showCreateModal">
-
             <CreateIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Create</span>
           </a>
@@ -53,9 +51,7 @@
         </li>
         <li>
           <router-link to="/profile" class="flex items-center p-2 font-normal rounded-lg">
-            <img class="w-6 h-6 rounded-full"
-              src="https://cdn.discordapp.com/attachments/1069318680736964628/1072638173034852463/images.png"
-              alt="Rounded avatar" />
+            <UserIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Profile</span>
           </router-link>
         </li>
@@ -71,11 +67,12 @@
 </template>
 
 <script setup>
-import HomeIcon from "@/components/icons/HomeIcon.vue";
-import SearchIcon from "@/components/icons/SearchIcon.vue";
-import ExploreIcon from "@/components/icons/ExploreIcon.vue";
+import HomeIcon from "@/components/icons/menu/HomeIcon.vue";
+import SearchIcon from "@/components/icons/menu/SearchIcon.vue";
+import ExploreIcon from "@/components/icons/menu/ExploreIcon.vue";
 import CreateIcon from "@/components/icons/CreateIcon.vue";
-import LogoutIcon from "@/components/icons/LogoutIcon.vue";
+import UserIcon from "@/components/icons/menu/UserIcon.vue";
+import LogoutIcon from "@/components/icons/menu/LogoutIcon.vue";
 import LogoAnimation from "@/components/LogoAnimation.vue";
 import SearchModal from "@/components/modals/SearchModal.vue";
 import PublicationCreatorModal from "@/components/modals/PublicationCreatorModal.vue";
