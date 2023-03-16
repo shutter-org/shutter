@@ -4,66 +4,39 @@
       <User class="h-14 mr-auto" :user="props.publication.user"></User>
       <p class="text-xl p-2">{{ props.publication.date }}</p>
     </div>
-    <img
-      class="w-full object-cover aspect-square rounded-lg"
-      :src="props.publication.picture"
-      alt=""
-    />
+    <img class="w-full object-cover aspect-square rounded-lg" :src="props.publication.picture" alt="" />
     <div class="flex flex-row justify-between w-full p-1">
-      <RatingInterface
-        @vote-up="emit('voteUpPub', props.publication.id)"
-        @vote-down="emit('voteDownPub', props.publication.id)"
-        :total_rate="props.publication.total_rate"
-        :user_rate="props.publication.user_rate"
-      ></RatingInterface>
+      <RatingInterface @vote-up="emit('voteUpPub', props.publication.id)"
+        @vote-down="emit('voteDownPub', props.publication.id)" :total_rate="props.publication.total_rate"
+        :user_rate="props.publication.user_rate"></RatingInterface>
       <button @click="emit('addToGallery', props.publication.id)">
         <GalleryIcon></GalleryIcon>
       </button>
     </div>
     <Comment class="w-full p-2" :comment="descAsComment"></Comment>
     <div class="w-full flex flex-wrap gap-2 justify-start p-2">
-      <button
-        v-for="tag of props.publication.tags"
-        :key="tag"
-        class="tag text-xl underline overflow-hidden whitespace-nowrap overflow-ellipsis"
-        @click="emit('searchTag', tag)"
-      >
+      <button v-for="tag of props.publication.tags" :key="tag"
+        class="tag text-xl underline overflow-hidden whitespace-nowrap overflow-ellipsis" @click="emit('searchTag', tag)">
         #{{ tag }}
       </button>
     </div>
-    <Comment
-      v-for="comment of props.publication.comments.slice(0, nbCommentsShown)"
+    <Comment v-for="comment of props.publication.comments.slice(0, nbCommentsShown)"
       @vote-up="emit('voteUpComment', $event, props.publication.id)"
-      @vote-down="emit('voteDownComment', $event, props.publication.id)"
-      :comment="comment"
-      :key="comment.id"
-      class="colored-top-border w-full border-t-2 p-2"
-    ></Comment>
+      @vote-down="emit('voteDownComment', $event, props.publication.id)" :comment="comment" :key="comment.id"
+      class="colored-top-border w-full border-t-2 p-2"></Comment>
     <div class="w-full colored-top-border border-t-2 p-2 pt-6">
-      <textarea
-        class="inputable w-full max-h-36 text-xl p-2 border-2 rounded-lg"
-        placeholder="Leave a comment..."
-        maxlength="200"
-        v-model="message"
-        oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
-        @keydown="preventNextLine"
-        @keyup="submitComment"
-      />
+      <textarea class="inputable w-full max-h-36 text-xl p-2 border-2 rounded-lg" placeholder="Leave a comment..."
+        maxlength="200" v-model="message" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+        @keydown="preventNextLine" @keyup="submitComment" />
     </div>
-    <button
-      v-if="props.publication.comments.length > nbCommentsShown"
-      class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6"
-      @click="showMoreComments"
-    >
+    <button v-if="props.publication.comments.length > nbCommentsShown"
+      class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6" @click="showMoreComments">
       Show {{ props.publication.comments.length - nbCommentsShown }} comment{{
         props.publication.comments.length === 1 ? "" : "s"
       }}
     </button>
-    <button
-      v-if="props.publication.comments.length !== 0 && nbCommentsShown > 0"
-      class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6"
-      @click="hideComments"
-    >
+    <button v-if="props.publication.comments.length !== 0 && nbCommentsShown > 0"
+      class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6" @click="hideComments">
       hide
     </button>
   </div>

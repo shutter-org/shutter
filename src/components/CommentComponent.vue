@@ -7,13 +7,9 @@
     <p class="w-full text-xl p-1 break-words pl-2">
       {{ props.comment.content }}
     </p>
-    <RatingInterface
-      @vote-up="emit('voteUp', props.comment.id)"
-      @vote-down="emit('voteDown', props.comment.id)"
-      v-if="props.comment.total_rate !== undefined"
-      :total_rate="props.comment.total_rate"
-      :user_rate="props.comment.user_rate"
-    ></RatingInterface>
+    <RatingInterface @vote-up="emit('voteUp', props.comment.id)" @vote-down="emit('voteDown', props.comment.id)"
+      v-if="props.comment.total_rate !== undefined" :total_rate="props.comment.total_rate"
+      :user_rate="props.comment.user_rate"></RatingInterface>
   </div>
 </template>
 
@@ -24,7 +20,10 @@ import RatingInterface from "@/components/RatingInterface.vue";
 import type { PropType } from "vue";
 
 const props = defineProps({
-  comment: Object as PropType<Comment>,
+  comment: {
+    type: Object as PropType<Comment>,
+    required: true,
+  }
 });
 
 const emit = defineEmits({

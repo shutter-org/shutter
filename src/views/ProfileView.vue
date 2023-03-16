@@ -1,25 +1,11 @@
 <template>
-  <div
-    id="profile"
-    class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8"
-  >
-    <Profile
-      :user="user"
-      @open-publication-modal="openPublicationModal"
-    ></Profile>
-    <PublicationModal
-      class="PRO:my-[80px] p-12"
-      v-if="isPublicationModalShown"
-      :publication="shownPublication"
-      @vote-up-pub="voteUpPub"
-      @vote-down-pub="voteDownPub"
-      @vote-up-comment="voteUpComment"
-      @vote-down-comment="voteDownComment"
-      @search-tag="searchTag"
-      @add-to-gallery="addToGallery"
-      @add-comment="addComment"
-      @close="closePublicationModal"
-    />
+  <div id="profile"
+    class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8">
+    <Profile :user="user" @open-publication-modal="openPublicationModal"></Profile>
+    <PublicationModal class="PRO:my-[80px] p-12" v-if="isPublicationModalShown" :publication="shownPublication"
+      @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub" @vote-up-comment="voteUpComment"
+      @vote-down-comment="voteDownComment" @search-tag="searchTag" @add-to-gallery="addToGallery"
+      @add-comment="addComment" @close="closePublicationModal" />
   </div>
 </template>
 
@@ -200,8 +186,8 @@ const addComment = (message: string) => {
 const searchTag = (tag: string) => {
   console.log("searching tag : " + tag);
 };
-const addToGallery = (pubId: string) => {
-  console.log("add publication " + pubId + " to gallery");
+const addToGallery = () => {
+  console.log("add publication " + shownPublication.value.id + " to gallery");
 };
 </script>
 

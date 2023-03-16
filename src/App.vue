@@ -22,6 +22,7 @@ function LoggedIn() {
 .main {
   background-color: var(--back-alt-color);
 }
+
 *::-webkit-scrollbar {
   display: none;
 }
