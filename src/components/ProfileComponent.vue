@@ -8,12 +8,15 @@
         <p class="w-full font-bold text-4xl inline overflow-hidden whitespace-nowrap overflow-ellipsis PRO:text-center">
           {{ props.user.username }}
         </p>
-        <p class="w-full font-bold text-2xl inline overflow-hidden whitespace-nowrap overflow-ellipsis PRO:text-center">
+        <p class="w-full font-bold text-2xl inline overflow-hidden PRO:text-center">
           {{ props.user.name }} • {{ props.user.age }}
         </p>
       </div>
     </div>
-    <div class="w-full h-20 flex flex-row gap-10 items-center p-2 justify-evenly">
+    <p class="w-full text-2xl overflow-hidden p-2 pb-4 px-6 border-t-2 border-b-2 bottom-border">{{
+      props.user.biography
+    }}</p>
+    <div class="w-full h-20 flex flex-row gap-10 items-center p-2 pb-4 justify-evenly border-b-2 bottom-border">
       <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
         {{ props.user.posts.length }} Posts
       </p>
@@ -42,7 +45,7 @@
       </button>
     </div>
     <p v-else>a faire gallery</p>
-    <p class="text-xs text-center font-bold w-full p-2 pt-4 border-t-2 bottom-border mt-6">
+    <p class="text-xs text-center font-bold w-full p-2 pt-6 border-t-2 bottom-border mt-6">
       member since {{ props.user.created_date }}
     </p>
     <button v-if="isCurrentUser" id="modifyButton" class="h-8 w-8 absolute right-4 top-4"

@@ -79,10 +79,13 @@ const openProfileModificationModal = () => {
 const closeProfileModificationModal = () => {
   isProfileModificationShown.value = false;
 };
-const save = (picture_url: string) => {
+const save = (picture_url: string, username: string, name: string, bio: string) => {
   if (user.value.profile_picture !== picture_url) {
     user.value.profile_picture = picture_url;
   }
+  user.value.username = username;
+  user.value.name = name;
+  user.value.biography = bio;
   isProfileModificationShown.value = false;
 }
 </script>
