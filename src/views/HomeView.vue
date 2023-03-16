@@ -9,6 +9,7 @@
       @vote-down-comment="voteDownComment"
       @search-tag="searchTag"
       @add-to-gallery="addToGallery"
+      @add-comment="addComment"
       v-for="pub in publications"
       :publication="pub"
       :key="pub.id"
@@ -20,6 +21,8 @@
 import Publication from "@/components/PublicationComponent.vue";
 import type { Publication as Pub, SimplifiedUser, Comment } from "@/api/type";
 import { ref } from "vue";
+
+let nbNewComment = 0;
 
 const user1 = {
   username: "Blond141",
@@ -163,6 +166,22 @@ const voteDownComment = (commentId: string, pubId: string) => {
           comment.total_rate += comment.user_rate;
         }
       }
+    }
+  }
+};
+const addComment = (pubId: string, message: string) => {
+  const newCom = {
+    id: "id reponse serveur" + nbNewComment++,
+    user: user1,
+    content: message,
+    date: new Date().toString().toString().substring(4, 15),
+    total_rate: 0,
+    user_rate: 0,
+  } as Comment;
+
+  for (let pub of publications.value) {
+    if (pub.id === pubId) {
+      pub.comments.push(newCom);
     }
   }
 };

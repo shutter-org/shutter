@@ -39,6 +39,17 @@
       :key="comment.id"
       class="colored-top-border w-full border-t-2 p-2"
     ></Comment>
+    <div class="w-full colored-top-border border-t-2 p-2 pt-6">
+      <textarea
+        class="inputable w-full max-h-36 text-xl p-2 border-2 rounded-lg"
+        placeholder="Leave a comment..."
+        maxlength="200"
+        v-model="message"
+        oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+        @keydown="preventNextLine"
+        @keyup="submitComment"
+      />
+    </div>
     <button
       v-if="props.publication.comments.length > nbCommentsShown"
       class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6"
@@ -79,6 +90,8 @@ const descAsComment = ref({
   content: props.publication.desc,
 } as Com);
 
+const message = ref("");
+
 const emit = defineEmits({
   voteUpPub: (publicationId: string) => {
     return !!publicationId;
@@ -98,6 +111,9 @@ const emit = defineEmits({
   voteDownComment: (commentId: string, publicationId: string) => {
     return !!commentId && !!publicationId;
   },
+  addComment: (publicationId: string, message: string) => {
+    return !!publicationId && !!message;
+  },
 });
 
 const nbCommentsShown = ref(0);
@@ -107,6 +123,19 @@ const showMoreComments = () => {
 };
 const hideComments = () => {
   nbCommentsShown.value = 0;
+};
+
+const submitComment = (event: KeyboardEvent) => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    emit("addComment", props.publication.id, message.value);
+    message.value = "";
+  }
+};
+
+const preventNextLine = (event: KeyboardEvent) => {
+  if (event.key == "Enter") {
+    event.preventDefault();
+  }
 };
 </script>
 
@@ -122,5 +151,13 @@ const hideComments = () => {
 
 .tag {
   color: var(--special-text-color);
+}
+
+.inputable {
+  border-color: var(--color-border);
+  background-color: var(--modal-color);
+  box-shadow: none;
+  resize: none;
+  overflow: hidden;
 }
 </style>
