@@ -1,5 +1,6 @@
 <template>
-  <div class="profile w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2">
+  <div
+    class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2">
     <div class="w-full h-40 PRO:h-80 flex flex-row PRO:flex-col gap-10 items-center p-2">
       <img class="h-full PRO:h-1/2 object-cover aspect-square rounded-full border-2" :src="props.user.profile_picture"
         alt="" />
