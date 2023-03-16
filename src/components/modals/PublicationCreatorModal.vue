@@ -6,11 +6,11 @@
       <div class="flex flex-row items-center justify-between w-full">
         <User class="h-14 mr-auto" :user="props.user"></User>
       </div>
-      <img id="picture" v-show="isPictureUploaded" src="" alt=""
-        class="w-full aspect-square object-cover rounded-lg flex flex-row justify-center items-center" />
-      <button v-show="!isPictureUploaded" @click="openUploadForm"
+      <button @click="openUploadForm"
         class="inputable w-full aspect-square object-cover rounded-lg flex flex-row justify-center items-center border-2">
-        <ImageIcon class="w-1/2 aspect-square"></ImageIcon>
+        <img id="picture" v-if="isPictureUploaded" :src="picture_url" alt=""
+          class="w-full aspect-square object-cover rounded-lg" />
+        <ImageIcon v-else class="w-1/2 aspect-square"></ImageIcon>
       </button>
       <input class="hidden" type="file" id="imgInput" name="img" accept="image/*" @change="loadPicture" />
       <textarea class="inputable desc h-36 w-full text-xl p-2 border-2 rounded-lg" placeholder="Description..."
@@ -40,6 +40,7 @@ const props = defineProps({
 
 const isPictureUploaded = ref(false);
 const picture = ref(Blob);
+const picture_url = ref("");
 const desc = ref("");
 const tags = ref("");
 
@@ -48,13 +49,12 @@ const openUploadForm = () => {
   document.getElementById("imgInput")!.click();
 };
 const loadPicture = (event: any) => {
-  let pictureComponent = document.getElementById("picture") as HTMLImageElement;
-  URL.revokeObjectURL(pictureComponent.src);
+  URL.revokeObjectURL(picture_url.value);
   if (event.target.files[0] === undefined) {
     isPictureUploaded.value = false;
   } else {
     picture.value = event.target.files[0];
-    pictureComponent.src = URL.createObjectURL(event.target.files[0]);
+    picture_url.value = URL.createObjectURL(event.target.files[0]);
     isPictureUploaded.value = true;
   }
 };

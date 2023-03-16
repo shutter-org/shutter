@@ -44,6 +44,10 @@
     <p class="text-xs text-center font-bold w-full p-2 pt-4 border-t-2 bottom-border mt-6">
       member since {{ props.user.created_date }}
     </p>
+    <button v-if="isCurrentUser" id="modifyButton" class="h-8 w-8 absolute right-4 top-4"
+      @click="emit('openProfileModificationModal')">
+      <ModifyIcon class="h-full w-full" />
+    </button>
   </div>
 </template>
 
@@ -53,12 +57,14 @@ import { ref } from "vue";
 import type { PropType } from "vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
+import ModifyIcon from "@/components/icons/modify.vue";
 
 const props = defineProps({
   user: {
     type: Object as PropType<User>,
     required: true
-  }
+  },
+  isCurrentUser: Boolean
 });
 
 const isPictureTabShown = ref(true);
@@ -67,6 +73,9 @@ const emit = defineEmits({
   openPublicationModal: (publicationId: string) => {
     return !!publicationId;
   },
+  openProfileModificationModal: () => {
+    return true;
+  }
 });
 
 const togglePictureTab = () => {

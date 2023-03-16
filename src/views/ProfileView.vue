@@ -1,11 +1,13 @@
 <template>
   <div id="profile"
     class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8">
-    <Profile :user="user" @open-publication-modal="openPublicationModal"></Profile>
+    <Profile :user="user" :is-current-user="true" @open-publication-modal="openPublicationModal"
+      @open-profile-modification-modal="openProfileModificationModal"></Profile>
     <PublicationModal class="PRO:my-[80px] p-12" v-if="isPublicationModalShown" :publication="shownPublication"
       @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub" @vote-up-comment="voteUpComment"
       @vote-down-comment="voteDownComment" @search-tag="searchTag" @add-to-gallery="addToGallery"
       @add-comment="addComment" @close="closePublicationModal" />
+    <ProfileModificationModal v-if="isProfileModificationShown" :user="user" @close="closeProfileModificationModal" />
   </div>
 </template>
 
@@ -20,6 +22,7 @@ import type {
 import { ref } from "vue";
 import Profile from "@/components/ProfileComponent.vue";
 import PublicationModal from "@/components/modals/PublicationModal.vue";
+import ProfileModificationModal from "@/components/modals/ProfileModificationModal.vue";
 
 let nbNewComment = 0;
 
@@ -112,6 +115,7 @@ const user1Complete = {
 const user = ref(user1Complete);
 const isPublicationModalShown = ref(false);
 const shownPublication = ref();
+const isProfileModificationShown = ref(false);
 
 const openPublicationModal = (publicationId: string) => {
   console.log(publicationId);
@@ -121,6 +125,12 @@ const openPublicationModal = (publicationId: string) => {
 };
 const closePublicationModal = () => {
   isPublicationModalShown.value = false;
+};
+const openProfileModificationModal = () => {
+  isProfileModificationShown.value = true
+};
+const closeProfileModificationModal = () => {
+  isProfileModificationShown.value = false
 };
 const voteUpPub = () => {
   //put pub
