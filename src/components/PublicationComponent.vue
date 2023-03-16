@@ -1,5 +1,5 @@
 <template>
-  <div class="post flex flex-col gap-2 items-center rounded-lg p-4 border-2">
+  <div class="shutter-border-color shutter-background-color flex flex-col gap-2 items-center rounded-lg p-4 border-2">
     <div class="flex flex-row items-center justify-between w-full">
       <User class="h-14 mr-auto" :user="props.publication.user"></User>
       <p class="text-xl p-2">{{ props.publication.date }}</p>
@@ -23,20 +23,20 @@
     <Comment v-for="comment of props.publication.comments.slice(0, nbCommentsShown)"
       @vote-up="emit('voteUpComment', $event, props.publication.id)"
       @vote-down="emit('voteDownComment', $event, props.publication.id)" :comment="comment" :key="comment.id"
-      class="colored-top-border w-full border-t-2 p-2"></Comment>
-    <div class="w-full colored-top-border border-t-2 p-2 pt-6">
+      class="shutter-border-mute w-full border-t-2 p-2"></Comment>
+    <div class="w-full shutter-border-mute border-t-2 p-2 pt-6">
       <textarea class="inputable w-full max-h-36 text-xl p-2 border-2 rounded-lg" placeholder="Leave a comment..."
         maxlength="200" v-model="message" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
         @keydown="preventNextLine" @keyup="submitComment" />
     </div>
     <button v-if="props.publication.comments.length > nbCommentsShown"
-      class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6" @click="showMoreComments">
+      class="shutter-border-mute w-full font-bold text-xl border-t-2 p-2 pt-6" @click="showMoreComments">
       Show {{ props.publication.comments.length - nbCommentsShown }} comment{{
         props.publication.comments.length === 1 ? "" : "s"
       }}
     </button>
     <button v-if="props.publication.comments.length !== 0 && nbCommentsShown > 0"
-      class="colored-top-border w-full font-bold text-xl border-t-2 p-2 pt-6" @click="hideComments">
+      class="shutter-border-mute   w-full font-bold text-xl border-t-2 p-2 pt-6" @click="hideComments">
       hide
     </button>
   </div>
@@ -113,15 +113,6 @@ const preventNextLine = (event: KeyboardEvent) => {
 </script>
 
 <style scoped>
-.post {
-  border-color: var(--color-border);
-  background-color: var(--color-background);
-}
-
-.colored-top-border {
-  border-color: var(--color-background-mute);
-}
-
 .tag {
   color: var(--special-text-color);
 }

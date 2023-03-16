@@ -4,7 +4,8 @@
         </div>
         <div
             class="post flex flex-col gap-4 items-center rounded-lg p-4 relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
-            <div class="profile w-full flex flex-col gap-2 items-center rounded-lg p-4">
+            <div
+                class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4">
                 <div class="w-full h-40 PRO:h-80 flex flex-row PRO:flex-col gap-10 items-center p-2">
                     <button class="h-full PRO:h-1/2 aspect-square rounded-full border-2" @click="openUploadForm">
                         <img id="picture" class="h-full w-full object-cover aspect-square rounded-full"
@@ -76,10 +77,6 @@ const loadPicture = (event: any) => {
 </script>
   
 <style scoped>
-.profile {
-    background-color: var(--modal-color);
-}
-
 .saveButton {
     background-color: var(--hover-color);
 }

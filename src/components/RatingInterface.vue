@@ -26,4 +26,3 @@ const props = defineProps({
 const emit = defineEmits(["voteUp", "voteDown"]);
 </script>
 
-<style scoped></style>

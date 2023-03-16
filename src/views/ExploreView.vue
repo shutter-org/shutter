@@ -1,9 +1,10 @@
 <template>
-  <div id="explore"
-    class=" min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8">
-    <div class="profile w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2 border-color h-full">
+  <div
+    class="shutter-background-mute min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8">
+    <div
+      class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2 h-full">
       <div
-        class="my-10 w-64 rounded-md h-12 border-2 input-color pl-4 self-center flex-row flex items-center border-color">
+        class="my-10 w-64 rounded-md h-12 border-2 input-color pl-4 self-center flex-row flex items-center shutter-border-color">
         <input class="z-2 outline-none input-color box-border w-full h-11 rounded-md" v-focus placeholder="Search..." />
         <CrossIcon class="h-6 pr-2" />
       </div>
@@ -136,16 +137,3 @@ const posts = [post1, post2, post3, post4, post5, post6, post7, post8, post9];
 
 
 </script>
-<style>
-.border-color {
-  border-color: var(--color-border);
-}
-
-#explore {
-  background-color: var(--color-background-mute);
-}
-
-.profile {
-  background-color: var(--color-background);
-}
-</style>

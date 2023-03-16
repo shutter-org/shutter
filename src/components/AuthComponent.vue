@@ -41,7 +41,7 @@
       <button v-if="!login" @click="SignUp" class="bg-gray-100 special-text-color rounded-md h-9 w-36">
         Sign up
       </button>
-      <div class="border-t no-account w-full flex justify-center items-center space-x-2">
+      <div class="border-t shutter-border-color w-full flex justify-center items-center space-x-2">
         <span v-if="login">Don't have an account?</span>
         <button v-if="login" @click="switchView" class="special-text-color text-lg">
           Signup
@@ -114,9 +114,6 @@ function SignUp() {
   color: var(--special-text-color);
 }
 
-.no-account {
-  border-color: var(--color-border);
-}
 
 .hidePassword {
   -webkit-text-security: disc;

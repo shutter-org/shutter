@@ -1,6 +1,6 @@
 <template>
-  <div id="profile"
-    class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8">
+  <div
+    class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8 shutter-background-mute">
     <Profile :user="user" :is-current-user="true" @open-publication-modal="openPublicationModal"
       @open-profile-modification-modal="openProfileModificationModal"></Profile>
     <PublicationModal class="PRO:my-[80px] p-12" v-if="isPublicationModalShown" :publicationId="shownPublicationId"
@@ -80,8 +80,3 @@ const closeProfileModificationModal = () => {
 };
 </script>
 
-<style>
-#profile {
-  background-color: var(--color-background-mute);
-}
-</style>
