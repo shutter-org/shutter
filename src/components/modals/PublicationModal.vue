@@ -2,7 +2,7 @@
   <div class="fixed inset-0 z-50 flex justify-center overflow-y-scroll">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
     <div class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
-      <publication-component class="" @vote-up-pub="(emit('voteUpPub', $event)"
+      <publication-component class="" @vote-up-pub="emit('voteUpPub', $event)"
         @vote-down-pub="emit('voteDownPub', $event)"
         @vote-up-comment="(commentId: string, publicationId: string) => emit('voteUpComment', commentId, publicationId)"
         @vote-down-comment="(commentId: string, publicationId: string) => emit('voteDownComment', commentId, publicationId)"
