@@ -1,7 +1,7 @@
 <template>
   <div class="p-10 max-w-5xl ml-auto mr-auto flex flex-col min-h-screen PRO:min-h-[calc(100vh-160px)]">
-    <div class="mb-10 w-64 rounded-md h-12 input-color pl-4 self-center flex-row flex items-center">
-      <input class="z-2 outline-none input-color border-0 box-border w-full h-12 rounded-md" placeholder="Search..." />
+    <div class="mb-10 w-64 rounded-md h-12 border-2 input-color pl-4 self-center flex-row flex items-center border-color">
+      <input class="z-2 outline-none input-color box-border w-full h-11 rounded-md" v-focus placeholder="Search..." />
       <CrossIcon class="h-6 pr-2" />
     </div>
     <div class="flex flex-wrap justify-center gap-4">
@@ -26,6 +26,9 @@ const closePublicationModal = (index: number) => {
   console.log(index);
   showVisitModals.value[index] = false;
   console.log(showVisitModals.value);
+};
+const vFocus = {
+  mounted: (el: { focus: () => any; }) => el.focus(),
 };
 const post1 = {
   id: "p1",
@@ -81,3 +84,8 @@ const posts = [post1, post2, post3, post4, post5, post6, post7, post8, post9];
 
 let showVisitModals = ref(Array(posts.length).fill(false));
 </script>
+<style>
+.border-color {
+  border-color: var(--color-border);
+}
+</style>
