@@ -32,7 +32,7 @@
                         @keydown="preventNextLine" />
                 </div>
                 <button class="text-xl p-2 rounded-lg pr-10 pl-10 saveButton"
-                    @click="emit('save', picture_url, username, name, bio)">save</button>
+                    @click="emit('save', picture, picture_url, username, name, bio)">save</button>
             </div>
         </div>
     </div>
@@ -60,7 +60,7 @@ const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
     },
-    save: (picture_url: string, username: string, name: string, bio: string) => {
+    save: (picture: Blob, picture_url: string, username: string, name: string, bio: string) => {
         return !!picture_url && !!username && !!name;
     },
     close: () => {

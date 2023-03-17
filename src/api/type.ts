@@ -3,28 +3,28 @@ export interface SimplifiedUser {
   profile_picture: string;
 }
 export interface Comment {
-  id: string;
-  user: SimplifiedUser;
-  date: string;
-  content: string;
-  total_rate: number;
-  user_rate: number;
+  comment_id: string;
+  commenter_user: SimplifiedUser;
+  created_date: string;
+  message: string;
+  rating: number;
+  user_rating: number;
 }
 
 export interface Publication {
-  publicationId: string;
-  user: SimplifiedUser;
-  date: string;
+  publication_id: string;
+  poster_user: SimplifiedUser;
+  created_date: string;
   picture: string;
-  desc: string;
+  description: string;
   tags: string[];
-  total_rate: number;
-  user_rate: number;
+  rating: number;
+  user_rating: number;
   comments: Comment[];
 }
 
 export interface SimplifiedPublication {
-  publicationId: string;
+  publication_id: string;
   picture: string;
 }
 

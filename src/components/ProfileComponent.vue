@@ -46,8 +46,8 @@
       </button>
     </div>
     <div v-if="isPictureTabShown" class="w-full h-full grid grid-cols-3 PRO:grid-cols-2 gap-6 PRO:gap-4 p-4 pt-10">
-      <button v-for="post of props.user.publications" @click="emit('openPublicationModal', post.publicationId)"
-        :key="post.publicationId">
+      <button v-for="post of props.user.publications" @click="emit('openPublicationModal', post.publication_id)"
+        :key="post.publication_id">
         <img class="w-full object-cover aspect-square rounded-lg" :src="post.picture" alt="" />
       </button>
     </div>

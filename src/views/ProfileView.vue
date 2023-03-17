@@ -24,42 +24,6 @@ import SyncLoader from "vue-spinner/src/SyncLoader.vue"
 import { getUser, updateUser } from "@/api/user";
 import { useUserStore } from '@/stores/user'
 
-/*const post1 = {
-  publicationId: "p1",
-  picture:
-    "https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?cs=srgb&dl=pexels-pixabay-206359.jpg&fm=jpg",
-} as SimplifiedPublication;
-
-const post2 = {
-  publicationId: "p2",
-  picture:
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Snowboard_pow.jpg/1200px-Snowboard_pow.jpg",
-} as SimplifiedPublication;
-
-const post3 = {
-  publicationId: "p3",
-  picture:
-    "https://www.inquirer.com/resizer/yMCs3mgc-4b3hxAMeaho6H8BVbw=/760x507/smart/filters:format(webp)/arc-anglerfish-arc2-prod-pmn.s3.amazonaws.com/public/J4QDHA4WPZHJJJKAUWMI6HGL6A.jpg",
-} as SimplifiedPublication;
-
-const post4 = {
-  publicationId: "p4",
-  picture:
-    "https://assets3.thrillist.com/v1/image/3120392/1200x630/flatten;crop_down;webp=auto;jpeg_quality=70",
-} as SimplifiedPublication;
-
-const user1Complete = {
-  username: "Blond141",
-  name: "Jerome Levesque",
-  profile_picture:
-    "https://h5p.org/sites/default/files/h5p/content/1209180/images/file-6113d5f8845dc.jpeg",
-  nb_follower: 242,
-  nb_following: 132,
-  biography: "glo ulaval",
-  age: 21,
-  created_date: "feb 2 2012",
-  posts: [post1, post2, post3, post4],
-} as User;*/
 const userStore = useUserStore();
 const user = ref();
 const isPublicationModalShown = ref(false);
@@ -80,22 +44,20 @@ async function loadUser() {
   }
   isLoading.value = false;
 };
-async function save(picture_url: string, username: string, name: string, bio: string) {
+async function save(picture: Blob, picture_url: string, username: string, name: string, bio: string) {
   const body = {} as User;
   if (user.value.profile_picture !== picture_url) {
-    user.value.profile_picture = picture_url;
-    body.profile_picture = picture_url;
+    const reader = new FileReader();
+    reader.readAsBinaryString(picture);
+    body.profile_picture = reader.result as string;
   }
   if (user.value.username !== username) {
-    user.value.username = username;
     body.username = username;
   }
   if (user.value.name !== name) {
-    user.value.name = name;
-    //body.name = name;
+    body.name = name;
   }
   if (user.value.biography !== bio) {
-    user.value.biography = bio;
     body.biography = bio;
   }
 
@@ -105,6 +67,11 @@ async function save(picture_url: string, username: string, name: string, bio: st
     userStore.username = username;
     if (res.status !== 200) {
       console.log("erreur dans l'update");
+    } else {
+      user.value.profile_picture = picture_url;
+      user.value.username = username;
+      user.value.name = name;
+      user.value.biography = bio;
     }
   }
 
@@ -112,8 +79,7 @@ async function save(picture_url: string, username: string, name: string, bio: st
 }
 const openPublicationModal = (publicationId: string) => {
   console.log(publicationId);
-  //fetch pub
-  shownPublicationId.value = "id de la pub";
+  shownPublicationId.value = publicationId;
   isPublicationModalShown.value = true;
 };
 const closePublicationModal = () => {

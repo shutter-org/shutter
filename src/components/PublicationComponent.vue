@@ -1,15 +1,15 @@
 <template>
   <div class="shutter-border-color shutter-background-color flex flex-col gap-2 items-center rounded-lg p-4 border-2">
     <div class="flex flex-row items-center justify-between w-full">
-      <User class="h-14 mr-auto" :user="props.publication.user"></User>
-      <p class="text-xl p-2">{{ props.publication.date }}</p>
+      <User class="h-14 mr-auto" :user="props.publication.poster_user"></User>
+      <p class="text-xl p-2">{{ props.publication.created_date }}</p>
     </div>
     <img class="w-full object-cover aspect-square rounded-lg" :src="props.publication.picture" alt="" />
     <div class="flex flex-row justify-between w-full p-1">
-      <RatingInterface @vote-up="emit('voteUpPub', props.publication.publicationId)"
-        @vote-down="emit('voteDownPub', props.publication.publicationId)" :total_rate="props.publication.total_rate"
-        :user_rate="props.publication.user_rate"></RatingInterface>
-      <button @click="emit('addToGallery', props.publication.publicationId)">
+      <RatingInterface @vote-up="emit('voteUpPub', props.publication.publication_id)"
+        @vote-down="emit('voteDownPub', props.publication.publication_id)" :total_rate="props.publication.rating"
+        :user_rate="props.publication.user_rating"></RatingInterface>
+      <button @click="emit('addToGallery', props.publication.publication_id)">
         <GalleryIcon></GalleryIcon>
       </button>
     </div>
@@ -21,8 +21,8 @@
       </button>
     </div>
     <Comment v-for="comment of props.publication.comments.slice(0, nbCommentsShown)"
-      @vote-up="emit('voteUpComment', $event, props.publication.publicationId)"
-      @vote-down="emit('voteDownComment', $event, props.publication.publicationId)" :comment="comment" :key="comment.id"
+      @vote-up="emit('voteUpComment', $event, props.publication.publication_id)"
+      @vote-down="emit('voteDownComment', $event, props.publication.publication_id)" :comment="comment" :key="comment.id"
       class="shutter-border-mute w-full border-t-2 p-2"></Comment>
     <div class="w-full shutter-border-mute border-t-2 p-2 pt-6">
       <textarea class="inputable w-full max-h-36 text-xl p-2 border-2 rounded-lg" placeholder="Leave a comment..."
@@ -60,8 +60,8 @@ const props = defineProps({
 });
 
 const descAsComment = ref({
-  user: props.publication.user,
-  content: props.publication.desc,
+  commenter_user: props.publication.poster_user,
+  message: props.publication.description,
 } as Com);
 
 const message = ref("");
@@ -101,7 +101,7 @@ const hideComments = () => {
 
 const submitComment = (event: KeyboardEvent) => {
   if (event.key === "Enter" && !event.shiftKey) {
-    emit("addComment", props.publication.publicationId, message.value);
+    emit("addComment", props.publication.publication_id, message.value);
     message.value = "";
   }
 };
