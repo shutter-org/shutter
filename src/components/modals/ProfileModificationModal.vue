@@ -50,7 +50,7 @@ const props = defineProps({
     },
 });
 
-const picture = ref(Blob);
+const picture = ref();
 const picture_url = ref(props.user.profile_picture);
 const username = ref(props.user.username);
 const name = ref(props.user.name);
@@ -60,7 +60,7 @@ const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
     },
-    save: (picture: Blob, picture_url: string, username: string, name: string, bio: string) => {
+    save: (picture: File, picture_url: string, username: string, name: string, bio: string) => {
         return !!picture_url && !!username && !!name;
     },
     close: () => {

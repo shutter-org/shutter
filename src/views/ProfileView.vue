@@ -44,7 +44,7 @@ async function loadUser() {
   }
   isLoading.value = false;
 };
-async function save(picture: Blob, picture_url: string, username: string, name: string, bio: string) {
+async function save(picture: File, picture_url: string, username: string, name: string, bio: string) {
   const body = {} as User;
   if (user.value.profile_picture !== picture_url) {
     const reader = new FileReader();
