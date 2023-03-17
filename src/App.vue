@@ -1,11 +1,11 @@
 <template>
   <div v-if="isLoggedIn">
-    <Menubars />
+    <Menubars @log-out="isLoggedIn = false" />
     <div class="main ml-64 PRO:ml-0 PRO:mb-20 PRO:mt-20">
       <RouterView />
     </div>
   </div>
-  <Auth v-if="!isLoggedIn" @logged-in="LoggedIn" />
+  <Auth v-else @logged-in="LoggedIn" />
 </template>
 <script setup lang="ts">
 import { RouterView } from "vue-router";

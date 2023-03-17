@@ -60,11 +60,14 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
     if (Object.keys(body).length !== 0) {
       console.log("updating user");
       const res = await updateUser(userStore.username, userStore.authKey, body);
-      userStore.username = username;
       if (res.status !== 200) {
         console.log("erreur dans l'update");
       } else {
-        user.value.profile_picture = picture_url;
+        const data = await res.json();
+        userStore.setAuthKey(data.acces_token);
+        userStore.setUsername(data.user.username);
+        userStore.setProfilePicture(data.user.profile_picture);
+        user.value.profile_picture = data.user.profile_picture;
         user.value.username = username;
         user.value.name = name;
         user.value.biography = bio;
@@ -81,7 +84,7 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
       body.profile_picture = reader.result as string;
       continueSave();
     }
-    reader.readAsBinaryString(picture);
+    reader.readAsDataURL(picture);
   }
   if (!isLoadingPicture) {
     continueSave();

@@ -58,10 +58,10 @@
           </router-link>
         </li>
         <li>
-          <router-link to="#" class="flex items-center p-2 text-base font-normal rounded-lg">
+          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="logOut">
             <LogoutIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Logout</span>
-          </router-link>
+          </a>
         </li>
       </ul>
     </div>
@@ -78,11 +78,14 @@ import LogoutIcon from "@/components/icons/menu/LogoutIcon.vue";
 import LogoAnimation from "@/components/LogoAnimation.vue";
 import SearchModal from "@/components/modals/SearchModal.vue";
 import PublicationCreatorModal from "@/components/modals/PublicationCreatorModal.vue";
-
+import { useUserStore } from '@/stores/user'
 import { ref } from "vue";
 
+const userStore = useUserStore();
 const isSearchModalShown = ref(false);
 const isCreateModalShown = ref(false);
+
+const emit = defineEmits(["logOut"]);
 
 const user1 = {
   id: "u1",
@@ -102,5 +105,8 @@ function closeCreateModal() {
 function showCreateModal() {
   isCreateModalShown.value = true;
 }
+const logOut = () => {
+  userStore.reset();
+  emit("logOut");
+}
 </script>
-

@@ -45,8 +45,7 @@ async function loadUser(username: string) {
 };
 const openPublicationModal = (publicationId: string) => {
     console.log(publicationId);
-    //fetch pub
-    shownPublicationId.value = "id de la pub";
+    shownPublicationId.value = publicationId;
     isPublicationModalShown.value = true;
 };
 const closePublicationModal = () => {

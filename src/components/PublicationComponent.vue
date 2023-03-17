@@ -24,22 +24,22 @@
       @vote-up="emit('voteUpComment', $event, props.publication.publication_id)"
       @vote-down="emit('voteDownComment', $event, props.publication.publication_id)" :comment="comment"
       :key="comment.comment_id" class="shutter-border-mute w-full border-t-2 p-2"></Comment>
-    <div class="w-full shutter-border-mute border-t-2 p-2 pt-6">
-      <textarea class="inputable w-full max-h-36 text-xl p-2 border-2 rounded-lg" placeholder="Leave a comment..."
-        maxlength="200" v-model="message"
-        oninput='this.style.height = "";this.style.height = this.scrollHeight + 4 + "px"' @keydown="preventNextLine"
-        @keyup="submitComment" />
-    </div>
     <button v-if="props.publication.comments.length > nbCommentsShown"
-      class="shutter-border-mute w-full font-bold text-xl border-t-2 p-2 pt-6" @click="showMoreComments">
+      class="shutter-border-mute w-full font-bold text-xl border-t-2 p-2 pt-4" @click="showMoreComments">
       Show {{ props.publication.comments.length - nbCommentsShown }} comment{{
         props.publication.comments.length === 1 ? "" : "s"
       }}
     </button>
     <button v-if="props.publication.comments.length !== 0 && nbCommentsShown > 0"
-      class="shutter-border-mute   w-full font-bold text-xl border-t-2 p-2 pt-6" @click="hideComments">
+      class="shutter-border-mute   w-full font-bold text-xl border-t-2 p-2 pt-4" @click="hideComments">
       hide
     </button>
+    <div class="w-full shutter-border-mute border-t-2 p-2 pt-8">
+      <textarea class="inputable w-full max-h-36 text-xl p-2 border-2 rounded-lg" placeholder="Leave a comment..."
+        maxlength="200" v-model="message"
+        oninput='this.style.height = "";this.style.height = this.scrollHeight + 4 + "px"' @keydown="preventNextLine"
+        @keyup="submitComment" />
+    </div>
   </div>
 </template>
 
