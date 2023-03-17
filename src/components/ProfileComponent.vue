@@ -27,6 +27,10 @@
         {{ props.user.nb_following }} Following
       </p>
     </div>
+    <button v-if="!isCurrentUser && !isFollowed" class="followButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10"
+      @click="follow">Follow</button>
+    <button v-else-if="!isCurrentUser && isFollowed"
+      class="followButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10" @click="unfollow">Unfollow</button>
     <div class="w-full h-16 flex flex-row p-2 justify-evenly">
       <button id="pictureTabButton"
         class="w-full h-full p-2 selected-bottom-border border-b-2 flex flex-row justify-center items-center"
@@ -72,6 +76,7 @@ const props = defineProps({
 });
 
 const isPictureTabShown = ref(true);
+const isFollowed = ref(false);
 
 const emit = defineEmits({
   openPublicationModal: (publicationId: string) => {
@@ -104,6 +109,12 @@ const toggleGalleryTab = () => {
   pictureTabButton.classList.add("bottom-border");
   pictureTabButton.classList.remove("selected-bottom-border");
 };
+const follow = () => {
+  isFollowed.value = true;
+}
+const unfollow = () => {
+  isFollowed.value = false;
+}
 </script>
 
 <style scoped>
@@ -118,5 +129,13 @@ const toggleGalleryTab = () => {
 
 .selected-bottom-border {
   border-color: var(--color-border);
+}
+
+.followButton {
+  background-color: var(--hover-color);
+}
+
+.followButton:hover {
+  background-color: var(--color-border);
 }
 </style>

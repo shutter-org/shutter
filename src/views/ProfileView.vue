@@ -12,9 +12,7 @@
 
 <script setup lang="ts">
 import type {
-  Comment,
   SimplifiedPost,
-  SimplifiedUser,
   User,
 } from "@/api/type";
 import { ref } from "vue";

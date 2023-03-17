@@ -101,7 +101,7 @@ onMounted(() => {
 }
 
 .saveButton:hover {
-    background-color: var(--special-text-color);
+    background-color: var(--color-border);
 }
 
 .inputable {

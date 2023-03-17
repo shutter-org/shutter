@@ -110,6 +110,6 @@ const post = () => {
 }
 
 .postButton:hover {
-  background-color: var(--special-text-color);
+  background-color: var(--color-border);
 }
 </style>
