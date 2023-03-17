@@ -13,12 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import type {
-  Comment,
-  Publication,
-  SimplifiedUser,
-  User,
-} from "@/api/type";
+import type { Comment } from "@/api/type";
 import PublicationComponent from "@/components/PublicationComponent.vue";
 import ClipLoader from "vue-spinner/src/ClipLoader.vue"
 import { ref } from "vue";
@@ -35,8 +30,8 @@ const props = defineProps({
 
 const emit = defineEmits(["close"]);
 
-const shownPublication = ref();
 const userStore = useUserStore();
+const shownPublication = ref();
 const isLoading = ref(true);
 
 loadPublication();

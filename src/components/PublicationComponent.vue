@@ -63,8 +63,8 @@ const descAsComment = ref({
   commenter_user: props.publication.poster_user,
   message: props.publication.description,
 } as Com);
-
 const message = ref("");
+const nbCommentsShown = ref(0);
 
 const emit = defineEmits({
   voteUpPub: (publicationId: string) => {
@@ -89,23 +89,18 @@ const emit = defineEmits({
     return !!publicationId && !!message;
   },
 });
-
-const nbCommentsShown = ref(0);
-
 const showMoreComments = () => {
   nbCommentsShown.value += 10;
 };
 const hideComments = () => {
   nbCommentsShown.value = 0;
 };
-
 const submitComment = (event: KeyboardEvent) => {
   if (event.key === "Enter" && !event.shiftKey) {
     emit("addComment", props.publication.publication_id, message.value);
     message.value = "";
   }
 };
-
 const preventNextLine = (event: KeyboardEvent) => {
   if (event.key == "Enter") {
     event.preventDefault();

@@ -60,17 +60,18 @@ import type { SignInUser } from "@/api/auth";
 import { SignInAPI } from "@/api/auth";
 import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
+import router from "@/router";
 
+const userStore = useUserStore();
 const email = ref("");
 const username = ref("");
 const password = ref("");
 const name = ref("");
 const bio = ref("");
 const birthdate = ref("");
+const login = ref(true);
 
 const emit = defineEmits(["LoggedIn"]);
-
-const login = ref(true);
 
 function switchView() {
   email.value = "";
@@ -94,7 +95,6 @@ async function SignIn() {
   }
   else {
     const data = await res.json();
-    const userStore = useUserStore();
     userStore.setUsername(data.user.username);
     userStore.setProfilePicture(data.user.profile_picture);
     userStore.setAuthKey(data.acces_token);

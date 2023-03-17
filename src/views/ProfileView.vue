@@ -1,7 +1,7 @@
 <template>
   <div
     class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8 shutter-background-mute">
-    <SyncLoader v-if="isLoading" color="#465A82" size="30px" class="m-auto" />
+    <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
     <Profile v-else :user="user" :is-current-user="true" @open-publication-modal="openPublicationModal"
       @open-profile-modification-modal="openProfileModificationModal"></Profile>
     <PublicationModal class="PRO:my-[80px] p-12" v-if="isPublicationModalShown" :publicationId="shownPublicationId"

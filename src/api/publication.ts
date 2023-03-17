@@ -1,5 +1,17 @@
 const API_URL = "http://127.0.0.1:5000";
 
+export const getFollowingPublications = async (page: number, authKey: String) => {
+    const key = "Bearer " + authKey;
+    const response = await fetch(`${API_URL}/users/following/publications?page=${page}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": key,
+        },
+    });
+    return response;
+}
+
 export const getPublication = async (publicationId: String, authKey: String) => {
     const key = "Bearer " + authKey;
     const response = await fetch(`${API_URL}/publications/${publicationId}`, {
