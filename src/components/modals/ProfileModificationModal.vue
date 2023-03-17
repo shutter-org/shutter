@@ -60,7 +60,7 @@ const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
     },
-    save: (picture: File, picture_url: string, username: string, name: string, bio: string) => {
+    save: (picture: Blob, picture_url: string, username: string, name: string, bio: string) => {
         return !!picture_url && !!username && !!name;
     },
     close: () => {

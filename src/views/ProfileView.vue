@@ -44,38 +44,48 @@ async function loadUser() {
   }
   isLoading.value = false;
 };
-async function save(picture: File, picture_url: string, username: string, name: string, bio: string) {
+async function save(picture: Blob, picture_url: string, username: string, name: string, bio: string) {
   const body = {} as User;
-  if (user.value.profile_picture !== picture_url) {
-    const reader = new FileReader();
-    reader.readAsBinaryString(picture);
-    body.profile_picture = reader.result as string;
-  }
-  if (user.value.username !== username) {
-    body.username = username;
-  }
-  if (user.value.name !== name) {
-    body.name = name;
-  }
-  if (user.value.biography !== bio) {
-    body.biography = bio;
-  }
 
-  if (Object.keys(body).length !== 0) {
-    console.log("updating user");
-    const res = await updateUser(userStore.username, userStore.authKey, body);
-    userStore.username = username;
-    if (res.status !== 200) {
-      console.log("erreur dans l'update");
-    } else {
-      user.value.profile_picture = picture_url;
-      user.value.username = username;
-      user.value.name = name;
-      user.value.biography = bio;
+  async function continueSave() {
+    if (user.value.username !== username) {
+      body.username = username;
     }
+    if (user.value.name !== name) {
+      body.name = name;
+    }
+    if (user.value.biography !== bio) {
+      body.biography = bio;
+    }
+    if (Object.keys(body).length !== 0) {
+      console.log("updating user");
+      const res = await updateUser(userStore.username, userStore.authKey, body);
+      userStore.username = username;
+      if (res.status !== 200) {
+        console.log("erreur dans l'update");
+      } else {
+        user.value.profile_picture = picture_url;
+        user.value.username = username;
+        user.value.name = name;
+        user.value.biography = bio;
+      }
+    }
+    isProfileModificationShown.value = false;
   }
 
-  isProfileModificationShown.value = false;
+  let isLoadingPicture = false
+  if (user.value.profile_picture !== picture_url) {
+    isLoadingPicture = true;
+    const reader = new FileReader();
+    reader.onload = () => {
+      body.profile_picture = reader.result as string;
+      continueSave();
+    }
+    reader.readAsBinaryString(picture);
+  }
+  if (!isLoadingPicture) {
+    continueSave();
+  }
 }
 const openPublicationModal = (publicationId: string) => {
   console.log(publicationId);
