@@ -59,6 +59,7 @@ import LogoAnimation from "@/components/LogoAnimation.vue";
 import type { SignInUser } from "@/api/auth";
 import { SignInAPI } from "@/api/auth";
 import { ref } from "vue";
+import { useUserStore } from '@/stores/user'
 
 const email = ref("");
 const username = ref("");
@@ -70,10 +71,6 @@ const birthdate = ref("");
 const emit = defineEmits(["LoggedIn"]);
 
 const login = ref(true);
-
-function isLoggedIn() {
-  emit("LoggedIn");
-}
 
 function switchView() {
   email.value = "";
@@ -91,22 +88,20 @@ async function SignIn() {
     password: password.value,
   };
 
-  await SignInAPI(newUser).then((res) => {
-    if (res.status == 200) {
-      //get user
-      //add it to store
-      //if status == 200
-      //emit logged in
-      isLoggedIn();
-    }
-    if (res.status == 400) {
-      //afficher message derreur
-    }
-  });
-  isLoggedIn();
+  const res = await SignInAPI(newUser)
+  if (res.status !== 200) {
+    console.log("erreur dans le username ou mdp");
+  }
+  else {
+    const data = await res.json();
+    const userStore = useUserStore();
+    userStore.setUsername(username.value);
+    userStore.setAuthKey(data.acces_token);
+    emit("LoggedIn");
+  }
 }
 function SignUp() {
-  isLoggedIn();
+  emit("LoggedIn");
 }
 </script>
 <style>

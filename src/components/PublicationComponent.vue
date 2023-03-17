@@ -6,10 +6,10 @@
     </div>
     <img class="w-full object-cover aspect-square rounded-lg" :src="props.publication.picture" alt="" />
     <div class="flex flex-row justify-between w-full p-1">
-      <RatingInterface @vote-up="emit('voteUpPub', props.publication.id)"
-        @vote-down="emit('voteDownPub', props.publication.id)" :total_rate="props.publication.total_rate"
+      <RatingInterface @vote-up="emit('voteUpPub', props.publication.publicationId)"
+        @vote-down="emit('voteDownPub', props.publication.publicationId)" :total_rate="props.publication.total_rate"
         :user_rate="props.publication.user_rate"></RatingInterface>
-      <button @click="emit('addToGallery', props.publication.id)">
+      <button @click="emit('addToGallery', props.publication.publicationId)">
         <GalleryIcon></GalleryIcon>
       </button>
     </div>
@@ -101,7 +101,7 @@ const hideComments = () => {
 
 const submitComment = (event: KeyboardEvent) => {
   if (event.key === "Enter" && !event.shiftKey) {
-    emit("addComment", props.publication.id, message.value);
+    emit("addComment", props.publication.publicationId, message.value);
     message.value = "";
   }
 };

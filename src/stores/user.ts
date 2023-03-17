@@ -1,16 +1,15 @@
-import { ref } from "vue";
 import { defineStore } from "pinia";
+import { ref } from "vue"
 
-export const useUserStore = defineStore("user", () => {
-  const biography = ref("");
-  const birthdate = ref("");
-  const email = ref("");
-  const name = ref("");
+export const useUserStore = defineStore('user', () => {
   const username = ref("");
-  const created_date = ref("");
-  const profile_picture = ref("");
-  const followers = ref([]);
-  const following = ref([]);
+  const authKey = ref("");
+  const setUsername = (usernameProp: string) => {
+    username.value = usernameProp;
+  };
+  const setAuthKey = (authKeyProp: string) => {
+    authKey.value = authKeyProp;
+  };
 
-  return { biography };
-});
+  return { username, authKey, setUsername, setAuthKey }
+})

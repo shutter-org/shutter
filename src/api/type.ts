@@ -12,7 +12,7 @@ export interface Comment {
 }
 
 export interface Publication {
-  id: string;
+  publicationId: string;
   user: SimplifiedUser;
   date: string;
   picture: string;
@@ -23,8 +23,8 @@ export interface Publication {
   comments: Comment[];
 }
 
-export interface SimplifiedPost {
-  id: string;
+export interface SimplifiedPublication {
+  publicationId: string;
   picture: string;
 }
 
@@ -32,10 +32,12 @@ export interface User {
   username: string;
   name: string;
   profile_picture: string;
-  nb_follower: number;
-  nb_following: number;
+  followers: SimplifiedUser[];
+  following: SimplifiedUser[];
   biography: string;
   age: number;
   created_date: string;
-  posts: SimplifiedPost[];
+  publications: SimplifiedPublication[];
+  gallerys: [];
+  followed_by_user: boolean;
 }

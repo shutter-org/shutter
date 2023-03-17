@@ -51,7 +51,7 @@ const com2 = {
 } as Comment;
 
 const pub1 = {
-  id: "1",
+  publicationId: "1",
   user: user1,
   date: "10 mars 2023",
   picture:
@@ -64,7 +64,7 @@ const pub1 = {
 } as Pub;
 
 const pub2 = {
-  id: "2",
+  publicationId: "2",
   user: user2,
   date: "9 mars 2023",
   picture:
@@ -81,7 +81,7 @@ const pub2 = {
 } as Pub;
 
 const pub3 = {
-  id: "3",
+  publicationId: "3",
   user: user3,
   date: "27 fevrier 2023",
   picture:
@@ -101,7 +101,7 @@ console.log(publications.value);
 
 const voteUpPub = (pubId: string) => {
   for (let pub of publications.value) {
-    if (pub.id === pubId) {
+    if (pub.publicationId === pubId) {
       pub.total_rate -= pub.user_rate;
       if (pub.user_rate === 1) {
         pub.user_rate = 0;
@@ -114,7 +114,7 @@ const voteUpPub = (pubId: string) => {
 };
 const voteDownPub = (pubId: string) => {
   for (let pub of publications.value) {
-    if (pub.id === pubId) {
+    if (pub.publicationId === pubId) {
       pub.total_rate -= pub.user_rate;
       if (pub.user_rate === -1) {
         pub.user_rate = 0;
@@ -127,7 +127,7 @@ const voteDownPub = (pubId: string) => {
 };
 const voteUpComment = (commentId: string, pubId: string) => {
   for (let pub of publications.value) {
-    if (pub.id === pubId) {
+    if (pub.picture === pubId) {
       for (let comment of pub.comments) {
         if (comment.id === commentId) {
           comment.total_rate -= comment.user_rate;
@@ -144,7 +144,7 @@ const voteUpComment = (commentId: string, pubId: string) => {
 };
 const voteDownComment = (commentId: string, pubId: string) => {
   for (let pub of publications.value) {
-    if (pub.id === pubId) {
+    if (pub.picture === pubId) {
       for (let comment of pub.comments) {
         if (comment.id === commentId) {
           comment.total_rate -= comment.user_rate;
@@ -170,7 +170,7 @@ const addComment = (pubId: string, message: string) => {
   } as Comment;
 
   for (let pub of publications.value) {
-    if (pub.id === pubId) {
+    if (pub.publicationId === pubId) {
       pub.comments.push(newCom);
     }
   }

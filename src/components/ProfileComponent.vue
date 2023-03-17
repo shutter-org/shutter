@@ -13,24 +13,26 @@
         </p>
       </div>
     </div>
-    <p class="w-full text-2xl p-2 pb-4 px-6 border-t-2 border-b-2 bottom-border break-words">{{
-      props.user.biography
-    }}</p>
+    <p v-if="props.user.biography" class="w-full text-2xl p-2 pb-4 px-6 border-t-2 border-b-2 bottom-border break-words">
+      {{
+        props.user.biography
+      }}</p>
     <div class="w-full h-20 flex flex-row gap-10 items-center p-2 pb-4 justify-evenly border-b-2 bottom-border">
       <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
-        {{ props.user.posts.length }} Posts
+        {{ props.user.publications.length }} Posts
       </p>
       <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
-        {{ props.user.nb_follower }} Followers
+        {{ props.user.followers.length }} Followers
       </p>
       <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
-        {{ props.user.nb_following }} Following
+        {{ props.user.following.length }} Following
       </p>
     </div>
-    <button v-if="!isCurrentUser && !isFollowed" class="followButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10"
-      @click="follow">Follow</button>
-    <button v-else-if="!isCurrentUser && isFollowed"
-      class="followButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10" @click="unfollow">Unfollow</button>
+    <button v-if="!isCurrentUser && !user.followed_by_user"
+      class="followButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10" @click="emit('follow')">Follow</button>
+    <button v-else-if="!isCurrentUser && user.followed_by_user"
+      class="unFollowButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10"
+      @click="emit('unfollow')">Unfollow</button>
     <div class="w-full h-16 flex flex-row p-2 justify-evenly">
       <button id="pictureTabButton"
         class="w-full h-full p-2 selected-bottom-border border-b-2 flex flex-row justify-center items-center"
@@ -44,7 +46,8 @@
       </button>
     </div>
     <div v-if="isPictureTabShown" class="w-full h-full grid grid-cols-3 PRO:grid-cols-2 gap-6 PRO:gap-4 p-4 pt-10">
-      <button v-for="post of props.user.posts" @click="emit('openPublicationModal', post.id)" :key="post.id">
+      <button v-for="post of props.user.publications" @click="emit('openPublicationModal', post.publicationId)"
+        :key="post.publicationId">
         <img class="w-full object-cover aspect-square rounded-lg" :src="post.picture" alt="" />
       </button>
     </div>
@@ -76,13 +79,18 @@ const props = defineProps({
 });
 
 const isPictureTabShown = ref(true);
-const isFollowed = ref(false);
 
 const emit = defineEmits({
   openPublicationModal: (publicationId: string) => {
     return !!publicationId;
   },
   openProfileModificationModal: () => {
+    return true;
+  },
+  follow: () => {
+    return true;
+  },
+  unfollow: () => {
     return true;
   }
 });
@@ -109,12 +117,6 @@ const toggleGalleryTab = () => {
   pictureTabButton.classList.add("bottom-border");
   pictureTabButton.classList.remove("selected-bottom-border");
 };
-const follow = () => {
-  isFollowed.value = true;
-}
-const unfollow = () => {
-  isFollowed.value = false;
-}
 </script>
 
 <style scoped>
@@ -132,10 +134,10 @@ const unfollow = () => {
 }
 
 .followButton {
-  background-color: var(--hover-color);
+  background-color: var(--color-border);
 }
 
-.followButton:hover {
-  background-color: var(--color-border);
+.unFollowButton {
+  background-color: var(--hover-color);
 }
 </style>

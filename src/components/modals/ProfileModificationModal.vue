@@ -61,7 +61,7 @@ const emit = defineEmits({
         return !!publicationId;
     },
     save: (picture_url: string, username: string, name: string, bio: string) => {
-        return !!picture_url && !!username && !!name && !!bio;
+        return !!picture_url && !!username && !!name;
     },
     close: () => {
         return true;
