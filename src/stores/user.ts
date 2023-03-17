@@ -9,11 +9,11 @@ export const useUserStore = defineStore('user', () => {
     username.value = usernameProp;
   };
   const setProfilePicture = (profilePictureProp: string) => {
-    username.value = profilePictureProp;
+    profile_picture.value = profilePictureProp;
   };
   const setAuthKey = (authKeyProp: string) => {
     authKey.value = authKeyProp;
   };
 
-  return { username, profile_picture, authKey, setUsername, setAuthKey }
+  return { username, profile_picture, authKey, setUsername, setProfilePicture, setAuthKey }
 })

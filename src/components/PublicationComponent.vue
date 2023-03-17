@@ -22,8 +22,8 @@
     </div>
     <Comment v-for="comment of props.publication.comments.slice(0, nbCommentsShown)"
       @vote-up="emit('voteUpComment', $event, props.publication.publication_id)"
-      @vote-down="emit('voteDownComment', $event, props.publication.publication_id)" :comment="comment" :key="comment.id"
-      class="shutter-border-mute w-full border-t-2 p-2"></Comment>
+      @vote-down="emit('voteDownComment', $event, props.publication.publication_id)" :comment="comment"
+      :key="comment.comment_id" class="shutter-border-mute w-full border-t-2 p-2"></Comment>
     <div class="w-full shutter-border-mute border-t-2 p-2 pt-6">
       <textarea class="inputable w-full max-h-36 text-xl p-2 border-2 rounded-lg" placeholder="Leave a comment..."
         maxlength="200" v-model="message"

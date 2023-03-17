@@ -1,7 +1,7 @@
 <template>
   <div class="fixed inset-0 z-50 flex justify-center overflow-y-scroll">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
-    <SyncLoader v-if="isLoading" color="#465A82" size="30px" class="m-auto translate-x-[126px] PRO:translate-x-0 " />
+    <ClipLoader v-if="isLoading" color="#465A82" size="60px" class="m-auto translate-x-[126px] PRO:translate-x-0 " />
     <div v-else class="relative shadow-lg w-fit mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
       <publication-component class="" @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub"
         @vote-up-comment="voteUpComment" @vote-down-comment="voteDownComment" @search-tag="searchTag"
@@ -20,10 +20,10 @@ import type {
   User,
 } from "@/api/type";
 import PublicationComponent from "@/components/PublicationComponent.vue";
-import SyncLoader from "vue-spinner/src/SyncLoader.vue"
+import ClipLoader from "vue-spinner/src/ClipLoader.vue"
 import { ref } from "vue";
 import { getPublication, ratePublication, updateRatingPublication, deleteRatingPublication } from "@/api/publication";
-import { postComment } from "@/api/comment"
+import { deleteRatingComment, postComment, rateComment, updateRatingComment } from "@/api/comment"
 import { useUserStore } from '@/stores/user'
 
 const props = defineProps({
@@ -80,30 +80,38 @@ const voteDownPub = () => {
   shownPublication.value.rating += shownPublication.value.user_rating;
 };
 const voteUpComment = (commentId: string) => {
-  //put pub
   for (let comment of shownPublication.value.comments) {
-    if (comment.id === commentId) {
-      comment.total_rate -= comment.user_rate;
-      if (comment.user_rate === 1) {
-        comment.user_rate = 0;
+    if (comment.comment_id === commentId) {
+      comment.rating -= comment.user_rating;
+      if (comment.user_rating === 1) {
+        comment.user_rating = 0;
+        deleteRatingComment(commentId, userStore.authKey);
+      } else if (comment.user_rating === 0) {
+        comment.user_rating = 1;
+        rateComment(commentId, true, userStore.authKey);
       } else {
-        comment.user_rate = 1;
+        comment.user_rating = 1;
+        updateRatingComment(commentId, true, userStore.authKey);
       }
-      comment.total_rate += comment.user_rate;
+      comment.rating += comment.user_rating;
     }
   }
 };
 const voteDownComment = (commentId: string) => {
-  //put pub
   for (let comment of shownPublication.value.comments) {
-    if (comment.id === commentId) {
-      comment.total_rate -= comment.user_rate;
-      if (comment.user_rate === -1) {
-        comment.user_rate = 0;
+    if (comment.comment_id === commentId) {
+      comment.rating -= comment.user_rating;
+      if (comment.user_rating === -1) {
+        comment.user_rating = 0;
+        deleteRatingComment(commentId, userStore.authKey);
+      } else if (comment.user_rating === 0) {
+        comment.user_rating = -1;
+        rateComment(commentId, false, userStore.authKey);
       } else {
-        comment.user_rate = -1;
+        comment.user_rating = -1;
+        updateRatingComment(commentId, false, userStore.authKey);
       }
-      comment.total_rate += comment.user_rate;
+      comment.rating += comment.user_rating;
     }
   }
 };
@@ -118,7 +126,7 @@ async function addComment(message: string) {
       comment_id: data.comment_id,
       commenter_user: {
         "username": userStore.username,
-        "profile_picture": ""
+        "profile_picture": userStore.profile_picture
       },
       message: message,
       created_date: "now",
