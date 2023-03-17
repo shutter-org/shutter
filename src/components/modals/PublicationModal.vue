@@ -58,7 +58,7 @@ const com2 = {
 } as Comment;
 
 const post1Complete = {
-  id: "pub1",
+  publicationId: "pub1",
   user: user1,
   date: "10 mars 2023",
   picture:
@@ -152,7 +152,7 @@ const searchTag = (tag: string) => {
   console.log("searching tag : " + tag);
 };
 const addToGallery = () => {
-  console.log("add publication " + shownPublication.value.id + " to gallery");
+  console.log("add publication " + shownPublication.value.publicationId + " to gallery");
 };
 </script>
 
