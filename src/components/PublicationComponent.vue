@@ -26,8 +26,9 @@
       class="shutter-border-mute w-full border-t-2 p-2"></Comment>
     <div class="w-full shutter-border-mute border-t-2 p-2 pt-6">
       <textarea class="inputable w-full max-h-36 text-xl p-2 border-2 rounded-lg" placeholder="Leave a comment..."
-        maxlength="200" v-model="message" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
-        @keydown="preventNextLine" @keyup="submitComment" />
+        maxlength="200" v-model="message"
+        oninput='this.style.height = "";this.style.height = this.scrollHeight + 4 + "px"' @keydown="preventNextLine"
+        @keyup="submitComment" />
     </div>
     <button v-if="props.publication.comments.length > nbCommentsShown"
       class="shutter-border-mute w-full font-bold text-xl border-t-2 p-2 pt-6" @click="showMoreComments">

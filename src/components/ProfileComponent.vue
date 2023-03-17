@@ -13,7 +13,7 @@
         </p>
       </div>
     </div>
-    <p class="w-full text-2xl overflow-hidden p-2 pb-4 px-6 border-t-2 border-b-2 bottom-border">{{
+    <p class="w-full text-2xl p-2 pb-4 px-6 border-t-2 border-b-2 bottom-border break-words">{{
       props.user.biography
     }}</p>
     <div class="w-full h-20 flex flex-row gap-10 items-center p-2 pb-4 justify-evenly border-b-2 bottom-border">

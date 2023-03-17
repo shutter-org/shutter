@@ -13,7 +13,7 @@
                     </button>
                     <input class="hidden" type="file" id="imgInput" name="img" accept="image/*" @change="loadPicture" />
                     <div class="h-full w-full flex flex-col gap-4 justify-center overflow-x-auto p-1">
-                        <input class="w-full font-bold text-4xl h-18 inputable p-2 border-2 rounded-lg"
+                        <input class="w-full font-bold text-4xl h-20 inputable p-2 border-2 rounded-lg"
                             placeholder="Username..." maxlength="50" v-model="username" />
                         <div class="w-full flex flex-row PRO:justify-center">
                             <input class="w-max font-bold text-2xl h-18 inputable p-2 border-2 rounded-lg"
@@ -25,22 +25,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-full max-h-36 p-3">
-                    <textarea class="inputable w-full h-full text-xl p-2 border-2 rounded-lg" placeholder="Biography..."
-                        maxlength="200" v-model="bio"
-                        oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+                <div class="w-full h-full p-3 pb-2">
+                    <textarea id="bioElement" class="inputable w-full max-h-48 text-xl p-2 border-2 rounded-lg"
+                        placeholder="Biography..." maxlength="200" v-model="bio"
+                        oninput='this.style.height = "";this.style.height = this.scrollHeight + 4 + "px"'
                         @keydown="preventNextLine" />
-                </div>
-                <div class="w-full h-20 flex flex-row gap-10 items-center p-2 justify-evenly">
-                    <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
-                        {{ props.user.posts.length }} Posts
-                    </p>
-                    <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
-                        {{ props.user.nb_follower }} Followers
-                    </p>
-                    <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
-                        {{ props.user.nb_following }} Following
-                    </p>
                 </div>
                 <button class="text-xl p-2 rounded-lg pr-10 pl-10 saveButton"
                     @click="emit('save', picture_url, username, name, bio)">save</button>
@@ -52,7 +41,7 @@
 <script setup lang="ts">
 import type { User } from "@/api/type";
 import type { PropType } from "vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const props = defineProps({
     user: {
@@ -94,6 +83,12 @@ const preventNextLine = (event: KeyboardEvent) => {
         event.preventDefault();
     }
 };
+
+onMounted(() => {
+    let bioElement = document.getElementById("bioElement")!;
+    bioElement.style.height = "";
+    bioElement.style.height = bioElement.scrollHeight + 4 + "px";
+})
 </script>
   
 <style scoped>
