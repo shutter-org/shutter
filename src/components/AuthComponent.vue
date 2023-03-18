@@ -66,7 +66,6 @@ import type { SignInUser, SignUpUser } from "@/api/auth";
 import { signIn, signUp } from "@/api/auth";
 import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
-import router from "@/router";
 
 const userStore = useUserStore();
 const email = ref("");
@@ -103,7 +102,6 @@ async function SignIn() {
   else {
     const data = await res.json();
     userStore.setUsername(data.user.username);
-    userStore.setPassword(password.value);
     userStore.setProfilePicture(data.user.profile_picture);
     userStore.setAuthKey(data.acces_token);
     emit("LoggedIn");
@@ -127,7 +125,6 @@ async function SignUp() {
       else {
         const data = await res.json();
         userStore.setUsername(username.value);
-        userStore.setPassword(password.value);
         userStore.setAuthKey(data.acces_token);
         console.log("account created");
         switchView();

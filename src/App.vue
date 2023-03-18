@@ -10,34 +10,30 @@
 
 <script setup lang="ts">
 import { RouterView } from "vue-router";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Menubars from "@/components/MenuBars.vue";
 import Auth from "@/components/AuthComponent.vue";
 import { useUserStore } from "./stores/user";
-import { signIn } from "./api/auth";
-import type { SignInUser } from "./api/auth";
 
 const userStore = useUserStore();
-if (!!userStore.username && !!userStore.password) {
-  tryProlongingSessions();
-}
 const isLoggedIn = ref(!!userStore.authKey);
+const clock = ref(Date.now());
 
-async function tryProlongingSessions() {
-  const newUser: SignInUser = {
-    username: userStore.username,
-    password: userStore.password,
-  };
-  const res = await signIn(newUser)
-  if (res.status === 200) {
-    const data = await res.json();
-    userStore.authKey = data.acces_token;
+window.setInterval(() => {
+  clock.value = Date.now();
+}, 1000);
+
+watch(() => clock.value, (newDate: number) => {
+  //session d'une heure avec le serveur
+  if (!Number.isNaN(userStore.sessionStartDate) && newDate - userStore.sessionStartDate >= 59 * 60 * 1000) {
+    userStore.reset();
+    isLoggedIn.value = false;
+    console.log("session expiree");
   }
-  else {
-    userStore.authKey = "";
-  }
-}
+});
+
 function LoggedIn() {
+  userStore.startSession();
   isLoggedIn.value = true;
 }
 </script>

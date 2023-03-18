@@ -80,6 +80,7 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
         const data = await res.json();
         console.log(data);
         if (data.acces_token !== undefined) {
+          console.log("key changed")
           userStore.setAuthKey(data.acces_token);
         }
         if (data.user !== undefined && data.user !== null) {
