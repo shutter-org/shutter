@@ -67,13 +67,20 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
         if (data.acces_token !== undefined) {
           userStore.setAuthKey(data.acces_token);
         }
-        if (data.username !== undefined) {
-          userStore.setUsername(data.user.username);
+        if (data.user !== undefined) {
+          if (data.user.username !== undefined) {
+            userStore.setUsername(data.user.username);
+          }
+          if (data.user.profile_picture !== undefined) {
+            userStore.setProfilePicture(data.user.profile_picture);
+            user.value.profile_picture = data.user.profile_picture;
+            console.log(user.value.profile_picture);
+          }
         }
-        if (data.profile_picture !== undefined) {
-          userStore.setProfilePicture(data.user.profile_picture);
-          user.value.profile_picture = data.user.profile_picture;
-        }
+        //temporaire
+        userStore.setProfilePicture(picture_url);
+        user.value.profile_picture = picture_url;
+
         user.value.username = username;
         user.value.name = name;
         user.value.biography = bio;
@@ -86,9 +93,9 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
     reader.onload = () => {
       body.profile_picture = reader.result as string;
       continueSave();
-      isProfileModificationShown.value = false;
     }
     reader.readAsDataURL(picture);
+    isProfileModificationShown.value = false;
   }
   else {
     continueSave();
