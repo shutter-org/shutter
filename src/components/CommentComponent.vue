@@ -7,10 +7,15 @@
     <p class="w-full text-xl p-1 break-words pl-2">
       {{ props.comment.message }}
     </p>
-    <RatingInterface @vote-up="emit('voteUp', props.comment.comment_id)"
-      @vote-down="emit('voteDown', props.comment.comment_id)" v-if="props.comment.rating !== undefined"
-      :total_rate="props.comment.rating" :user_rate="props.comment.user_rating">
-    </RatingInterface>
+    <div class="flex flex-row justify-between">
+      <RatingInterface v-if="props.comment.rating !== undefined" @vote-up="emit('voteUp', props.comment.comment_id)"
+        @vote-down="emit('voteDown', props.comment.comment_id)" :total_rate="props.comment.rating"
+        :user_rate="props.comment.user_rating">
+      </RatingInterface>
+      <DeleteComponent v-if="props.comment.rating !== undefined && userStore.username == comment.commenter_user.username"
+        @delete="emit('deleteComment', comment.comment_id)">
+      </DeleteComponent>
+    </div>
   </div>
 </template>
 
@@ -19,6 +24,8 @@ import User from "@/components/UserComponent.vue";
 import type { Comment } from "@/api/type";
 import RatingInterface from "@/components/RatingInterface.vue";
 import type { PropType } from "vue";
+import DeleteComponent from "./DeleteComponent.vue";
+import { useUserStore } from "@/stores/user";
 
 const props = defineProps({
   comment: {
@@ -27,7 +34,12 @@ const props = defineProps({
   }
 });
 
+const userStore = useUserStore();
+
 const emit = defineEmits({
+  deleteComment: (commentId: string) => {
+    return !!commentId;
+  },
   voteUp: (commentId: string) => {
     return !!commentId;
   },

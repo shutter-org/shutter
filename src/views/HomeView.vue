@@ -4,8 +4,8 @@
     <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
     <publication v-else-if="publications.length > 0" @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub"
       @vote-up-comment="voteUpComment" @vote-down-comment="voteDownComment" @search-tag="searchTag"
-      @add-to-gallery="addToGallery" @add-comment="addComment" v-for="pub in publications" :publication="pub"
-      :key="pub.publication_id"></publication>
+      @add-to-gallery="addToGallery" @add-comment="addComment" @delete-comment="delComment" v-for="pub in publications"
+      :publication="pub" :key="pub.publication_id"></publication>
     <div v-else
       class="flex flex-col m-auto items-center p-10 rounded-lg border-2 shutter-border-color shutter-background-color">
       <EmptyIcon class="w-40 h-40"></EmptyIcon>
@@ -20,7 +20,7 @@ import SyncLoader from "vue-spinner/src/SyncLoader.vue"
 import EmptyIcon from "@/components/icons/EmptyIcon.vue";
 import type { Publication as Pub, SimplifiedUser, Comment } from "@/api/type";
 import { getPublication, ratePublication, updateRatingPublication, deleteRatingPublication, getFollowingPublications } from "@/api/publication";
-import { deleteRatingComment, postComment, rateComment, updateRatingComment } from "@/api/comment"
+import { deleteRatingComment, postComment, deleteComment, rateComment, updateRatingComment } from "@/api/comment"
 import { useUserStore } from '@/stores/user'
 import { ref } from "vue";
 
@@ -147,6 +147,16 @@ async function addComment(pubId: string, message: string) {
     }
   }
 };
+const delComment = (publicationId: string, commentId: string) => {
+  for (let pub of publications.value) {
+    if (pub.publication_id === publicationId) {
+      deleteComment(commentId, userStore.authKey);
+      pub.comments = pub.comments.filter((comment: Comment) => {
+        return comment.comment_id !== commentId;
+      });
+    }
+  }
+}
 const searchTag = (tag: string) => {
   console.log("searching tag : " + tag);
 };

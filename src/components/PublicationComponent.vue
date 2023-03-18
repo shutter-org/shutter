@@ -13,9 +13,7 @@
         <button v-if="isCurrentUser" @click="">
           <ModifyIcon></ModifyIcon>
         </button>
-        <button v-if="isCurrentUser" @click="emit('deletePub')">
-          <DeleteIcon></DeleteIcon>
-        </button>
+        <DeleteComponent v-if="isCurrentUser" @delete="emit('deletePub')"></DeleteComponent>
         <button @click="emit('addToGallery', props.publication.publication_id)">
           <GalleryIcon></GalleryIcon>
         </button>
@@ -29,6 +27,7 @@
       </button>
     </div>
     <Comment v-for="comment of props.publication.comments.slice(0, nbCommentsShown)"
+      @delete-comment="emit('deleteComment', props.publication.publication_id, $event)"
       @vote-up="emit('voteUpComment', $event, props.publication.publication_id)"
       @vote-down="emit('voteDownComment', $event, props.publication.publication_id)" :comment="comment"
       :key="comment.comment_id" class="shutter-border-mute w-full border-t-2 p-2"></Comment>
@@ -57,7 +56,7 @@ import Comment from "@/components/CommentComponent.vue";
 import RatingInterface from "@/components/RatingInterface.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
-import DeleteIcon from "@/components/icons/DeleteIcon.vue";
+import DeleteComponent from "./DeleteComponent.vue";
 import type { Publication, Comment as Com } from "@/api/type";
 import { ref } from "vue";
 import type { PropType } from "vue";
@@ -102,6 +101,9 @@ const emit = defineEmits({
   },
   addComment: (publicationId: string, message: string) => {
     return !!publicationId && !!message;
+  },
+  deleteComment: (publicationId: string, commentId: string) => {
+    return !!commentId;
   },
 });
 const showMoreComments = () => {

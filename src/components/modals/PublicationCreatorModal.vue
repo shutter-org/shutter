@@ -72,10 +72,6 @@ async function post() {
       .slice(1)
       .filter((tag) => tag.length <= 50);
 
-    console.log(picture.value);
-    console.log(desc.value);
-    console.log(tagsArray);
-
     const reader = new FileReader();
     reader.onload = async () => {
       const body = {

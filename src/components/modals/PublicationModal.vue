@@ -6,6 +6,7 @@
       <publication-component class="" @delete-pub="deletePub" @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub"
         @vote-up-comment="voteUpComment" @vote-down-comment="voteDownComment" @search-tag="searchTag"
         @add-to-gallery="addToGallery" @add-comment="(publicationId: string, message: string) => addComment(message)"
+        @delete-comment="(publicationId: string, commentId: string) => delComment(commentId)"
         :publication="shownPublication" :is-current-user="isCurrentUser"></publication-component>
       <div class="h-10"></div>
     </div>
@@ -18,7 +19,7 @@ import PublicationComponent from "@/components/PublicationComponent.vue";
 import RingLoader from "vue-spinner/src/RingLoader.vue"
 import { ref } from "vue";
 import { getPublication, deletePublication, ratePublication, updateRatingPublication, deleteRatingPublication } from "@/api/publication";
-import { deleteRatingComment, postComment, rateComment, updateRatingComment } from "@/api/comment"
+import { deleteRatingComment, postComment, deleteComment, rateComment, updateRatingComment } from "@/api/comment"
 import { useUserStore } from '@/stores/user'
 
 const props = defineProps({
@@ -144,6 +145,12 @@ async function addComment(message: string) {
     shownPublication.value.comments.push(newCom);
   }
 };
+const delComment = (commentId: string) => {
+  deleteComment(commentId, userStore.authKey);
+  shownPublication.value.comments = shownPublication.value.comments.filter((comment: Comment) => {
+    return comment.comment_id !== commentId;
+  });
+}
 const searchTag = (tag: string) => {
   console.log("searching tag : " + tag);
 };

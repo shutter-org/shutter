@@ -13,10 +13,10 @@
 </template>
 
 <script setup>
-import UpvoteIcon from "@/components/icons/UpvoteIcon.vue";
-import DownvoteIcon from "@/components/icons/DownvoteIcon.vue";
-import FilledUpvoteIcon from "@/components/icons/filledUpvoteIcon.vue";
-import FilledDownvoteIcon from "@/components/icons/filledDownvoteIcon.vue";
+import UpvoteIcon from "@/components/icons/rate/UpvoteIcon.vue";
+import DownvoteIcon from "@/components/icons/rate/DownvoteIcon.vue";
+import FilledUpvoteIcon from "@/components/icons/rate/filledUpvoteIcon.vue";
+import FilledDownvoteIcon from "@/components/icons/rate/filledDownvoteIcon.vue";
 
 const props = defineProps({
   total_rate: Number,
