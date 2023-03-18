@@ -2,7 +2,7 @@
   <div class="fixed inset-0 z-50 flex justify-center overflow-y-scroll">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
     <RingLoader v-if="isLoading" color="#465A82" size="60px" class="m-auto translate-x-[126px] PRO:translate-x-0 " />
-    <div v-else class="relative shadow-lg w-fit mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
+    <div v-else class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
       <publication-component class="" @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub"
         @vote-up-comment="voteUpComment" @vote-down-comment="voteDownComment" @search-tag="searchTag"
         @add-to-gallery="addToGallery" @add-comment="(publicationId: string, message: string) => addComment(message)"
