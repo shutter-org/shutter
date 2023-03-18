@@ -16,15 +16,18 @@ import type {
   SimplifiedPublication,
   User,
 } from "@/api/type";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Profile from "@/components/ProfileComponent.vue";
 import PublicationModal from "@/components/modals/PublicationModal.vue";
 import ProfileModificationModal from "@/components/modals/ProfileModificationModal.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
 import { getUser, updateUser } from "@/api/user";
 import { useUserStore } from '@/stores/user'
+import { usePublicationStore } from '@/stores/publication'
+import type { Publication } from "@/api/type";
 
 const userStore = useUserStore();
+const publicationStore = usePublicationStore();
 const user = ref();
 const isPublicationModalShown = ref(false);
 const shownPublicationId = ref("");
@@ -32,6 +35,10 @@ const isProfileModificationShown = ref(false);
 const isLoading = ref(true);
 
 loadUser();
+
+watch(() => publicationStore.getPublication(), (newPub: Publication) => {
+  user.value.publications.unshift(newPub);
+});
 
 async function loadUser() {
   const res = await getUser(userStore.username, userStore.authKey);
