@@ -12,8 +12,10 @@ import { RouterView } from "vue-router";
 import { ref } from "vue";
 import Menubars from "@/components/MenuBars.vue";
 import Auth from "@/components/AuthComponent.vue";
+import { useUserStore } from "./stores/user";
 
-const isLoggedIn = ref(false);
+const userStore = useUserStore();
+const isLoggedIn = ref(!!userStore.authKey);
 function LoggedIn() {
   isLoggedIn.value = true;
 }

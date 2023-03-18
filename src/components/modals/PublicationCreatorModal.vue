@@ -87,6 +87,7 @@ async function post() {
         console.log("erreur dans la creation de la publication");
       }
       URL.revokeObjectURL(picture_url.value);
+      window.location.reload()
     }
     reader.readAsDataURL(picture.value);
     emit("close");

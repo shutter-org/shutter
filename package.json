@@ -13,6 +13,7 @@
   "dependencies": {
     "flowbite": "^1.6.4",
     "pinia": "^2.0.28",
+    "pinia-plugin-persistedstate": "^3.1.0",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
     "vue-spinner": "^1.0.4"
