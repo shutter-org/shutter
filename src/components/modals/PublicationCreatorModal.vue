@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import User from "@/components/UserComponent.vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
-import type { Publication, SimplifiedUser, SimplifiedUser as UserType } from "@/api/type";
+import type { Publication, SimplifiedPublication, SimplifiedUser, SimplifiedUser as UserType } from "@/api/type";
 import { createPublication } from "@/api/publication";
 import type { PropType } from "vue";
 import { ref } from "vue";
@@ -92,15 +92,8 @@ async function post() {
 
       const newPub = {
         publication_id: data.publication_id,
-        poster_user: userStore.getUser(),
-        created_date: "now",
         picture: picture_url.value,
-        description: desc.value,
-        tags: tagsArray,
-        rating: 0,
-        user_rating: 0,
-        comments: [],
-      } as Publication
+      } as SimplifiedPublication
       publicationStore.setPublication(newPub);
     }
     reader.readAsDataURL(picture.value);

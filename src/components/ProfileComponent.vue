@@ -69,7 +69,7 @@ import { ref } from "vue";
 import type { PropType } from "vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
-import ModifyIcon from "@/components/icons/modify.vue";
+import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import ImgLoader from "./ImgLoader.vue";
 
 const props = defineProps({

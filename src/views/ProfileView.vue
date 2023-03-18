@@ -5,7 +5,7 @@
     <Profile v-else :user="user" :is-current-user="true" @open-publication-modal="openPublicationModal"
       @open-profile-modification-modal="openProfileModificationModal"></Profile>
     <PublicationModal class="PRO:my-[80px] p-12" v-if="isPublicationModalShown" :publicationId="shownPublicationId"
-      @close="closePublicationModal" />
+      :is-current-user="true" @close="closePublicationModal" @delete="deletePublication" />
     <ProfileModificationModal v-if="isProfileModificationShown" :user="user" @close="closeProfileModificationModal"
       @save="save" />
   </div>
@@ -36,7 +36,7 @@ const isLoading = ref(true);
 
 loadUser();
 
-watch(() => publicationStore.getPublication(), (newPub: Publication) => {
+watch(() => publicationStore.getPublication(), (newPub: SimplifiedPublication) => {
   user.value.publications.unshift(newPub);
 });
 
@@ -108,6 +108,11 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
     continueSave();
     isProfileModificationShown.value = false;
   }
+}
+const deletePublication = (publicationId: string) => {
+  user.value.publications = user.value.publications.filter((publication: SimplifiedPublication) => {
+    return publication.publication_id !== publicationId;
+  });
 }
 const openPublicationModal = (publicationId: string) => {
   console.log(publicationId);

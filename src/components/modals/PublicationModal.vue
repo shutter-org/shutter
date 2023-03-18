@@ -3,10 +3,10 @@
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
     <RingLoader v-if="isLoading" color="#465A82" size="60px" class="m-auto translate-x-[126px] PRO:translate-x-0 " />
     <div v-else class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
-      <publication-component class="" @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub"
+      <publication-component class="" @delete-pub="deletePub" @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub"
         @vote-up-comment="voteUpComment" @vote-down-comment="voteDownComment" @search-tag="searchTag"
         @add-to-gallery="addToGallery" @add-comment="(publicationId: string, message: string) => addComment(message)"
-        :publication="shownPublication"></publication-component>
+        :publication="shownPublication" :is-current-user="isCurrentUser"></publication-component>
       <div class="h-10"></div>
     </div>
   </div>
@@ -17,7 +17,7 @@ import type { Comment } from "@/api/type";
 import PublicationComponent from "@/components/PublicationComponent.vue";
 import RingLoader from "vue-spinner/src/RingLoader.vue"
 import { ref } from "vue";
-import { getPublication, ratePublication, updateRatingPublication, deleteRatingPublication } from "@/api/publication";
+import { getPublication, deletePublication, ratePublication, updateRatingPublication, deleteRatingPublication } from "@/api/publication";
 import { deleteRatingComment, postComment, rateComment, updateRatingComment } from "@/api/comment"
 import { useUserStore } from '@/stores/user'
 
@@ -26,9 +26,17 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  isCurrentUser: Boolean
 });
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits({
+  close: () => {
+    return true;
+  },
+  delete: (publicationId: string) => {
+    return !!publicationId;
+  }
+});
 
 const userStore = useUserStore();
 const shownPublication = ref();
@@ -46,6 +54,11 @@ async function loadPublication() {
   }
   isLoading.value = false;
 };
+const deletePub = () => {
+  deletePublication(shownPublication.value.publication_id, userStore.authKey);
+  emit("delete", shownPublication.value.publication_id);
+  emit("close");
+}
 const voteUpPub = () => {
   shownPublication.value.rating -= shownPublication.value.user_rating;
   if (shownPublication.value.user_rating === 1) {

@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue"
-import type { Publication } from "@/api/type";
+import type { SimplifiedPublication } from "@/api/type";
 
 export const usePublicationStore = defineStore('publication', () => {
-    const publication = ref({} as Publication);
+    const publication = ref({} as SimplifiedPublication);
 
-    const setPublication = (publicationProp: Publication) => {
+    const setPublication = (publicationProp: SimplifiedPublication) => {
         publication.value = publicationProp;
     };
     const getPublication = () => {

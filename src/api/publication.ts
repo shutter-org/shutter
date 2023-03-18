@@ -37,6 +37,18 @@ export const createPublication = async (body: {}, authKey: String) => {
     return response;
 };
 
+export const deletePublication = async (publicationId: String, authKey: String) => {
+    const key = "Bearer " + authKey;
+    const response = await fetch(`${API_URL}/publications/${publicationId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": key,
+        },
+    });
+    return response;
+};
+
 export const ratePublication = async (publicationId: String, rating: boolean, authKey: String) => {
     const key = "Bearer " + authKey;
     const response = await fetch(`${API_URL}/publications/${publicationId}/like`, {

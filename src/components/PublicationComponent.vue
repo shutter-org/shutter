@@ -9,9 +9,17 @@
       <RatingInterface @vote-up="emit('voteUpPub', props.publication.publication_id)"
         @vote-down="emit('voteDownPub', props.publication.publication_id)" :total_rate="props.publication.rating"
         :user_rate="props.publication.user_rating"></RatingInterface>
-      <button @click="emit('addToGallery', props.publication.publication_id)">
-        <GalleryIcon></GalleryIcon>
-      </button>
+      <div class="flex flex-row gap-4">
+        <button v-if="isCurrentUser" @click="">
+          <ModifyIcon></ModifyIcon>
+        </button>
+        <button v-if="isCurrentUser" @click="emit('deletePub')">
+          <DeleteIcon></DeleteIcon>
+        </button>
+        <button @click="emit('addToGallery', props.publication.publication_id)">
+          <GalleryIcon></GalleryIcon>
+        </button>
+      </div>
     </div>
     <Comment class="w-full p-2" :comment="descAsComment"></Comment>
     <div class="w-full flex flex-wrap gap-2 justify-start p-2">
@@ -48,6 +56,8 @@ import User from "@/components/UserComponent.vue";
 import Comment from "@/components/CommentComponent.vue";
 import RatingInterface from "@/components/RatingInterface.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
+import ModifyIcon from "@/components/icons/modifyIcon.vue";
+import DeleteIcon from "@/components/icons/DeleteIcon.vue";
 import type { Publication, Comment as Com } from "@/api/type";
 import { ref } from "vue";
 import type { PropType } from "vue";
@@ -58,6 +68,7 @@ const props = defineProps({
     type: Object as PropType<Publication>,
     required: true,
   },
+  isCurrentUser: Boolean
 });
 
 const descAsComment = ref({
@@ -68,6 +79,9 @@ const message = ref("");
 const nbCommentsShown = ref(0);
 
 const emit = defineEmits({
+  deletePub: () => {
+    return true;
+  },
   voteUpPub: (publicationId: string) => {
     return !!publicationId;
   },
