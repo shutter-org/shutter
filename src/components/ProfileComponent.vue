@@ -2,8 +2,8 @@
   <div
     class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2">
     <div class="w-full h-40 PRO:h-80 flex flex-row PRO:flex-col gap-10 items-center p-2">
-      <img class="h-full PRO:h-1/2 object-cover aspect-square rounded-full border-2" :src="props.user.profile_picture"
-        alt="" />
+      <ImgLoader class="h-full PRO:h-1/2 object-cover aspect-square rounded-full border-2"
+        :src="props.user.profile_picture" :round="true" alt="" />
       <div class="h-full w-full flex flex-col gap-4 justify-center overflow-x-auto">
         <p
           class="w-full font-bold text-4xl inline overflow-hidden whitespace-nowrap overflow-ellipsis PRO:text-center p-1">
@@ -49,7 +49,7 @@
     <div v-if="isPictureTabShown" class="w-full h-full grid grid-cols-3 PRO:grid-cols-2 gap-6 PRO:gap-4 p-4 pt-10">
       <button v-for="post of props.user.publications" @click="emit('openPublicationModal', post.publication_id)"
         :key="post.publication_id">
-        <img class="w-full object-cover aspect-square rounded-lg" :src="post.picture" alt="" />
+        <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="post.picture" alt="" />
       </button>
     </div>
     <p v-else>a faire gallery</p>
@@ -70,6 +70,7 @@ import type { PropType } from "vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import ModifyIcon from "@/components/icons/modify.vue";
+import ImgLoader from "./ImgLoader.vue";
 
 const props = defineProps({
   user: {

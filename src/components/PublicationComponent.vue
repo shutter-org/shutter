@@ -4,7 +4,7 @@
       <User class="h-14 mr-auto" :user="props.publication.poster_user"></User>
       <p class="text-xl p-2">{{ props.publication.created_date }}</p>
     </div>
-    <img class="w-full object-cover aspect-square rounded-lg" :src="props.publication.picture" alt="" />
+    <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="props.publication.picture" alt="" />
     <div class="flex flex-row justify-between w-full p-1">
       <RatingInterface @vote-up="emit('voteUpPub', props.publication.publication_id)"
         @vote-down="emit('voteDownPub', props.publication.publication_id)" :total_rate="props.publication.rating"
@@ -51,6 +51,7 @@ import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import type { Publication, Comment as Com } from "@/api/type";
 import { ref } from "vue";
 import type { PropType } from "vue";
+import ImgLoader from "./ImgLoader.vue";
 
 const props = defineProps({
   publication: {

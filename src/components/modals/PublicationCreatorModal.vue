@@ -8,7 +8,7 @@
       </div>
       <button @click="openUploadForm"
         class="inputable w-full aspect-square object-cover rounded-lg flex flex-row justify-center items-center border-2">
-        <img id="picture" v-if="isPictureUploaded" :src="picture_url" alt=""
+        <ImgLoader id="picture" v-if="isPictureUploaded" :src="picture_url" alt=""
           class="w-full aspect-square object-cover rounded-lg" />
         <ImageIcon v-else class="w-1/2 aspect-square"></ImageIcon>
       </button>
@@ -32,6 +32,7 @@ import { createPublication } from "@/api/publication";
 import type { PropType } from "vue";
 import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
+import ImgLoader from "../ImgLoader.vue";
 
 const props = defineProps({
   user: {

@@ -9,6 +9,7 @@
 
   font-weight: normal;
 }
+
 svg,
 span {
   color: var(--color-text);
@@ -19,18 +20,23 @@ span {
     background-color: var(--hover-color);
   }
 }
-.shutter-border-color{
+
+.shutter-border-color {
   border-color: var(--color-border);
 }
-.shutter-border-mute{
+
+.shutter-border-mute {
   border-color: var(--color-background-mute);
 }
-.shutter-background-color{
+
+.shutter-background-color {
   background-color: var(--color-background);
 }
-.shutter-background-mute{
+
+.shutter-background-mute {
   background-color: var(--color-background-mute);
 }
-.shutter-modal-color{
-  background-color: var(--color-modal);
+
+.shutter-modal-color {
+  background-color: var(--modal-color);
 }

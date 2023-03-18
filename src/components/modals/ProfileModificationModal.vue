@@ -8,8 +8,8 @@
                 class="modal shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4">
                 <div class="w-full h-40 PRO:h-80 flex flex-row PRO:flex-col gap-10 items-center p-2">
                     <button class="h-full PRO:h-1/2 aspect-square rounded-full border-2" @click="openUploadForm">
-                        <img id="picture" class="h-full w-full object-cover aspect-square rounded-full"
-                            :src="picture_url" />
+                        <ImgLoader id="picture" class="h-full w-full object-cover aspect-square rounded-full"
+                            :src="picture_url" :round="true" />
                     </button>
                     <input class="hidden" type="file" id="imgInput" name="img" accept="image/*" @change="loadPicture" />
                     <div class="h-full w-full flex flex-col gap-4 justify-center overflow-x-auto p-1">
@@ -42,6 +42,7 @@
 import type { User } from "@/api/type";
 import type { PropType } from "vue";
 import { onMounted, ref } from "vue";
+import ImgLoader from "../ImgLoader.vue";
 
 const props = defineProps({
     user: {

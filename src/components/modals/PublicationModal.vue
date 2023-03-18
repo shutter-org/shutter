@@ -1,7 +1,7 @@
 <template>
   <div class="fixed inset-0 z-50 flex justify-center overflow-y-scroll">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
-    <ClipLoader v-if="isLoading" color="#465A82" size="60px" class="m-auto translate-x-[126px] PRO:translate-x-0 " />
+    <RingLoader v-if="isLoading" color="#465A82" size="60px" class="m-auto translate-x-[126px] PRO:translate-x-0 " />
     <div v-else class="relative shadow-lg w-fit mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
       <publication-component class="" @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub"
         @vote-up-comment="voteUpComment" @vote-down-comment="voteDownComment" @search-tag="searchTag"
@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import type { Comment } from "@/api/type";
 import PublicationComponent from "@/components/PublicationComponent.vue";
-import ClipLoader from "vue-spinner/src/ClipLoader.vue"
+import RingLoader from "vue-spinner/src/RingLoader.vue"
 import { ref } from "vue";
 import { getPublication, ratePublication, updateRatingPublication, deleteRatingPublication } from "@/api/publication";
 import { deleteRatingComment, postComment, rateComment, updateRatingComment } from "@/api/comment"
