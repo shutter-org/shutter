@@ -65,23 +65,24 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
       body.biography = bio;
     }
 
-    userStore.setProfilePicture(picture_url);
-    user.value.profile_picture = picture_url;
-    user.value.username = username;
-    user.value.name = name;
-    user.value.biography = bio;
-
     if (Object.keys(body).length !== 0) {
       console.log("updating user");
       const res = await updateUser(userStore.username, userStore.authKey, body);
       if (res.status !== 200) {
         console.log("erreur dans l'update");
       } else {
+        userStore.setProfilePicture(picture_url);
+        user.value.profile_picture = picture_url;
+        user.value.username = username;
+        user.value.name = name;
+        user.value.biography = bio;
+
         const data = await res.json();
+        console.log(data);
         if (data.acces_token !== undefined) {
           userStore.setAuthKey(data.acces_token);
         }
-        if (data.user !== undefined) {
+        if (data.user !== undefined && data.user !== null) {
           if (data.user.username !== undefined) {
             userStore.setUsername(data.user.username);
           }
