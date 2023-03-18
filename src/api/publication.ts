@@ -24,6 +24,19 @@ export const getPublication = async (publicationId: String, authKey: String) => 
     return response;
 };
 
+export const createPublication = async (body: {}, authKey: String) => {
+    const key = "Bearer " + authKey;
+    const response = await fetch(`${API_URL}/publications`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": key,
+        },
+        body: JSON.stringify(body),
+    });
+    return response;
+};
+
 export const ratePublication = async (publicationId: String, rating: boolean, authKey: String) => {
     const key = "Bearer " + authKey;
     const response = await fetch(`${API_URL}/publications/${publicationId}/like`, {

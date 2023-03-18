@@ -28,8 +28,10 @@
 import User from "@/components/UserComponent.vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
 import type { SimplifiedUser as UserType } from "@/api/type";
+import { createPublication } from "@/api/publication";
 import type { PropType } from "vue";
 import { ref } from "vue";
+import { useUserStore } from '@/stores/user'
 
 const props = defineProps({
   user: {
@@ -38,8 +40,9 @@ const props = defineProps({
   },
 });
 
+const userStore = useUserStore();
 const isPictureUploaded = ref(false);
-const picture = ref(Blob);
+const picture = ref();
 const picture_url = ref("");
 const desc = ref("");
 const tags = ref("");
@@ -58,7 +61,7 @@ const loadPicture = (event: any) => {
     isPictureUploaded.value = true;
   }
 };
-const post = () => {
+async function post() {
   if (isPictureUploaded.value) {
     let tagsArray = tags.value
       .replace(/\s/g, "")
@@ -70,15 +73,21 @@ const post = () => {
     console.log(desc.value);
     console.log(tagsArray);
 
-    let pictureComponent = document.getElementById(
-      "picture"
-    ) as HTMLImageElement;
-    URL.revokeObjectURL(pictureComponent.src);
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const body = {
+        "description": desc.value,
+        "picture": reader.result as string,
+        "tags": tagsArray
+      }
 
-    isPictureUploaded.value = false;
-    desc.value = "";
-    tags.value = "";
-
+      const res = await createPublication(body, userStore.authKey);
+      if (res.status !== 201) {
+        console.log("erreur dans la creation de la publication");
+      }
+      URL.revokeObjectURL(picture_url.value);
+    }
+    reader.readAsDataURL(picture.value);
     emit("close");
   }
 };

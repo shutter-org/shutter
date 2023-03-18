@@ -64,30 +64,35 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
         console.log("erreur dans l'update");
       } else {
         const data = await res.json();
-        userStore.setAuthKey(data.acces_token);
-        userStore.setUsername(data.user.username);
-        userStore.setProfilePicture(data.user.profile_picture);
-        user.value.profile_picture = data.user.profile_picture;
+        if (data.acces_token !== undefined) {
+          userStore.setAuthKey(data.acces_token);
+        }
+        if (data.username !== undefined) {
+          userStore.setUsername(data.user.username);
+        }
+        if (data.profile_picture !== undefined) {
+          userStore.setProfilePicture(data.user.profile_picture);
+          user.value.profile_picture = data.user.profile_picture;
+        }
         user.value.username = username;
         user.value.name = name;
         user.value.biography = bio;
       }
     }
-    isProfileModificationShown.value = false;
   }
 
-  let isLoadingPicture = false
   if (user.value.profile_picture !== picture_url) {
-    isLoadingPicture = true;
     const reader = new FileReader();
     reader.onload = () => {
       body.profile_picture = reader.result as string;
       continueSave();
+      isProfileModificationShown.value = false;
     }
     reader.readAsDataURL(picture);
   }
-  if (!isLoadingPicture) {
+  else {
     continueSave();
+    isProfileModificationShown.value = false;
   }
 }
 const openPublicationModal = (publicationId: string) => {
