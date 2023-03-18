@@ -5,9 +5,29 @@ export interface SignInUser {
   password: string;
 }
 
-export const SignInAPI = async (user: SignInUser) => {
+export interface SignUpUser {
+  username: string;
+  password: string;
+  email: string;
+  name: string;
+  birthdate: string;
+}
+
+export const signIn = async (user: SignInUser) => {
   console.log("user", user);
   const response = await fetch(`${API_URL}/signin`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  });
+  return response;
+};
+
+export const signUp = async (user: SignUpUser) => {
+  console.log("user", user);
+  const response = await fetch(`${API_URL}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

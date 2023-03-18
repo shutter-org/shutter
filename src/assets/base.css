@@ -1,6 +1,6 @@
 /* semantic color variables for this project */
 :root {
-  --color-background: #D8E1E9;
+  --color-background: #B3C5D7;
   --color-background-mute: #C5D5EA;
 
   --color-border: #FFFFFF;
@@ -9,12 +9,12 @@
 
   --hover-color: #759EB8;
 
-  --modal-color: #7392B7;
+  --modal-color: #A5B4CA;
 
 
-  --special-text-color: #4EB9EE;
+  --special-text-color: #2883BB;
 
-  --back-alt-color: #B3C5D7;
+  --back-alt-color: #D8E1E9;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -45,6 +45,7 @@
   position: relative;
   font-weight: normal;
 }
+
 body {
   display: flex;
   flex-direction: column;

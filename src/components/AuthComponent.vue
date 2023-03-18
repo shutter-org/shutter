@@ -16,22 +16,28 @@
               v-model="name" />
           </div>
         </div>
+        <div v-if="!login" class="rounded-md this">
+          <div class="w-full rounded-md h-10 input-color px-4">
+            <input type="date" name="birthday" class="z-2 outline-none input-color border-0 box-border h-10 w-full"
+              placeholder="Birthdate" v-model="birthdate" />
+          </div>
+        </div>
         <div class="rounded-md items-center flex flex-col relative">
           <div class="w-full rounded-md h-10 input-color px-4">
             <input class="z-2 outline-none input-color border-0 box-border h-10 w-full" placeholder="Username"
               v-model="username" />
           </div>
         </div>
-        <div v-if="!login" class="rounded-md this">
-          <div class="w-full rounded-md h-10 input-color px-4">
-            <input class="z-2 outline-none input-color border-0 box-border h-10 w-full" placeholder="Birthdate"
-              v-model="birthdate" />
-          </div>
-        </div>
         <div class="rounded-md this">
           <div class="w-full rounded-md h-10 input-color px-4">
             <input class="z-2 outline-none input-color border-0 box-border h-10 w-full hidePassword"
               placeholder="Password" v-model="password" />
+          </div>
+        </div>
+        <div v-if="!login" class="rounded-md this">
+          <div class="w-full rounded-md h-10 input-color px-4">
+            <input class="z-2 outline-none input-color border-0 box-border h-10 w-full hidePassword"
+              placeholder="Confirm password" v-model="passwordConfirmation" />
           </div>
         </div>
       </div>
@@ -56,8 +62,8 @@
 </template>
 <script setup lang="ts">
 import LogoAnimation from "@/components/LogoAnimation.vue";
-import type { SignInUser } from "@/api/auth";
-import { SignInAPI } from "@/api/auth";
+import type { SignInUser, SignUpUser } from "@/api/auth";
+import { signIn, signUp } from "@/api/auth";
 import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
 import router from "@/router";
@@ -66,6 +72,7 @@ const userStore = useUserStore();
 const email = ref("");
 const username = ref("");
 const password = ref("");
+const passwordConfirmation = ref("");
 const name = ref("");
 const bio = ref("");
 const birthdate = ref("");
@@ -84,12 +91,12 @@ function switchView() {
   login.value = !login.value;
 }
 async function SignIn() {
-  const newUser: SignInUser = {
+  const returningUser: SignInUser = {
     username: username.value,
     password: password.value,
   };
 
-  const res = await SignInAPI(newUser)
+  const res = await signIn(returningUser)
   if (res.status !== 200) {
     console.log("erreur dans le username ou mdp");
   }
@@ -102,8 +109,37 @@ async function SignIn() {
     emit("LoggedIn");
   }
 }
-function SignUp() {
-  emit("LoggedIn");
+async function SignUp() {
+  if (password.value === passwordConfirmation.value) {
+    if (!!username.value && !!password.value && !!email.value && !!name.value && !!birthdate.value) {
+      const newUser: SignUpUser = {
+        username: username.value,
+        password: password.value,
+        email: email.value,
+        name: name.value,
+        birthdate: birthdate.value.replace(/-/g, '/'),
+      };
+
+      const res = await signUp(newUser)
+      if (res.status !== 201) {
+        console.log("erreur dans la creation du user");
+      }
+      else {
+        const data = await res.json();
+        userStore.setUsername(username.value);
+        userStore.setPassword(password.value);
+        userStore.setAuthKey(data.acces_token);
+        console.log("account created");
+        switchView();
+      }
+    }
+    else {
+      console.log("champs vide");
+    }
+  }
+  else {
+    console.log("mdp diff");
+  }
 }
 </script>
 <style>
@@ -111,8 +147,17 @@ function SignUp() {
   color: var(--special-text-color);
 }
 
-
 .hidePassword {
   -webkit-text-security: disc;
+}
+
+input[type="date"] {
+  background: transparent;
+  color: var(--color-text);
+  padding-left: 0px;
+}
+
+input[type="date"]:focus {
+  box-shadow: none;
 }
 </style>

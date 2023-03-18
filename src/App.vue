@@ -14,7 +14,8 @@ import { ref } from "vue";
 import Menubars from "@/components/MenuBars.vue";
 import Auth from "@/components/AuthComponent.vue";
 import { useUserStore } from "./stores/user";
-import { SignInAPI, type SignInUser } from "./api/auth";
+import { signIn } from "./api/auth";
+import type { SignInUser } from "./api/auth";
 
 const userStore = useUserStore();
 if (!!userStore.username && !!userStore.password) {
@@ -27,7 +28,7 @@ async function tryProlongingSessions() {
     username: userStore.username,
     password: userStore.password,
   };
-  const res = await SignInAPI(newUser)
+  const res = await signIn(newUser)
   if (res.status === 200) {
     const data = await res.json();
     userStore.authKey = data.acces_token;

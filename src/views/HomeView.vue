@@ -2,15 +2,22 @@
   <div
     class="shutter-background-mute min-h-screen PRO:min-h-[calc(100vh-160px)] p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
     <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
-    <publication v-else @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub" @vote-up-comment="voteUpComment"
-      @vote-down-comment="voteDownComment" @search-tag="searchTag" @add-to-gallery="addToGallery"
-      @add-comment="addComment" v-for="pub in publications" :publication="pub" :key="pub.publication_id"></publication>
+    <publication v-else-if="publications.length > 0" @vote-up-pub="voteUpPub" @vote-down-pub="voteDownPub"
+      @vote-up-comment="voteUpComment" @vote-down-comment="voteDownComment" @search-tag="searchTag"
+      @add-to-gallery="addToGallery" @add-comment="addComment" v-for="pub in publications" :publication="pub"
+      :key="pub.publication_id"></publication>
+    <div v-else
+      class="flex flex-col m-auto items-center p-10 rounded-lg border-2 shutter-border-color shutter-background-color">
+      <EmptyIcon class="w-40 h-40"></EmptyIcon>
+      <p class="text-3xl">It's empty here...</p>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Publication from "@/components/PublicationComponent.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
+import EmptyIcon from "@/components/icons/EmptyIcon.vue";
 import type { Publication as Pub, SimplifiedUser, Comment } from "@/api/type";
 import { getPublication, ratePublication, updateRatingPublication, deleteRatingPublication, getFollowingPublications } from "@/api/publication";
 import { deleteRatingComment, postComment, rateComment, updateRatingComment } from "@/api/comment"
