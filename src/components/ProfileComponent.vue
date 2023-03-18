@@ -5,10 +5,11 @@
       <img class="h-full PRO:h-1/2 object-cover aspect-square rounded-full border-2" :src="props.user.profile_picture"
         alt="" />
       <div class="h-full w-full flex flex-col gap-4 justify-center overflow-x-auto">
-        <p class="w-full font-bold text-4xl inline overflow-hidden whitespace-nowrap overflow-ellipsis PRO:text-center">
+        <p
+          class="w-full font-bold text-4xl inline overflow-hidden whitespace-nowrap overflow-ellipsis PRO:text-center p-1">
           {{ props.user.username }}
         </p>
-        <p class="w-full font-bold text-2xl inline overflow-hidden PRO:text-center">
+        <p class="w-full font-bold text-2xl inline overflow-hidden PRO:text-center p-1">
           {{ props.user.name }} • {{ props.user.age }}
         </p>
       </div>
