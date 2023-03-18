@@ -49,7 +49,7 @@
             <CreateIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Create</span>
           </a>
-          <PublicationCreatorModal v-if="isCreateModalShown" @close="closeCreateModal" :user="user1" />
+          <PublicationCreatorModal v-if="isCreateModalShown" @close="closeCreateModal" :user="userStore.getUser()" />
         </li>
         <li>
           <router-link to="/profile" class="flex items-center p-2 font-normal rounded-lg">
@@ -87,12 +87,6 @@ const isCreateModalShown = ref(false);
 
 const emit = defineEmits(["logOut"]);
 
-const user1 = {
-  id: "u1",
-  username: "Blond141",
-  profile_picture:
-    "https://h5p.org/sites/default/files/h5p/content/1209180/images/file-6113d5f8845dc.jpeg",
-};
 function closeSearchModal() {
   isSearchModalShown.value = false;
 }

@@ -96,6 +96,7 @@ async function SignIn() {
   else {
     const data = await res.json();
     userStore.setUsername(data.user.username);
+    userStore.setPassword(password.value);
     userStore.setProfilePicture(data.user.profile_picture);
     userStore.setAuthKey(data.acces_token);
     emit("LoggedIn");
