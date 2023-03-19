@@ -3,11 +3,12 @@
         <div
             class="mb-5 w-full rounded-md h-12 border-2 shutter-background-color shutter-border-color pl-4 self-center flex items-center">
             <input class="z-2 outline-none shutter-background-color box-border h-11 w-full" v-focus v-model="search"
-                placeholder="Search..." />
+                placeholder="Search users or tags with '#'" />
             <HashtagIcon class="h-6 pr-2" />
         </div>
 
-        <UserBarComponentVue v-for="user in usersSearched" v-if="isSearchingUsers" :user="user"></UserBarComponentVue>
+        <UserBarComponentVue v-for="user in usersSearched" v-if="isSearchingUsers" :user="user"
+            @close-search-modal="closeSearchModal"></UserBarComponentVue>
         <a href="#" class="w-full rounded-md" v-for="tag in tagsSearched" v-if="!isSearchingUsers">
             <div class="py-3 px-1 h-14 flex flex-row items-center">
                 <div class="w-10 h-10 rounded-full mr-8 border border-slate-400 flex justify-center items-center">
@@ -35,6 +36,7 @@ import { useUserStore } from '@/stores/user';
 import { searchUser } from '@/api/user';
 import { searchTag } from '@/api/tag';
 import { ref, watch } from 'vue';
+import EmptyIcon from './icons/EmptyIcon.vue';
 
 const search = ref();
 const userStore = useUserStore();
@@ -79,4 +81,8 @@ async function loadSearchedTags(search: string) {
 const vFocus = {
     mounted: (el: { focus: () => any; }) => el.focus(),
 };
+const emit = defineEmits(["closeSearchModal"]);
+function closeSearchModal() {
+    emit("closeSearchModal");
+}
 </script>
