@@ -12,21 +12,16 @@
 </template>
 
 <script setup lang="ts">
-import type {
-  SimplifiedPublication,
-  User,
-} from "@/api/type";
-import { ref, watch } from "vue";
 import Profile from "@/components/ProfileComponent.vue";
 import PublicationModal from "@/components/modals/PublicationModal.vue";
 import ProfileModificationModal from "@/components/modals/ProfileModificationModal.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
-import { getUser, updateUser } from "@/api/user";
+import { ref, watch } from "vue";
+import { updateUser } from "@/api/user";
 import { useUserStore } from '@/stores/user'
-import { usePublicationStore } from '@/stores/publication'
+import type { SimplifiedPublication, User } from "@/api/type";
 
 const userStore = useUserStore();
-const publicationStore = usePublicationStore();
 const user = ref();
 const isPublicationModalShown = ref(false);
 const shownPublicationId = ref("");
@@ -35,8 +30,8 @@ const isLoading = ref(true);
 
 loadUser();
 
-watch(() => publicationStore.getPub(), (newPub: SimplifiedPublication) => {
-  user.value.publications.unshift(newPub);
+watch(() => userStore.getShownUser(userStore.username) as User, (newUser: User) => {
+  user.value = newUser;
 });
 
 async function loadUser() {
@@ -75,7 +70,6 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
         user.value.biography = bio;
 
         const data = await res.json();
-        console.log(data);
         if (data.acces_token !== undefined) {
           console.log("key changed")
           userStore.setAuthKey(data.acces_token);
@@ -86,10 +80,11 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
           }
           if (data.user.profile_picture !== undefined) {
             userStore.setProfilePicture(data.user.profile_picture);
-            user.value.profile_picture = data.user.profile_picture;
             console.log(user.value.profile_picture);
           }
         }
+        await userStore.updateUser();
+        console.log('updated')
       }
     }
   }

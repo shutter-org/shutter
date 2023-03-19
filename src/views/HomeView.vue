@@ -16,9 +16,9 @@
 import Publication from "@/components/PublicationComponent.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
 import EmptyIcon from "@/components/icons/EmptyIcon.vue";
-import type { Publication as Pub, SimplifiedUser, Comment } from "@/api/type";
 import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
+import type { Publication as Pub } from "@/api/type";
 
 const publicationStore = usePublicationStore();
 const publications = ref([] as Pub[]);

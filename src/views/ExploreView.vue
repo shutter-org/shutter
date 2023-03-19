@@ -19,7 +19,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import type { SimplifiedPost, Comment, Publication, SimplifiedUser } from "@/api/type";
+import type { SimplifiedPublication, Comment, Publication, SimplifiedUser } from "@/api/type";
 import CrossIcon from "@/components/icons/CrossIcon.vue";
 import PublicationModal from "@/components/modals/PublicationModal.vue";
 
@@ -42,51 +42,51 @@ const post1 = {
   id: "p1",
   picture:
     "https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?cs=srgb&dl=pexels-pixabay-206359.jpg&fm=jpg",
-} as SimplifiedPost;
+} as SimplifiedPublication;
 
 const post2 = {
   id: "p2",
   picture:
     "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Snowboard_pow.jpg/1200px-Snowboard_pow.jpg",
-} as SimplifiedPost;
+} as SimplifiedPublication;
 
 const post3 = {
   id: "p3",
   picture:
     "https://www.inquirer.com/resizer/yMCs3mgc-4b3hxAMeaho6H8BVbw=/760x507/smart/filters:format(webp)/arc-anglerfish-arc2-prod-pmn.s3.amazonaws.com/public/J4QDHA4WPZHJJJKAUWMI6HGL6A.jpg",
-} as SimplifiedPost;
+} as SimplifiedPublication;
 const post4 = {
   id: "p4",
   picture:
     "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-} as SimplifiedPost;
+} as SimplifiedPublication;
 
 const post5 = {
   id: "p5",
   picture:
     "https://thumbs.dreamstime.com/b/beautiful-rain-forest-ang-ka-nature-trail-doi-inthanon-national-park-thailand-36703721.jpg",
-} as SimplifiedPost;
+} as SimplifiedPublication;
 
 const post6 = {
   id: "p6",
   picture:
     "https://www.freecodecamp.org/news/content/images/2022/09/jonatan-pie-3l3RwQdHRHg-unsplash.jpg",
-} as SimplifiedPost;
+} as SimplifiedPublication;
 const post7 = {
   id: "p7",
   picture:
     "https://pe-images.s3.amazonaws.com/basics/cc/image-size-resolution/resize-images-for-print/image-cropped-8x10.jpg",
-} as SimplifiedPost;
+} as SimplifiedPublication;
 const post8 = {
   id: "p8",
   picture:
     "https://cdn.arstechnica.net/wp-content/uploads/2016/02/5718897981_10faa45ac3_b-640x624.jpg",
-} as SimplifiedPost;
+} as SimplifiedPublication;
 const post9 = {
   id: "p9",
   picture:
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTToy1vrfJ_4td_O5ofsY7f_0FrmTPCmIUWg&usqp=CAU",
-} as SimplifiedPost;
+} as SimplifiedPublication;
 const user1 = {
   username: "Blond141",
   profile_picture:

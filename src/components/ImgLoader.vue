@@ -9,8 +9,8 @@
 </template>
   
 <script setup lang="ts">
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import { ref } from 'vue';
-import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
 
 const props = defineProps({
     src: {

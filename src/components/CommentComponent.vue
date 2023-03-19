@@ -21,11 +21,11 @@
 
 <script setup lang="ts">
 import User from "@/components/UserComponent.vue";
-import type { Comment } from "@/api/type";
 import RatingInterface from "@/components/RatingInterface.vue";
-import type { PropType } from "vue";
 import DeleteComponent from "./DeleteComponent.vue";
 import { useUserStore } from "@/stores/user";
+import type { PropType } from "vue";
+import type { Comment } from "@/api/type";
 
 const props = defineProps({
   comment: {

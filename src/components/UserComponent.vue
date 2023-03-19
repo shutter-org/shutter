@@ -13,12 +13,11 @@
 </template>
 
 <script setup lang="ts">
-import type { SimplifiedUser } from "@/api/type";
-import type { PropType } from "vue";
+import ImgLoader from "./ImgLoader.vue";
 import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
-import ImgLoader from "./ImgLoader.vue";
-import type ImgLoaderVue from "./ImgLoader.vue";
+import type { SimplifiedUser } from "@/api/type";
+import type { PropType } from "vue";
 
 const props = defineProps({
   user: {

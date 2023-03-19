@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import { ref, watch } from "vue"
-import type { SimplifiedUser, User } from "@/api/type";
 import { getUser } from "@/api/user";
+import { followUser, unfollowUser } from "@/api/user";
+import type { SimplifiedUser, User } from "@/api/type";
 
 export const useUserStore = defineStore('user', () => {
   const username = ref("");
@@ -87,11 +88,37 @@ export const useUserStore = defineStore('user', () => {
     }
     return undefined;
   };
+  async function updateUser() {
+    const res = await getUser(username.value, authKey.value);
+    if (res.status === 200) {
+      const shownUser = await res.json();
+      const index = lastShownUsers.value.findIndex((user: User) => user.username === username.value);
+      lastShownUsers.value[index] = shownUser;
+    }
+  };
+  async function follow(usernameProp: string) {
+    const res = await followUser(usernameProp, authKey.value);
+    if (res.status === 200) {
+      const index = lastShownUsers.value.findIndex((user: User) => user.username === usernameProp);
+      lastShownUsers.value[index].followed_by_user = true;
+      lastShownUsers.value[index].followers.push(getSimplifiedUser());
+    }
+  }
+  async function unfollow(usernameProp: string) {
+    const res = await unfollowUser(usernameProp, authKey.value);
+    if (res.status === 200) {
+      const index = lastShownUsers.value.findIndex((user: User) => user.username === usernameProp);
+      lastShownUsers.value[index].followed_by_user = false;
+      lastShownUsers.value[index].followers = lastShownUsers.value[index].followers.filter((user: SimplifiedUser) => {
+        return user.username !== username.value;
+      });
+    }
+  }
 
   return {
     username, profile_picture, authKey, sessionStartDate,
     setUsername, setProfilePicture, setAuthKey, startSession, getSimplifiedUser, reset,
-    getShownUser, loadShownUser
+    getShownUser, loadShownUser, updateUser, follow, unfollow
   }
 })
 

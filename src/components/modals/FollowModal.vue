@@ -16,9 +16,9 @@
 </template>
 
 <script setup lang="ts">
+import UserComponent from '../UserComponent.vue';
 import type { SimplifiedUser } from '@/api/type';
 import type { PropType } from 'vue';
-import UserComponent from '../UserComponent.vue';
 
 const props = defineProps({
     users: {

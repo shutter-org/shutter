@@ -7,9 +7,13 @@
             <div
                 class="modal shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4">
                 <div class="w-full h-40 PRO:h-80 flex flex-row PRO:flex-col gap-10 items-center p-2">
-                    <button class="h-full PRO:h-1/2 aspect-square rounded-full border-2" @click="openUploadForm">
-                        <ImgLoader id="picture" class="h-full w-full object-cover aspect-square rounded-full"
+                    <button class="h-full PRO:h-1/2 aspect-square rounded-full border-2 grid grid-cols-1 grid-rows-1"
+                        @click="openUploadForm">
+                        <ImgLoader id="picture" class="h-full w-full object-cover aspect-square rounded-full stack"
                             :src="picture_url" :round="true" />
+                        <div class="w-full aspect-square stack z-50 shadowback rounded-full flex justify-center">
+                            <ImageIcon class="w-1/2 aspect-square inputableImage"></ImageIcon>
+                        </div>
                     </button>
                     <input class="hidden" type="file" id="imgInput" name="img" accept="image/*" @change="loadPicture" />
                     <div class="h-full w-full flex flex-col gap-4 justify-center overflow-x-auto p-1">
@@ -39,10 +43,11 @@
 </template>
   
 <script setup lang="ts">
+import ImgLoader from "../ImgLoader.vue";
+import ImageIcon from "@/components/icons/ImageIcon.vue";
+import { onMounted, ref } from "vue";
 import type { User } from "@/api/type";
 import type { PropType } from "vue";
-import { onMounted, ref } from "vue";
-import ImgLoader from "../ImgLoader.vue";
 
 const props = defineProps({
     user: {
@@ -110,5 +115,19 @@ onMounted(() => {
     background-color: var(--color-background);
     box-shadow: none;
     resize: none;
+}
+
+.stack {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.inputableImage {
+    color: rgba(255, 255, 255, 0.3);
+
+}
+
+.shadowback {
+    background-color: rgba(0, 0, 0, 0.3);
 }
 </style>

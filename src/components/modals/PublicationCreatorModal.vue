@@ -7,10 +7,12 @@
         <User class="h-14 mr-auto" :user="props.user"></User>
       </div>
       <button @click="openUploadForm"
-        class="inputable w-full aspect-square object-cover rounded-lg flex flex-row justify-center items-center border-2">
+        class="inputable w-full aspect-square object-cover rounded-lg grid grid-cols-1 grid-rows-1 justify-center items-center border-2">
         <ImgLoader id="picture" v-if="isPictureUploaded" :src="picture_url" alt=""
-          class="w-full aspect-square object-cover rounded-lg" />
-        <ImageIcon v-else class="w-1/2 aspect-square"></ImageIcon>
+          class="w-full aspect-square object-cover rounded-lg stack" />
+        <div id="svg" class="w-full aspect-square stack z-50 rounded-lg flex justify-center">
+          <ImageIcon class="w-1/2 aspect-square inputableImage"></ImageIcon>
+        </div>
       </button>
       <input class="hidden" type="file" id="imgInput" name="img" accept="image/*" @change="loadPicture" />
       <textarea class="inputable desc h-36 w-full text-xl p-2 border-2 rounded-lg" placeholder="Description..."
@@ -27,13 +29,12 @@
 <script setup lang="ts">
 import User from "@/components/UserComponent.vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
-import type { Publication, SimplifiedPublication, SimplifiedUser, SimplifiedUser as UserType } from "@/api/type";
+import ImgLoader from "../ImgLoader.vue";
 import { createPublication } from "@/api/publication";
-import type { PropType } from "vue";
 import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
-import { usePublicationStore } from '@/stores/publication'
-import ImgLoader from "../ImgLoader.vue";
+import type { PropType } from "vue";
+import type { SimplifiedPublication, SimplifiedUser as UserType } from "@/api/type";
 
 const props = defineProps({
   user: {
@@ -43,7 +44,6 @@ const props = defineProps({
 });
 
 const userStore = useUserStore();
-const publicationStore = usePublicationStore();
 const isPictureUploaded = ref(false);
 const picture = ref();
 const picture_url = ref("");
@@ -58,10 +58,12 @@ const loadPicture = (event: any) => {
   URL.revokeObjectURL(picture_url.value);
   if (event.target.files[0] === undefined) {
     isPictureUploaded.value = false;
+    document.getElementById("svg")!.classList.remove("shadowback");
   } else {
     picture.value = event.target.files[0];
     picture_url.value = URL.createObjectURL(event.target.files[0]);
     isPictureUploaded.value = true;
+    document.getElementById("svg")!.classList.add("shadowback");
   }
 };
 async function post() {
@@ -90,7 +92,7 @@ async function post() {
         publication_id: data.publication_id,
         picture: picture_url.value,
       } as SimplifiedPublication
-      publicationStore.setPub(newPub);
+      userStore.updateUser();
     }
     reader.readAsDataURL(picture.value);
 
@@ -126,5 +128,18 @@ async function post() {
 
 .postButton:hover {
   background-color: var(--color-border);
+}
+
+.stack {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.inputableImage {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.shadowback {
+  background-color: rgba(0, 0, 0, 0.3);
 }
 </style>
