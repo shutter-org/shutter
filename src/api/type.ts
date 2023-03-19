@@ -20,6 +20,7 @@ export interface Publication {
   tags: string[];
   rating: number;
   user_rating: number;
+  nb_comments: number;
   comments: Comment[];
 }
 
@@ -42,7 +43,7 @@ export interface User {
   followed_by_user: boolean;
 }
 
-export interface SimplifiedUserWithName{
+export interface SimplifiedUserWithName {
   username: string;
   name: string;
   profile_picture: string;
