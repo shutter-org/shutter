@@ -48,7 +48,6 @@ async function loadPublication() {
     shownPublication.value = token;
     isLoading.value = false;
   }
-  await publicationStore.loadShownPublication(props.publicationId);
   shownPublication.value = await publicationStore.loadShownPublication(props.publicationId);
   isLoading.value = false;
 };

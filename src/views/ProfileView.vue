@@ -40,14 +40,12 @@ watch(() => publicationStore.getPub(), (newPub: SimplifiedPublication) => {
 });
 
 async function loadUser() {
-  const res = await getUser(userStore.username, userStore.authKey);
-  if (res.status !== 200) {
-    console.log("erreur dans le username ou mdp");
+  const token = userStore.getShownUser(userStore.username);
+  if (token !== undefined) {
+    user.value = token;
+    isLoading.value = false;
   }
-  else {
-    user.value = await res.json();
-    user.value.profile_picture = user.value.profile_picture || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-  }
+  user.value = await userStore.loadShownUser(userStore.username);
   isLoading.value = false;
 };
 async function save(picture: Blob, picture_url: string, username: string, name: string, bio: string) {

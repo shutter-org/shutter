@@ -1,12 +1,15 @@
 import { defineStore } from "pinia";
 import { ref, watch } from "vue"
-import type { SimplifiedUser } from "@/api/type";
+import type { SimplifiedUser, User } from "@/api/type";
+import { getUser } from "@/api/user";
 
 export const useUserStore = defineStore('user', () => {
   const username = ref("");
   const profile_picture = ref("");
   const authKey = ref("");
   const sessionStartDate = ref(Number.NaN);
+
+  const lastShownUsers = ref([] as User[]);
 
   if (sessionStorage.getItem("username")) {
     username.value = JSON.parse(sessionStorage.getItem("username") as string);
@@ -54,7 +57,7 @@ export const useUserStore = defineStore('user', () => {
   const startSession = () => {
     sessionStartDate.value = Date.now();
   }
-  const getUser = () => {
+  const getSimplifiedUser = () => {
     return {
       "username": username.value,
       "profile_picture": profile_picture.value
@@ -67,6 +70,28 @@ export const useUserStore = defineStore('user', () => {
     sessionStartDate.value = Number.NaN;
   }
 
-  return { username, profile_picture, authKey, sessionStartDate, setUsername, setProfilePicture, setAuthKey, startSession, getUser, reset }
+  const getShownUser = (username: string) => {
+    for (let user of lastShownUsers.value) {
+      if (user.username === username) {
+        return user;
+      }
+    }
+    return undefined;
+  }
+  async function loadShownUser(username: string) {
+    const res = await getUser(username, authKey.value);
+    if (res.status === 200) {
+      const shownUser = await res.json();
+      lastShownUsers.value.push(shownUser);
+      return shownUser;
+    }
+    return undefined;
+  };
+
+  return {
+    username, profile_picture, authKey, sessionStartDate,
+    setUsername, setProfilePicture, setAuthKey, startSession, getSimplifiedUser, reset,
+    getShownUser, loadShownUser
+  }
 })
 

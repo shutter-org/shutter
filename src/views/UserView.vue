@@ -35,12 +35,14 @@ const doesUserExist = ref(false);
 loadUser(route.params.username as string);
 
 async function loadUser(username: string) {
-    const res = await getUser(username, userStore.authKey);
-    if (res.status === 200) {
-        user.value = await res.json();
-        user.value.profile_picture = user.value.profile_picture || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+    const token = userStore.getShownUser(username);
+    if (token !== undefined) {
+        user.value = token;
+        isLoading.value = false;
         doesUserExist.value = true;
     }
+    user.value = await userStore.loadShownUser(username);
+    doesUserExist.value = user.value !== undefined;
     isLoading.value = false;
 };
 const openPublicationModal = (publicationId: string) => {
