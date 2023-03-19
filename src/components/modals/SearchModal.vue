@@ -2,8 +2,8 @@
   <div class="fixed inset-0 z-40 flex justify-center items-center">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full" @click="close"></div>
     <div
-      class="modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-md PRO:mx-4 translate-x-[126px] PRO:translate-x-0">
-      <div class="rounded-md items-center flex flex-col relative max-w-full">
+      class="modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-lg PRO:mx-4 translate-x-[126px] PRO:translate-x-0">
+      <div class="rounded-lg items-center flex flex-col relative max-w-full">
         <div
           class="mb-5 w-full rounded-md h-12 border-2 input-color shutter-border-color pl-4 self-center flex items-center">
           <input class="z-2 outline-none input-color box-border h-11 w-full" v-focus placeholder="Search..." />

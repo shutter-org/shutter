@@ -22,12 +22,14 @@
       <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
         {{ props.user.publications.length }} Posts
       </p>
-      <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
+      <button class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center"
+        @click="isFollowerShown = true">
         {{ props.user.followers.length }} Followers
-      </p>
-      <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
+      </button>
+      <button class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center"
+        @click="isFollowingShown = true">
         {{ props.user.following.length }} Following
-      </p>
+      </button>
     </div>
     <button v-if="!isCurrentUser && !user.followed_by_user"
       class="followButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10" @click="emit('follow')">Follow</button>
@@ -61,6 +63,12 @@
       <ModifyIcon class="h-full w-full" />
     </button>
   </div>
+  <FollowModal v-if="isFollowingShown" :users="{ values: props.user.following }" title="Following"
+    @close="isFollowingShown = false">
+  </FollowModal>
+  <FollowModal v-if="isFollowerShown" :users="{ values: props.user.followers }" title="Follower"
+    @close="isFollowerShown = false">
+  </FollowModal>
 </template>
 
 <script setup lang="ts">
@@ -71,6 +79,7 @@ import ImageIcon from "@/components/icons/ImageIcon.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import ImgLoader from "./ImgLoader.vue";
+import FollowModal from "./modals/FollowModal.vue";
 
 const props = defineProps({
   user: {
@@ -81,6 +90,8 @@ const props = defineProps({
 });
 
 const isPictureTabShown = ref(true);
+const isFollowingShown = ref(false);
+const isFollowerShown = ref(false);
 
 const emit = defineEmits({
   openPublicationModal: (publicationId: string) => {
