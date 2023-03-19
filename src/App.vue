@@ -2,7 +2,7 @@
   <div v-if="isLoggedIn">
     <Menubars @log-out="isLoggedIn = false" />
     <div class="main ml-64 PRO:ml-0 PRO:mb-20 PRO:mt-20">
-      <RouterView />
+      <RouterView :key="$route.fullPath" />
     </div>
   </div>
   <Auth v-else @logged-in="LoggedIn" />
