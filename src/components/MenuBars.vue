@@ -36,7 +36,7 @@
             <SearchIcon />
             <span class="flex-1 ml-3 PRO:hidden">Search</span>
           </a>
-          <SearchModal v-if="isSearchModalShown" @close="closeSearchModal" />
+          <SearchModal v-if="isSearchModalShown" @close-search-modal="closeSearchModal" />
         </li>
         <li>
           <router-link to="/explore" class="flex items-center p-2 text-base font-normal rounded-lg">

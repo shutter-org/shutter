@@ -1,8 +1,8 @@
 
 <template>
     <router-link :to="loggedUsername !== props.user.username ? '/user/' + props.user.username : '/profile'"
-        class="w-full rounded-md">
-        <div class="p-2 h-14 flex flex-row items-center">
+        @click="closeSearchModal" class="w-full rounded-md">
+        <div class="py-3 px-1 h-14 flex flex-row items-center">
             <ImgLoader class="w-10 h-10 object-cover aspect-square rounded-full border-2 mr-8 overflow-hidden"
                 :src="props.user.profile_picture" alt="" />
             <div class="flex flex-col">
@@ -17,6 +17,11 @@ import { ref } from 'vue';
 import type { SimplifiedUserWithName } from '@/api/type';
 import { useUserStore } from '@/stores/user';
 import ImgLoader from './ImgLoader.vue';
+
+const emit = defineEmits(["closeSearchModal"]);
+function closeSearchModal() {
+    emit("closeSearchModal");
+}
 const props = defineProps<{
     user: SimplifiedUserWithName;
 }>();
