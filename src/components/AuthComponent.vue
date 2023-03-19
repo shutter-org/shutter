@@ -1,42 +1,43 @@
 <template>
   <div class="fixed inset-0 z-40 flex justify-center items-center gap-5">
     <div
-      class="modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-md PRO:mx-4 gap-3 flex flex-col items-center">
+      class="shutter-modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-md PRO:mx-4 gap-3 flex flex-col items-center">
       <LogoAnimation />
       <div class="flex gap-1 flex-col w-full">
         <div v-if="!login" class="rounded-md items-center flex flex-col relative">
-          <div class="w-full rounded-md h-10 input-color px-4">
-            <input class="z-2 outline-none input-color border-0 box-border h-10 w-full" placeholder="Email"
+          <div class="w-full rounded-md h-10 shutter-background-color px-4">
+            <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full" placeholder="Email"
               v-model="email" />
           </div>
         </div>
         <div v-if="!login" class="rounded-md this">
-          <div class="w-full rounded-md h-10 input-color px-4">
-            <input class="z-2 outline-none input-color border-0 box-border h-10 w-full" placeholder="Full Name"
-              v-model="name" />
+          <div class="w-full rounded-md h-10 shutter-background-color px-4">
+            <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full"
+              placeholder="Full Name" v-model="name" />
           </div>
         </div>
         <div v-if="!login" class="rounded-md this">
-          <div class="w-full rounded-md h-10 input-color px-4">
-            <input type="date" name="birthday" class="z-2 outline-none input-color border-0 box-border h-10 w-full"
-              placeholder="Birthdate" v-model="birthdate" />
+          <div class="w-full rounded-md h-10 shutter-background-color px-4">
+            <input type="date" name="birthday"
+              class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full" placeholder="Birthdate"
+              v-model="birthdate" />
           </div>
         </div>
         <div class="rounded-md items-center flex flex-col relative">
-          <div class="w-full rounded-md h-10 input-color px-4">
-            <input class="z-2 outline-none input-color border-0 box-border h-10 w-full" placeholder="Username"
-              v-model="username" />
+          <div class="w-full rounded-md h-10 shutter-background-color px-4">
+            <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full"
+              placeholder="Username" v-model="username" />
           </div>
         </div>
         <div class="rounded-md this">
-          <div class="w-full rounded-md h-10 input-color px-4">
-            <input class="z-2 outline-none input-color border-0 box-border h-10 w-full hidePassword"
+          <div class="w-full rounded-md h-10 shutter-background-color px-4">
+            <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full hidePassword"
               placeholder="Password" v-model="password" />
           </div>
         </div>
         <div v-if="!login" class="rounded-md this">
-          <div class="w-full rounded-md h-10 input-color px-4">
-            <input class="z-2 outline-none input-color border-0 box-border h-10 w-full hidePassword"
+          <div class="w-full rounded-md h-10 shutter-background-color px-4">
+            <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full hidePassword"
               placeholder="Confirm password" v-model="passwordConfirmation" />
           </div>
         </div>
