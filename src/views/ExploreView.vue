@@ -4,9 +4,10 @@
     <div
       class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2 h-full">
       <div
-        class="my-10 w-64 rounded-md h-12 border-2 input-color pl-4 self-center flex-row flex items-center shutter-border-color">
-        <input class="z-2 outline-none input-color box-border w-full h-11 rounded-md" v-focus placeholder="Search..." />
-        <CrossIcon class="h-6 pr-2" />
+        class="my-10 w-64 rounded-md h-12 border-2 shutter-background-color pl-4 self-center flex-row flex items-center shutter-border-color">
+        <input class="z-2 outline-none shutter-background-color box-border w-full h-11 rounded-md" v-focus
+          placeholder="Search..." />
+        <HashtagIcon class="h-6 pr-2" />
       </div>
       <div class="flex flex-wrap justify-center gap-4">
         <button class="w-52 h-52 rounded-lg" v-for="post in posts" @click="openPublicationModal(post.id)">
@@ -20,7 +21,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { SimplifiedPost, Comment, Publication, SimplifiedUser } from "@/api/type";
-import CrossIcon from "@/components/icons/CrossIcon.vue";
+import HashtagIcon from "@/components/icons/HashtagIcon.vue";
 import PublicationModal from "@/components/modals/PublicationModal.vue";
 
 const isPublicationModalShown = ref(false);
