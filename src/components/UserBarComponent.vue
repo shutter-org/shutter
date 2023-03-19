@@ -3,7 +3,8 @@
     <router-link :to="loggedUsername !== props.user.username ? '/user/' + props.user.username : '/profile'"
         class="w-full rounded-md">
         <div class="py-3 px-1 h-14 flex flex-row items-center">
-            <img class="w-10 h-10 rounded-full mr-8" :src="props.user.profile_picture" alt="" />
+            <ImgLoader class="w-10 h-10 object-cover aspect-square rounded-full border-2 mr-8 overflow-hidden"
+                :src="props.user.profile_picture" alt="" />
             <div class="flex flex-col">
                 <span class="font-bold">{{ props.user.username }}</span>
                 <span class="text-sm">{{ props.user.name }}</span>
@@ -15,6 +16,7 @@
 import { ref } from 'vue';
 import type { SimplifiedUserWithName } from '@/api/type';
 import { useUserStore } from '@/stores/user';
+import ImgLoader from './ImgLoader.vue';
 const props = defineProps<{
     user: SimplifiedUserWithName;
 }>();

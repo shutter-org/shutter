@@ -52,11 +52,11 @@
 
 <script setup lang="ts">
 import User from "@/components/UserComponent.vue";
-import Comment from "@/components/CommentComponent.vue";
-import RatingInterface from "@/components/RatingInterface.vue";
+import Comment from "@/components/subComponents/CommentComponent.vue";
+import RatingInterface from "@/components/subComponents/RatingInterface.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
-import DeleteComponent from "./DeleteComponent.vue";
+import DeleteComponent from "./subComponents/DeleteComponent.vue";
 import ImgLoader from "./ImgLoader.vue";
 import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
