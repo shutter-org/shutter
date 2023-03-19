@@ -6,21 +6,20 @@
       <div class="rounded-lg items-center flex flex-col relative max-w-full">
         <div
           class="mb-5 w-full rounded-md h-12 border-2 shutter-background-color shutter-border-color pl-4 self-center flex items-center">
-          <input class="z-2 outline-none shutter-background-color box-border h-11 w-full" v-focus
+          <input class="z-2 outline-none shutter-background-color box-border h-11 w-full" v-focus v-model="search"
             placeholder="Search..." />
           <HashtagIcon class="h-6 pr-2" />
         </div>
-        <a href="#" class="w-full rounded-md" v-for="user in hardcoded_users.users">
+        <a href="#" class="w-full rounded-md" v-for="user in usersSearched" v-if="isSearchingUsers">
           <div class="py-3 px-1 h-14 flex flex-row items-center">
-            <img class="w-10 h-10 rounded-full mr-8"
-              src="https://cdn.discordapp.com/attachments/1069318680736964628/1072638173034852463/images.png" alt="" />
+            <img class="w-10 h-10 rounded-full mr-8" :src="user.profile_picture" alt="" />
             <div class="flex flex-col">
               <span class="font-bold">{{ user.username }}</span>
               <span class="text-sm">{{ user.name }}</span>
             </div>
           </div>
         </a>
-        <a href="#" class="w-full rounded-md" v-for="hastag in hardcoded_hashtags.hashtags">
+        <a href="#" class="w-full rounded-md" v-for="tag in tagsSearched" v-if="!isSearchingUsers">
           <div class="py-3 px-1 h-14 flex flex-row items-center">
             <div class="w-10 h-10 rounded-full mr-8 border border-slate-400 flex justify-center items-center">
               <div class="w-5 h-5">
@@ -32,8 +31,8 @@
               </div>
             </div>
             <div class="flex flex-col">
-              <span class="font-bold">#{{ hastag.name }}</span>
-              <span class="text-sm">{{ hastag.count }}</span>
+              <span class="font-bold">#{{ tag.tag }}</span>
+              <span class="text-sm">{{ tag.nb_publication }} posts</span>
             </div>
           </div>
         </a>
@@ -43,54 +42,55 @@
 </template>
 
 <script setup lang="ts">
-//select the div with arrows enter press
-//first call api without tag or user
-//when modify input call api with tag or user
-import HashtagIcon from '../icons/HashtagIcon.vue';
-const hardcoded_users = {
-  users: [
-    {
-      name: "John Smith",
-      username: "jsmith",
-      profile_picture: "https://example.com/jsmith.jpg",
-    },
-    {
-      name: "Jane Doe",
-      username: "jdoe",
-      profile_picture: "https://example.com/jdoe.jpg",
-    },
-    {
-      name: "Bob Johnson",
-      username: "bjohnson",
-      profile_picture: "https://example.com/bjohnson.jpg",
-    },
-  ],
-};
 
-const hardcoded_hashtags = {
-  hashtags: [
-    {
-      name: "food",
-      count: "543,212 posts",
-    },
-    {
-      name: "travel",
-      count: "312,345 posts",
-    },
-    {
-      name: "fitness",
-      count: "234,567 posts",
-    },
-    {
-      name: "music",
-      count: "456,789 posts",
-    },
-    {
-      name: "fashion",
-      count: "123,456 posts",
-    },
-  ],
-};
+//select the div with arrows enter press
+import HashtagIcon from '../icons/HashtagIcon.vue';
+import { useUserStore } from '@/stores/user';
+import { searchUser } from '@/api/user';
+import { searchTag } from '@/api/tag';
+import { ref, watch } from 'vue';
+
+const search = ref();
+const userStore = useUserStore();
+const usersSearched = ref();
+const tagsSearched = ref();
+const isSearchingUsers = ref(true);
+loadSearchedUser("");
+
+watch(search, (newValue, oldValue) => {
+  filterSearch(newValue);
+});
+
+function filterSearch(search: string) {
+  if (search.startsWith("#")) {
+    isSearchingUsers.value = false;
+    loadSearchedTags(search.substring(1));
+  } else {
+    isSearchingUsers.value = true;
+    loadSearchedUser(search);
+  }
+}
+async function loadSearchedUser(search: string) {
+  const res = await searchUser(search, userStore.authKey);
+  if (res.status !== 200) {
+    console.log(res);
+    return;
+  } else {
+    const data = await res.json()
+    usersSearched.value = data;
+  }
+}
+async function loadSearchedTags(search: string) {
+  const res = await searchTag(search, userStore.authKey);
+  if (res.status !== 200) {
+    console.log(res);
+    return;
+  } else {
+    const data = await res.json()
+    tagsSearched.value = data;
+  }
+}
+
 const emit = defineEmits(["close"]);
 function close() {
   emit("close");
@@ -98,22 +98,4 @@ function close() {
 const vFocus = {
   mounted: (el: { focus: () => any; }) => el.focus(),
 };
-function test(this: any, event: { keyCode: any; }) {
-  switch (event.keyCode) {
-    case 38:
-      if (this.focus === null) {
-        this.focus = 0;
-      } else if (this.focus > 0) {
-        this.focus--;
-      }
-      break;
-    case 40:
-      if (this.focus === null) {
-        this.focus = 0;
-      } else if (this.focus < this.items.length - 1) {
-        this.focus++;
-      }
-      break;
-  }
-}
 </script>

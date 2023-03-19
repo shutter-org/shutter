@@ -24,3 +24,15 @@ export const updateUser = async (username: String, authKey: String, body: {}) =>
     });
     return response;
 };
+
+export const searchUser = async (search: String, authKey: String) => {
+    const key = "Bearer " + authKey;
+    const response = await fetch(`${API_URL}/users?search=${search}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": key,
+        },
+    });
+    return response;
+}
