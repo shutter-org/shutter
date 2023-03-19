@@ -90,7 +90,7 @@ async function post() {
         publication_id: data.publication_id,
         picture: picture_url.value,
       } as SimplifiedPublication
-      publicationStore.setPublication(newPub);
+      publicationStore.setPub(newPub);
     }
     reader.readAsDataURL(picture.value);
 

@@ -6,8 +6,8 @@
     </div>
     <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="props.publication.picture" alt="" />
     <div class="flex flex-row justify-between w-full p-1">
-      <RatingInterface @vote-up="emit('voteUpPub', props.publication.publication_id)"
-        @vote-down="emit('voteDownPub', props.publication.publication_id)" :total_rate="props.publication.rating"
+      <RatingInterface @vote-up="publicationStore.voteUpPub(props.publication.publication_id)"
+        @vote-down="publicationStore.voteDownPub(props.publication.publication_id)" :total_rate="props.publication.rating"
         :user_rate="props.publication.user_rating"></RatingInterface>
       <div class="flex flex-row gap-4">
         <button v-if="isCurrentUser" @click="">
@@ -27,9 +27,9 @@
       </button>
     </div>
     <Comment v-for="comment of props.publication.comments.slice(0, nbCommentsShown)"
-      @delete-comment="emit('deleteComment', props.publication.publication_id, $event)"
-      @vote-up="emit('voteUpComment', $event, props.publication.publication_id)"
-      @vote-down="emit('voteDownComment', $event, props.publication.publication_id)" :comment="comment"
+      @delete-comment="publicationStore.delComment(props.publication.publication_id, $event)"
+      @vote-up="publicationStore.voteUpComment($event, props.publication.publication_id)"
+      @vote-down="publicationStore.voteDownComment($event, props.publication.publication_id)" :comment="comment"
       :key="comment.comment_id" class="shutter-border-mute w-full border-t-2 p-2"></Comment>
     <button v-if="props.publication.comments.length > nbCommentsShown"
       class="shutter-border-mute w-full font-bold text-xl border-t-2 p-2 pt-4" @click="showMoreComments">
@@ -61,6 +61,7 @@ import type { Publication, Comment as Com } from "@/api/type";
 import { ref } from "vue";
 import type { PropType } from "vue";
 import ImgLoader from "./ImgLoader.vue";
+import { usePublicationStore } from "@/stores/publication";
 
 const props = defineProps({
   publication: {
@@ -70,6 +71,7 @@ const props = defineProps({
   isCurrentUser: Boolean
 });
 
+const publicationStore = usePublicationStore();
 const descAsComment = ref({
   commenter_user: props.publication.poster_user,
   message: props.publication.description,
@@ -81,29 +83,11 @@ const emit = defineEmits({
   deletePub: () => {
     return true;
   },
-  voteUpPub: (publicationId: string) => {
-    return !!publicationId;
-  },
-  voteDownPub: (publicationId: string) => {
-    return !!publicationId;
-  },
   addToGallery: (publicationId: string) => {
     return !!publicationId;
   },
   searchTag: (tag: string) => {
     return !!tag;
-  },
-  voteUpComment: (commentId: string, publicationId: string) => {
-    return !!commentId && !!publicationId;
-  },
-  voteDownComment: (commentId: string, publicationId: string) => {
-    return !!commentId && !!publicationId;
-  },
-  addComment: (publicationId: string, message: string) => {
-    return !!publicationId && !!message;
-  },
-  deleteComment: (publicationId: string, commentId: string) => {
-    return !!commentId;
   },
 });
 const showMoreComments = () => {
@@ -114,7 +98,7 @@ const hideComments = () => {
 };
 const submitComment = (event: KeyboardEvent) => {
   if (event.key === "Enter" && !event.shiftKey) {
-    emit("addComment", props.publication.publication_id, message.value);
+    publicationStore.addComment(props.publication.publication_id, message.value);
     message.value = "";
   }
 };

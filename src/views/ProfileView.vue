@@ -24,7 +24,6 @@ import SyncLoader from "vue-spinner/src/SyncLoader.vue"
 import { getUser, updateUser } from "@/api/user";
 import { useUserStore } from '@/stores/user'
 import { usePublicationStore } from '@/stores/publication'
-import type { Publication } from "@/api/type";
 
 const userStore = useUserStore();
 const publicationStore = usePublicationStore();
@@ -36,7 +35,7 @@ const isLoading = ref(true);
 
 loadUser();
 
-watch(() => publicationStore.getPublication(), (newPub: SimplifiedPublication) => {
+watch(() => publicationStore.getPub(), (newPub: SimplifiedPublication) => {
   user.value.publications.unshift(newPub);
 });
 
