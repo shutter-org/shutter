@@ -9,7 +9,8 @@
 
         <UserBarComponentVue v-for="user in usersSearched" v-if="isSearchingUsers" :user="user"
             @close-search-modal="closeSearchModal"></UserBarComponentVue>
-        <a href="#" class="w-full rounded-md" v-for="tag in tagsSearched" v-if="!isSearchingUsers">
+        <router-link :to="'/explore/' + tag.tag" class="w-full rounded-md" v-for="tag in tagsSearched"
+            v-if="!isSearchingUsers" @click="closeSearchModal">
             <div class="py-3 px-1 h-14 flex flex-row items-center">
                 <div class="w-10 h-10 rounded-full mr-8 border border-slate-400 flex justify-center items-center">
                     <div class="w-5 h-5">
@@ -25,7 +26,7 @@
                     <span class="text-sm">{{ tag.nb_publication }} posts</span>
                 </div>
             </div>
-        </a>
+        </router-link>
 
     </div>
 </template>
@@ -36,7 +37,6 @@ import { useUserStore } from '@/stores/user';
 import { searchUser } from '@/api/user';
 import { searchTag } from '@/api/tag';
 import { ref, watch } from 'vue';
-import EmptyIcon from './icons/EmptyIcon.vue';
 
 const search = ref();
 const userStore = useUserStore();
