@@ -49,7 +49,8 @@
             <CreateIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Create</span>
           </a>
-          <PublicationCreatorModal v-if="isCreateModalShown" @close="closeCreateModal" :user="userStore.getUser()" />
+          <PublicationCreatorModal v-if="isCreateModalShown" @close="closeCreateModal"
+            :user="userStore.getSimplifiedUser()" />
         </li>
         <li>
           <router-link to="/profile" class="flex items-center p-2 font-normal rounded-lg">
