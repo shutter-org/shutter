@@ -7,15 +7,6 @@ import { deleteRatingComment, rateComment, updateRatingComment, postComment, del
 
 export const usePublicationStore = defineStore('publication', () => {
     const userStore = useUserStore();
-
-    const publication = ref({} as SimplifiedPublication);
-    const setPub = (publicationProp: SimplifiedPublication) => {
-        publication.value = publicationProp;
-    };
-    const getPub = () => {
-        return publication.value;
-    }
-
     const homePublications = ref();
     const lastShownPublications = ref([] as Publication[]);
 
@@ -177,7 +168,7 @@ export const usePublicationStore = defineStore('publication', () => {
     }
 
     return {
-        publication, setPub, getPub, getHomePublications, loadHomePublications, getShownPublication,
+        getHomePublications, loadHomePublications, getShownPublication,
         loadShownPublication, voteUpPub, voteDownPub, voteUpComment, voteDownComment, addComment, delComment
     }
 })

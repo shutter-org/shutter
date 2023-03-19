@@ -63,10 +63,10 @@
 </template>
 <script setup lang="ts">
 import LogoAnimation from "@/components/LogoAnimation.vue";
-import type { SignInUser, SignUpUser } from "@/api/auth";
 import { signIn, signUp } from "@/api/auth";
 import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
+import type { SignInUser, SignUpUser } from "@/api/auth";
 
 const userStore = useUserStore();
 const email = ref("");

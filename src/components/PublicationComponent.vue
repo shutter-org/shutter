@@ -57,11 +57,11 @@ import RatingInterface from "@/components/RatingInterface.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import DeleteComponent from "./DeleteComponent.vue";
-import type { Publication, Comment as Com } from "@/api/type";
-import { ref } from "vue";
-import type { PropType } from "vue";
 import ImgLoader from "./ImgLoader.vue";
+import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
+import type { Publication, Comment as Com } from "@/api/type";
+import type { PropType } from "vue";
 
 const props = defineProps({
   publication: {

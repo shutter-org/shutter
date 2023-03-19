@@ -32,10 +32,11 @@
       </button>
     </div>
     <button v-if="!isCurrentUser && !user.followed_by_user"
-      class="followButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10" @click="emit('follow')">Follow</button>
+      class="followButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10"
+      @click="userStore.follow(user.username)">Follow</button>
     <button v-else-if="!isCurrentUser && user.followed_by_user"
       class="unFollowButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10"
-      @click="emit('unfollow')">Unfollow</button>
+      @click="userStore.unfollow(user.username)">Unfollow</button>
     <div class="w-full h-16 flex flex-row p-2 justify-evenly">
       <button id="pictureTabButton"
         class="w-full h-full p-2 selected-bottom-border border-b-2 flex flex-row justify-center items-center"
@@ -72,14 +73,15 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from "@/api/type";
-import { ref } from "vue";
-import type { PropType } from "vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import ImgLoader from "./ImgLoader.vue";
 import FollowModal from "./modals/FollowModal.vue";
+import { ref } from "vue";
+import { useUserStore } from "@/stores/user";
+import type { PropType } from "vue";
+import type { User } from "@/api/type";
 
 const props = defineProps({
   user: {
@@ -89,6 +91,7 @@ const props = defineProps({
   isCurrentUser: Boolean
 });
 
+const userStore = useUserStore();
 const isPictureTabShown = ref(true);
 const isFollowingShown = ref(false);
 const isFollowerShown = ref(false);
@@ -100,12 +103,6 @@ const emit = defineEmits({
   openProfileModificationModal: () => {
     return true;
   },
-  follow: () => {
-    return true;
-  },
-  unfollow: () => {
-    return true;
-  }
 });
 
 const togglePictureTab = () => {
