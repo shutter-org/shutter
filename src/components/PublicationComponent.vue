@@ -31,13 +31,13 @@
       @vote-up="publicationStore.voteUpComment($event, props.publication.publication_id)"
       @vote-down="publicationStore.voteDownComment($event, props.publication.publication_id)" :comment="comment"
       :key="comment.comment_id" class="shutter-border-mute w-full border-t-2 p-2"></Comment>
-    <button v-if="props.publication.comments.length > nbCommentsShown"
+    <button v-if="props.publication.nb_comments > nbCommentsShown"
       class="shutter-border-mute w-full font-bold text-xl border-t-2 p-2 pt-4" @click="showMoreComments">
-      Show {{ props.publication.comments.length - nbCommentsShown }} comment{{
-        props.publication.comments.length === 1 ? "" : "s"
+      Show {{ props.publication.nb_comments - nbCommentsShown }} comment{{
+        props.publication.nb_comments === 1 ? "" : "s"
       }}
     </button>
-    <button v-if="props.publication.comments.length !== 0 && nbCommentsShown > 0"
+    <button v-if="props.publication.nb_comments !== 0 && nbCommentsShown > 0"
       class="shutter-border-mute   w-full font-bold text-xl border-t-2 p-2 pt-4" @click="hideComments">
       hide
     </button>
@@ -71,6 +71,8 @@ const props = defineProps({
   isCurrentUser: Boolean
 });
 
+console.log(props.publication.comments.length);
+
 const publicationStore = usePublicationStore();
 const descAsComment = ref({
   commenter_user: props.publication.poster_user,
@@ -92,6 +94,9 @@ const emit = defineEmits({
 });
 const showMoreComments = () => {
   nbCommentsShown.value += 10;
+  if (props.publication.nb_comments > nbCommentsShown.value && props.publication.comments.length == nbCommentsShown.value) {
+    publicationStore.getMoreComments(props.publication.publication_id, Math.floor(nbCommentsShown.value / 10) + 1);
+  }
 };
 const hideComments = () => {
   nbCommentsShown.value = 0;

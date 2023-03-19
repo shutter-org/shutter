@@ -3,7 +3,7 @@ import { ref } from "vue"
 import type { Publication, SimplifiedPublication, Comment } from "@/api/type";
 import { deleteRatingPublication, getFollowingPublications, getPublication, ratePublication, updateRatingPublication } from "@/api/publication";
 import { useUserStore } from "./user";
-import { deleteRatingComment, rateComment, updateRatingComment, postComment, deleteComment } from "@/api/comment";
+import { deleteRatingComment, rateComment, updateRatingComment, postComment, deleteComment, getComments } from "@/api/comment";
 
 export const usePublicationStore = defineStore('publication', () => {
     const userStore = useUserStore();
@@ -152,6 +152,7 @@ export const usePublicationStore = defineStore('publication', () => {
                         user_rating: 0,
                     } as Comment;
                     pub.comments.push(newCom);
+                    pub.nb_comments += 1;
                 }
             }
         }
@@ -165,10 +166,28 @@ export const usePublicationStore = defineStore('publication', () => {
                 });
             }
         }
-    }
+    };
+    async function getMoreComments(publicationId: String, page: number) {
+        for (let pub of getAllPublications()) {
+            if (pub.publication_id === publicationId) {
+                if (pub.comments.length < page * 10) {
+                    const res = await getComments(pub.publication_id, page, userStore.authKey);
+                    if (res.status !== 200) {
+                        console.log("erreur dans le fetch des commentaires");
+                    }
+                    else {
+                        const data = await res.json() as Comment[];
+                        for (let com of data.splice(pub.comments.length - (page - 1) * 10, data.length)) {
+                            pub.comments.push(com);
+                        }
+                    }
+                }
+            }
+        }
+    };
 
     return {
         getHomePublications, loadHomePublications, getShownPublication,
-        loadShownPublication, voteUpPub, voteDownPub, voteUpComment, voteDownComment, addComment, delComment
+        loadShownPublication, voteUpPub, voteDownPub, voteUpComment, voteDownComment, addComment, delComment, getMoreComments
     }
 })

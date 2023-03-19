@@ -13,6 +13,18 @@ export const postComment = async (publicationId: String, message: String, authKe
     return response;
 };
 
+export const getComments = async (publicationId: String, page: number, authKey: String) => {
+    const key = "Bearer " + authKey;
+    const response = await fetch(`${API_URL}/publications/${publicationId}/comments?page=${page}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": key,
+        },
+    });
+    return response;
+};
+
 export const deleteComment = async (commentId: string, authKey: String) => {
     const key = "Bearer " + authKey;
     const response = await fetch(`${API_URL}/comments/${commentId}`, {
