@@ -1,18 +1,23 @@
 
 <template>
-    <a href="#" class="w-full rounded-md">
+    <router-link :to="loggedUsername !== props.user.username ? '/user/' + props.user.username : '/profile'"
+        class="w-full rounded-md">
         <div class="py-3 px-1 h-14 flex flex-row items-center">
-            <img class="w-10 h-10 rounded-full mr-8" :src="user.profile_picture" alt="" />
+            <img class="w-10 h-10 rounded-full mr-8" :src="props.user.profile_picture" alt="" />
             <div class="flex flex-col">
-                <span class="font-bold">{{ user.username }}</span>
-                <span class="text-sm">{{ user.name }}</span>
+                <span class="font-bold">{{ props.user.username }}</span>
+                <span class="text-sm">{{ props.user.name }}</span>
             </div>
         </div>
-    </a>
+    </router-link>
 </template>
 <script setup lang="ts">
+import { ref } from 'vue';
 import type { SimplifiedUserWithName } from '@/api/type';
+import { useUserStore } from '@/stores/user';
 const props = defineProps<{
     user: SimplifiedUserWithName;
 }>();
+const userStore = useUserStore();
+const loggedUsername = ref(userStore.username);
 </script>
