@@ -6,15 +6,8 @@
                 placeholder="Search..." />
             <HashtagIcon class="h-6 pr-2" />
         </div>
-        <a href="#" class="w-full rounded-md" v-for="user in usersSearched" v-if="isSearchingUsers">
-            <div class="py-3 px-1 h-14 flex flex-row items-center">
-                <img class="w-10 h-10 rounded-full mr-8" :src="user.profile_picture" alt="" />
-                <div class="flex flex-col">
-                    <span class="font-bold">{{ user.username }}</span>
-                    <span class="text-sm">{{ user.name }}</span>
-                </div>
-            </div>
-        </a>
+
+        <UserBarComponentVue v-for="user in usersSearched" v-if="isSearchingUsers" :user="user"></UserBarComponentVue>
         <a href="#" class="w-full rounded-md" v-for="tag in tagsSearched" v-if="!isSearchingUsers">
             <div class="py-3 px-1 h-14 flex flex-row items-center">
                 <div class="w-10 h-10 rounded-full mr-8 border border-slate-400 flex justify-center items-center">
@@ -32,10 +25,12 @@
                 </div>
             </div>
         </a>
+
     </div>
 </template>
 <script setup lang="ts">
 import HashtagIcon from './icons/HashtagIcon.vue';
+import UserBarComponentVue from './UserBarComponent.vue';
 import { useUserStore } from '@/stores/user';
 import { searchUser } from '@/api/user';
 import { searchTag } from '@/api/tag';
@@ -81,4 +76,7 @@ async function loadSearchedTags(search: string) {
         tagsSearched.value = data;
     }
 }
+const vFocus = {
+    mounted: (el: { focus: () => any; }) => el.focus(),
+};
 </script>

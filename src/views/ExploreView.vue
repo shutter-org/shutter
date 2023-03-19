@@ -3,12 +3,7 @@
     class="shutter-background-mute min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8">
     <div
       class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2 h-full">
-      <div
-        class="my-10 w-64 rounded-md h-12 border-2 shutter-background-color pl-4 self-center flex-row flex items-center shutter-border-color">
-        <input class="z-2 outline-none shutter-background-color box-border w-full h-11 rounded-md" v-focus
-          placeholder="Search..." />
-        <HashtagIcon class="h-6 pr-2" />
-      </div>
+      <SearchComponent />
       <div class="flex flex-wrap justify-center gap-4">
         <button class="w-52 h-52 rounded-lg" v-for="post in posts" @click="openPublicationModal(post.id)">
           <img class="w-full object-cover aspect-square rounded-lg" :src="post.picture" />
@@ -23,6 +18,7 @@ import { ref } from "vue";
 import type { SimplifiedPost, Comment, Publication, SimplifiedUser } from "@/api/type";
 import HashtagIcon from "@/components/icons/HashtagIcon.vue";
 import PublicationModal from "@/components/modals/PublicationModal.vue";
+import SearchComponent from "@/components/SearchComponent.vue";
 
 const isPublicationModalShown = ref(false);
 const shownPublication = ref();

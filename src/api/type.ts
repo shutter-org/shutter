@@ -41,3 +41,9 @@ export interface User {
   gallerys: [];
   followed_by_user: boolean;
 }
+
+export interface SimplifiedUserWithName{
+  username: string;
+  name: string;
+  profile_picture: string;
+}
