@@ -55,7 +55,14 @@
         <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="post.picture" alt="" />
       </button>
     </div>
-    <p v-else>a faire gallery</p>
+    <div v-else>
+      <Carousel :items-to-show="2.5" :wrap-around="true">
+        <Slide v-for="slide in 10" :key="slide">
+          <div class="carousel__item">{{ slide }}</div>
+        </Slide>
+
+      </Carousel>
+    </div>
     <p class="text-xs text-center font-bold w-full p-2 pt-6 border-t-2 bottom-border mt-6">
       member since {{ props.user.created_date }}
     </p>
@@ -82,6 +89,8 @@ import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import type { PropType } from "vue";
 import type { User } from "@/api/type";
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+
 
 const props = defineProps({
   user: {
@@ -149,5 +158,27 @@ const toggleGalleryTab = () => {
 
 .unFollowButton {
   background-color: var(--hover-color);
+}
+
+.carousel__item {
+  min-height: 200px;
+  width: 100%;
+  background-color: green;
+  color: white;
+  font-size: 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel__slide {
+  padding: 10px;
+}
+
+.carousel__prev,
+.carousel__next {
+  box-sizing: content-box;
+  border: 5px solid white;
 }
 </style>

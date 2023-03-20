@@ -3,11 +3,7 @@
     class="shutter-background-mute min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8">
     <div v-if="!isLoading"
       class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2 h-full">
-      <!-- <SearchComponent /> -->
-
-
       <span class="flex-1 ml-3 text-4xl" v-if="!isTagNameEmpty">#{{ route.params.tag }}</span>
-
       <div class="flex flex-wrap justify-center gap-4">
         <button class="w-80" v-for="publication in shownPublications"
           @click="openPublicationModal(publication.publication_id)">
@@ -29,7 +25,6 @@
 <script setup lang="ts">
 import PublicationModal from "@/components/modals/PublicationModal.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
-
 import SadIcon from "@/components/icons/SadIcon.vue";
 import { ref } from "vue";
 import { getPublicationByTag } from "@/api/publication";
