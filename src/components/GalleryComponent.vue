@@ -107,12 +107,12 @@ export default {
 }
 
 .card {
-    width: 100px;
+    width: 250px;
     margin-right: 10px;
     display: inline-flex;
 
     /* optional */
-    height: 100px;
+    height: 250px;
     background-color: #39b1bd;
     color: white;
     border-radius: 4px;

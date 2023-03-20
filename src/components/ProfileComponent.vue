@@ -56,7 +56,7 @@
       </button>
     </div>
     <div v-else class="w-full">
-      <GalleryComponent v-for="gallery in 2" />
+      <GalleryComponentSecond v-for="gallery in 2" />
     </div>
     <p class="text-xs text-center font-bold w-full p-2 pt-6 border-t-2 bottom-border mt-6">
       member since {{ props.user.created_date }}
@@ -86,6 +86,7 @@ import type { PropType } from "vue";
 import type { User } from "@/api/type";
 
 import GalleryComponent from "./GalleryComponent.vue";
+import GalleryComponentSecond from "./GalleryComponentSecond.vue";
 
 
 const props = defineProps({
