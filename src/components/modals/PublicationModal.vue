@@ -47,9 +47,12 @@ async function loadPublication() {
   if (token !== undefined) {
     shownPublication.value = token;
     isLoading.value = false;
+    await publicationStore.loadShownPublication(props.publicationId);
   }
-  shownPublication.value = await publicationStore.loadShownPublication(props.publicationId);
-  isLoading.value = false;
+  else {
+    shownPublication.value = await publicationStore.loadShownPublication(props.publicationId);
+    isLoading.value = false;
+  }
 };
 const deletePub = () => {
   deletePublication(shownPublication.value.publication_id, userStore.authKey);

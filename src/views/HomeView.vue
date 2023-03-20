@@ -50,7 +50,6 @@ async function loadMorePublications(busy: number) {
       }
       publications.value = publicationStore.getHomePublications();
       nextPage.value += 1;
-      console.log(nextPage.value);
     }
     isBusy.value = false;
   }

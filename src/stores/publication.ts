@@ -20,6 +20,11 @@ export const usePublicationStore = defineStore('publication', () => {
         }
         else {
             homePublications.value = await res.json();
+
+            //retirer si dans lastShown
+            lastShownPublications.value = lastShownPublications.value.filter((pubA: Publication) => {
+                homePublications.value.findIndex((pubB: Publication) => pubA.publication_id === pubB.publication_id) === -1;
+            })
         }
     };
     async function loadMorePublications(page: number) {
@@ -34,6 +39,10 @@ export const usePublicationStore = defineStore('publication', () => {
                 for (let pub of data.splice(homePublications.value.length - (page - 1) * 10, data.length)) {
                     homePublications.value.push(pub);
                 }
+                //retirer si dans lastShown
+                lastShownPublications.value = lastShownPublications.value.filter((pubA: Publication) => {
+                    homePublications.value.findIndex((pubB: Publication) => pubA.publication_id === pubB.publication_id) === -1;
+                })
                 return data.length !== 10;
             }
         }
@@ -45,6 +54,13 @@ export const usePublicationStore = defineStore('publication', () => {
                 return pub;
             }
         }
+        if (homePublications.value !== undefined) {
+            for (let pub of homePublications.value) {
+                if (pub.publication_id === publicationId) {
+                    return pub;
+                }
+            }
+        }
         return undefined;
     }
     async function loadShownPublication(publicationId: string) {
@@ -54,7 +70,24 @@ export const usePublicationStore = defineStore('publication', () => {
         }
         else {
             const shownPublication = await res.json();
-            lastShownPublications.value.push(shownPublication);
+            const index = lastShownPublications.value.findIndex((pub: Publication) => pub.publication_id === publicationId);
+            if (index !== -1) {
+                lastShownPublications.value[index] = shownPublication;
+            }
+            else {
+                if (homePublications.value !== undefined) {
+                    const indexHome = homePublications.value.findIndex((pub: Publication) => pub.publication_id === publicationId);
+                    if (indexHome !== -1) {
+                        homePublications.value[index] = shownPublication;
+                    }
+                    else {
+                        lastShownPublications.value.push(shownPublication);
+                    }
+                }
+                else {
+                    lastShownPublications.value.push(shownPublication);
+                }
+            }
             return shownPublication;
         }
     };
