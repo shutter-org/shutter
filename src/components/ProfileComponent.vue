@@ -55,7 +55,10 @@
         <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="post.picture" alt="" />
       </button>
     </div>
-    <p v-else>a faire gallery</p>
+    <SkewLoader v-if="isBusy" color="#465A82" size="10px" class="m-full h-8" />
+    <button v-if="user.nb_publications > user.publications.length" @click="showMore"
+      class="w-full rounded-lg font-bold text-xl p-2 px-4">Show more</button>
+    <p v-if="!isPictureTabShown">a faire gallery</p>
     <p class="text-xs text-center font-bold w-full p-2 pt-6 border-t-2 bottom-border mt-6">
       member since {{ props.user.created_date }}
     </p>
@@ -78,6 +81,7 @@ import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import ImgLoader from "./ImgLoader.vue";
 import FollowModal from "./modals/FollowModal.vue";
+import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import type { PropType } from "vue";
@@ -92,9 +96,11 @@ const props = defineProps({
 });
 
 const userStore = useUserStore();
+const nextPage = ref(2);
 const isPictureTabShown = ref(true);
 const isFollowingShown = ref(false);
 const isFollowerShown = ref(false);
+const isBusy = ref(false);
 
 const emit = defineEmits({
   openPublicationModal: (publicationId: string) => {
@@ -105,6 +111,17 @@ const emit = defineEmits({
   },
 });
 
+const showMore = async () => {
+  if (!isBusy.value) {
+    isBusy.value = true;
+    if (props.user.publications.length < props.user.nb_publications) {
+      console.log("loading more posts")
+      await userStore.loadMorePublications(props.user.username, nextPage.value);
+      nextPage.value += 1;
+    }
+    isBusy.value = false;
+  }
+}
 const togglePictureTab = () => {
   isPictureTabShown.value = true;
 

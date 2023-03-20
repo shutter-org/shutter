@@ -91,9 +91,9 @@ const emit = defineEmits({
   },
 });
 const showMoreComments = () => {
-  nbCommentsShown.value += 10;
+  nbCommentsShown.value += 12;
   if (props.publication.nb_comments > nbCommentsShown.value && props.publication.comments.length == nbCommentsShown.value) {
-    publicationStore.getMoreComments(props.publication.publication_id, Math.floor(nbCommentsShown.value / 10) + 1);
+    publicationStore.getMoreComments(props.publication.publication_id, Math.floor(nbCommentsShown.value / 12) + 1);
   }
 };
 const hideComments = () => {

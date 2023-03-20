@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import { ref, watch } from "vue"
-import { getUser } from "@/api/user";
+import { getMoreUserPublications, getUser } from "@/api/user";
 import { followUser, unfollowUser } from "@/api/user";
-import type { SimplifiedUser, User } from "@/api/type";
+import type { SimplifiedPublication, SimplifiedUser, User } from "@/api/type";
 
 export const useUserStore = defineStore('user', () => {
   const username = ref("");
@@ -76,6 +76,14 @@ export const useUserStore = defineStore('user', () => {
     }
     return undefined;
   };
+  async function loadMorePublications(username: string, page: number) {
+    const res = await getMoreUserPublications(username, page, authKey.value);
+    if (res.status === 200) {
+      console.log("loaded");
+      const publications = await res.json() as SimplifiedPublication[];
+      lastShownUsers.value.get(username).publications = lastShownUsers.value.get(username).publications.concat(publications);
+    }
+  }
 
   async function follow(usernameProp: string) {
     const res = await followUser(usernameProp, authKey.value);
@@ -111,7 +119,7 @@ export const useUserStore = defineStore('user', () => {
   return {
     username, profile_picture, authKey, sessionStartDate,
     setUsername, setProfilePicture, setAuthKey, startSession, getSimplifiedUser, reset,
-    getShownUser, loadShownUser, follow, unfollow
+    getShownUser, loadShownUser, loadMorePublications, follow, unfollow
   }
 })
 
