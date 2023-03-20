@@ -64,12 +64,6 @@ export const useUserStore = defineStore('user', () => {
       "profile_picture": profile_picture.value
     } as SimplifiedUser;
   }
-  const reset = () => {
-    username.value = "";
-    profile_picture.value = "";
-    authKey.value = "";
-    sessionStartDate.value = Number.NaN;
-  }
 
   const getShownUser = (username: string) => {
     for (let user of lastShownUsers.value) {
@@ -113,6 +107,14 @@ export const useUserStore = defineStore('user', () => {
         return user.username !== username.value;
       });
     }
+  }
+
+  const reset = () => {
+    username.value = "";
+    profile_picture.value = "";
+    authKey.value = "";
+    sessionStartDate.value = Number.NaN;
+    lastShownUsers.value = [];
   }
 
   return {

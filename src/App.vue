@@ -1,6 +1,6 @@
 <template>
   <div v-if="isLoggedIn">
-    <Menubars @log-out="isLoggedIn = false" />
+    <Menubars @log-out="logOut" />
     <div class="main ml-64 PRO:ml-0 PRO:mb-20 PRO:mt-20">
       <RouterView :key="$route.fullPath" />
     </div>
@@ -11,11 +11,13 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import { ref, watch } from "vue";
+import { useUserStore } from "./stores/user";
+import { usePublicationStore } from "./stores/publication";
 import Menubars from "@/components/MenuBars.vue";
 import Auth from "@/components/AuthComponent.vue";
-import { useUserStore } from "./stores/user";
 
 const userStore = useUserStore();
+const publicationStore = usePublicationStore();
 const isLoggedIn = ref(!!userStore.authKey);
 const clock = ref(Date.now());
 
@@ -26,8 +28,7 @@ window.setInterval(() => {
 watch(() => clock.value, (newDate: number) => {
   //session d'une heure avec le serveur
   if (!Number.isNaN(userStore.sessionStartDate) && newDate - userStore.sessionStartDate >= 59 * 60 * 1000) {
-    userStore.reset();
-    isLoggedIn.value = false;
+    logOut();
     console.log("session expiree");
   }
 });
@@ -35,6 +36,11 @@ watch(() => clock.value, (newDate: number) => {
 function LoggedIn() {
   userStore.startSession();
   isLoggedIn.value = true;
+}
+function logOut() {
+  userStore.reset();
+  publicationStore.reset();
+  isLoggedIn.value = false;
 }
 </script>
 

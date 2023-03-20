@@ -23,7 +23,7 @@ export const usePublicationStore = defineStore('publication', () => {
         }
     };
     async function loadMorePublications(page: number) {
-        if (homePublications.value.length < page * 10) {
+        if (homePublications.value !== undefined && homePublications.value.length < page * 10) {
             const res = await getFollowingPublications(page, userStore.authKey);
             if (res.status !== 200) {
                 console.log("erreur dans le fetch des publications");
@@ -64,6 +64,10 @@ export const usePublicationStore = defineStore('publication', () => {
             return homePublications.value.concat(lastShownPublications.value);
         }
         return lastShownPublications.value;
+    }
+    const reset = () => {
+        homePublications.value = undefined;
+        lastShownPublications.value = [];
     }
 
     //publications manipulation
@@ -203,7 +207,7 @@ export const usePublicationStore = defineStore('publication', () => {
     };
 
     return {
-        getHomePublications, loadHomePublications, loadMorePublications, getShownPublication,
+        getHomePublications, loadHomePublications, loadMorePublications, getShownPublication, reset,
         loadShownPublication, voteUpPub, voteDownPub, voteUpComment, voteDownComment, addComment, delComment, getMoreComments
     }
 })
