@@ -28,7 +28,6 @@ const isBusy = ref(false);
 const isLoading = ref(true);
 
 loadPublications();
-console.log(publications.value);
 
 async function loadPublications() {
   if (publicationStore.getHomePublications() !== undefined) {

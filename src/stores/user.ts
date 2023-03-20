@@ -9,8 +9,7 @@ export const useUserStore = defineStore('user', () => {
   const profile_picture = ref("");
   const authKey = ref("");
   const sessionStartDate = ref(Number.NaN);
-
-  const lastShownUsers = ref([] as User[]);
+  const lastShownUsers = ref(new Map());
 
   if (sessionStorage.getItem("username")) {
     username.value = JSON.parse(sessionStorage.getItem("username") as string);
@@ -66,47 +65,38 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const getShownUser = (username: string) => {
-    console.log(lastShownUsers.value.length)
-    for (let user of lastShownUsers.value) {
-      if (user.username === username) {
-        return user;
-      }
-    }
-    return undefined;
+    return lastShownUsers.value.get(username);
   }
   async function loadShownUser(username: string) {
     const res = await getUser(username, authKey.value);
     if (res.status === 200) {
-      const shownUser = await res.json();
-      lastShownUsers.value.push(shownUser);
+      const shownUser = await res.json() as User;
+      lastShownUsers.value.set(shownUser.username, shownUser);
       return shownUser;
     }
     return undefined;
   };
-  async function updateUser(usernameProp: string) {
-    const res = await getUser(usernameProp, authKey.value);
-    if (res.status === 200) {
-      const shownUser = await res.json();
-      const index = lastShownUsers.value.findIndex((user: User) => user.username === usernameProp);
-      lastShownUsers.value[index] = shownUser;
-    }
-  };
+
   async function follow(usernameProp: string) {
     const res = await followUser(usernameProp, authKey.value);
     if (res.status === 200) {
-      const index = lastShownUsers.value.findIndex((user: User) => user.username === usernameProp);
-      lastShownUsers.value[index].followed_by_user = true;
-      lastShownUsers.value[index].followers.push(getSimplifiedUser());
+      let user = lastShownUsers.value.get(usernameProp);
+      if (user !== undefined) {
+        user.followed_by_user = true;
+        user.followers.push(getSimplifiedUser());
+      }
     }
   }
   async function unfollow(usernameProp: string) {
     const res = await unfollowUser(usernameProp, authKey.value);
     if (res.status === 200) {
-      const index = lastShownUsers.value.findIndex((user: User) => user.username === usernameProp);
-      lastShownUsers.value[index].followed_by_user = false;
-      lastShownUsers.value[index].followers = lastShownUsers.value[index].followers.filter((user: SimplifiedUser) => {
-        return user.username !== username.value;
-      });
+      let user = lastShownUsers.value.get(usernameProp);
+      if (user !== undefined) {
+        user.followed_by_user = false;
+        user.followers = user.followers.filter((user: SimplifiedUser) => {
+          return user.username !== username.value;
+        });
+      }
     }
   }
 
@@ -115,13 +105,13 @@ export const useUserStore = defineStore('user', () => {
     profile_picture.value = "";
     authKey.value = "";
     sessionStartDate.value = Number.NaN;
-    lastShownUsers.value = [];
+    lastShownUsers.value = new Map();
   }
 
   return {
     username, profile_picture, authKey, sessionStartDate,
     setUsername, setProfilePicture, setAuthKey, startSession, getSimplifiedUser, reset,
-    getShownUser, loadShownUser, updateUser, follow, unfollow
+    getShownUser, loadShownUser, follow, unfollow
   }
 })
 

@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import { ref } from "vue"
-import type { Publication, SimplifiedPublication, Comment } from "@/api/type";
 import { deleteRatingPublication, getFollowingPublications, getPublication, ratePublication, updateRatingPublication } from "@/api/publication";
 import { useUserStore } from "./user";
 import { deleteRatingComment, rateComment, updateRatingComment, postComment, deleteComment, getComments } from "@/api/comment";
+import type { Publication, Comment } from "@/api/type";
 
 export const usePublicationStore = defineStore('publication', () => {
     const userStore = useUserStore();
