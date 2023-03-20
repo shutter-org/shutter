@@ -19,9 +19,10 @@ const router = createRouter({
       component: () => import("../views/UserView.vue"),
     },
     {
-      path: "/explore",
+      path: "/explore/:tag?",
       name: "explore",
       component: () => import("../views/ExploreView.vue"),
+      props: true,
     },
   ],
 });
