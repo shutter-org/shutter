@@ -33,11 +33,14 @@ export interface User {
   username: string;
   name: string;
   profile_picture: string;
+  nb_followers: number;
+  nb_following: number;
   followers: SimplifiedUser[];
   following: SimplifiedUser[];
   biography: string;
   age: number;
   created_date: string;
+  nb_publications: number;
   publications: SimplifiedPublication[];
   gallerys: [];
   followed_by_user: boolean;

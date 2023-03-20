@@ -92,7 +92,7 @@ async function post() {
         publication_id: data.publication_id,
         picture: picture_url.value,
       } as SimplifiedPublication
-      userStore.updateUser();
+      userStore.loadShownUser(userStore.username);
     }
     reader.readAsDataURL(picture.value);
 

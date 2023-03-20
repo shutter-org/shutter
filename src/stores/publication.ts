@@ -19,27 +19,28 @@ export const usePublicationStore = defineStore('publication', () => {
             console.log("erreur dans le fetch des publications");
         }
         else {
-            const data = await res.json() as Publication[];
-            homePublications.value = data;
-            for (let pub of data) {
+            const data = await res.json();
+            homePublications.value = data.publications;
+            for (let pub of data.publications) {
                 lastShownPublications.value.set(pub.publication_id, pub);
             }
+            return data.nb_publications;
         }
     };
     async function loadMorePublications(page: number) {
-        if (homePublications.value !== undefined && homePublications.value.length < page * 10) {
+        if (homePublications.value !== undefined && homePublications.value.length < page * 12) {
             const res = await getFollowingPublications(page, userStore.authKey);
             if (res.status !== 200) {
                 console.log("erreur dans le fetch des publications");
                 return undefined
             }
             else {
-                const data = await res.json() as Publication[];
-                for (let pub of data.splice(homePublications.value.length - (page - 1) * 10, data.length)) {
+                const data = await res.json();
+                for (let pub of data.publications) {
                     homePublications.value.push(pub);
                     lastShownPublications.value.set(pub.publication_id, pub);
                 }
-                return data.length !== 10;
+                return data.length !== 12;
             }
         }
     };
@@ -177,14 +178,14 @@ export const usePublicationStore = defineStore('publication', () => {
     async function getMoreComments(publicationId: String, page: number) {
         let pub = lastShownPublications.value.get(publicationId)
         if (pub !== undefined) {
-            if (pub.comments.length < page * 10) {
+            if (pub.comments.length < page * 12) {
                 const res = await getComments(pub.publication_id, page, userStore.authKey);
                 if (res.status !== 200) {
                     console.log("erreur dans le fetch des commentaires");
                 }
                 else {
                     const data = await res.json() as Comment[];
-                    for (let com of data.splice(pub.comments.length - (page - 1) * 10, data.length)) {
+                    for (let com of data.splice(pub.comments.length - (page - 1) * 12, data.length)) {
                         pub.comments.push(com);
                     }
                 }

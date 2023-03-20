@@ -20,15 +20,15 @@
       }}</p>
     <div class="w-full h-20 flex flex-row gap-10 items-center p-2 pb-4 justify-evenly border-b-2 bottom-border">
       <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
-        {{ props.user.publications.length }} Posts
+        {{ props.user.nb_publications }} Posts
       </p>
       <button class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center"
         @click="isFollowerShown = true">
-        {{ props.user.followers.length }} Followers
+        {{ props.user.nb_followers }} Followers
       </button>
       <button class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center"
         @click="isFollowingShown = true">
-        {{ props.user.following.length }} Following
+        {{ props.user.nb_following }} Following
       </button>
     </div>
     <button v-if="!isCurrentUser && !user.followed_by_user"
@@ -37,7 +37,7 @@
     <button v-else-if="!isCurrentUser && user.followed_by_user"
       class="unFollowButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10"
       @click="userStore.unfollow(user.username)">Unfollow</button>
-    <div class="w-full h-16 flex flex-row p-2 justify-evenly">
+    <div class="w-full h-16 flex flex-row py-2 justify-evenly">
       <button id="pictureTabButton"
         class="w-full h-full p-2 selected-bottom-border border-b-2 flex flex-row justify-center items-center"
         @click="togglePictureTab">
@@ -55,9 +55,14 @@
         <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="post.picture" alt="" />
       </button>
     </div>
-    <div v-else class="w-full">
+
+    <SkewLoader v-if="isBusy" color="#465A82" size="10px" class="m-full h-8" />
+    <button v-if="user.nb_publications > user.publications.length" @click="showMore"
+      class="w-full rounded-lg font-bold text-xl p-2 px-4">Show more</button>
+    <div v-if="!isPictureTabShown" class="w-full">
       <GalleryComponentSecond v-for="gallery in 2" />
     </div>
+
     <p class="text-xs text-center font-bold w-full p-2 pt-6 border-t-2 bottom-border mt-6">
       member since {{ props.user.created_date }}
     </p>
@@ -80,6 +85,7 @@ import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import ImgLoader from "./ImgLoader.vue";
 import FollowModal from "./modals/FollowModal.vue";
+import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import type { PropType } from "vue";
@@ -98,9 +104,11 @@ const props = defineProps({
 });
 
 const userStore = useUserStore();
+const nextPage = ref(2);
 const isPictureTabShown = ref(true);
 const isFollowingShown = ref(false);
 const isFollowerShown = ref(false);
+const isBusy = ref(false);
 
 const emit = defineEmits({
   openPublicationModal: (publicationId: string) => {
@@ -111,6 +119,17 @@ const emit = defineEmits({
   },
 });
 
+const showMore = async () => {
+  if (!isBusy.value) {
+    isBusy.value = true;
+    if (props.user.publications.length < props.user.nb_publications) {
+      console.log("loading more posts")
+      await userStore.loadMorePublications(props.user.username, nextPage.value);
+      nextPage.value += 1;
+    }
+    isBusy.value = false;
+  }
+}
 const togglePictureTab = () => {
   isPictureTabShown.value = true;
 
