@@ -4,15 +4,20 @@
     <div
       class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2 h-full">
       <!-- <SearchComponent /> -->
-      <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="openSearchModal">
-        <SearchIcon />
-        <span class="flex-1 ml-3 PRO:hidden">Search</span>
-      </a>
+
+
+      <span class="flex-1 ml-3 text-4xl" v-if="!isTagEmpty">#{{ route.params.tag }}</span>
+
       <div class="flex flex-wrap justify-center gap-4">
         <button class="w-80" v-for="publication in shownPublications"
           @click="openPublicationModal(publication.publication_id)">
           <img class="w-full object-cover aspect-square rounded-lg" :src="publication.picture" />
         </button>
+        <div v-if="shownPublications.length === 0"
+          class="flex flex-col m-auto items-center p-10 rounded-lg border-2 shutter-border-color shutter-background-color">
+          <SadIcon class="w-40 h-40"></SadIcon>
+          <p class="text-3xl">Tag has no posts...</p>
+        </div>
         <PublicationModal v-if="isPublicationModalShown" @close="closePublicationModal"
           :publication-id="shownPublicationId" :is-current-user="loggedUsername === shownPublication.poster_user.username"
           @delete="deletePublication" />
@@ -22,7 +27,7 @@
 </template>
 <script setup lang="ts">
 import PublicationModal from "@/components/modals/PublicationModal.vue";
-import SearchIcon from "@/components/icons/menu/SearchIcon.vue";
+import SadIcon from "@/components/icons/SadIcon.vue";
 import { ref } from "vue";
 import { getPublicationByTag } from "@/api/publication";
 import { useUserStore } from "@/stores/user";
@@ -36,13 +41,12 @@ const shownPublications = ref<Publication[]>([]);
 const shownPublicationId = ref();
 const shownPublication = ref();
 const loggedUsername = userStore.username;
+const isTagEmpty = ref(true);
 
 searchPublicationByTag(route.params.tag.toString(), 1);
+if (route.params.tag.toString() !== "") {
+  isTagEmpty.value = false;
 
-const emit = defineEmits(["openSearchModal"]);
-function openSearchModal() {
-  emit("openSearchModal")
-  console.log("showing search modal");
 }
 
 async function searchPublicationByTag(tag: string, number: number) {
