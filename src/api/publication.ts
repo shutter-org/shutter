@@ -88,8 +88,6 @@ export const deleteRatingPublication = async (publicationId: String, authKey: St
 };
 
 export const getPublicationByTag = async (page: number, tag: string, authKey: String) => {
-    console.log("tag: " + tag)
-
     const key = "Bearer " + authKey;
     const response = await fetch(`${API_URL}/publications?tag=${tag}&page=${page}`, {
         method: "GET",

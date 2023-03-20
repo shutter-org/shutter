@@ -84,6 +84,7 @@
       </button>
     </div>
 
+
     <!-- Spinner showing updating status -->
     <SkewLoader v-if="isBusy" color="#465A82" size="10px" class="m-full h-8" />
 
@@ -92,7 +93,10 @@
       class="w-full rounded-lg font-bold text-xl p-2 px-4">Show more</button>
 
     <!-- Galleries display -->
-    <p v-if="!isPictureTabShown">a faire gallery</p>
+    <div v-if="!isPictureTabShown" class="w-full">
+      <GalleryComponent v-for="gallery in user.gallerys" :gallery="gallery"
+        @open-publication-modal="openPublicationModalFromGallery" />
+    </div>
 
     <!-- time passsed since user's creation -->
     <p class="text-xs text-center font-bold w-full p-2 pt-6 border-t-2 bottom-border mt-6">
@@ -124,10 +128,12 @@ import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import ImgLoader from "./ImgLoader.vue";
 import FollowModal from "./modals/FollowModal.vue";
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
+import GalleryComponent from "./GalleryComponent.vue";
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import type { PropType } from "vue";
 import type { User } from "@/api/type";
+
 
 const props = defineProps({
   user: {
@@ -185,6 +191,9 @@ const toggleGalleryTab = () => {
   let pictureTabButton = document.getElementById("pictureTabButton")!;
   pictureTabButton.classList.add("bottom-border");
   pictureTabButton.classList.remove("selected-bottom-border");
+};
+const openPublicationModalFromGallery = (publicationId: string) => {
+  emit("openPublicationModal", publicationId);
 };
 </script>
 
