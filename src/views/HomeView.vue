@@ -1,15 +1,24 @@
 <template>
+  <!-- Infinite scroll loading post as scrolling -->
   <div v-infinite-scroll="loadMorePublications" infinite-scroll-distance="2000" infinite-scroll-immediate-check="true"
     class="shutter-background-mute min-h-screen PRO:min-h-[calc(100vh-160px)] p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
+
+    <!-- Spinner showing status (updating, loading home page) -->
     <SkewLoader v-if="isUpdating" color="#465A82" size="10px" class="m-full h-8 absolute top-2 left-1/2" />
     <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
+
+    <!-- Posts display -->
     <publication v-else-if="publications.length > 0" @search-tag="searchTag" @add-to-gallery="addToGallery"
       v-for="pub in publications" :publication="pub" :key="pub.publication_id"></publication>
+
+    <!-- Empty home (if no post) -->
     <div v-else
       class="flex flex-col m-auto items-center p-10 rounded-lg border-2 shutter-border-color shutter-background-color">
       <EmptyIcon class="w-40 h-40"></EmptyIcon>
       <p class="text-3xl">It's empty here...</p>
     </div>
+
+    <!-- Spinner showing loading more post status -->
     <SkewLoader v-if="isBusy" color="#465A82" size="10px" class="m-full h-8" />
   </div>
 </template>

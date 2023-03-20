@@ -1,8 +1,13 @@
 <template>
+  <!-- Link to user's profile -->
   <router-link :to="loggedUsername !== props.user.username ? '/user/' + props.user.username : '/profile'"
     class="flex flex-row gap-2 items-center rounded-lg p-2 w-fit">
+
+    <!-- profile picture -->
     <ImgLoader class="h-full object-cover aspect-square rounded-full border-2" :src="props.user.profile_picture"
       :round="true" alt="" />
+
+    <!-- Username (standart or smaller) -->
     <p v-if="props.smaller === true" class="font-bold text-xl inline overflow-hidden whitespace-nowrap overflow-ellipsis">
       {{ props.user.username }}
     </p>

@@ -1,10 +1,17 @@
 <template>
+  <!-- Main page -->
   <div v-if="isLoggedIn">
+
+    <!-- Menubar -->
     <Menubars @log-out="logOut" />
+
+    <!-- Router view -->
     <div class="main ml-64 PRO:ml-0 PRO:mb-20 PRO:mt-20">
       <RouterView :key="$route.fullPath" />
     </div>
   </div>
+
+  <!-- Authentification page -->
   <Auth v-else @logged-in="LoggedIn" />
 </template>
 
