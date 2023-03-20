@@ -1,9 +1,15 @@
 <template>
   <div
     class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2">
+
+    <!-- User identifications -->
     <div class="w-full h-40 PRO:h-80 flex flex-row PRO:flex-col gap-10 items-center p-2">
+
+      <!-- Profile picture -->
       <ImgLoader class="h-full PRO:h-1/2 object-cover aspect-square rounded-full border-2"
         :src="props.user.profile_picture" :round="true" alt="" />
+
+      <!-- Username and name -->
       <div class="h-full w-full flex flex-col gap-4 justify-center overflow-x-auto">
         <p
           class="w-full font-bold text-4xl inline overflow-hidden whitespace-nowrap overflow-ellipsis PRO:text-center p-1">
@@ -14,41 +20,63 @@
         </p>
       </div>
     </div>
+
+    <!-- Biography -->
     <p v-if="props.user.biography" class="w-full text-2xl p-2 pb-4 px-6 border-t-2 border-b-2 bottom-border break-words">
       {{
         props.user.biography
       }}</p>
+
+    <!-- Stats -->
     <div class="w-full h-20 flex flex-row gap-10 items-center p-2 pb-4 justify-evenly border-b-2 bottom-border">
+
+      <!-- Post counts -->
       <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
         {{ props.user.nb_publications }} Posts
       </p>
+
+      <!-- Followers count/button -->
       <button class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center"
         @click="isFollowerShown = true">
         {{ props.user.nb_followers }} Followers
       </button>
+
+      <!-- Following count/button -->
       <button class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center"
         @click="isFollowingShown = true">
         {{ props.user.nb_following }} Following
       </button>
     </div>
+
+    <!-- FollowButon (if not current user) -->
     <button v-if="!isCurrentUser && !user.followed_by_user"
       class="followButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10"
       @click="userStore.follow(user.username)">Follow</button>
+
+    <!-- UnfollowButon (if not current user) -->
     <button v-else-if="!isCurrentUser && user.followed_by_user"
       class="unFollowButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10"
       @click="userStore.unfollow(user.username)">Unfollow</button>
+
+    <!-- Tab button posts/galleries -->
     <div class="w-full h-16 flex flex-row py-2 justify-evenly">
+
+      <!-- Pictures tab button -->
       <button id="pictureTabButton"
         class="w-full h-full p-2 selected-bottom-border border-b-2 flex flex-row justify-center items-center"
         @click="togglePictureTab">
         <ImageIcon class="h-full aspect-square"></ImageIcon>
       </button>
+
+      <!-- Galleries tab buttom -->
       <button id="galleryTabButton"
         class="w-full h-full p-2 bottom-border border-b-2 flex flex-row justify-center items-center"
         @click="toggleGalleryTab">
         <GalleryIcon class="h-full aspect-square"></GalleryIcon>
       </button>
     </div>
+
+    <!-- Pictures display (open post on click) -->
     <div v-if="isPictureTabShown" class="w-full h-full grid grid-cols-3 PRO:grid-cols-2 gap-6 PRO:gap-4 p-4 pt-10">
       <button v-for="post of props.user.publications" @click="emit('openPublicationModal', post.publication_id)"
         :key="post.publication_id">
@@ -56,24 +84,38 @@
       </button>
     </div>
 
+
+    <!-- Spinner showing updating status -->
     <SkewLoader v-if="isBusy" color="#465A82" size="10px" class="m-full h-8" />
+
+    <!-- Show more button (if more posts to show) -->
     <button v-if="user.nb_publications > user.publications.length" @click="showMore"
       class="w-full rounded-lg font-bold text-xl p-2 px-4">Show more</button>
+
+    <!-- Galleries display -->
     <div v-if="!isPictureTabShown" class="w-full">
       <GalleryComponent v-for="gallery in user.gallerys" :gallery="gallery"
         @open-publication-modal="openPublicationModalFromGallery" />
     </div>
+
+    <!-- time passsed since user's creation -->
     <p class="text-xs text-center font-bold w-full p-2 pt-6 border-t-2 bottom-border mt-6">
       member since {{ props.user.created_date }}
     </p>
+
+    <!-- Modify profile button -->
     <button v-if="isCurrentUser" id="modifyButton" class="h-8 w-8 absolute right-4 top-4"
       @click="emit('openProfileModificationModal')">
       <ModifyIcon class="h-full w-full" />
     </button>
   </div>
+
+  <!-- following modal -->
   <FollowModal v-if="isFollowingShown" :users="{ values: props.user.following }" title="Following"
     @close="isFollowingShown = false">
   </FollowModal>
+
+  <!-- follower modal -->
   <FollowModal v-if="isFollowerShown" :users="{ values: props.user.followers }" title="Follower"
     @close="isFollowerShown = false">
   </FollowModal>

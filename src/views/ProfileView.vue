@@ -1,12 +1,20 @@
 <template>
   <div
     class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8 shutter-background-mute">
+
+    <!-- Spinner showing status (updating, loading) -->
     <SkewLoader v-if="isUpdating" color="#465A82" size="10px" class="m-full h-8 absolute top-2 left-1/2" />
     <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
+
+    <!-- Current user's profile -->
     <Profile v-else :user="user" :is-current-user="true" @open-publication-modal="openPublicationModal"
       @open-profile-modification-modal="openProfileModificationModal"></Profile>
+
+    <!-- Post consultation modal -->
     <PublicationModal class="PRO:my-[80px] p-12" v-if="isPublicationModalShown" :publicationId="shownPublicationId"
       :is-current-user="true" @close="closePublicationModal" @delete="deletePublication" />
+
+    <!-- Profile modification modal -->
     <ProfileModificationModal v-if="isProfileModificationShown" :user="user" @close="closeProfileModificationModal"
       @save="save" />
   </div>

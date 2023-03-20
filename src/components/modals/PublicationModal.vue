@@ -1,9 +1,13 @@
 <template>
   <div class="fixed inset-0 z-50 flex flex-col gap-8 overflow-y-scroll pt-10">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
+
+    <!-- Spinners showing status (updating, loading) -->
     <SkewLoader v-if="isUpdating" color="#465A82" size="10px"
       class="m-full h-8 translate-x-[126px] PRO:translate-x-0 absolute top-2 left-1/2" />
     <RingLoader v-if="isLoading" color="#465A82" size="60px" class="m-auto translate-x-[126px] PRO:translate-x-0" />
+
+    <!-- Publication -->
     <div v-else class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
       <publication-component class="" @delete-pub="deletePub" @search-tag="searchTag" @add-to-gallery="addToGallery"
         :publication="shownPublication" :is-current-user="isCurrentUser"></publication-component>

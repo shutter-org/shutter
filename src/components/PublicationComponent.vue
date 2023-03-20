@@ -1,46 +1,74 @@
 <template>
   <div class="shutter-border-color shutter-background-color flex flex-col gap-2 items-center rounded-lg p-4 border-2">
+
+    <!-- Header information (poster, post date) -->
     <div class="flex flex-row items-center justify-between w-full">
       <User class="h-14 mr-auto" :user="props.publication.poster_user"></User>
       <p class="text-xl p-2">{{ props.publication.created_date }}</p>
     </div>
+
+    <!-- Picture -->
     <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="props.publication.picture" alt="" />
+
+    <!-- Post interaction bar -->
     <div class="flex flex-row justify-between w-full p-1">
+
+      <!-- Rating interface (upvote, downvote) -->
       <RatingInterface @vote-up="publicationStore.voteUpPub(props.publication.publication_id)"
         @vote-down="publicationStore.voteDownPub(props.publication.publication_id)" :total_rate="props.publication.rating"
         :user_rate="props.publication.user_rating"></RatingInterface>
+
+      <!-- Post manipulation subBar -->
       <div class="flex flex-row gap-4">
+
+        <!-- Modify button -->
         <button v-if="isCurrentUser" @click="">
           <ModifyIcon></ModifyIcon>
         </button>
+
+        <!-- Delete button -->
         <DeleteComponent v-if="isCurrentUser" @delete="emit('deletePub')"></DeleteComponent>
+
+        <!-- Add to gallery button -->
         <button @click="emit('addToGallery', props.publication.publication_id)">
           <GalleryIcon></GalleryIcon>
         </button>
       </div>
     </div>
+
+    <!-- Description (disguised as comment) -->
     <Comment class="w-full p-2" :comment="descAsComment"></Comment>
+
+    <!-- Tags display -->
     <div class="w-full flex flex-wrap gap-2 justify-start p-2">
       <button v-for="tag of props.publication.tags" :key="tag"
         class="tag text-xl underline overflow-hidden whitespace-nowrap overflow-ellipsis" @click="emit('searchTag', tag)">
         #{{ tag }}
       </button>
     </div>
+
+    <!-- Comments display -->
     <Comment v-for="comment of props.publication.comments.slice(0, nbCommentsShown)"
       @delete-comment="publicationStore.delComment(props.publication.publication_id, $event)"
       @vote-up="publicationStore.voteUpComment($event, props.publication.publication_id)"
       @vote-down="publicationStore.voteDownComment($event, props.publication.publication_id)" :comment="comment"
       :key="comment.comment_id" class="shutter-border-mute w-full border-t-2 p-2"></Comment>
+
+    <!-- Show more comments button -->
     <button v-if="props.publication.nb_comments > nbCommentsShown"
       class="shutter-border-mute w-full font-bold text-xl border-t-2 p-2 pt-4" @click="showMoreComments">
       Show {{ props.publication.nb_comments - nbCommentsShown }} comment{{
         props.publication.nb_comments === 1 ? "" : "s"
       }}
     </button>
+
+    <!-- Hide comments -->
     <button v-if="props.publication.nb_comments !== 0 && nbCommentsShown > 0"
       class="shutter-border-mute   w-full font-bold text-xl border-t-2 p-2 pt-4" @click="hideComments">
       hide
     </button>
+
+    <!-- Write comment section -->
     <div class="w-full shutter-border-mute border-t-2 p-2 pt-8">
       <textarea class="inputable w-full max-h-36 text-xl p-2 border-2 rounded-lg" placeholder="Leave a comment..."
         maxlength="200" v-model="message"
