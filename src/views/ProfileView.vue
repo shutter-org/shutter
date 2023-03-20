@@ -8,7 +8,7 @@
 
     <!-- Current user's profile -->
     <Profile v-else :user="user" :is-current-user="true" @open-publication-modal="openPublicationModal"
-      @open-profile-modification-modal="openProfileModificationModal"></Profile>
+      @open-profile-modification-modal="openProfileModificationModal" @open-delete-modal="openDeleteModal"></Profile>
 
     <!-- Post consultation modal -->
     <PublicationModal class="PRO:my-[80px] p-12" v-if="isPublicationModalShown" :publicationId="shownPublicationId"
@@ -17,6 +17,9 @@
     <!-- Profile modification modal -->
     <ProfileModificationModal v-if="isProfileModificationShown" :user="user" @close="closeProfileModificationModal"
       @save="save" />
+
+    <!-- Delete user account modal -->
+    <DeleteModal v-if="isDeleteModalShown" @close="closeDeleteModal" @delete-user="delUser" />
   </div>
 </template>
 
@@ -24,6 +27,7 @@
 import Profile from "@/components/ProfileComponent.vue";
 import PublicationModal from "@/components/modals/PublicationModal.vue";
 import ProfileModificationModal from "@/components/modals/ProfileModificationModal.vue";
+import DeleteModal from "@/components/modals/DeleteModal.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import { ref, watch } from "vue";
@@ -36,6 +40,7 @@ const user = ref();
 const isPublicationModalShown = ref(false);
 const shownPublicationId = ref("");
 const isProfileModificationShown = ref(false);
+const isDeleteModalShown = ref(false);
 const isLoading = ref(true);
 const isUpdating = ref(false);
 
@@ -121,6 +126,11 @@ const deletePublication = (publicationId: string) => {
     return publication.publication_id !== publicationId;
   });
 }
+const delUser = () => {
+  userStore.deleteCurrentUser();
+  const logoutButton = document.getElementById("logoutButton");
+  logoutButton?.click();
+}
 const openPublicationModal = (publicationId: string) => {
   console.log(publicationId);
   shownPublicationId.value = publicationId;
@@ -134,6 +144,12 @@ const openProfileModificationModal = () => {
 };
 const closeProfileModificationModal = () => {
   isProfileModificationShown.value = false;
+};
+const openDeleteModal = () => {
+  isDeleteModalShown.value = true;
+};
+const closeDeleteModal = () => {
+  isDeleteModalShown.value = false;
 };
 </script>
 

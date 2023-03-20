@@ -25,6 +25,18 @@ export const updateUser = async (username: String, authKey: String, body: {}) =>
     return response;
 };
 
+export const deleteUser = async (username: String, authKey: String) => {
+    const key = "Bearer " + authKey;
+    const response = await fetch(`${API_URL}/users/${username}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": key,
+        },
+    });
+    return response;
+};
+
 export const getMoreUserPublications = async (username: String, page: number, authKey: String) => {
     const key = "Bearer " + authKey;
     const response = await fetch(`${API_URL}/users/${username}/publications?page=${page}`, {
