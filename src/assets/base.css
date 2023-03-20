@@ -1,9 +1,9 @@
 /* semantic color variables for this project */
 :root {
-  --color-background: #B3C5D7;
+  --color-background: #ECF5FF;
   --color-background-mute: #C5D5EA;
 
-  --color-border: #FFFFFF;
+  --color-border: #9ebbd4;
 
   --color-text: #17212C;
 
@@ -14,7 +14,7 @@
 
   --special-text-color: #2883BB;
 
-  --back-alt-color: #D8E1E9;
+  --back-alt-color: #B3C5D7;
 }
 
 @media (prefers-color-scheme: dark) {

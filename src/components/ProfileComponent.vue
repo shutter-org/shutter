@@ -37,7 +37,7 @@
     <button v-else-if="!isCurrentUser && user.followed_by_user"
       class="unFollowButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10"
       @click="userStore.unfollow(user.username)">Unfollow</button>
-    <div class="w-full h-16 flex flex-row p-2 justify-evenly">
+    <div class="w-full h-16 flex flex-row py-2 justify-evenly">
       <button id="pictureTabButton"
         class="w-full h-full p-2 selected-bottom-border border-b-2 flex flex-row justify-center items-center"
         @click="togglePictureTab">

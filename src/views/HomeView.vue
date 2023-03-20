@@ -10,6 +10,7 @@
       <EmptyIcon class="w-40 h-40"></EmptyIcon>
       <p class="text-3xl">It's empty here...</p>
     </div>
+    <SkewLoader v-if="isBusy" color="#465A82" size="10px" class="m-full h-8" />
   </div>
 </template>
 
