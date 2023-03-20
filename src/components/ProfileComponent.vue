@@ -60,9 +60,8 @@
     <button v-if="user.nb_publications > user.publications.length" @click="showMore"
       class="w-full rounded-lg font-bold text-xl p-2 px-4">Show more</button>
     <div v-if="!isPictureTabShown" class="w-full">
-      <GalleryComponentSecond v-for="gallery in 2" />
+      <GalleryComponent v-for="gallery in 2" />
     </div>
-
     <p class="text-xs text-center font-bold w-full p-2 pt-6 border-t-2 bottom-border mt-6">
       member since {{ props.user.created_date }}
     </p>
@@ -86,13 +85,11 @@ import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import ImgLoader from "./ImgLoader.vue";
 import FollowModal from "./modals/FollowModal.vue";
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
+import GalleryComponent from "./GalleryComponent.vue";
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import type { PropType } from "vue";
 import type { User } from "@/api/type";
-
-import GalleryComponent from "./GalleryComponent.vue";
-import GalleryComponentSecond from "./GalleryComponentSecond.vue";
 
 
 const props = defineProps({
