@@ -39,10 +39,13 @@ async function loadUser(username: string) {
         user.value = token;
         isLoading.value = false;
         doesUserExist.value = true;
+        await userStore.updateUser(username);
     }
-    user.value = await userStore.loadShownUser(username);
-    doesUserExist.value = user.value !== undefined;
-    isLoading.value = false;
+    else {
+        user.value = await userStore.loadShownUser(username);
+        doesUserExist.value = user.value !== undefined;
+        isLoading.value = false;
+    }
 };
 const openPublicationModal = (publicationId: string) => {
     console.log(publicationId);

@@ -39,9 +39,12 @@ async function loadUser() {
   if (token !== undefined) {
     user.value = token;
     isLoading.value = false;
+    await userStore.updateUser(userStore.username);
   }
-  user.value = await userStore.loadShownUser(userStore.username);
-  isLoading.value = false;
+  else {
+    user.value = await userStore.loadShownUser(userStore.username);
+    isLoading.value = false;
+  }
 };
 async function save(picture: Blob, picture_url: string, username: string, name: string, bio: string) {
   const body = {} as User;
@@ -83,7 +86,7 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
             console.log(user.value.profile_picture);
           }
         }
-        await userStore.updateUser();
+        await userStore.updateUser(username);
         console.log('updated')
       }
     }

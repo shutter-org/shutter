@@ -66,6 +66,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const getShownUser = (username: string) => {
+    console.log(lastShownUsers.value.length)
     for (let user of lastShownUsers.value) {
       if (user.username === username) {
         return user;
@@ -82,11 +83,11 @@ export const useUserStore = defineStore('user', () => {
     }
     return undefined;
   };
-  async function updateUser() {
-    const res = await getUser(username.value, authKey.value);
+  async function updateUser(usernameProp: string) {
+    const res = await getUser(usernameProp, authKey.value);
     if (res.status === 200) {
       const shownUser = await res.json();
-      const index = lastShownUsers.value.findIndex((user: User) => user.username === username.value);
+      const index = lastShownUsers.value.findIndex((user: User) => user.username === usernameProp);
       lastShownUsers.value[index] = shownUser;
     }
   };
