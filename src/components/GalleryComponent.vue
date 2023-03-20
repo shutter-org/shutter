@@ -11,12 +11,15 @@
             </button>
         </div>
         <div class="flex flex-row justify-between">
-            <RatingInterface :total_rate="2"></RatingInterface>
+            <RatingInterface @vote-up="galleryStore.voteUpGallery(props.gallery)"
+                @vote-down="galleryStore.voteDownGallery(props.gallery)" :total_rate="props.gallery.rating"
+                :user_rate="props.gallery.username_rating">
+            </RatingInterface>
             <div class="flex flex-row pr-2">
                 <button>
                     <ModifyIcon></ModifyIcon>
                 </button>
-                <DeleteComponent></DeleteComponent>
+                <DeleteComponent @delete="galleryStore.deleteGallery"></DeleteComponent>
             </div>
         </div>
     </div>
@@ -28,7 +31,8 @@ import type { PropType } from "vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import DeleteComponent from "./subComponents/DeleteComponent.vue";
 import RatingInterface from "./subComponents/RatingInterface.vue";
-
+import { useGalleryStore } from "@/stores/gallery";
+const galleryStore = useGalleryStore();
 const props = defineProps({
     gallery: {
         type: Object as PropType<Gallery>,
