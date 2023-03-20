@@ -25,7 +25,7 @@ import type { Publication as Pub } from "@/api/type";
 const publicationStore = usePublicationStore();
 const publications = ref([] as Pub[]);
 const nextPage = ref(2);
-const isAtTheEnd = ref(false);
+const nb_publications = ref(0);
 const isBusy = ref(false);
 const isLoading = ref(true);
 const isUpdating = ref(false);
@@ -35,24 +35,20 @@ loadPublications();
 async function loadPublications() {
   if (publicationStore.getHomePublications() !== undefined) {
     publications.value = publicationStore.getHomePublications();
-    console.log(publications.value)
     isLoading.value = false;
     isUpdating.value = true;
   }
-  await publicationStore.loadHomePublications();
+  nb_publications.value = await publicationStore.loadHomePublications();
   publications.value = publicationStore.getHomePublications();
   isLoading.value = false;
   isUpdating.value = false;
 };
-async function loadMorePublications(busy: number) {
+async function loadMorePublications() {
   if (!isBusy.value) {
     isBusy.value = true;
-    if (!isAtTheEnd.value) {
+    if (publications.value.length < nb_publications.value) {
       console.log("loading more posts")
       const token = await publicationStore.loadMorePublications(nextPage.value);
-      if (token !== undefined) {
-        isAtTheEnd.value = token;
-      }
       publications.value = publicationStore.getHomePublications();
       nextPage.value += 1;
     }

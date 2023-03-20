@@ -20,15 +20,15 @@
       }}</p>
     <div class="w-full h-20 flex flex-row gap-10 items-center p-2 pb-4 justify-evenly border-b-2 bottom-border">
       <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
-        {{ props.user.publications.length }} Posts
+        {{ props.user.nb_publications }} Posts
       </p>
       <button class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center"
         @click="isFollowerShown = true">
-        {{ props.user.followers.length }} Followers
+        {{ props.user.nb_followers }} Followers
       </button>
       <button class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center"
         @click="isFollowingShown = true">
-        {{ props.user.following.length }} Following
+        {{ props.user.nb_following }} Following
       </button>
     </div>
     <button v-if="!isCurrentUser && !user.followed_by_user"

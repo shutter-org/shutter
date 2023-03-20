@@ -86,7 +86,6 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
           }
           if (data.user.profile_picture !== undefined) {
             userStore.setProfilePicture(data.user.profile_picture);
-            console.log(user.value.profile_picture);
           }
         }
         user.value = await userStore.loadShownUser(userStore.username);

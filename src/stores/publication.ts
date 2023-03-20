@@ -19,11 +19,12 @@ export const usePublicationStore = defineStore('publication', () => {
             console.log("erreur dans le fetch des publications");
         }
         else {
-            const data = await res.json() as Publication[];
-            homePublications.value = data;
-            for (let pub of data) {
+            const data = await res.json();
+            homePublications.value = data.publications;
+            for (let pub of data.publications) {
                 lastShownPublications.value.set(pub.publication_id, pub);
             }
+            return data.nb_publications;
         }
     };
     async function loadMorePublications(page: number) {
@@ -34,7 +35,7 @@ export const usePublicationStore = defineStore('publication', () => {
                 return undefined
             }
             else {
-                const data = await res.json() as Publication[];
+                const data = await res.json();
                 for (let pub of data.splice(homePublications.value.length - (page - 1) * 10, data.length)) {
                     homePublications.value.push(pub);
                     lastShownPublications.value.set(pub.publication_id, pub);
