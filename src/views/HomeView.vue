@@ -1,6 +1,7 @@
 <template>
   <div v-infinite-scroll="loadMorePublications" infinite-scroll-distance="2000" infinite-scroll-immediate-check="true"
     class="shutter-background-mute min-h-screen PRO:min-h-[calc(100vh-160px)] p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
+    <SkewLoader v-if="isUpdating" color="#465A82" size="10px" class="m-full h-8 absolute top-2 left-1/2" />
     <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
     <publication v-else-if="publications.length > 0" @search-tag="searchTag" @add-to-gallery="addToGallery"
       v-for="pub in publications" :publication="pub" :key="pub.publication_id"></publication>
@@ -15,6 +16,7 @@
 <script setup lang="ts">
 import Publication from "@/components/PublicationComponent.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
+import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import EmptyIcon from "@/components/icons/EmptyIcon.vue";
 import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
@@ -26,17 +28,21 @@ const nextPage = ref(2);
 const isAtTheEnd = ref(false);
 const isBusy = ref(false);
 const isLoading = ref(true);
+const isUpdating = ref(false);
 
 loadPublications();
 
 async function loadPublications() {
   if (publicationStore.getHomePublications() !== undefined) {
     publications.value = publicationStore.getHomePublications();
+    console.log(publications.value)
     isLoading.value = false;
+    isUpdating.value = true;
   }
   await publicationStore.loadHomePublications();
   publications.value = publicationStore.getHomePublications();
   isLoading.value = false;
+  isUpdating.value = false;
 };
 async function loadMorePublications(busy: number) {
   if (!isBusy.value) {

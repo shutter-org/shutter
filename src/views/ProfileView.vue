@@ -1,6 +1,7 @@
 <template>
   <div
     class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8 shutter-background-mute">
+    <SkewLoader v-if="isUpdating" color="#465A82" size="10px" class="m-full h-8 absolute top-2 left-1/2" />
     <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
     <Profile v-else :user="user" :is-current-user="true" @open-publication-modal="openPublicationModal"
       @open-profile-modification-modal="openProfileModificationModal"></Profile>
@@ -16,6 +17,7 @@ import Profile from "@/components/ProfileComponent.vue";
 import PublicationModal from "@/components/modals/PublicationModal.vue";
 import ProfileModificationModal from "@/components/modals/ProfileModificationModal.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
+import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import { ref, watch } from "vue";
 import { updateUser } from "@/api/user";
 import { useUserStore } from '@/stores/user'
@@ -27,6 +29,7 @@ const isPublicationModalShown = ref(false);
 const shownPublicationId = ref("");
 const isProfileModificationShown = ref(false);
 const isLoading = ref(true);
+const isUpdating = ref(false);
 
 loadUser();
 
@@ -39,9 +42,11 @@ async function loadUser() {
   if (token !== undefined) {
     user.value = token;
     isLoading.value = false;
+    isUpdating.value = true;
   }
   user.value = await userStore.loadShownUser(userStore.username);
   isLoading.value = false;
+  isUpdating.value = false;
 
 };
 async function save(picture: Blob, picture_url: string, username: string, name: string, bio: string) {

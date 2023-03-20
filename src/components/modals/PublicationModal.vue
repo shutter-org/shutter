@@ -1,7 +1,9 @@
 <template>
-  <div class="fixed inset-0 z-50 flex justify-center overflow-y-scroll">
+  <div class="fixed inset-0 z-50 flex flex-col gap-8 overflow-y-scroll pt-10">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
-    <RingLoader v-if="isLoading" color="#465A82" size="60px" class="m-auto translate-x-[126px] PRO:translate-x-0 " />
+    <SkewLoader v-if="isUpdating" color="#465A82" size="10px"
+      class="m-full h-8 translate-x-[126px] PRO:translate-x-0 absolute top-2 left-1/2" />
+    <RingLoader v-if="isLoading" color="#465A82" size="60px" class="m-auto translate-x-[126px] PRO:translate-x-0" />
     <div v-else class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
       <publication-component class="" @delete-pub="deletePub" @search-tag="searchTag" @add-to-gallery="addToGallery"
         :publication="shownPublication" :is-current-user="isCurrentUser"></publication-component>
@@ -13,6 +15,7 @@
 <script setup lang="ts">
 import PublicationComponent from "@/components/PublicationComponent.vue";
 import RingLoader from "vue-spinner/src/RingLoader.vue"
+import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import { ref } from "vue";
 import { deletePublication } from "@/api/publication";
 import { useUserStore } from '@/stores/user'
@@ -39,6 +42,7 @@ const userStore = useUserStore();
 const publicationStore = usePublicationStore();
 const shownPublication = ref();
 const isLoading = ref(true);
+const isUpdating = ref(false);
 
 loadPublication();
 
@@ -47,9 +51,11 @@ async function loadPublication() {
   if (token !== undefined) {
     shownPublication.value = token;
     isLoading.value = false;
+    isUpdating.value = true;
   }
   shownPublication.value = await publicationStore.loadShownPublication(props.publicationId);
   isLoading.value = false;
+  isUpdating.value = false
 };
 const deletePub = () => {
   deletePublication(shownPublication.value.publication_id, userStore.authKey);

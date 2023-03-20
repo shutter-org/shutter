@@ -1,6 +1,7 @@
 <template>
     <div
         class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8 shutter-background-mute">
+        <SkewLoader v-if="isUpdating" color="#465A82" size="10px" class="m-full h-8 absolute top-2 left-1/2" />
         <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
         <Profile v-else-if="doesUserExist" :user="user" :is-current-user="false"
             @open-publication-modal="openPublicationModal"></Profile>
@@ -18,6 +19,7 @@
 import Profile from "@/components/ProfileComponent.vue";
 import PublicationModal from "@/components/modals/PublicationModal.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue";
+import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import SadIcon from "@/components/icons/SadIcon.vue";
 import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
@@ -29,6 +31,7 @@ const user = ref();
 const isPublicationModalShown = ref(false);
 const shownPublicationId = ref("");
 const isLoading = ref(true);
+const isUpdating = ref(false);
 const doesUserExist = ref(false);
 
 loadUser(route.params.username as string);
@@ -38,11 +41,13 @@ async function loadUser(username: string) {
     if (token !== undefined) {
         user.value = token;
         isLoading.value = false;
+        isUpdating.value = true;
         doesUserExist.value = true;
     }
     user.value = await userStore.loadShownUser(username);
     doesUserExist.value = user.value !== undefined;
     isLoading.value = false;
+    isUpdating.value = false;
 };
 const openPublicationModal = (publicationId: string) => {
     console.log(publicationId);
