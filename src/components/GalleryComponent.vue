@@ -1,18 +1,18 @@
 <template>
     <div class="flex flex-col ">
         <div class="flex flex-row justify-between">
-            <div class="font-bold text-2xl pl-2">titre</div>
-            <div class="text-xl pr-2">date</div>
+            <div class="font-bold text-2xl pl-2 py-1">{{ props.gallery.title }}</div>
+            <div class="text-xl pr-2 py-1">{{ props.gallery.created_date }}</div>
         </div>
         <div class="scrollmenu" v-dragscroll>
-            <button v-for="publication in props.gallery.publications" class="w-80 px-1"
+            <button v-for="publication in props.gallery.publications" class="w-80 px-2"
                 @click="emit('openPublicationModal', publication.publication_id)">
                 <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="publication.picture" />
             </button>
         </div>
         <div class="flex flex-row justify-between">
             <RatingInterface :total_rate="2"></RatingInterface>
-            <div class="flex flex-row">
+            <div class="flex flex-row pr-2">
                 <button>
                     <ModifyIcon></ModifyIcon>
                 </button>

@@ -42,7 +42,7 @@ export interface User {
   created_date: string;
   nb_publications: number;
   publications: SimplifiedPublication[];
-  gallerys: [];
+  gallerys: SimplifedGallery[];
   followed_by_user: boolean;
 }
 
@@ -51,8 +51,19 @@ export interface SimplifiedUserWithName {
   name: string;
   profile_picture: string;
 }
+export interface SimplifedGallery {
+  gallery_id: string;
+  title: string;
+  publications: SimplifiedPublication[];
+}
 export interface Gallery {
   gallery_id: string;
   title: string;
+  created_date: string;
+  creator_user: SimplifiedUser;
+  description: string;
+  nb_publications: number;
+  rating: number;
+  username_rating: number;
   publications: SimplifiedPublication[];
 }

@@ -94,7 +94,7 @@
 
     <!-- Galleries display -->
     <div v-if="!isPictureTabShown" class="w-full">
-      <GalleryComponent v-for="gallery in user.gallerys" :gallery="gallery"
+      <GalleryComponent v-for="gallery in shownGalleries" :gallery="gallery"
         @open-publication-modal="openPublicationModalFromGallery" />
     </div>
 
@@ -132,7 +132,8 @@ import GalleryComponent from "./GalleryComponent.vue";
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import type { PropType } from "vue";
-import type { User } from "@/api/type";
+import type { Gallery, User } from "@/api/type";
+import { useGalleryStore } from "@/stores/gallery";
 
 
 const props = defineProps({
@@ -144,11 +145,13 @@ const props = defineProps({
 });
 
 const userStore = useUserStore();
+const galleryStore = useGalleryStore();
 const nextPage = ref(2);
 const isPictureTabShown = ref(true);
 const isFollowingShown = ref(false);
 const isFollowerShown = ref(false);
 const isBusy = ref(false);
+const shownGalleries = ref<Gallery[]>([]);
 
 const emit = defineEmits({
   openPublicationModal: (publicationId: string) => {
@@ -158,6 +161,16 @@ const emit = defineEmits({
     return true;
   },
 });
+
+loadGalleries();
+async function loadGalleries() {
+  for (let gallery of props.user.gallerys) {
+    let shownGallery = await galleryStore.getShownGallery(gallery.gallery_id);
+    if (shownGallery !== undefined) {
+      shownGalleries.value.push(shownGallery);
+    }
+  }
+}
 
 const showMore = async () => {
   if (!isBusy.value) {
@@ -191,6 +204,7 @@ const toggleGalleryTab = () => {
   let pictureTabButton = document.getElementById("pictureTabButton")!;
   pictureTabButton.classList.add("bottom-border");
   pictureTabButton.classList.remove("selected-bottom-border");
+
 };
 const openPublicationModalFromGallery = (publicationId: string) => {
   emit("openPublicationModal", publicationId);

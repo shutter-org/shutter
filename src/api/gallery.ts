@@ -12,3 +12,14 @@ export const addPublicationToGallery = async (gallery_id: string, publication_id
     });
     return response;
 }
+export const getGallery = async (gallery_id: string, authKey: String) => {
+    const key = "Bearer " + authKey;
+    const response = await fetch(`${API_URL}/gallerys/${gallery_id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": key,
+        },
+    });
+    return response;
+}
