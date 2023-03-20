@@ -4,6 +4,7 @@
     <div v-if="!isLoading"
       class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2 h-full">
       <span class="flex-1 ml-3 text-4xl" v-if="!isTagNameEmpty">#{{ route.params.tag }}</span>
+      <span class="flex-1 ml-3 text-2xl" v-if="!isTagNameEmpty">{{ numberOfPublications }} posts</span>
       <div class="flex flex-wrap justify-center gap-4">
         <button class="w-80" v-for="publication in shownPublications"
           @click="openPublicationModal(publication.publication_id)">
@@ -36,6 +37,7 @@ const userStore = useUserStore();
 const route = useRoute();
 const isPublicationModalShown = ref(false);
 const shownPublications = ref<Publication[]>([]);
+const numberOfPublications = ref(0);
 const shownPublicationId = ref();
 const shownPublication = ref();
 const loggedUsername = userStore.username;
@@ -58,13 +60,15 @@ async function searchPublicationByTag(tag: string, number: number) {
     return;
   } else {
     const data = await res.json()
-    shownPublications.value = data;
+    console.log(data);
+    shownPublications.value = data.publications;
+    numberOfPublications.value = data.nb_publication;
+    console.log(numberOfPublications.value)
     isLoading.value = false;
   }
 }
 
 const openPublicationModal = (publicationId: string) => {
-  console.log(publicationId);
   shownPublicationId.value = publicationId;
   shownPublication.value = shownPublications.value.find((publication: Publication) => {
     return publication.publication_id === publicationId;
@@ -75,7 +79,6 @@ const closePublicationModal = () => {
   isPublicationModalShown.value = false;
 };
 const deletePublication = (publicationId: string) => {
-  console.log("deleting publication");
   shownPublications.value = shownPublications.value.filter((publication: Publication) => {
     return publication.publication_id !== publicationId;
   });
