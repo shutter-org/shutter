@@ -22,6 +22,22 @@ export const usePublicationStore = defineStore('publication', () => {
             homePublications.value = await res.json();
         }
     };
+    async function loadMorePublications(page: number) {
+        if (homePublications.value.length < page * 10) {
+            const res = await getFollowingPublications(page, userStore.authKey);
+            if (res.status !== 200) {
+                console.log("erreur dans le fetch des publications");
+                return undefined
+            }
+            else {
+                const data = await res.json() as Publication[];
+                for (let pub of data.splice(homePublications.value.length - (page - 1) * 10, data.length)) {
+                    homePublications.value.push(pub);
+                }
+                return data.length !== 10;
+            }
+        }
+    };
 
     const getShownPublication = (publicationId: string) => {
         for (let pub of lastShownPublications.value) {
@@ -187,7 +203,7 @@ export const usePublicationStore = defineStore('publication', () => {
     };
 
     return {
-        getHomePublications, loadHomePublications, getShownPublication,
+        getHomePublications, loadHomePublications, loadMorePublications, getShownPublication,
         loadShownPublication, voteUpPub, voteDownPub, voteUpComment, voteDownComment, addComment, delComment, getMoreComments
     }
 })

@@ -71,8 +71,6 @@ const props = defineProps({
   isCurrentUser: Boolean
 });
 
-console.log(props.publication.comments.length);
-
 const publicationStore = usePublicationStore();
 const descAsComment = ref({
   commenter_user: props.publication.poster_user,

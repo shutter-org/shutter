@@ -1,5 +1,5 @@
 <template>
-  <div
+  <div v-infinite-scroll="loadMorePublications" infinite-scroll-distance="2000" infinite-scroll-immediate-check="true"
     class="shutter-background-mute min-h-screen PRO:min-h-[calc(100vh-160px)] p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
     <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
     <publication v-else-if="publications.length > 0" @search-tag="searchTag" @add-to-gallery="addToGallery"
@@ -22,7 +22,9 @@ import type { Publication as Pub } from "@/api/type";
 
 const publicationStore = usePublicationStore();
 const publications = ref([] as Pub[]);
-const page = ref(1);
+const nextPage = ref(2);
+const isAtTheEnd = ref(false);
+const isBusy = ref(false);
 const isLoading = ref(true);
 
 loadPublications();
@@ -37,6 +39,22 @@ async function loadPublications() {
   publications.value = publicationStore.getHomePublications();
   isLoading.value = false;
 };
+async function loadMorePublications(busy: number) {
+  if (!isBusy.value) {
+    isBusy.value = true;
+    if (!isAtTheEnd.value) {
+      console.log("loading more posts")
+      const token = await publicationStore.loadMorePublications(nextPage.value);
+      if (token !== undefined) {
+        isAtTheEnd.value = token;
+      }
+      publications.value = publicationStore.getHomePublications();
+      nextPage.value += 1;
+      console.log(nextPage.value);
+    }
+    isBusy.value = false;
+  }
+}
 const searchTag = (tag: string) => {
   console.log("searching tag : " + tag);
 };
