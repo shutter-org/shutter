@@ -8,7 +8,7 @@ import { deleteRatingComment, rateComment, updateRatingComment, postComment, del
 export const usePublicationStore = defineStore('publication', () => {
     const userStore = useUserStore();
     const homePublications = ref();
-    const lastShownPublications = ref([] as Publication[]);
+    const lastShownPublications = ref(new Map());
 
     const getHomePublications = () => {
         return homePublications.value;
@@ -19,12 +19,11 @@ export const usePublicationStore = defineStore('publication', () => {
             console.log("erreur dans le fetch des publications");
         }
         else {
-            homePublications.value = await res.json();
-
-            //retirer si dans lastShown
-            lastShownPublications.value = lastShownPublications.value.filter((pubA: Publication) => {
-                homePublications.value.findIndex((pubB: Publication) => pubA.publication_id === pubB.publication_id) === -1;
-            })
+            const data = await res.json() as Publication[];
+            homePublications.value = data;
+            for (let pub of data) {
+                lastShownPublications.value.set(pub.publication_id, pub);
+            }
         }
     };
     async function loadMorePublications(page: number) {
@@ -38,30 +37,15 @@ export const usePublicationStore = defineStore('publication', () => {
                 const data = await res.json() as Publication[];
                 for (let pub of data.splice(homePublications.value.length - (page - 1) * 10, data.length)) {
                     homePublications.value.push(pub);
+                    lastShownPublications.value.set(pub.publication_id, pub);
                 }
-                //retirer si dans lastShown
-                lastShownPublications.value = lastShownPublications.value.filter((pubA: Publication) => {
-                    homePublications.value.findIndex((pubB: Publication) => pubA.publication_id === pubB.publication_id) === -1;
-                })
                 return data.length !== 10;
             }
         }
     };
 
     const getShownPublication = (publicationId: string) => {
-        for (let pub of lastShownPublications.value) {
-            if (pub.publication_id === publicationId) {
-                return pub;
-            }
-        }
-        if (homePublications.value !== undefined) {
-            for (let pub of homePublications.value) {
-                if (pub.publication_id === publicationId) {
-                    return pub;
-                }
-            }
-        }
-        return undefined;
+        return lastShownPublications.value.get(publicationId);
     }
     async function loadShownPublication(publicationId: string) {
         const res = await getPublication(publicationId, userStore.authKey);
@@ -69,43 +53,16 @@ export const usePublicationStore = defineStore('publication', () => {
             console.log("erreur dans le fetch de la publication");
         }
         else {
-            const shownPublication = await res.json();
-            const index = lastShownPublications.value.findIndex((pub: Publication) => pub.publication_id === publicationId);
-            if (index !== -1) {
-                lastShownPublications.value[index] = shownPublication;
-            }
-            else {
-                if (homePublications.value !== undefined) {
-                    const indexHome = homePublications.value.findIndex((pub: Publication) => pub.publication_id === publicationId);
-                    if (indexHome !== -1) {
-                        homePublications.value[index] = shownPublication;
-                    }
-                    else {
-                        lastShownPublications.value.push(shownPublication);
-                    }
-                }
-                else {
-                    lastShownPublications.value.push(shownPublication);
-                }
-            }
+            const shownPublication = await res.json() as Publication;
+            lastShownPublications.value.set(shownPublication.publication_id, shownPublication);
             return shownPublication;
         }
     };
 
-    const getAllPublications = () => {
-        if (homePublications.value !== undefined) {
-            return homePublications.value.concat(lastShownPublications.value);
-        }
-        return lastShownPublications.value;
-    }
-    const reset = () => {
-        homePublications.value = undefined;
-        lastShownPublications.value = [];
-    }
-
     //publications manipulation
     const voteUpPub = (publicationId: string) => {
-        for (let pub of getAllPublications()) {
+        let pub = lastShownPublications.value.get(publicationId)
+        if (pub !== undefined) {
             if (pub.publication_id === publicationId) {
                 pub.rating -= pub.user_rating;
                 if (pub.user_rating === 1) {
@@ -123,7 +80,8 @@ export const usePublicationStore = defineStore('publication', () => {
         }
     };
     const voteDownPub = (publicationId: string) => {
-        for (let pub of getAllPublications()) {
+        let pub = lastShownPublications.value.get(publicationId)
+        if (pub !== undefined) {
             if (pub.publication_id === publicationId) {
                 pub.rating -= pub.user_rating;
                 if (pub.user_rating === -1) {
@@ -141,103 +99,103 @@ export const usePublicationStore = defineStore('publication', () => {
         }
     };
     const voteUpComment = (commentId: string, publicationId: string) => {
-        for (let pub of getAllPublications()) {
-            if (pub.publication_id === publicationId) {
-                for (let comment of pub.comments) {
-                    if (comment.comment_id === commentId) {
-                        comment.rating -= comment.user_rating;
-                        if (comment.user_rating === 1) {
-                            comment.user_rating = 0;
-                            deleteRatingComment(commentId, userStore.authKey);
-                        } else if (comment.user_rating === 0) {
-                            comment.user_rating = 1;
-                            rateComment(commentId, true, userStore.authKey);
-                        } else {
-                            comment.user_rating = 1;
-                            updateRatingComment(commentId, true, userStore.authKey);
-                        }
-                        comment.rating += comment.user_rating;
+        let pub = lastShownPublications.value.get(publicationId)
+        if (pub !== undefined) {
+            for (let comment of pub.comments) {
+                if (comment.comment_id === commentId) {
+                    comment.rating -= comment.user_rating;
+                    if (comment.user_rating === 1) {
+                        comment.user_rating = 0;
+                        deleteRatingComment(commentId, userStore.authKey);
+                    } else if (comment.user_rating === 0) {
+                        comment.user_rating = 1;
+                        rateComment(commentId, true, userStore.authKey);
+                    } else {
+                        comment.user_rating = 1;
+                        updateRatingComment(commentId, true, userStore.authKey);
                     }
+                    comment.rating += comment.user_rating;
                 }
             }
         }
     };
     const voteDownComment = (commentId: string, publicationId: string) => {
-        for (let pub of getAllPublications()) {
-            if (pub.publication_id === publicationId) {
-                for (let comment of pub.comments) {
-                    if (comment.comment_id === commentId) {
-                        comment.rating -= comment.user_rating;
-                        if (comment.user_rating === -1) {
-                            comment.user_rating = 0;
-                            deleteRatingComment(commentId, userStore.authKey);
-                        } else if (comment.user_rating === 0) {
-                            comment.user_rating = -1;
-                            rateComment(commentId, false, userStore.authKey);
-                        } else {
-                            comment.user_rating = -1;
-                            updateRatingComment(commentId, false, userStore.authKey);
-                        }
-                        comment.rating += comment.user_rating;
+        let pub = lastShownPublications.value.get(publicationId)
+        if (pub !== undefined) {
+            for (let comment of pub.comments) {
+                if (comment.comment_id === commentId) {
+                    comment.rating -= comment.user_rating;
+                    if (comment.user_rating === -1) {
+                        comment.user_rating = 0;
+                        deleteRatingComment(commentId, userStore.authKey);
+                    } else if (comment.user_rating === 0) {
+                        comment.user_rating = -1;
+                        rateComment(commentId, false, userStore.authKey);
+                    } else {
+                        comment.user_rating = -1;
+                        updateRatingComment(commentId, false, userStore.authKey);
                     }
+                    comment.rating += comment.user_rating;
                 }
             }
         }
     };
     async function addComment(publicationId: string, message: string) {
-        for (let pub of getAllPublications()) {
-            if (pub.publication_id === publicationId) {
-                const res = await postComment(pub.publication_id, message, userStore.authKey);
-                if (res.status !== 201) {
-                    console.log("erreur dans la creation du commentaire");
-                }
-                else {
-                    const data = await res.json();
-                    const newCom = {
-                        comment_id: data.comment_id,
-                        commenter_user: {
-                            "username": userStore.username,
-                            "profile_picture": userStore.profile_picture
-                        },
-                        message: message,
-                        created_date: "now",
-                        rating: 0,
-                        user_rating: 0,
-                    } as Comment;
-                    pub.comments.push(newCom);
-                    pub.nb_comments += 1;
-                }
+        let pub = lastShownPublications.value.get(publicationId)
+        if (pub !== undefined) {
+            const res = await postComment(pub.publication_id, message, userStore.authKey);
+            if (res.status !== 201) {
+                console.log("erreur dans la creation du commentaire");
+            }
+            else {
+                const data = await res.json();
+                const newCom = {
+                    comment_id: data.comment_id,
+                    commenter_user: {
+                        "username": userStore.username,
+                        "profile_picture": userStore.profile_picture
+                    },
+                    message: message,
+                    created_date: "now",
+                    rating: 0,
+                    user_rating: 0,
+                } as Comment;
+                pub.comments.push(newCom);
+                pub.nb_comments += 1;
             }
         }
     };
     const delComment = (publicationId: string, commentId: string) => {
-        for (let pub of getAllPublications()) {
-            if (pub.publication_id === publicationId) {
-                deleteComment(commentId, userStore.authKey);
-                pub.comments = pub.comments.filter((comment: Comment) => {
-                    return comment.comment_id !== commentId;
-                });
-            }
+        let pub = lastShownPublications.value.get(publicationId)
+        if (pub !== undefined) {
+            deleteComment(commentId, userStore.authKey);
+            pub.comments = pub.comments.filter((comment: Comment) => {
+                return comment.comment_id !== commentId;
+            });
         }
     };
     async function getMoreComments(publicationId: String, page: number) {
-        for (let pub of getAllPublications()) {
-            if (pub.publication_id === publicationId) {
-                if (pub.comments.length < page * 10) {
-                    const res = await getComments(pub.publication_id, page, userStore.authKey);
-                    if (res.status !== 200) {
-                        console.log("erreur dans le fetch des commentaires");
-                    }
-                    else {
-                        const data = await res.json() as Comment[];
-                        for (let com of data.splice(pub.comments.length - (page - 1) * 10, data.length)) {
-                            pub.comments.push(com);
-                        }
+        let pub = lastShownPublications.value.get(publicationId)
+        if (pub !== undefined) {
+            if (pub.comments.length < page * 10) {
+                const res = await getComments(pub.publication_id, page, userStore.authKey);
+                if (res.status !== 200) {
+                    console.log("erreur dans le fetch des commentaires");
+                }
+                else {
+                    const data = await res.json() as Comment[];
+                    for (let com of data.splice(pub.comments.length - (page - 1) * 10, data.length)) {
+                        pub.comments.push(com);
                     }
                 }
             }
         }
     };
+
+    const reset = () => {
+        homePublications.value = undefined;
+        lastShownPublications.value = new Map();
+    }
 
     return {
         getHomePublications, loadHomePublications, loadMorePublications, getShownPublication, reset,
