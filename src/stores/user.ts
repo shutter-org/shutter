@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, watch } from "vue"
 import { getMoreUserPublications, getUser } from "@/api/user";
-import { followUser, unfollowUser } from "@/api/user";
+import { followUser, unfollowUser, deleteUser } from "@/api/user";
 import type { SimplifiedPublication, SimplifiedUser, User } from "@/api/type";
 
 export const useUserStore = defineStore('user', () => {
@@ -63,6 +63,12 @@ export const useUserStore = defineStore('user', () => {
       "profile_picture": profile_picture.value
     } as SimplifiedUser;
   }
+  async function deleteCurrentUser() {
+    const res = await deleteUser(username.value, authKey.value);
+    if (res.status === 200) {
+      console.log("user deleted with success");
+    }
+  }
 
   const getShownUser = (username: string) => {
     return lastShownUsers.value.get(username);
@@ -117,7 +123,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   return {
-    username, profile_picture, authKey, sessionStartDate,
+    username, profile_picture, authKey, sessionStartDate, deleteCurrentUser,
     setUsername, setProfilePicture, setAuthKey, startSession, getSimplifiedUser, reset,
     getShownUser, loadShownUser, loadMorePublications, follow, unfollow
   }

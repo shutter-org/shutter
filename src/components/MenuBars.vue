@@ -59,7 +59,7 @@
           </router-link>
         </li>
         <li>
-          <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="logOut">
+          <a id="logoutButton" href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="logOut">
             <LogoutIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Logout</span>
           </a>
@@ -101,7 +101,6 @@ function showCreateModal() {
   isCreateModalShown.value = true;
 }
 const logOut = () => {
-  userStore.reset();
   emit("logOut");
 }
 </script>

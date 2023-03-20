@@ -103,11 +103,17 @@
       member since {{ props.user.created_date }}
     </p>
 
-    <!-- Modify profile button -->
-    <button v-if="isCurrentUser" id="modifyButton" class="h-8 w-8 absolute right-4 top-4"
-      @click="emit('openProfileModificationModal')">
-      <ModifyIcon class="h-full w-full" />
-    </button>
+    <div v-if="isCurrentUser" class="absolute right-4 top-4 flex flex-row gap-4">
+      <!-- Modify profile button -->
+      <button id="modifyButton" class="h-8 w-8" @click="emit('openProfileModificationModal')">
+        <ModifyIcon class="h-full w-full" />
+      </button>
+
+      <!-- delete current user account button -->
+      <button class="h-8 w-8" @click="emit('openDeleteModal')">
+        <DeleteUserIcon class="h-full w-full" />
+      </button>
+    </div>
   </div>
 
   <!-- following modal -->
@@ -129,6 +135,7 @@ import ImgLoader from "./ImgLoader.vue";
 import FollowModal from "./modals/FollowModal.vue";
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import GalleryComponent from "./GalleryComponent.vue";
+import DeleteUserIcon from "./icons/DeleteUserIcon.vue"
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import type { PropType } from "vue";
@@ -155,6 +162,9 @@ const emit = defineEmits({
     return !!publicationId;
   },
   openProfileModificationModal: () => {
+    return true;
+  },
+  openDeleteModal: () => {
     return true;
   },
 });
