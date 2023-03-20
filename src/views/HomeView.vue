@@ -30,7 +30,9 @@ import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import EmptyIcon from "@/components/icons/EmptyIcon.vue";
 import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
+import { addPublicationToGallery } from "@/api/gallery";
 import type { Publication as Pub } from "@/api/type";
+
 
 const publicationStore = usePublicationStore();
 const publications = ref([] as Pub[]);
