@@ -60,10 +60,8 @@ async function searchPublicationByTag(tag: string, number: number) {
     return;
   } else {
     const data = await res.json()
-    console.log(data);
     shownPublications.value = data.publications;
     numberOfPublications.value = data.nb_publication;
-    console.log(numberOfPublications.value)
     isLoading.value = false;
   }
 }

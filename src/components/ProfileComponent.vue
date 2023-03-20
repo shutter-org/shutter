@@ -60,7 +60,8 @@
     <button v-if="user.nb_publications > user.publications.length" @click="showMore"
       class="w-full rounded-lg font-bold text-xl p-2 px-4">Show more</button>
     <div v-if="!isPictureTabShown" class="w-full">
-      <GalleryComponent v-for="gallery in 2" />
+      <GalleryComponent v-for="gallery in user.gallerys" :gallery="gallery"
+        @open-publication-modal="openPublicationModalFromGallery" />
     </div>
     <p class="text-xs text-center font-bold w-full p-2 pt-6 border-t-2 bottom-border mt-6">
       member since {{ props.user.created_date }}
@@ -148,6 +149,9 @@ const toggleGalleryTab = () => {
   let pictureTabButton = document.getElementById("pictureTabButton")!;
   pictureTabButton.classList.add("bottom-border");
   pictureTabButton.classList.remove("selected-bottom-border");
+};
+const openPublicationModalFromGallery = (publicationId: string) => {
+  emit("openPublicationModal", publicationId);
 };
 </script>
 

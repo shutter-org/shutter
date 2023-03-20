@@ -51,3 +51,8 @@ export interface SimplifiedUserWithName {
   name: string;
   profile_picture: string;
 }
+export interface Gallery {
+  gallery_id: string;
+  title: string;
+  publications: SimplifiedPublication[];
+}
