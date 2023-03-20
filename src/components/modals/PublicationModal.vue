@@ -20,6 +20,7 @@ import { ref } from "vue";
 import { deletePublication } from "@/api/publication";
 import { useUserStore } from '@/stores/user'
 import { usePublicationStore } from "@/stores/publication";
+import { addPublicationToGallery } from "@/api/gallery";
 
 const props = defineProps({
   publicationId: {
@@ -67,6 +68,7 @@ const searchTag = (tag: string) => {
 };
 const addToGallery = () => {
   console.log("add publication " + shownPublication.value.publication_id + " to gallery");
+  //addPublicationToGallery("gallery_id", shownPublication.value.publication_id, userStore.authKey);
 };
 </script>
 
