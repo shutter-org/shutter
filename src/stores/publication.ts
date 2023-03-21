@@ -89,7 +89,6 @@ export const usePublicationStore = defineStore('publication', () => {
                 }
             }
             isBusy.value = false;
-            console.log("like")
         }
     };
     const voteDownPub = async (publicationId: string) => {

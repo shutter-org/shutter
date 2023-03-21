@@ -1,7 +1,7 @@
 <template>
   <!-- Infinite scroll loading post as scrolling -->
-  <div v-infinite-scroll="loadMorePublications" infinite-scroll-distance="2000" infinite-scroll-immediate-check="true"
-    class="shutter-background-mute min-h-screen PRO:min-h-[calc(100vh-160px)] p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8">
+  <div id="publicationsContainer" @scroll="handleScroll"
+    class="shutter-background-mute h-screen PRO:h-[calc(100vh-160px)] p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8 overflow-y-scroll">
 
     <!-- Spinner showing status (updating, loading home page) -->
     <SkewLoader v-if="isUpdating" color="#465A82" size="10px" class="m-full h-8 absolute top-2 left-1/2" />
@@ -73,5 +73,12 @@ const searchTag = (tag: string) => {
 const addToGallery = (pubId: string) => {
   console.log("add publication " + pubId + " to gallery");
 };
+const handleScroll = () => {
+  let container = document.getElementById("publicationsContainer")!;
+
+  if ((container.offsetHeight + container.scrollTop + 500) >= container.scrollHeight) {
+    loadMorePublications();
+  }
+}
 </script>
 
