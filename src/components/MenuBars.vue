@@ -34,7 +34,13 @@
 
           <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="showSearchModal">
             <SearchIcon />
-            <span class="flex-1 ml-3 PRO:hidden">Search</span>
+            <div class="flex-1 ml-3 PRO:hidden flex justify-between">
+              <span>Search</span>
+              <kbd class="hx_kbd border-2 shutter-border-mute">
+                <span v-if="isWindows">Ctrl K</span>
+                <span v-else>&#x2318; K</span>
+              </kbd>
+            </div>
           </a>
           <SearchModal v-if="isSearchModalShown" @close-search-modal="closeSearchModal" />
         </li>
@@ -80,14 +86,36 @@ import LogoAnimation from "@/components/LogoAnimation.vue";
 import SearchModal from "@/components/modals/SearchModal.vue";
 import PublicationCreatorModal from "@/components/modals/PublicationCreatorModal.vue";
 import { useUserStore } from '@/stores/user'
-import { ref } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 const userStore = useUserStore();
 const isSearchModalShown = ref(false);
 const isCreateModalShown = ref(false);
+const isWindows = navigator.userAgent.indexOf("Win") > -1;
 
 const emit = defineEmits(["logOut"]);
+onMounted(() => {
+  document.addEventListener("keydown", onKeyDown);
+});
+onBeforeUnmount(() => {
+  document.removeEventListener("keydown", onKeyDown);
+});
 
+function onKeyDown(e) {
+  if (navigator.userAgent.indexOf("Win") > -1) {
+    if (e.ctrlKey && e.key === "k") {
+      showSearchModal();
+    }
+  } else {
+    if (e.metaKey && e.key === "k") {
+      showSearchModal();
+    }
+  }
+  if (e.key === "Escape") {
+    closeSearchModal();
+    closeCreateModal();
+  }
+}
 function closeSearchModal() {
   isSearchModalShown.value = false;
 }
@@ -104,3 +132,18 @@ const logOut = () => {
   emit("logOut");
 }
 </script>
+<style>
+.hx_kbd {
+  display: inline-flex;
+  align-items: center;
+  min-width: 21px;
+  padding: 0 4px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-fg-muted);
+  text-align: center;
+  border-radius: 6px;
+  box-shadow: none;
+}
+</style>

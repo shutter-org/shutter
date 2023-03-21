@@ -3,8 +3,15 @@
     class="shutter-background-mute min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8">
     <div v-if="!isLoading"
       class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2 h-full">
+      <span class="flex-1 ml-3 text-LG">
+        <kbd class="hx_kbd border-2 shutter-border-mute">
+          <span v-if="isWindows">Ctrl K</span>
+          <span v-else>&#x2318; K</span>
+        </kbd> to search for hashtags
+      </span>
       <span class="flex-1 ml-3 text-4xl" v-if="!isTagNameEmpty">#{{ route.params.tag }}</span>
       <span class="flex-1 ml-3 text-2xl" v-if="!isTagNameEmpty">{{ numberOfPublications }} posts</span>
+
       <div class="flex flex-wrap justify-center gap-4">
         <button class="w-80" v-for="publication in shownPublications"
           @click="openPublicationModal(publication.publication_id)">
@@ -44,6 +51,8 @@ const loggedUsername = userStore.username;
 const isTagNameEmpty = ref(true);
 const isTagPublicationsEmpty = ref(false);
 const isLoading = ref(true);
+const isWindows = navigator.userAgent.indexOf("Win") > -1;
+
 
 
 searchPublicationByTag(route.params.tag.toString(), 1);
