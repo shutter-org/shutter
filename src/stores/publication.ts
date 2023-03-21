@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue"
-import { deleteRatingPublication, getFollowingPublications, getPublication, ratePublication, updateRatingPublication } from "@/api/publication";
+import { deleteRatingPublication, getFollowingPublications, getPublication, ratePublication, updatePublication, updateRatingPublication } from "@/api/publication";
 import { useUserStore } from "./user";
 import { deleteRatingComment, rateComment, updateRatingComment, postComment, deleteComment, getComments } from "@/api/comment";
 import type { Publication, Comment } from "@/api/type";
@@ -65,6 +65,20 @@ export const usePublicationStore = defineStore('publication', () => {
             lastShownPublications.value.set(shownPublication.publication_id, shownPublication);
             isBusy.value = false;
             return shownPublication;
+        }
+    };
+    async function modifyShownPublication(publicationId: string, desc: string, tags: string[]) {
+        isBusy.value = true;
+        const res = await updatePublication(publicationId, { "description": desc, "tags": tags }, userStore.authKey);
+        if (res.status !== 200) {
+            console.log("erreur dans le update de la publication");
+            isBusy.value = false;
+        }
+        else {
+            let pub = lastShownPublications.value.get(publicationId);
+            pub.description = desc;
+            pub.tags = tags;
+            isBusy.value = false;
         }
     };
 
@@ -226,7 +240,7 @@ export const usePublicationStore = defineStore('publication', () => {
     }
 
     return {
-        getHomePublications, loadHomePublications, loadMorePublications, getShownPublication, reset, serverPageQte,
+        getHomePublications, loadHomePublications, loadMorePublications, getShownPublication, modifyShownPublication, reset, serverPageQte,
         loadShownPublication, voteUpPub, voteDownPub, voteUpComment, voteDownComment, addComment, delComment, getMoreComments
     }
 })

@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import Profile from "@/components/ProfileComponent.vue";
-import PublicationModal from "@/components/modals/PublicationModal.vue";
+import PublicationModal from "@/components/modals/publicationsModals/PublicationModal.vue";
 import ProfileModificationModal from "@/components/modals/ProfileModificationModal.vue";
 import DeleteModal from "@/components/modals/DeleteModal.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"

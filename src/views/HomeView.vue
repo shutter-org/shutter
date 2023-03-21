@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import Publication from "@/components/PublicationComponent.vue";
+import Publication from "@/components/publicationsComponents/PublicationComponent.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import EmptyIcon from "@/components/icons/EmptyIcon.vue";

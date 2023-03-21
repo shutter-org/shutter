@@ -22,7 +22,7 @@
       <div class="flex flex-row gap-4">
 
         <!-- Modify button -->
-        <button v-if="isCurrentUser" @click="">
+        <button v-if="isCurrentUser" @click="emit('modify')">
           <ModifyIcon></ModifyIcon>
         </button>
 
@@ -37,7 +37,14 @@
     </div>
 
     <!-- Description (disguised as comment) -->
-    <Comment class="w-full p-2" :comment="descAsComment"></Comment>
+    <div class=" w-full p-2 flex flex-col">
+      <div class="flex flex-row justify-between items-center">
+        <User class="h-12" :user="props.publication.poster_user" :smaller="true"></User>
+      </div>
+      <p class="w-full text-xl p-1 break-words pl-2">
+        {{ props.publication.description }}
+      </p>
+    </div>
 
     <!-- Tags display -->
     <div class="w-full flex flex-wrap gap-2 justify-start p-2">
@@ -84,13 +91,13 @@
 </template>
 
 <script setup lang="ts">
-import User from "@/components/UserComponent.vue";
+import User from "@/components/userComponents/UserComponent.vue";
 import Comment from "@/components/subComponents/CommentComponent.vue";
 import RatingInterface from "@/components/subComponents/RatingInterface.vue";
 import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
-import DeleteComponent from "./subComponents/DeleteComponent.vue";
-import ImgLoader from "./ImgLoader.vue";
+import DeleteComponent from "../subComponents/DeleteComponent.vue";
+import ImgLoader from "../ImgLoader.vue";
 import SubmitIcon from "@/components/icons/SubmitIcon.vue"
 import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
@@ -106,10 +113,6 @@ const props = defineProps({
 });
 
 const publicationStore = usePublicationStore();
-const descAsComment = ref({
-  commenter_user: props.publication.poster_user,
-  message: props.publication.description,
-} as Com);
 const message = ref("");
 const nbCommentsShown = ref(0);
 
@@ -123,6 +126,9 @@ const emit = defineEmits({
   searchTag: (tag: string) => {
     return !!tag;
   },
+  modify: () => {
+    return true;
+  }
 });
 const showMoreComments = () => {
   nbCommentsShown.value += publicationStore.serverPageQte;

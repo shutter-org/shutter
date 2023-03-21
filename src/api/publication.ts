@@ -37,6 +37,19 @@ export const createPublication = async (body: {}, authKey: String) => {
     return response;
 };
 
+export const updatePublication = async (publicationId: string, body: {}, authKey: String) => {
+    const key = "Bearer " + authKey;
+    const response = await fetch(`${API_URL}/publications/${publicationId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": key,
+        },
+        body: JSON.stringify(body),
+    });
+    return response;
+};
+
 export const deletePublication = async (publicationId: String, authKey: String) => {
     const key = "Bearer " + authKey;
     const response = await fetch(`${API_URL}/publications/${publicationId}`, {

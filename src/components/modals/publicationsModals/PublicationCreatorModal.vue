@@ -6,7 +6,7 @@
 
       <!-- User identifications -->
       <div class="flex flex-row items-center justify-between w-full">
-        <User class="h-14 mr-auto" :user="props.user"></User>
+        <User class="h-14 mr-auto" :user="userStore.getSimplifiedUser()"></User>
       </div>
 
       <!-- Picture uploader -->
@@ -35,21 +35,13 @@
 </template>
 
 <script setup lang="ts">
-import User from "@/components/UserComponent.vue";
+import User from "@/components/userComponents/UserComponent.vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
-import ImgLoader from "../ImgLoader.vue";
+import ImgLoader from "../../ImgLoader.vue";
 import { createPublication } from "@/api/publication";
 import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
-import type { PropType } from "vue";
 import type { SimplifiedPublication, SimplifiedUser as UserType } from "@/api/type";
-
-const props = defineProps({
-  user: {
-    type: Object as PropType<UserType>,
-    required: true
-  },
-});
 
 const userStore = useUserStore();
 const isPictureUploaded = ref(false);
