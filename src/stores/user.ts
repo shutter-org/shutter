@@ -10,6 +10,7 @@ export const useUserStore = defineStore('user', () => {
   const authKey = ref("");
   const sessionStartDate = ref(Number.NaN);
   const lastShownUsers = ref(new Map());
+  const isBusy = ref(false);
 
   if (sessionStorage.getItem("username")) {
     username.value = JSON.parse(sessionStorage.getItem("username") as string);
@@ -74,12 +75,15 @@ export const useUserStore = defineStore('user', () => {
     return lastShownUsers.value.get(username);
   }
   async function loadShownUser(username: string) {
+    isBusy.value = true;
     const res = await getUser(username, authKey.value);
     if (res.status === 200) {
       const shownUser = await res.json() as User;
       lastShownUsers.value.set(shownUser.username, shownUser);
+      isBusy.value = false;
       return shownUser;
     }
+    isBusy.value = false;
     return undefined;
   };
   async function loadMorePublications(username: string, page: number) {
@@ -104,27 +108,35 @@ export const useUserStore = defineStore('user', () => {
   }
 
   async function follow(usernameProp: string) {
-    const res = await followUser(usernameProp, authKey.value);
-    if (res.status === 200) {
-      let user = lastShownUsers.value.get(usernameProp);
-      if (user !== undefined) {
-        user.followed_by_user = true;
-        user.nb_followers += 1;
-        user.followers.push(getSimplifiedUser());
+    if (!isBusy.value) {
+      isBusy.value = true;
+      const res = await followUser(usernameProp, authKey.value);
+      if (res.status === 200) {
+        let user = lastShownUsers.value.get(usernameProp);
+        if (user !== undefined) {
+          user.followed_by_user = true;
+          user.nb_followers += 1;
+          user.followers.push(getSimplifiedUser());
+        }
       }
+      isBusy.value = false;
     }
   }
   async function unfollow(usernameProp: string) {
-    const res = await unfollowUser(usernameProp, authKey.value);
-    if (res.status === 200) {
-      let user = lastShownUsers.value.get(usernameProp);
-      if (user !== undefined) {
-        user.followed_by_user = false;
-        user.nb_followers -= 1;
-        user.followers = user.followers.filter((user: SimplifiedUser) => {
-          return user.username !== username.value;
-        });
+    if (!isBusy.value) {
+      isBusy.value = true;
+      const res = await unfollowUser(usernameProp, authKey.value);
+      if (res.status === 200) {
+        let user = lastShownUsers.value.get(usernameProp);
+        if (user !== undefined) {
+          user.followed_by_user = false;
+          user.nb_followers -= 1;
+          user.followers = user.followers.filter((user: SimplifiedUser) => {
+            return user.username !== username.value;
+          });
+        }
       }
+      isBusy.value = false;
     }
   }
 
