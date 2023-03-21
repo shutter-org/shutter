@@ -55,7 +55,6 @@
             <CreateIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Create</span>
           </a>
-          <PublicationCreatorModal v-if="isCreateModalShown" @close="closeCreateModal" />
         </li>
         <li>
           <router-link to="/profile" class="flex items-center p-2 font-normal rounded-lg">
@@ -72,6 +71,7 @@
       </ul>
     </div>
   </div>
+  <PublicationCreatorModal v-if="isCreateModalShown" @close="closeCreateModal" />
 </template>
 
 <script setup>

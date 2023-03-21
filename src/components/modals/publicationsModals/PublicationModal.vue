@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 z-50 flex flex-col gap-8 overflow-y-scroll pt-10">
+  <div class="fixed inset-0 z-30 flex flex-col gap-8 overflow-y-scroll py-10 items-center">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
 
     <!-- Spinners showing status (updating, loading) -->
@@ -15,14 +15,14 @@
         :is-current-user="isCurrentUser"></publication-component>
     </div>
 
-    <PublicationModificationModal v-else :publication="shownPublication" @save="save">
-    </PublicationModificationModal>
+    <PublicationModification v-else :publication="shownPublication" @save="save">
+    </PublicationModification>
   </div>
 </template>
 
 <script setup lang="ts">
 import PublicationComponent from "@/components/publicationsComponents/PublicationComponent.vue";
-import PublicationModificationModal from "@/components/publicationsComponents/PublicationModificationComponent.vue"
+import PublicationModification from "@/components/publicationsComponents/PublicationModificationComponent.vue"
 import RingLoader from "vue-spinner/src/RingLoader.vue"
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";

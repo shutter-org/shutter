@@ -28,7 +28,7 @@
       }}</p>
 
     <!-- Stats -->
-    <div class="w-full h-20 flex flex-row gap-10 items-center p-2 pb-4 justify-evenly border-b-2 bottom-border">
+    <div class="w-full h-20 flex flex-row gap-10 PRO:gap-4 items-center p-2 pb-4 justify-evenly border-b-2 bottom-border">
 
       <!-- Post counts -->
       <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
@@ -36,7 +36,7 @@
       </p>
 
       <!-- Followers count/button -->
-      <button class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center"
+      <button class="w-full font-bold text-xl PRO:text-lg  overflow-hidden overflow-ellipsis text-center"
         @click="isFollowerShown = true">
         {{ props.user.nb_followers }} Followers
       </button>
