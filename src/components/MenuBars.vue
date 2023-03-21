@@ -104,10 +104,12 @@ onBeforeUnmount(() => {
 function onKeyDown(e) {
   if (navigator.userAgent.indexOf("Win") > -1) {
     if (e.ctrlKey && e.key === "k") {
+      e.preventDefault();
       showSearchModal();
     }
   } else {
     if (e.metaKey && e.key === "k") {
+      e.preventDefault();
       showSearchModal();
     }
   }
