@@ -20,7 +20,8 @@
                 <button v-if="props.isCurrentUser">
                     <ModifyIcon></ModifyIcon>
                 </button>
-                <DeleteComponent v-if="props.isCurrentUser" @delete="galleryStore.deleteGallery"></DeleteComponent>
+                <DeleteComponent v-if="props.isCurrentUser" @delete="deleteEntireGallery">
+                </DeleteComponent>
             </div>
         </div>
     </div>
@@ -50,8 +51,17 @@ const props = defineProps({
 const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
+    },
+    deleteGallery: (gallery_id: string) => {
+        return !!gallery_id;
     }
 });
+
+async function deleteEntireGallery() {
+    if (await galleryStore.deleteGallery(props.gallery)) {
+        emit('deleteGallery', props.gallery.gallery_id);
+    }
+}
 </script>
 <style>
 div.scrollmenu {
