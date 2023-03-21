@@ -84,10 +84,8 @@ import LogoutIcon from "@/components/icons/menu/LogoutIcon.vue";
 import LogoAnimation from "@/components/LogoAnimation.vue";
 import SearchModal from "@/components/modals/SearchModal.vue";
 import PublicationCreatorModal from "@/components/modals/publicationsModals/PublicationCreatorModal.vue";
-import { useUserStore } from '@/stores/user'
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
-const userStore = useUserStore();
 const isSearchModalShown = ref(false);
 const isCreateModalShown = ref(false);
 const isWindows = navigator.userAgent.indexOf("Win") > -1;
@@ -111,10 +109,6 @@ function onKeyDown(e) {
       e.preventDefault();
       showSearchModal();
     }
-  }
-  if (e.key === "Escape") {
-    closeSearchModal();
-    closeCreateModal();
   }
 }
 function closeSearchModal() {

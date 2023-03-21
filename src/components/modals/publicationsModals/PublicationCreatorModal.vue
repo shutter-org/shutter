@@ -39,7 +39,7 @@ import User from "@/components/userComponents/UserComponent.vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
 import ImgLoader from "../../ImgLoader.vue";
 import { createPublication } from "@/api/publication";
-import { ref } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useUserStore } from '@/stores/user'
 import type { SimplifiedPublication, SimplifiedUser as UserType } from "@/api/type";
 
@@ -54,6 +54,19 @@ const emit = defineEmits(["close"]);
 const openUploadForm = () => {
   document.getElementById("imgInput")!.click();
 };
+
+onMounted(() => {
+  document.addEventListener("keydown", onKeyDownEscape);
+});
+onBeforeUnmount(() => {
+  document.removeEventListener("keydown", onKeyDownEscape);
+});
+
+function onKeyDownEscape(e: KeyboardEvent) {
+  if (e.key === "Escape") {
+    emit("close");
+  }
+}
 const loadPicture = (event: any) => {
   URL.revokeObjectURL(picture_url.value);
   if (event.target.files[0] === undefined) {

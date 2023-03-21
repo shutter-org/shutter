@@ -9,12 +9,10 @@
 </template>
 
 <script setup lang="ts">
-
-//select the div with arrows enter press
 import { useUserStore } from '@/stores/user';
 import { searchUser } from '@/api/user';
 import { searchTag } from '@/api/tag';
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import SearchComponent from '../SearchComponent.vue';
 
 const search = ref();
@@ -24,6 +22,18 @@ const tagsSearched = ref();
 const isSearchingUsers = ref(true);
 loadSearchedUser("");
 
+onMounted(() => {
+  document.addEventListener("keydown", onKeyDownEscape);
+});
+onBeforeUnmount(() => {
+  document.removeEventListener("keydown", onKeyDownEscape);
+});
+
+function onKeyDownEscape(e: KeyboardEvent) {
+  if (e.key === "Escape") {
+    closeSearchModal();
+  }
+}
 watch(search, (newValue, oldValue) => {
   filterSearch(newValue);
 });
