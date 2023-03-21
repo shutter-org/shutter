@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import ImgLoader from "./ImgLoader.vue";
+import ImgLoader from "../ImgLoader.vue";
 import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
 import type { SimplifiedUser } from "@/api/type";

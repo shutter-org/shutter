@@ -25,7 +25,7 @@
   
 <script setup lang="ts">
 import Profile from "@/components/ProfileComponent.vue";
-import PublicationModal from "@/components/modals/PublicationModal.vue";
+import PublicationModal from "@/components/modals/publicationsModals/PublicationModal.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue";
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import SadIcon from "@/components/icons/SadIcon.vue";

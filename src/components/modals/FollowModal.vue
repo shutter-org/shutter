@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import UserBarComponent from '../UserBarComponent.vue';
+import UserBarComponent from '../userComponents/UserBarComponent.vue';
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import DownvoteIcon from '../icons/rate/DownvoteIcon.vue';
 import UpvoteIcon from '../icons/rate/UpvoteIcon.vue';

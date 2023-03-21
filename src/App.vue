@@ -49,6 +49,7 @@ async function pingServer() {
     const res = await ping(userStore.authKey);
     if (res.status !== 200) {
       logOut();
+      console.log("server lost");
     }
     else {
       console.log("server restore");

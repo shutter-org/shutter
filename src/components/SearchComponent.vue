@@ -32,7 +32,7 @@
 </template>
 <script setup lang="ts">
 import CrossIcon from './icons/CrossIcon.vue';
-import UserBarComponentVue from './UserBarComponent.vue';
+import UserBarComponentVue from './userComponents/UserBarComponent.vue';
 import { useUserStore } from '@/stores/user';
 import { searchUser } from '@/api/user';
 import { searchTag } from '@/api/tag';

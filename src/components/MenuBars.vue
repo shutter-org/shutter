@@ -55,8 +55,7 @@
             <CreateIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Create</span>
           </a>
-          <PublicationCreatorModal v-if="isCreateModalShown" @close="closeCreateModal"
-            :user="userStore.getSimplifiedUser()" />
+          <PublicationCreatorModal v-if="isCreateModalShown" @close="closeCreateModal" />
         </li>
         <li>
           <router-link to="/profile" class="flex items-center p-2 font-normal rounded-lg">
@@ -84,7 +83,7 @@ import UserIcon from "@/components/icons/menu/UserIcon.vue";
 import LogoutIcon from "@/components/icons/menu/LogoutIcon.vue";
 import LogoAnimation from "@/components/LogoAnimation.vue";
 import SearchModal from "@/components/modals/SearchModal.vue";
-import PublicationCreatorModal from "@/components/modals/PublicationCreatorModal.vue";
+import PublicationCreatorModal from "@/components/modals/publicationsModals/PublicationCreatorModal.vue";
 import { useUserStore } from '@/stores/user'
 import { ref, onMounted, onBeforeUnmount } from "vue";
 

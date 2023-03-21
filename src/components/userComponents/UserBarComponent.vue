@@ -15,7 +15,7 @@
 import { ref } from 'vue';
 import type { SimplifiedUserWithName } from '@/api/type';
 import { useUserStore } from '@/stores/user';
-import ImgLoader from './ImgLoader.vue';
+import ImgLoader from '../ImgLoader.vue';
 
 const emit = defineEmits(["closeSearchModal"]);
 function closeSearchModal() {

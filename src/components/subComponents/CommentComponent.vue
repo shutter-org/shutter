@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import User from "@/components/UserComponent.vue";
+import User from "@/components/userComponents/UserComponent.vue";
 import RatingInterface from "@/components/subComponents/RatingInterface.vue";
 import DeleteComponent from "./DeleteComponent.vue";
 import { useUserStore } from "@/stores/user";

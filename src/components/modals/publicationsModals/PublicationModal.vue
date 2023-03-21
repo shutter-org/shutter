@@ -8,15 +8,21 @@
     <RingLoader v-if="isLoading" color="#465A82" size="60px" class="m-auto translate-x-[126px] PRO:translate-x-0" />
 
     <!-- Publication -->
-    <div v-else class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
-      <publication-component class="" @delete-pub="deletePub" @search-tag="searchTag" @add-to-gallery="addToGallery"
-        :publication="shownPublication" :is-current-user="isCurrentUser"></publication-component>
+    <div v-else-if="!isShowingModifModal"
+      class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
+      <publication-component @delete-pub="deletePub" @search-tag="searchTag" @add-to-gallery="addToGallery"
+        @modify="isShowingModifModal = true" :publication="shownPublication"
+        :is-current-user="isCurrentUser"></publication-component>
     </div>
+
+    <PublicationModificationModal v-else :publication="shownPublication" @save="save">
+    </PublicationModificationModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import PublicationComponent from "@/components/PublicationComponent.vue";
+import PublicationComponent from "@/components/publicationsComponents/PublicationComponent.vue";
+import PublicationModificationModal from "@/components/publicationsComponents/PublicationModificationComponent.vue"
 import RingLoader from "vue-spinner/src/RingLoader.vue"
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import { ref } from "vue";
@@ -45,6 +51,7 @@ const emit = defineEmits({
 const userStore = useUserStore();
 const publicationStore = usePublicationStore();
 const shownPublication = ref();
+const isShowingModifModal = ref(false);
 const isLoading = ref(true);
 const isUpdating = ref(false);
 
@@ -61,6 +68,12 @@ async function loadPublication() {
   isLoading.value = false;
   isUpdating.value = false
 };
+async function save(desc: string, tags: string[]) {
+  isUpdating.value = true;
+  isShowingModifModal.value = false;
+  await publicationStore.modifyShownPublication(shownPublication.value.publication_id, desc, tags);
+  isUpdating.value = false;
+}
 const deletePub = () => {
   deletePublication(shownPublication.value.publication_id, userStore.authKey);
   emit("delete", shownPublication.value.publication_id);
