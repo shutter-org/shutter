@@ -25,11 +25,24 @@ import PublicationComponent from "@/components/publicationsComponents/Publicatio
 import PublicationModification from "@/components/publicationsComponents/PublicationModificationComponent.vue"
 import RingLoader from "vue-spinner/src/RingLoader.vue"
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
-import { ref } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { deletePublication } from "@/api/publication";
 import { useUserStore } from '@/stores/user'
 import { usePublicationStore } from "@/stores/publication";
-import { addPublicationToGallery } from "@/api/gallery";
+
+
+onMounted(() => {
+  document.addEventListener("keydown", onKeyDownEscape);
+});
+onBeforeUnmount(() => {
+  document.removeEventListener("keydown", onKeyDownEscape);
+});
+
+function onKeyDownEscape(e: KeyboardEvent) {
+  if (e.key === "Escape") {
+    emit("close");
+  }
+}
 
 const props = defineProps({
   publicationId: {
