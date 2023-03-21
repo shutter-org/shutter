@@ -70,10 +70,15 @@
 
     <!-- Write comment section -->
     <div class="w-full shutter-border-mute border-t-2 p-2 pt-8">
-      <textarea class="inputable w-full max-h-36 text-xl p-2 border-2 rounded-lg" placeholder="Leave a comment..."
-        maxlength="200" v-model="message"
-        oninput='this.style.height = "";this.style.height = this.scrollHeight + 4 + "px"' @keydown="preventNextLine"
-        @keyup="submitComment" />
+      <div class="w-full flex flex-row inputableContainer rounded-lg border-2">
+        <textarea class="inputable w-full max-h-36 text-xl p-2 border-0 rounded-lg" placeholder="Leave a comment..."
+          maxlength="200" v-model="message"
+          oninput='this.style.height = "";this.style.height = this.scrollHeight + 4 + "px"' @keydown="preventNextLine"
+          onkeyup='this.style.height = "";this.style.height = this.scrollHeight + 4 + "px"' @keyup="submitComment" />
+        <button class="h-full w-fit p-2 rounded-lg my-auto" @click="submitCommentClick">
+          <SubmitIcon></SubmitIcon>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -86,6 +91,7 @@ import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import DeleteComponent from "./subComponents/DeleteComponent.vue";
 import ImgLoader from "./ImgLoader.vue";
+import SubmitIcon from "@/components/icons/SubmitIcon.vue"
 import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
 import type { Publication, Comment as Com } from "@/api/type";
@@ -119,9 +125,9 @@ const emit = defineEmits({
   },
 });
 const showMoreComments = () => {
-  nbCommentsShown.value += 12;
+  nbCommentsShown.value += publicationStore.serverPageQte;
   if (props.publication.nb_comments > nbCommentsShown.value && props.publication.comments.length == nbCommentsShown.value) {
-    publicationStore.getMoreComments(props.publication.publication_id, Math.floor(nbCommentsShown.value / 12) + 1);
+    publicationStore.getMoreComments(props.publication.publication_id, Math.floor(nbCommentsShown.value / publicationStore.serverPageQte) + 1);
   }
 };
 const hideComments = () => {
@@ -133,6 +139,11 @@ const submitComment = (event: KeyboardEvent) => {
     message.value = "";
   }
 };
+const submitCommentClick = () => {
+  publicationStore.addComment(props.publication.publication_id, message.value);
+  message.value = "1";
+  message.value = "";
+}
 const preventNextLine = (event: KeyboardEvent) => {
   if (event.key == "Enter") {
     event.preventDefault();
@@ -145,9 +156,14 @@ const preventNextLine = (event: KeyboardEvent) => {
   color: var(--special-text-color);
 }
 
-.inputable {
+
+.inputableContainer {
   border-color: var(--color-border);
   background-color: var(--modal-color);
+}
+
+.inputable {
+  background-color: transparent;
   box-shadow: none;
   resize: none;
   overflow: hidden;

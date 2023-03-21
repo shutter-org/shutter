@@ -10,6 +10,7 @@ export const usePublicationStore = defineStore('publication', () => {
     const homePublications = ref();
     const lastShownPublications = ref(new Map());
     const isBusy = ref(false);
+    const serverPageQte = ref(12);
 
     const getHomePublications = () => {
         return homePublications.value;
@@ -32,7 +33,7 @@ export const usePublicationStore = defineStore('publication', () => {
         }
     };
     async function loadMorePublications(page: number) {
-        if (homePublications.value !== undefined && homePublications.value.length < page * 12) {
+        if (homePublications.value !== undefined && homePublications.value.length < page * serverPageQte.value) {
             const res = await getFollowingPublications(page, userStore.authKey);
             if (res.status !== 200) {
                 console.log("erreur dans le fetch des publications");
@@ -44,7 +45,7 @@ export const usePublicationStore = defineStore('publication', () => {
                     homePublications.value.push(pub);
                     lastShownPublications.value.set(pub.publication_id, pub);
                 }
-                return data.length !== 12;
+                return data.length !== serverPageQte.value;
             }
         }
     };
@@ -173,7 +174,8 @@ export const usePublicationStore = defineStore('publication', () => {
                 console.log("erreur dans la creation du commentaire");
             }
             else {
-                if (pub.comments.length === pub.nb_comments && Math.floor(pub.nb_comments / 12) !== 0) {
+                if (pub.nb_comments < 12 ||
+                    (pub.comments.length === pub.nb_comments && Math.floor(pub.nb_comments / serverPageQte.value) !== 0)) {
                     const data = await res.json();
                     const newCom = {
                         comment_id: data.comment_id,
@@ -204,14 +206,14 @@ export const usePublicationStore = defineStore('publication', () => {
     async function getMoreComments(publicationId: String, page: number) {
         let pub = lastShownPublications.value.get(publicationId);
         if (pub !== undefined) {
-            if (pub.comments.length < page * 12) {
+            if (pub.comments.length < page * serverPageQte.value) {
                 const res = await getComments(pub.publication_id, page, userStore.authKey);
                 if (res.status !== 200) {
                     console.log("erreur dans le fetch des commentaires");
                 }
                 else {
                     const data = await res.json() as Comment[];
-                    for (let com of data.splice(pub.comments.length - (page - 1) * 12, data.length)) {
+                    for (let com of data.splice(pub.comments.length - (page - 1) * serverPageQte.value, data.length)) {
                         pub.comments.push(com);
                     }
                 }
@@ -225,7 +227,7 @@ export const usePublicationStore = defineStore('publication', () => {
     }
 
     return {
-        getHomePublications, loadHomePublications, loadMorePublications, getShownPublication, reset,
+        getHomePublications, loadHomePublications, loadMorePublications, getShownPublication, reset, serverPageQte,
         loadShownPublication, voteUpPub, voteDownPub, voteUpComment, voteDownComment, addComment, delComment, getMoreComments
     }
 })
