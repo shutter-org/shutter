@@ -4,6 +4,7 @@
             <div class="font-bold text-2xl pl-2 py-1">{{ props.gallery.title }}</div>
             <div class="text-xl pr-2 py-1">{{ props.gallery.created_date }}</div>
         </div>
+        <div class="pl-2">{{ props.gallery.description }} !!!description a repenser</div>
         <div class="scrollmenu" v-dragscroll>
             <button v-for="publication in props.gallery.publications" class="w-80 px-2"
                 @click="emit('openPublicationModal', publication.publication_id)">
@@ -13,7 +14,7 @@
         <div class="flex flex-row justify-between">
             <RatingInterface @vote-up="galleryStore.voteUpGallery(props.gallery)"
                 @vote-down="galleryStore.voteDownGallery(props.gallery)" :total_rate="props.gallery.rating"
-                :user_rate="props.gallery.username_rating">
+                :user_rate="props.gallery.user_rating">
             </RatingInterface>
             <div class="flex flex-row pr-2">
                 <button>

@@ -2,10 +2,12 @@ import { defineStore } from "pinia";
 import { deleteRatingGallery, getGallery, rateGallery, updateRateGallery } from "@/api/gallery";
 import { useUserStore } from "./user";
 import type { Gallery } from "@/api/type";
+import { ref } from "vue";
 
 export const useGalleryStore = defineStore('gallery', () => {
 
     const userStore = useUserStore();
+    const isRating = ref(false);
 
     async function getShownGallery(gallery_id: string){
         const res = await getGallery(gallery_id, userStore.authKey);
@@ -19,36 +21,47 @@ export const useGalleryStore = defineStore('gallery', () => {
     }
     async function voteDownGallery(gallery: Gallery){
         console.log('downvote gallery')
-
-        gallery.rating -= gallery.username_rating;
-        if(gallery.username_rating == 1){
-            if (gallery.username_rating === 1) {
-                gallery.username_rating = 0;
-                deleteRatingGallery(gallery.gallery_id, userStore.authKey);
-            } else if (gallery.username_rating === 0) {
-                gallery.username_rating = 1;
-                rateGallery(gallery.gallery_id, true, userStore.authKey);
-            } else {
-                gallery.username_rating = 1;
-                updateRateGallery(gallery.gallery_id, true, userStore.authKey);
+        if (!isRating.value) {
+            isRating.value = true;
+            if (gallery !== undefined) {
+                if (gallery.user_rating === -1) {
+                    gallery.user_rating = 0;
+                    gallery.rating += 1;
+                    await deleteRatingGallery(gallery.gallery_id, userStore.authKey);
+                } else if (gallery.user_rating === 0) {
+                    gallery.user_rating = -1;
+                    gallery.rating -= 1;
+                    await rateGallery(gallery.gallery_id, false, userStore.authKey);
+                } else {
+                    gallery.user_rating = -1;
+                    gallery.rating -= 2;
+                    await updateRateGallery(gallery.gallery_id, false, userStore.authKey);
+                }
             }
-            gallery.rating += gallery.username_rating;
+            isRating.value = false;
         }
     }
     async function voteUpGallery(gallery: Gallery){
         console.log('upvote gallery')
-        gallery.rating -= gallery.username_rating;
-        if (gallery.username_rating === 1) {
-            gallery.username_rating = 0;
-            deleteRatingGallery(gallery.gallery_id, userStore.authKey);
-        } else if (gallery.username_rating === 0) {
-            gallery.username_rating = 1;
-            rateGallery(gallery.gallery_id, true, userStore.authKey);
-        } else {
-            gallery.username_rating = 1;
-            updateRateGallery(gallery.gallery_id, true, userStore.authKey);
+        if (!isRating.value) {
+            isRating.value = true;
+            if (gallery !== undefined) {
+                if (gallery.user_rating === 1) {
+                    gallery.user_rating = 0;
+                    gallery.rating -= 1;
+                    await deleteRatingGallery(gallery.gallery_id, userStore.authKey);
+                } else if (gallery.user_rating === 0) {
+                    gallery.user_rating = 1;
+                    gallery.rating += 1;
+                    await rateGallery(gallery.gallery_id, true, userStore.authKey);
+                } else {
+                    gallery.user_rating = 1;
+                    gallery.rating += 2;
+                    await updateRateGallery(gallery.gallery_id, true, userStore.authKey);
+                }
+            }
+            isRating.value = false;
         }
-        gallery.rating += gallery.username_rating;
     }
     async function deleteGallery(gallery: Gallery){
         console.log('delete gallery')

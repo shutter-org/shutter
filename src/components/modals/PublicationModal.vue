@@ -11,7 +11,6 @@
     <div v-else class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
       <publication-component class="" @delete-pub="deletePub" @search-tag="searchTag" @add-to-gallery="addToGallery"
         :publication="shownPublication" :is-current-user="isCurrentUser"></publication-component>
-      <div class="h-10"></div>
     </div>
   </div>
 </template>

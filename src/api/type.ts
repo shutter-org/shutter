@@ -64,6 +64,6 @@ export interface Gallery {
   description: string;
   nb_publications: number;
   rating: number;
-  username_rating: number;
+  user_rating: number;
   publications: SimplifiedPublication[];
 }
