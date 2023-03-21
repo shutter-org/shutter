@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { deleteRatingGallery, getGallery, rateGallery, updateRateGallery } from "@/api/gallery";
+import { deleteRatingGallery, getGallery, rateGallery, updateRateGallery, deleteGalleryApi } from "@/api/gallery";
 import { useUserStore } from "./user";
 import type { Gallery } from "@/api/type";
 import { ref } from "vue";
@@ -64,7 +64,12 @@ export const useGalleryStore = defineStore('gallery', () => {
         }
     }
     async function deleteGallery(gallery: Gallery){
-        console.log('delete gallery')
+        const res = await deleteGalleryApi(gallery.gallery_id, userStore.authKey);
+        if(res.status !== 200){
+            console.log("erreur dans le delete de la gallery");
+        }else{
+            return true;
+        }
     }
     return { getShownGallery, voteDownGallery, voteUpGallery, deleteGallery }
 })

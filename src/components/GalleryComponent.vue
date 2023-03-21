@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col ">
+    <div class="flex flex-col border-2 shutter-border-color my-3 rounded-md py-2">
         <div class="flex flex-row justify-between">
             <div class="font-bold text-2xl pl-2 py-1">{{ props.gallery.title }}</div>
             <div class="text-xl pr-2 py-1">{{ props.gallery.created_date }}</div>
@@ -17,10 +17,11 @@
                 :user_rate="props.gallery.user_rating">
             </RatingInterface>
             <div class="flex flex-row pr-2">
-                <button>
+                <button v-if="props.isCurrentUser">
                     <ModifyIcon></ModifyIcon>
                 </button>
-                <DeleteComponent @delete="galleryStore.deleteGallery"></DeleteComponent>
+                <DeleteComponent v-if="props.isCurrentUser" @delete="deleteEntireGallery">
+                </DeleteComponent>
             </div>
         </div>
     </div>
@@ -29,22 +30,38 @@
 import ImgLoader from "./ImgLoader.vue";
 import type { Gallery } from "@/api/type";
 import type { PropType } from "vue";
+import { ref } from "vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import DeleteComponent from "./subComponents/DeleteComponent.vue";
 import RatingInterface from "./subComponents/RatingInterface.vue";
 import { useGalleryStore } from "@/stores/gallery";
+
+
 const galleryStore = useGalleryStore();
 const props = defineProps({
     gallery: {
         type: Object as PropType<Gallery>,
+        required: true
+    },
+    isCurrentUser: {
+        type: Boolean,
         required: true
     }
 })
 const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
+    },
+    deleteGallery: (gallery_id: string) => {
+        return !!gallery_id;
     }
 });
+
+async function deleteEntireGallery() {
+    if (await galleryStore.deleteGallery(props.gallery)) {
+        emit('deleteGallery', props.gallery.gallery_id);
+    }
+}
 </script>
 <style>
 div.scrollmenu {

@@ -101,8 +101,9 @@
 
     <!-- Galleries display -->
     <div v-if="!isPictureTabShown" class="w-full">
-      <GalleryComponent v-for="gallery in shownGalleries" :gallery="gallery"
-        @open-publication-modal="openPublicationModalFromGallery" />
+      <GalleryComponent v-for="gallery in shownGalleries" :gallery="gallery" :is-current-user="props.isCurrentUser"
+        @open-publication-modal="openPublicationModalFromGallery"
+        @deleteGallery="(gallery_id) => deleteGalleryFromList(gallery_id)" />
     </div>
 
     <!-- time passsed since user's creation -->
@@ -156,7 +157,10 @@ const props = defineProps({
     type: Object as PropType<User>,
     required: true
   },
-  isCurrentUser: Boolean
+  isCurrentUser: {
+    type: Boolean,
+    required: true
+  }
 });
 
 const userStore = useUserStore();
@@ -189,7 +193,9 @@ async function loadGalleries() {
     }
   }
 }
-
+function deleteGalleryFromList(gallery_id: string) {
+  shownGalleries.value = shownGalleries.value.filter(gallery => gallery.gallery_id !== gallery_id);
+}
 const showMore = async () => {
   if (!isBusy.value) {
     isBusy.value = true;

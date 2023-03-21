@@ -4,7 +4,7 @@
             class="mb-5 w-full rounded-md h-12 border-2 shutter-background-color shutter-border-color pl-4 self-center flex items-center">
             <input class="z-2 outline-none shutter-background-color box-border h-11 w-full" v-focus v-model="search"
                 placeholder="Search users or tags with '#'" />
-            <HashtagIcon class="h-6 pr-2" />
+            <CrossIcon class="h-6 pr-2" @click="emptySearch" />
         </div>
 
         <UserBarComponentVue v-for="user in usersSearched" v-if="isSearchingUsers" :user="user"
@@ -31,23 +31,29 @@
     </div>
 </template>
 <script setup lang="ts">
-import HashtagIcon from './icons/HashtagIcon.vue';
+import CrossIcon from './icons/CrossIcon.vue';
 import UserBarComponentVue from './userComponents/UserBarComponent.vue';
 import { useUserStore } from '@/stores/user';
 import { searchUser } from '@/api/user';
 import { searchTag } from '@/api/tag';
 import { ref, watch } from 'vue';
 
-const search = ref();
+const search = ref("");
 const userStore = useUserStore();
 const usersSearched = ref();
 const tagsSearched = ref();
 const isSearchingUsers = ref(true);
+const isSelectedIndex = ref(0);
 loadSearchedUser("");
 
 watch(search, (newValue, oldValue) => {
     filterSearch(newValue);
 });
+
+function emptySearch() {
+    search.value = "";
+    loadSearchedUser("");
+}
 
 function filterSearch(search: string) {
     if (search.startsWith("#")) {

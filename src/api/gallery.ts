@@ -58,3 +58,14 @@ export const deleteRatingGallery = async (gallery_id: string, authKey: String) =
     });
     return response;
 }
+export const deleteGalleryApi = async (gallery_id: string, authKey: String) => {
+    const key = "Bearer " + authKey;
+    const response = await fetch(`${API_URL}/gallerys/${gallery_id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": key,
+        },
+    });
+    return response;
+}
