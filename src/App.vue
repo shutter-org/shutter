@@ -22,6 +22,7 @@ import { useUserStore } from "./stores/user";
 import { usePublicationStore } from "./stores/publication";
 import Menubars from "@/components/MenuBars.vue";
 import Auth from "@/components/AuthComponent.vue";
+import router from "./router";
 
 const userStore = useUserStore();
 const publicationStore = usePublicationStore();
@@ -48,6 +49,7 @@ function logOut() {
   userStore.reset();
   publicationStore.reset();
   isLoggedIn.value = false;
+  router.push("/");
 }
 </script>
 

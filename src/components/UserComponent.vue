@@ -1,7 +1,6 @@
 <template>
   <!-- Link to user's profile -->
-  <router-link :to="loggedUsername !== props.user.username ? '/user/' + props.user.username : '/profile'"
-    class="flex flex-row gap-2 items-center rounded-lg p-2 w-fit">
+  <router-link :to="'/user/' + props.user.username" class="flex flex-row gap-2 items-center rounded-lg p-2 w-fit">
 
     <!-- profile picture -->
     <ImgLoader class="h-full object-cover aspect-square rounded-full border-2" :src="props.user.profile_picture"

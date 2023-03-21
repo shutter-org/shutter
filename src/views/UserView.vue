@@ -32,6 +32,7 @@ import SadIcon from "@/components/icons/SadIcon.vue";
 import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
 import { useRoute } from "vue-router";
+import router from "@/router";
 
 const userStore = useUserStore();
 const route = useRoute();
@@ -42,6 +43,9 @@ const isLoading = ref(true);
 const isUpdating = ref(false);
 const doesUserExist = ref(false);
 
+if (route.params.username as string === userStore.username) {
+    router.push("/profile");
+}
 loadUser(route.params.username as string);
 
 async function loadUser(username: string) {

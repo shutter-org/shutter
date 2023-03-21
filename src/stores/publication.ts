@@ -9,15 +9,17 @@ export const usePublicationStore = defineStore('publication', () => {
     const userStore = useUserStore();
     const homePublications = ref();
     const lastShownPublications = ref(new Map());
-    const isRating = ref(false);
+    const isBusy = ref(false);
 
     const getHomePublications = () => {
         return homePublications.value;
     }
     async function loadHomePublications() {
+        isBusy.value = true;
         const res = await getFollowingPublications(1, userStore.authKey);
         if (res.status !== 200) {
             console.log("erreur dans le fetch des publications");
+            isBusy.value = false;
         }
         else {
             const data = await res.json();
@@ -25,6 +27,7 @@ export const usePublicationStore = defineStore('publication', () => {
             for (let pub of data.publications) {
                 lastShownPublications.value.set(pub.publication_id, pub);
             }
+            isBusy.value = false;
             return data.nb_publications;
         }
     };
@@ -50,22 +53,25 @@ export const usePublicationStore = defineStore('publication', () => {
         return lastShownPublications.value.get(publicationId);
     }
     async function loadShownPublication(publicationId: string) {
+        isBusy.value = true;
         const res = await getPublication(publicationId, userStore.authKey);
         if (res.status !== 200) {
             console.log("erreur dans le fetch de la publication");
+            isBusy.value = false;
         }
         else {
             const shownPublication = await res.json() as Publication;
             lastShownPublications.value.set(shownPublication.publication_id, shownPublication);
+            isBusy.value = false;
             return shownPublication;
         }
     };
 
     //publications manipulation
     const voteUpPub = async (publicationId: string) => {
-        if (!isRating.value) {
-            isRating.value = true;
-            let pub = lastShownPublications.value.get(publicationId)
+        if (!isBusy.value) {
+            isBusy.value = true;
+            let pub = lastShownPublications.value.get(publicationId);
             if (pub !== undefined) {
                 if (pub.user_rating === 1) {
                     pub.user_rating = 0;
@@ -81,13 +87,14 @@ export const usePublicationStore = defineStore('publication', () => {
                     await updateRatingPublication(pub.publication_id, true, userStore.authKey);
                 }
             }
-            isRating.value = false;
+            isBusy.value = false;
+            console.log("like")
         }
     };
     const voteDownPub = async (publicationId: string) => {
-        if (!isRating.value) {
-            isRating.value = true;
-            let pub = lastShownPublications.value.get(publicationId)
+        if (!isBusy.value) {
+            isBusy.value = true;
+            let pub = lastShownPublications.value.get(publicationId);
             if (pub !== undefined) {
                 if (pub.user_rating === -1) {
                     pub.user_rating = 0;
@@ -103,13 +110,13 @@ export const usePublicationStore = defineStore('publication', () => {
                     await updateRatingPublication(pub.publication_id, false, userStore.authKey);
                 }
             }
-            isRating.value = false;
+            isBusy.value = false;
         }
     };
     const voteUpComment = async (commentId: string, publicationId: string) => {
-        if (!isRating.value) {
-            isRating.value = true;
-            let pub = lastShownPublications.value.get(publicationId)
+        if (!isBusy.value) {
+            isBusy.value = true;
+            let pub = lastShownPublications.value.get(publicationId);
             if (pub !== undefined) {
                 for (let comment of pub.comments) {
                     if (comment.comment_id === commentId) {
@@ -129,13 +136,13 @@ export const usePublicationStore = defineStore('publication', () => {
                     }
                 }
             }
-            isRating.value = false;
+            isBusy.value = false;
         }
     };
     const voteDownComment = async (commentId: string, publicationId: string) => {
-        if (!isRating.value) {
-            isRating.value = true;
-            let pub = lastShownPublications.value.get(publicationId)
+        if (!isBusy.value) {
+            isBusy.value = true;
+            let pub = lastShownPublications.value.get(publicationId);
             if (pub !== undefined) {
                 for (let comment of pub.comments) {
                     if (comment.comment_id === commentId) {
@@ -155,11 +162,11 @@ export const usePublicationStore = defineStore('publication', () => {
                     }
                 }
             }
-            isRating.value = false;
+            isBusy.value = false;
         }
     };
     async function addComment(publicationId: string, message: string) {
-        let pub = lastShownPublications.value.get(publicationId)
+        let pub = lastShownPublications.value.get(publicationId);
         if (pub !== undefined) {
             const res = await postComment(pub.publication_id, message, userStore.authKey);
             if (res.status !== 201) {
@@ -186,7 +193,7 @@ export const usePublicationStore = defineStore('publication', () => {
         }
     };
     const delComment = (publicationId: string, commentId: string) => {
-        let pub = lastShownPublications.value.get(publicationId)
+        let pub = lastShownPublications.value.get(publicationId);
         if (pub !== undefined) {
             deleteComment(commentId, userStore.authKey);
             pub.comments = pub.comments.filter((comment: Comment) => {
@@ -195,7 +202,7 @@ export const usePublicationStore = defineStore('publication', () => {
         }
     };
     async function getMoreComments(publicationId: String, page: number) {
-        let pub = lastShownPublications.value.get(publicationId)
+        let pub = lastShownPublications.value.get(publicationId);
         if (pub !== undefined) {
             if (pub.comments.length < page * 12) {
                 const res = await getComments(pub.publication_id, page, userStore.authKey);
