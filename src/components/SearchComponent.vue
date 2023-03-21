@@ -23,7 +23,7 @@
                 </div>
                 <div class="flex flex-col">
                     <span class="font-bold">#{{ tag.tag }}</span>
-                    <span class="text-sm">{{ tag.nb_publication }} posts</span>
+                    <span class="text-sm">{{ tag.nb_publications }} posts</span>
                 </div>
             </div>
         </router-link>
