@@ -40,3 +40,7 @@ span {
 .shutter-modal-color {
   background-color: var(--modal-color);
 }
+
+.colored-border {
+  border-color: var(--color-text);
+}
