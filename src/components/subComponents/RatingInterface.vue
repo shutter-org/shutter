@@ -1,10 +1,10 @@
 <template>
-  <div class="flex flex-row gap-2">
+  <div class="flex flex-row">
     <button>
       <UpvoteIcon v-if="props.user_rate !== 1" @click="emit('voteUp')" />
       <FilledUpvoteIcon v-else @click="emit('voteUp')" />
     </button>
-    <p class="font-bold text-xl">{{ props.total_rate }}</p>
+    <p class="font-bold text-xl text-center w-8">{{ props.total_rate }}</p>
     <button>
       <DownvoteIcon v-if="props.user_rate !== -1" @click="emit('voteDown')" />
       <FilledDownvoteIcon v-else @click="emit('voteDown')" />

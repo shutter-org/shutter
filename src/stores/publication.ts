@@ -9,6 +9,7 @@ export const usePublicationStore = defineStore('publication', () => {
     const userStore = useUserStore();
     const homePublications = ref();
     const lastShownPublications = ref(new Map());
+    const isRating = ref(false);
 
     const getHomePublications = () => {
         return homePublications.value;
@@ -61,84 +62,100 @@ export const usePublicationStore = defineStore('publication', () => {
     };
 
     //publications manipulation
-    const voteUpPub = (publicationId: string) => {
-        let pub = lastShownPublications.value.get(publicationId)
-        if (pub !== undefined) {
-            if (pub.publication_id === publicationId) {
-                pub.rating -= pub.user_rating;
+    const voteUpPub = async (publicationId: string) => {
+        if (!isRating.value) {
+            isRating.value = true;
+            let pub = lastShownPublications.value.get(publicationId)
+            if (pub !== undefined) {
                 if (pub.user_rating === 1) {
                     pub.user_rating = 0;
-                    deleteRatingPublication(pub.publication_id, userStore.authKey);
+                    pub.rating -= 1;
+                    await deleteRatingPublication(pub.publication_id, userStore.authKey);
                 } else if (pub.user_rating === 0) {
                     pub.user_rating = 1;
-                    ratePublication(pub.publication_id, true, userStore.authKey);
+                    pub.rating += 1;
+                    await ratePublication(pub.publication_id, true, userStore.authKey);
                 } else {
                     pub.user_rating = 1;
-                    updateRatingPublication(pub.publication_id, true, userStore.authKey);
+                    pub.rating += 2;
+                    await updateRatingPublication(pub.publication_id, true, userStore.authKey);
                 }
-                pub.rating += pub.user_rating;
             }
+            isRating.value = false;
         }
     };
-    const voteDownPub = (publicationId: string) => {
-        let pub = lastShownPublications.value.get(publicationId)
-        if (pub !== undefined) {
-            if (pub.publication_id === publicationId) {
-                pub.rating -= pub.user_rating;
+    const voteDownPub = async (publicationId: string) => {
+        if (!isRating.value) {
+            isRating.value = true;
+            let pub = lastShownPublications.value.get(publicationId)
+            if (pub !== undefined) {
                 if (pub.user_rating === -1) {
                     pub.user_rating = 0;
-                    deleteRatingPublication(pub.publication_id, userStore.authKey);
+                    pub.rating += 1;
+                    await deleteRatingPublication(pub.publication_id, userStore.authKey);
                 } else if (pub.user_rating === 0) {
                     pub.user_rating = -1;
-                    ratePublication(pub.publication_id, false, userStore.authKey);
+                    pub.rating -= 1;
+                    await ratePublication(pub.publication_id, false, userStore.authKey);
                 } else {
                     pub.user_rating = -1;
-                    updateRatingPublication(pub.publication_id, false, userStore.authKey);
+                    pub.rating -= 2;
+                    await updateRatingPublication(pub.publication_id, false, userStore.authKey);
                 }
-                pub.rating += pub.user_rating;
             }
+            isRating.value = false;
         }
     };
-    const voteUpComment = (commentId: string, publicationId: string) => {
-        let pub = lastShownPublications.value.get(publicationId)
-        if (pub !== undefined) {
-            for (let comment of pub.comments) {
-                if (comment.comment_id === commentId) {
-                    comment.rating -= comment.user_rating;
-                    if (comment.user_rating === 1) {
-                        comment.user_rating = 0;
-                        deleteRatingComment(commentId, userStore.authKey);
-                    } else if (comment.user_rating === 0) {
-                        comment.user_rating = 1;
-                        rateComment(commentId, true, userStore.authKey);
-                    } else {
-                        comment.user_rating = 1;
-                        updateRatingComment(commentId, true, userStore.authKey);
+    const voteUpComment = async (commentId: string, publicationId: string) => {
+        if (!isRating.value) {
+            isRating.value = true;
+            let pub = lastShownPublications.value.get(publicationId)
+            if (pub !== undefined) {
+                for (let comment of pub.comments) {
+                    if (comment.comment_id === commentId) {
+                        if (comment.user_rating === 1) {
+                            comment.user_rating = 0;
+                            comment.rating -= 1;
+                            await deleteRatingComment(commentId, userStore.authKey);
+                        } else if (comment.user_rating === 0) {
+                            comment.user_rating = 1;
+                            comment.rating += 1;
+                            await rateComment(commentId, true, userStore.authKey);
+                        } else {
+                            comment.user_rating = 1;
+                            comment.rating += 2;
+                            await updateRatingComment(commentId, true, userStore.authKey);
+                        }
                     }
-                    comment.rating += comment.user_rating;
                 }
             }
+            isRating.value = false;
         }
     };
-    const voteDownComment = (commentId: string, publicationId: string) => {
-        let pub = lastShownPublications.value.get(publicationId)
-        if (pub !== undefined) {
-            for (let comment of pub.comments) {
-                if (comment.comment_id === commentId) {
-                    comment.rating -= comment.user_rating;
-                    if (comment.user_rating === -1) {
-                        comment.user_rating = 0;
-                        deleteRatingComment(commentId, userStore.authKey);
-                    } else if (comment.user_rating === 0) {
-                        comment.user_rating = -1;
-                        rateComment(commentId, false, userStore.authKey);
-                    } else {
-                        comment.user_rating = -1;
-                        updateRatingComment(commentId, false, userStore.authKey);
+    const voteDownComment = async (commentId: string, publicationId: string) => {
+        if (!isRating.value) {
+            isRating.value = true;
+            let pub = lastShownPublications.value.get(publicationId)
+            if (pub !== undefined) {
+                for (let comment of pub.comments) {
+                    if (comment.comment_id === commentId) {
+                        if (comment.user_rating === -1) {
+                            comment.user_rating = 0;
+                            comment.rating += 1;
+                            await deleteRatingComment(commentId, userStore.authKey);
+                        } else if (comment.user_rating === 0) {
+                            comment.user_rating = -1;
+                            comment.rating -= 1;
+                            await rateComment(commentId, true, userStore.authKey);
+                        } else {
+                            comment.user_rating = -1;
+                            comment.rating -= 2;
+                            await updateRatingComment(commentId, true, userStore.authKey);
+                        }
                     }
-                    comment.rating += comment.user_rating;
                 }
             }
+            isRating.value = false;
         }
     };
     async function addComment(publicationId: string, message: string) {
