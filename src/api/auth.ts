@@ -36,3 +36,15 @@ export const signUp = async (user: SignUpUser) => {
   });
   return response;
 };
+
+export const ping = async (authKey: string) => {
+  const key = "Bearer " + authKey;
+  const response = await fetch(`${API_URL}/ping`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": key,
+    },
+  });
+  return response;
+}

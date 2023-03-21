@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import { ping } from "./api/auth";
 import { RouterView } from "vue-router";
 import { ref, watch } from "vue";
 import { useUserStore } from "./stores/user";
@@ -41,6 +42,19 @@ watch(() => clock.value, (newDate: number) => {
   }
 });
 
+pingServer();
+
+async function pingServer() {
+  if (isLoggedIn.value) {
+    const res = await ping(userStore.authKey);
+    if (res.status !== 200) {
+      logOut();
+    }
+    else {
+      console.log("server restore");
+    }
+  }
+}
 function LoggedIn() {
   userStore.startSession();
   isLoggedIn.value = true;
