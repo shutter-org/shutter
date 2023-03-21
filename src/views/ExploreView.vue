@@ -7,7 +7,7 @@
         <kbd class="hx_kbd border-2 shutter-border-mute">
           <span v-if="isWindows">Ctrl K</span>
           <span v-else>&#x2318; K</span>
-        </kbd> to search for hashtags
+        </kbd> to search for tags
       </span>
       <span class="flex-1 ml-3 text-4xl" v-if="!isTagNameEmpty">#{{ route.params.tag }}</span>
       <span class="flex-1 ml-3 text-2xl" v-if="!isTagNameEmpty">{{ numberOfPublications }} posts</span>
