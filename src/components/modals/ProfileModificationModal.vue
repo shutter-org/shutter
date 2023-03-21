@@ -6,7 +6,7 @@
             class="post flex flex-col gap-4 items-center rounded-lg p-4 relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
             <div
                 class="modal shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4">
-                <div class="w-full h-40 PRO:h-80 flex flex-row PRO:flex-col gap-10 items-center p-2">
+                <div class="w-full h-48 PRO:h-80 flex flex-row PRO:flex-col gap-10 PRO:gap-4 items-center p-2">
 
                     <!-- Picture uploader -->
                     <button class="h-full PRO:h-1/2 aspect-square rounded-full border-2 grid grid-cols-1 grid-rows-1"
@@ -21,13 +21,12 @@
 
                     <!-- Inline text modifications (username, name) -->
                     <div class="h-full w-full flex flex-col gap-4 justify-center overflow-x-auto p-1">
-                        <input class="w-full font-bold text-4xl h-20 inputable p-2 border-2 rounded-lg"
-                            placeholder="Username..." maxlength="50" v-model="username" />
+                        <input class="w-full font-bold text-4xl inputable p-2 border-2 rounded-lg" placeholder="Username..."
+                            maxlength="50" v-model="username" />
                         <div class="w-full flex flex-row PRO:justify-center">
-                            <input class="w-max font-bold text-2xl h-18 inputable p-2 border-2 rounded-lg"
-                                placeholder="Name..." maxlength="50" v-model="name" />
-                            <p
-                                class="w-fit font-bold text-2xl p-2 inline overflow-hidden whitespace-nowrap overflow-ellipsis PRO:text-center">
+                            <input class="w-full font-bold text-2xl inputable p-2 border-2 rounded-lg" placeholder="Name..."
+                                maxlength="50" v-model="name" />
+                            <p class="w-max font-bold text-2xl p-2 inline whitespace-nowrap">
                                 • {{ props.user.age }}
                             </p>
                         </div>

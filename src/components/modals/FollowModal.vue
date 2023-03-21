@@ -6,8 +6,7 @@
             <div class="rounded-lg items-center flex flex-col relative max-w-full">
                 <p class="text-2xl font-bold p-2 mb-2">{{ title }}</p>
                 <UpvoteIcon v-if="!isAtStart" class="w-full h-8 border-b-2 shutter-border-color" />
-                <div v-infinite-scroll="loadMoreFollows" infinite-scroll-distance="2000"
-                    infinite-scroll-immediate-check="true" @scroll="handleScroll" id="userContainer"
+                <div @scroll="handleScroll" id="userContainer"
                     class="rounded-lg items-center flex flex-col w-full max-h-80 overflow-y-scroll">
                     <UserBarComponent v-for="user of follows" :user="user" :key="user.username">
                     </UserBarComponent>
@@ -70,6 +69,10 @@ const loadMoreFollows = async () => {
 }
 const handleScroll = () => {
     let container = document.getElementById("userContainer")!;
+
+    if ((container.offsetHeight + container.scrollTop + 200) >= container.scrollHeight) {
+        loadMoreFollows();
+    }
 
     if ((container.offsetHeight + container.scrollTop) >= container.scrollHeight) {
         isAtEnd.value = true;
