@@ -6,10 +6,11 @@
         </div>
         <div class="pl-2">{{ props.gallery.description }} !!!description a repenser</div>
         <div class="scrollmenu" v-dragscroll>
-            <button v-for="publication in props.gallery.publications" class="w-80 px-2"
-                @click="emit('openPublicationModal', publication.publication_id)">
-                <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="publication.picture" />
-            </button>
+            <PublicationGalleryComponent v-for="publication in props.gallery.publications"
+                :is-current-user="props.isCurrentUser" :publication="publication"
+                @open-publication-modal="emit('openPublicationModal', publication.publication_id)"
+                @delete-publication="emit('deletePublicationFromGallery', props.gallery.gallery_id, publication.publication_id)">
+            </PublicationGalleryComponent>
         </div>
         <div class="flex flex-row justify-between">
             <RatingInterface @vote-up="galleryStore.voteUpGallery(props.gallery)"
@@ -30,10 +31,10 @@
 import ImgLoader from "./ImgLoader.vue";
 import type { Gallery } from "@/api/type";
 import type { PropType } from "vue";
-import { ref } from "vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import DeleteComponent from "./subComponents/DeleteComponent.vue";
 import RatingInterface from "./subComponents/RatingInterface.vue";
+import PublicationGalleryComponent from "./PublicationGalleryComponent.vue";
 import { useGalleryStore } from "@/stores/gallery";
 
 
@@ -48,12 +49,19 @@ const props = defineProps({
         required: true
     }
 })
+
 const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
     },
     deleteGallery: (gallery_id: string) => {
         return !!gallery_id;
+    },
+    deletePublicationFromGallery: (gallery_id: string, publication_id: string) => {
+        return {
+            gallery_id,
+            publication_id
+        }
     }
 });
 
@@ -67,5 +75,9 @@ async function deleteEntireGallery() {
 div.scrollmenu {
     overflow: auto;
     white-space: nowrap;
+}
+
+.open-button {
+    transform: translate(-50%, -50%);
 }
 </style>

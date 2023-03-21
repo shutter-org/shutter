@@ -103,7 +103,8 @@
     <div v-if="!isPictureTabShown" class="w-full">
       <GalleryComponent v-for="gallery in shownGalleries" :gallery="gallery" :is-current-user="props.isCurrentUser"
         @open-publication-modal="openPublicationModalFromGallery"
-        @deleteGallery="(gallery_id) => deleteGalleryFromList(gallery_id)" />
+        @deleteGallery="(gallery_id) => deleteGalleryFromList(gallery_id)"
+        @delete-publication-from-gallery="(gallery_id, publication_id) => deletePublicationFromGalleryList(gallery_id, publication_id)" />
     </div>
 
     <!-- time passsed since user's creation -->
@@ -195,6 +196,14 @@ async function loadGalleries() {
 }
 function deleteGalleryFromList(gallery_id: string) {
   shownGalleries.value = shownGalleries.value.filter(gallery => gallery.gallery_id !== gallery_id);
+}
+async function deletePublicationFromGalleryList(gallery_id: string, publication_id: string) {
+  if (await galleryStore.deletePublicationFromGallery(gallery_id, publication_id)) {
+    let gallery = shownGalleries.value.find(gallery => gallery.gallery_id === gallery_id);
+    if (gallery !== undefined) {
+      gallery.publications = gallery.publications.filter(publication => publication.publication_id !== publication_id);
+    }
+  }
 }
 const showMore = async () => {
   if (!isBusy.value) {
