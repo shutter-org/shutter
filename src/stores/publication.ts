@@ -149,19 +149,21 @@ export const usePublicationStore = defineStore('publication', () => {
                 console.log("erreur dans la creation du commentaire");
             }
             else {
-                const data = await res.json();
-                const newCom = {
-                    comment_id: data.comment_id,
-                    commenter_user: {
-                        "username": userStore.username,
-                        "profile_picture": userStore.profile_picture
-                    },
-                    message: message,
-                    created_date: "now",
-                    rating: 0,
-                    user_rating: 0,
-                } as Comment;
-                pub.comments.push(newCom);
+                if (pub.comments.length === pub.nb_comments && Math.floor(pub.nb_comments / 12) !== 0) {
+                    const data = await res.json();
+                    const newCom = {
+                        comment_id: data.comment_id,
+                        commenter_user: {
+                            "username": userStore.username,
+                            "profile_picture": userStore.profile_picture
+                        },
+                        message: message,
+                        created_date: "now",
+                        rating: 0,
+                        user_rating: 0,
+                    } as Comment;
+                    pub.comments.push(newCom);
+                }
                 pub.nb_comments += 1;
             }
         }

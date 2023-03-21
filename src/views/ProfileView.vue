@@ -89,9 +89,9 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
         user.value.biography = bio;
 
         const data = await res.json();
-        if (data.acces_token !== undefined) {
+        if (data.access_token !== undefined) {
           console.log("key changed")
-          userStore.setAuthKey(data.acces_token);
+          userStore.setAuthKey(data.access_token);
         }
         if (data.user !== undefined && data.user !== null) {
           if (data.user.username !== undefined) {

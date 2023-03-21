@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, watch } from "vue"
-import { getMoreUserPublications, getUser } from "@/api/user";
+import { getMoreUserFollows, getMoreUserPublications, getUser } from "@/api/user";
 import { followUser, unfollowUser, deleteUser } from "@/api/user";
 import type { SimplifiedPublication, SimplifiedUser, User } from "@/api/type";
 
@@ -90,6 +90,18 @@ export const useUserStore = defineStore('user', () => {
       lastShownUsers.value.get(username).publications = lastShownUsers.value.get(username).publications.concat(publications);
     }
   }
+  async function loadMoreFollows(username: string, follows: string, page: number) {
+    const res = await getMoreUserFollows(username, follows, page, authKey.value);
+    if (res.status === 200) {
+      const users = await res.json() as SimplifiedUser[];
+      if (follows === "followers") {
+        lastShownUsers.value.get(username).followers = lastShownUsers.value.get(username).followers.concat(users);
+      }
+      else {
+        lastShownUsers.value.get(username).following = lastShownUsers.value.get(username).following.concat(users);
+      }
+    }
+  }
 
   async function follow(usernameProp: string) {
     const res = await followUser(usernameProp, authKey.value);
@@ -97,6 +109,7 @@ export const useUserStore = defineStore('user', () => {
       let user = lastShownUsers.value.get(usernameProp);
       if (user !== undefined) {
         user.followed_by_user = true;
+        user.nb_followers += 1;
         user.followers.push(getSimplifiedUser());
       }
     }
@@ -107,6 +120,7 @@ export const useUserStore = defineStore('user', () => {
       let user = lastShownUsers.value.get(usernameProp);
       if (user !== undefined) {
         user.followed_by_user = false;
+        user.nb_followers -= 1;
         user.followers = user.followers.filter((user: SimplifiedUser) => {
           return user.username !== username.value;
         });
@@ -125,7 +139,7 @@ export const useUserStore = defineStore('user', () => {
   return {
     username, profile_picture, authKey, sessionStartDate, deleteCurrentUser,
     setUsername, setProfilePicture, setAuthKey, startSession, getSimplifiedUser, reset,
-    getShownUser, loadShownUser, loadMorePublications, follow, unfollow
+    getShownUser, loadShownUser, loadMorePublications, loadMoreFollows, follow, unfollow
   }
 })
 

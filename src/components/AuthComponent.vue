@@ -104,7 +104,7 @@ async function SignIn() {
     const data = await res.json();
     userStore.setUsername(data.user.username);
     userStore.setProfilePicture(data.user.profile_picture);
-    userStore.setAuthKey(data.acces_token);
+    userStore.setAuthKey(data.access_token);
     emit("LoggedIn");
   }
 }
@@ -126,7 +126,7 @@ async function SignUp() {
       else {
         const data = await res.json();
         userStore.setUsername(username.value);
-        userStore.setAuthKey(data.acces_token);
+        userStore.setAuthKey(data.access_token);
         console.log("account created");
         switchView();
       }

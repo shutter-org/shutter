@@ -117,13 +117,13 @@
   </div>
 
   <!-- following modal -->
-  <FollowModal v-if="isFollowingShown" :users="{ values: props.user.following }" title="Following"
-    @close="isFollowingShown = false">
+  <FollowModal v-if="isFollowingShown" :users="props.user.following" :username="props.user.username"
+    :nb_follows="user.nb_following" title="Following" @close="isFollowingShown = false">
   </FollowModal>
 
   <!-- follower modal -->
-  <FollowModal v-if="isFollowerShown" :users="{ values: props.user.followers }" title="Follower"
-    @close="isFollowerShown = false">
+  <FollowModal v-if="isFollowerShown" :users="props.user.followers" :username="props.user.username"
+    :nb_follows="user.nb_followers" title="Follower" @close="isFollowerShown = false">
   </FollowModal>
 </template>
 
