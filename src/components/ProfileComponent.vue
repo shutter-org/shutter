@@ -101,7 +101,7 @@
 
     <!-- Galleries display -->
     <div v-if="!isPictureTabShown" class="w-full">
-      <GalleryComponent v-for="gallery in shownGalleries" :gallery="gallery"
+      <GalleryComponent v-for="gallery in shownGalleries" :gallery="gallery" :is-current-user="props.isCurrentUser"
         @open-publication-modal="openPublicationModalFromGallery" />
     </div>
 
@@ -156,7 +156,10 @@ const props = defineProps({
     type: Object as PropType<User>,
     required: true
   },
-  isCurrentUser: Boolean
+  isCurrentUser: {
+    type: Boolean,
+    required: true
+  }
 });
 
 const userStore = useUserStore();

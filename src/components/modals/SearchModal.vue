@@ -11,7 +11,6 @@
 <script setup lang="ts">
 
 //select the div with arrows enter press
-import HashtagIcon from '../icons/HashtagIcon.vue';
 import { useUserStore } from '@/stores/user';
 import { searchUser } from '@/api/user';
 import { searchTag } from '@/api/tag';
