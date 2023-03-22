@@ -19,21 +19,21 @@
     </div>
     <!-- Publication Modification -->
     <PublicationModification v-else-if="isShowingModifModal" :publication="shownPublication" @save="saveModification" />
-    <!-- Gallery Picking Modal -->
-    <GalleryPickingModal v-else-if="isShowingGalleryPickingModal" @save="saveGalleryPicking" />
+    <!-- Gallery Picking -->
+    <GalleryPicking v-else-if="isShowingGalleryPickingModal" @save="saveGalleryPicking" :publication="shownPublication" />
   </div>
 </template>
 
 <script setup lang="ts">
 import PublicationComponent from "@/components/publicationsComponents/PublicationComponent.vue";
 import PublicationModification from "@/components/publicationsComponents/PublicationModificationComponent.vue"
+import GalleryPicking from "@/components/publicationsComponents/GalleryPickingComponent.vue";
 import RingLoader from "vue-spinner/src/RingLoader.vue"
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { deletePublication } from "@/api/publication";
 import { useUserStore } from '@/stores/user'
 import { usePublicationStore } from "@/stores/publication";
-import GalleryPickingModal from "@/components/galleryComponents/GalleryPickingModal.vue";
 
 
 onMounted(() => {

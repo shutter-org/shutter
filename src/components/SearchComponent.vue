@@ -127,4 +127,8 @@ const vFocus = {
 const emit = defineEmits(["closeSearchModal"]);
 
 </script>
-<style scoped></style>
+<style scoped>
+input[type=checkbox] {
+    outline: none;
+}
+</style>

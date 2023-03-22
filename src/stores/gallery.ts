@@ -1,12 +1,14 @@
 import { defineStore } from "pinia";
 import { deleteRatingGallery, getGallery, rateGallery, updateRateGallery, deleteGalleryApi, deletePublicationFromGalleryApi } from "@/api/gallery";
+import { getUser } from "@/api/user";
 import { useUserStore } from "./user";
-import type { Gallery } from "@/api/type";
+import type { Gallery, SimplifedGallery, User } from "@/api/type";
 import { ref } from "vue";
 
 export const useGalleryStore = defineStore('gallery', () => {
 
     const userStore = useUserStore();
+    const shownGalleriesPicking = ref([] as SimplifedGallery[]);
     const isRating = ref(false);
 
     async function getShownGallery(gallery_id: string){
@@ -18,6 +20,24 @@ export const useGalleryStore = defineStore('gallery', () => {
             const shownGallery = await res.json() as Gallery;
             return shownGallery;
         }
+    }
+    async function getSimplifiedGalleries(){
+        if (shownGalleriesPicking.value !== undefined){
+                const res = await getUser(userStore.username, userStore.authKey);
+                if (res.status !== 200) {
+                    console.log("erreur dans le fetch de l'utilisateur pour get les galleries");
+                }else{
+                    const user = await res.json() as User;
+                    shownGalleriesPicking.value = user.gallerys;
+                }
+                return shownGalleriesPicking.value;
+        }
+        return shownGalleriesPicking.value;
+    }
+    async function addPublicationToGallery( gallery: SimplifedGallery, publication_id: string){
+        console.log("addPublicationToGallery");
+        //if status 
+        // add to shownGalleryPicking
     }
     async function voteDownGallery(gallery: Gallery){
         console.log('downvote gallery')
@@ -79,5 +99,5 @@ export const useGalleryStore = defineStore('gallery', () => {
             return true;
         }
     }
-    return { getShownGallery, voteDownGallery, voteUpGallery, deleteGallery, deletePublicationFromGallery }
+    return { getShownGallery, voteDownGallery, voteUpGallery, deleteGallery, deletePublicationFromGallery, getSimplifiedGalleries, addPublicationToGallery }
 })
