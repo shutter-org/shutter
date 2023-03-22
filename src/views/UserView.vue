@@ -43,6 +43,13 @@ const isLoading = ref(true);
 const isUpdating = ref(false);
 const doesUserExist = ref(false);
 
+loadUser(route.params.username as string);
+
+if ((route.params.username as string).toLowerCase() === userStore.username.toLocaleLowerCase()) {
+    console.log("test");
+    router.push("/profile");
+}
+
 async function loadUser(username: string) {
     const token = userStore.getShownUser(username);
     if (token !== undefined) {
@@ -64,12 +71,4 @@ const openPublicationModal = (publicationId: string) => {
 const closePublicationModal = () => {
     isPublicationModalShown.value = false;
 };
-onMounted(() => {
-    loadUser(route.params.username as string);
-
-    if ((route.params.username as string).toLowerCase() === userStore.username.toLocaleLowerCase()) {
-        console.log("test");
-        router.push("/profile");
-    }
-});
 </script>
