@@ -31,11 +31,11 @@ import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import SadIcon from "@/components/icons/SadIcon.vue";
 import { onMounted, ref } from "vue";
 import { useUserStore } from '@/stores/user'
-import { useRoute } from "vue-router";
-import router from "@/router";
+import { useRoute, useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const route = useRoute();
+const router = useRouter();
 const user = ref();
 const isPublicationModalShown = ref(false);
 const shownPublicationId = ref("");

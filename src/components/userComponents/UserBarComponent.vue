@@ -1,7 +1,6 @@
 
 <template>
-    <router-link :to="userStore.username === props.user.username ? '/profile' : '/user/' + props.user.username"
-        @click="closeSearchModal" class="w-full rounded-md">
+    <router-link :to="'/user/' + props.user.username" @click="closeSearchModal" class="w-full rounded-md">
         <div class="py-3 px-1 h-14 flex flex-row items-center">
             <ImgLoader
                 class="w-10 h-10 object-cover aspect-square rounded-full border-2 colored-border mr-8 overflow-hidden"

@@ -18,8 +18,6 @@
 
 <script setup lang="ts">
 import ImgLoader from "../ImgLoader.vue";
-import { ref } from "vue";
-import { useUserStore } from '@/stores/user'
 import type { SimplifiedUser } from "@/api/type";
 import type { PropType } from "vue";
 
@@ -30,7 +28,4 @@ const props = defineProps({
   },
   smaller: Boolean,
 });
-
-const userStore = useUserStore();
-const loggedUsername = ref(userStore.username);
 </script>
