@@ -102,8 +102,8 @@
 
     <!-- Galleries display -->
     <div v-if="!isPictureTabShown" class="w-full">
-      <GalleryComponent v-for="gallery in shownGalleries" :gallery="gallery" :is-current-user="props.isCurrentUser"
-        @open-publication-modal="openPublicationModalFromGallery"
+      <GalleryComponent v-for="gallery in galleryStore.getUserGalleries()" :gallery="gallery"
+        :is-current-user="props.isCurrentUser" @open-publication-modal="openPublicationModalFromGallery"
         @deleteGallery="(gallery_id) => deleteGalleryFromList(gallery_id)"
         @delete-publication-from-gallery="(gallery_id, publication_id) => deletePublicationFromGalleryList(gallery_id, publication_id)" />
     </div>
@@ -150,6 +150,7 @@ import EmptyIcon from "@/components/icons/EmptyIcon.vue";
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import type { PropType } from "vue";
+import { onMounted } from "vue";
 import type { Gallery, User } from "@/api/type";
 import { useGalleryStore } from "@/stores/gallery";
 
@@ -185,7 +186,9 @@ const emit = defineEmits({
     return true;
   },
 });
-
+onMounted(() => {
+  console.log("mounted")
+})
 loadGalleries();
 async function loadGalleries() {
   for (let gallery of props.user.galleries) {
@@ -194,6 +197,7 @@ async function loadGalleries() {
       shownGalleries.value.push(shownGallery);
     }
   }
+  galleryStore.updateUserGalleries(shownGalleries.value);
 }
 function deleteGalleryFromList(gallery_id: string) {
   shownGalleries.value = shownGalleries.value.filter(gallery => gallery.gallery_id !== gallery_id);

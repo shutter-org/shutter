@@ -13,7 +13,7 @@
                 </div>
             </div>
             <!-- Save button -->
-            <button class="shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="emit('save')">
+            <button class="shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="updateGalleries">
                 Save
             </button>
         </div>
@@ -26,9 +26,11 @@ import type { SimplifiedPublication } from "@/api/type";
 import { ref, type PropType } from "vue";
 import RingLoader from "vue-spinner/src/RingLoader.vue"
 import { useGalleryStore } from "@/stores/gallery";
+import EmptyIcon from "../icons/EmptyIcon.vue";
 
 const isLoading = ref(true);
 const shownGalleries = ref();
+const copyOfShownGalleries = ref();
 const galleryStore = useGalleryStore();
 
 
@@ -47,12 +49,30 @@ async function loadSimplifiedGalleries() {
             }
         }
     }
+    copyOfShownGalleries.value = JSON.parse(JSON.stringify(shownGalleries.value));
+}
+
+function updateGalleries() {
+    console.log('here')
+    console.log(copyOfShownGalleries.value)
+    console.log(shownGalleries.value)
+    for (let i = 0; i < copyOfShownGalleries.value.length; i++) {
+        if (copyOfShownGalleries.value[i].checked !== shownGalleries.value[i].checked) {
+            if (shownGalleries.value[i].checked) {
+                galleryStore.addPublicationToGallery(shownGalleries.value[i].gallery_id, props.publication);
+            } else {
+                galleryStore.deletePublicationFromGallery(shownGalleries.value[i].gallery_id, props.publication.publication_id);
+            }
+        }
+    }
+    emit('save');
 }
 function clicked() {
+    //get array of checked before and then after
+    //compare
+    // add or delete if different
     console.log(shownGalleries.value)
 }
-
-
 
 const props = defineProps({
     publication: {
@@ -60,11 +80,9 @@ const props = defineProps({
         required: true,
     },
 });
-const emit = defineEmits({
-    save: () => {
-        return
-    },
-});
+
+
+const emit = defineEmits(['save']);
 
 </script>
 <style scoped>

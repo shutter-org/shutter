@@ -1,13 +1,14 @@
 import { defineStore } from "pinia";
-import { deleteRatingGallery, getGallery, rateGallery, updateRateGallery, deleteGalleryApi, deletePublicationFromGalleryApi } from "@/api/gallery";
+import { deleteRatingGallery, getGallery, rateGallery, updateRateGallery, deleteGalleryApi, deletePublicationFromGalleryApi, addPublicationToGalleryApi } from "@/api/gallery";
 import { getUser } from "@/api/user";
 import { useUserStore } from "./user";
-import type { Gallery, SimplifedGallery, User } from "@/api/type";
+import type { Gallery, SimplifedGallery, User , SimplifiedPublication} from "@/api/type";
 import { ref } from "vue";
 
 export const useGalleryStore = defineStore('gallery', () => {
 
     const userStore = useUserStore();
+    const userGalleries = ref([] as Gallery[]);
     const shownGalleriesPicking = ref([] as SimplifedGallery[]);
     const isRating = ref(false);
 
@@ -20,6 +21,12 @@ export const useGalleryStore = defineStore('gallery', () => {
             const shownGallery = await res.json() as Gallery;
             return shownGallery;
         }
+    }
+    function getUserGalleries(){
+        return userGalleries.value;
+    }
+    function updateUserGalleries(galleries: Gallery[]){
+        userGalleries.value = galleries;
     }
     async function getSimplifiedGalleries(){
         if (shownGalleriesPicking.value !== undefined){
@@ -34,10 +41,18 @@ export const useGalleryStore = defineStore('gallery', () => {
         }
         return shownGalleriesPicking.value;
     }
-    async function addPublicationToGallery( gallery: SimplifedGallery, publication_id: string){
-        console.log("addPublicationToGallery");
-        //if status 
-        // add to shownGalleryPicking
+    async function addPublicationToGallery( gallery_id: string, publication: SimplifiedPublication){
+        const res = await addPublicationToGalleryApi(gallery_id, publication.publication_id, userStore.authKey);
+        if (res.status !== 200) {
+            console.log("erreur dans le fetch de l'utilisateur pour get les galleries");
+        }else{
+            for (let i = 0; i < userGalleries.value.length; i++){
+                if (userGalleries.value[i].gallery_id === gallery_id){
+                    userGalleries.value[i].publications.push(publication);
+                }
+            }
+            return true;
+        }
     }
     async function voteDownGallery(gallery: Gallery){
         console.log('downvote gallery')
@@ -88,6 +103,11 @@ export const useGalleryStore = defineStore('gallery', () => {
         if(res.status !== 200){
             console.log("erreur dans le delete de la gallery");
         }else{
+            for (let i = 0; i < userGalleries.value.length; i++){
+                if (userGalleries.value[i].gallery_id === gallery.gallery_id){
+                    userGalleries.value.splice(i, 1);
+                }
+            }
             return true;
         }
     }
@@ -96,8 +116,17 @@ export const useGalleryStore = defineStore('gallery', () => {
         if (res.status !== 200) {
             console.log("erreur dans le delete de la publication de la gallery");
         }else{
+            for (let i = 0; i < userGalleries.value.length; i++){
+                if (userGalleries.value[i].gallery_id === gallery_id){
+                    for (let j = 0; j < userGalleries.value[i].publications.length; j++){
+                        if (userGalleries.value[i].publications[j].publication_id === publication_id){
+                            userGalleries.value[i].publications.splice(j, 1);
+                        }
+                    }
+                }
+            }
             return true;
         }
     }
-    return { getShownGallery, voteDownGallery, voteUpGallery, deleteGallery, deletePublicationFromGallery, getSimplifiedGalleries, addPublicationToGallery }
+    return { getShownGallery, voteDownGallery, voteUpGallery, deleteGallery, deletePublicationFromGallery, getSimplifiedGalleries, addPublicationToGallery, updateUserGalleries, getUserGalleries }
 })

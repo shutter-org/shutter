@@ -1,17 +1,6 @@
 const API_URL = "http://127.0.0.1:5000";
 
-export const addPublicationToGallery = async (gallery_id: string, publication_id: string, authKey: String) => {
-    const key = "Bearer " + authKey;
-    const response = await fetch(`${API_URL}/galleries/${gallery_id}/publications`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": key,
-        },
-        body: JSON.stringify({ "publication_id": publication_id }),
-    });
-    return response;
-}
+
 export const getGallery = async (gallery_id: string, authKey: String) => {
     const key = "Bearer " + authKey;
     const response = await fetch(`${API_URL}/galleries/${gallery_id}`, {
@@ -69,10 +58,22 @@ export const deleteGalleryApi = async (gallery_id: string, authKey: String) => {
     });
     return response;
 }
-export const deletePublicationFromGalleryApi = async (gallery_id: string, publication_id: string, authKey: String) => {
+export const deletePublicationFromGalleryApi = async (gallery_id: string, publication_id: string, authKey: string) => {
     const key = "Bearer " + authKey;
     const response = await fetch(`${API_URL}/galleries/${gallery_id}/publications`, {
         method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": key,
+        },
+        body: JSON.stringify({ "publication_id": publication_id }),
+    });
+    return response;
+}
+export const addPublicationToGalleryApi = async (gallery_id: string, publication_id: string, authKey: String) => {
+    const key = "Bearer " + authKey;
+    const response = await fetch(`${API_URL}/galleries/${gallery_id}/publications`, {
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Authorization": key,
