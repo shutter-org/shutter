@@ -6,7 +6,7 @@
     <div class="w-full h-40 PRO:h-80 flex flex-row PRO:flex-col gap-10 items-center p-2">
 
       <!-- Profile picture -->
-      <ImgLoader class="h-full PRO:h-1/2 object-cover aspect-square rounded-full border-2 colored-border"
+      <ImgLoader class="h-full PRO:h-auto PRO:w-1/2 object-cover aspect-square rounded-full border-2 colored-border"
         :src="props.user.profile_picture" :round="true" alt="" />
 
       <!-- Username and name -->
@@ -31,7 +31,8 @@
     <div class="w-full h-20 flex flex-row gap-10 PRO:gap-4 items-center p-2 pb-4 justify-evenly border-b-2 bottom-border">
 
       <!-- Post counts -->
-      <p class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center">
+      <p
+        class="w-full font-bold text-xl PRO:text-lg overflow-hidden overflow-ellipsis text-center PRO:[word-spacing:999px]">
         {{ props.user.nb_publications }} Posts
       </p>
 

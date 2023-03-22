@@ -10,9 +10,12 @@
     <!-- Publication -->
     <div v-else-if="!isShowingModifModal && !isShowingGalleryPickingModal"
       class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
-      <publication-component @delete-pub="deletePub" @search-tag="searchTag"
-        @add-to-gallery="isShowingGalleryPickingModal = true" @modify="isShowingModifModal = true"
-        :publication="shownPublication" :is-current-user="isCurrentUser"></publication-component>
+
+      <publication-component @delete-pub="deletePub" :is-current-user="isCurrentUser" :publication="shownPublication"
+        @add-to-gallery="isShowingGalleryPickingModal = true" @modify="isShowingModifModal = true">
+      </publication-component>
+
+
     </div>
     <!-- Publication Modification -->
     <PublicationModification v-else-if="isShowingModifModal" :publication="shownPublication" @save="saveModification" />
@@ -100,9 +103,6 @@ const deletePub = () => {
   emit("delete", shownPublication.value.publication_id);
   emit("close");
 }
-const searchTag = (tag: string) => {
-  console.log("searching tag : " + tag);
-};
 const addToGallery = () => {
   console.log("add publication " + shownPublication.value.publication_id + " to gallery");
   //addPublicationToGallery("gallery_id", shownPublication.value.publication_id, userStore.authKey);
