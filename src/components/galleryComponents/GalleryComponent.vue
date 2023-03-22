@@ -4,7 +4,7 @@
             <div class="font-bold text-2xl pl-2 py-1">{{ props.gallery.title }}</div>
             <div class="text-xl pr-2 py-1">{{ props.gallery.created_date }}</div>
         </div>
-        <div class="pl-2">{{ props.gallery.description }} !!!description a repenser</div>
+        <div class="pl-2">{{ props.gallery.description }}</div>
         <div class="scrollmenu" v-dragscroll>
             <PublicationGalleryComponent v-for="publication in props.gallery.publications"
                 :is-current-user="props.isCurrentUser" :publication="publication"

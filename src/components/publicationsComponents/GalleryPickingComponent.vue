@@ -4,7 +4,7 @@
             class="shutter-modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-lg PRO:mx-4 translate-x-[126px] PRO:translate-x-0 flex flex-col justify-center items-center">
             <!-- List of galleries -->
             <div v-for="gallery in shownGalleries" class="flex flex-row justify-center items-center">
-                <input type="checkbox" class=" outline-none w-7 h-7 bg-gray-100 border-gray-300 rounded-lg" @click="clicked"
+                <input type="checkbox" class=" outline-none w-7 h-7 bg-gray-100 border-gray-300 rounded-lg"
                     v-model="gallery.checked">
                 <div class="flex flex-col">
 
@@ -26,7 +26,6 @@ import type { SimplifiedPublication } from "@/api/type";
 import { ref, type PropType } from "vue";
 import RingLoader from "vue-spinner/src/RingLoader.vue"
 import { useGalleryStore } from "@/stores/gallery";
-import EmptyIcon from "../icons/EmptyIcon.vue";
 
 const isLoading = ref(true);
 const shownGalleries = ref();
@@ -53,9 +52,6 @@ async function loadSimplifiedGalleries() {
 }
 
 function updateGalleries() {
-    console.log('here')
-    console.log(copyOfShownGalleries.value)
-    console.log(shownGalleries.value)
     for (let i = 0; i < copyOfShownGalleries.value.length; i++) {
         if (copyOfShownGalleries.value[i].checked !== shownGalleries.value[i].checked) {
             if (shownGalleries.value[i].checked) {
@@ -66,12 +62,6 @@ function updateGalleries() {
         }
     }
     emit('save');
-}
-function clicked() {
-    //get array of checked before and then after
-    //compare
-    // add or delete if different
-    console.log(shownGalleries.value)
 }
 
 const props = defineProps({
