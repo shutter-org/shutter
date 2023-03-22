@@ -2,7 +2,7 @@ const API_URL = "http://127.0.0.1:5000";
 
 export const addPublicationToGallery = async (gallery_id: string, publication_id: string, authKey: String) => {
     const key = "Bearer " + authKey;
-    const response = await fetch(`${API_URL}/gallerys/${gallery_id}/publications`, {
+    const response = await fetch(`${API_URL}/galleries/${gallery_id}/publications`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -14,7 +14,7 @@ export const addPublicationToGallery = async (gallery_id: string, publication_id
 }
 export const getGallery = async (gallery_id: string, authKey: String) => {
     const key = "Bearer " + authKey;
-    const response = await fetch(`${API_URL}/gallerys/${gallery_id}`, {
+    const response = await fetch(`${API_URL}/galleries/${gallery_id}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export const getGallery = async (gallery_id: string, authKey: String) => {
 }
 export const rateGallery = async (gallery_id: string, rating: boolean, authKey: String) => {
     const key = "Bearer " + authKey;
-    const response = await fetch(`${API_URL}/gallerys/${gallery_id}/like`, {
+    const response = await fetch(`${API_URL}/galleries/${gallery_id}/like`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export const rateGallery = async (gallery_id: string, rating: boolean, authKey: 
 }
 export const updateRateGallery = async (gallery_id: string, rating: boolean, authKey: String) => {
     const key = "Bearer " + authKey;
-    const response = await fetch(`${API_URL}/gallerys/${gallery_id}/like`, {
+    const response = await fetch(`${API_URL}/galleries/${gallery_id}/like`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export const updateRateGallery = async (gallery_id: string, rating: boolean, aut
 }
 export const deleteRatingGallery = async (gallery_id: string, authKey: String) => {
     const key = "Bearer " + authKey;
-    const response = await fetch(`${API_URL}/gallerys/${gallery_id}/like`, {
+    const response = await fetch(`${API_URL}/galleries/${gallery_id}/like`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export const deleteRatingGallery = async (gallery_id: string, authKey: String) =
 }
 export const deleteGalleryApi = async (gallery_id: string, authKey: String) => {
     const key = "Bearer " + authKey;
-    const response = await fetch(`${API_URL}/gallerys/${gallery_id}`, {
+    const response = await fetch(`${API_URL}/galleries/${gallery_id}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export const deleteGalleryApi = async (gallery_id: string, authKey: String) => {
 }
 export const deletePublicationFromGalleryApi = async (gallery_id: string, publication_id: string, authKey: String) => {
     const key = "Bearer " + authKey;
-    const response = await fetch(`${API_URL}/gallerys/${gallery_id}/publications`, {
+    const response = await fetch(`${API_URL}/galleries/${gallery_id}/publications`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",

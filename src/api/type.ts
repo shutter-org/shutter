@@ -42,7 +42,7 @@ export interface User {
   created_date: string;
   nb_publications: number;
   publications: SimplifiedPublication[];
-  gallerys: SimplifedGallery[];
+  galleries: SimplifedGallery[];
   followed_by_user: boolean;
 }
 

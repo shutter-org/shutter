@@ -28,7 +28,7 @@ export const useGalleryStore = defineStore('gallery', () => {
                     console.log("erreur dans le fetch de l'utilisateur pour get les galleries");
                 }else{
                     const user = await res.json() as User;
-                    shownGalleriesPicking.value = user.gallerys;
+                    shownGalleriesPicking.value = user.galleries;
                 }
                 return shownGalleriesPicking.value;
         }

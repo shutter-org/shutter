@@ -188,7 +188,7 @@ const emit = defineEmits({
 
 loadGalleries();
 async function loadGalleries() {
-  for (let gallery of props.user.gallerys) {
+  for (let gallery of props.user.galleries) {
     let shownGallery = await galleryStore.getShownGallery(gallery.gallery_id);
     if (shownGallery !== undefined) {
       shownGalleries.value.push(shownGallery);
