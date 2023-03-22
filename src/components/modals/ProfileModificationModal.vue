@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed inset-0 z-40 flex justify-center items-center">
+    <div class="fixed inset-0 z-50 flex justify-center items-center">
         <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')">
         </div>
         <div

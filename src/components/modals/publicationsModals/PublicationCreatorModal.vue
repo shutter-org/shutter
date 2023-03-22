@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 z-40 flex flex-col gap-8 overflow-y-scroll py-28 items-center px-12">
+  <div class="fixed inset-0 z-50 flex flex-col gap-8 overflow-y-scroll py-28 items-center px-12">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
     <div
       class="post flex flex-col gap-4 items-center rounded-lg p-4 relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">

@@ -6,7 +6,7 @@
     <div class="w-full h-40 PRO:h-80 flex flex-row PRO:flex-col gap-10 items-center p-2">
 
       <!-- Profile picture -->
-      <ImgLoader class="h-full PRO:h-1/2 object-cover aspect-square rounded-full border-2"
+      <ImgLoader class="h-full PRO:h-1/2 object-cover aspect-square rounded-full border-2 colored-border"
         :src="props.user.profile_picture" :round="true" alt="" />
 
       <!-- Username and name -->
