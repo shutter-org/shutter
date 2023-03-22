@@ -8,8 +8,8 @@
     <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
 
     <!-- Posts display -->
-    <publication v-else-if="publications.length > 0" @search-tag="searchTag" @add-to-gallery="addToGallery"
-      v-for="pub in publications" :publication="pub" :key="pub.publication_id"></publication>
+    <publication v-else-if="publications.length > 0" @add-to-gallery="addToGallery" v-for="pub in publications"
+      :publication="pub" :key="pub.publication_id"></publication>
 
     <!-- Empty home (if no post) -->
     <div v-else
@@ -67,9 +67,6 @@ async function loadMorePublications() {
     isBusy.value = false;
   }
 }
-const searchTag = (tag: string) => {
-  console.log("searching tag : " + tag);
-};
 const addToGallery = (pubId: string) => {
   console.log("add publication " + pubId + " to gallery");
 };

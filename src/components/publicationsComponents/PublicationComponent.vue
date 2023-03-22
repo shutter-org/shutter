@@ -49,7 +49,7 @@
     <!-- Tags display -->
     <div class="w-full flex flex-wrap gap-2 justify-start p-2">
       <button v-for="tag of props.publication.tags" :key="tag"
-        class="tag text-xl underline overflow-hidden whitespace-nowrap overflow-ellipsis" @click="emit('searchTag', tag)">
+        class="tag text-xl underline overflow-hidden whitespace-nowrap overflow-ellipsis" @click="searchTag(tag)">
         #{{ tag }}
       </button>
     </div>
@@ -103,6 +103,7 @@ import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
 import type { Publication, Comment as Com } from "@/api/type";
 import type { PropType } from "vue";
+import router from "@/router";
 
 const props = defineProps({
   publication: {
@@ -122,9 +123,6 @@ const emit = defineEmits({
   },
   addToGallery: (publicationId: string) => {
     return !!publicationId;
-  },
-  searchTag: (tag: string) => {
-    return !!tag;
   },
   modify: () => {
     return true;
@@ -155,6 +153,9 @@ const preventNextLine = (event: KeyboardEvent) => {
     event.preventDefault();
   }
 };
+const searchTag = (tag: string) => {
+  router.push('/explore/' + tag);
+}
 </script>
 
 <style scoped>
