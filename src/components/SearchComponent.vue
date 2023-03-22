@@ -3,14 +3,16 @@
         <div
             class="mb-5 w-full rounded-md h-12 border-2 shutter-background-color shutter-border-color pl-4 self-center flex items-center">
             <input class="z-2 outline-none shutter-background-color box-border h-11 w-full" v-focus v-model="search"
-                placeholder="Search users or tags with '#'" />
+                placeholder="Search users or tags with '#'" @keydown.up.prevent="highlightPrevious"
+                @keydown.down.prevent="highlightNext" @keydown.enter="enterPressed(highlightedIndex)" />
             <CrossIcon class="h-6 pr-2" @click="emptySearch" />
         </div>
-
-        <UserBarComponentVue v-for="user in usersSearched" v-if="isSearchingUsers" :user="user"
-            @close-search-modal="closeSearchModal"></UserBarComponentVue>
-        <router-link :to="'/explore/' + tag.tag" class="w-full rounded-md" v-for="tag in tagsSearched"
-            v-if="!isSearchingUsers" @click="closeSearchModal">
+        <UserBarComponentVue v-for="(user, index) in usersSearched" v-if="isSearchingUsers" :user="user" :key="index"
+            :class="{ 'shutter-hover-color': isCurrentIndex(index) }" @mouseover="highlightedIndex = index"
+            @click="emit('closeSearchModal')" @close-search-modal="emit('closeSearchModal')"></UserBarComponentVue>
+        <router-link :to="'/explore/' + tag.tag" class="w-full rounded-md disable-hover"
+            :class="{ 'shutter-hover-color': isCurrentIndex(index) }" v-for="(tag, index) in tagsSearched" :key="index"
+            v-if="!isSearchingUsers" @click="emit('closeSearchModal')" @mouseover="highlightedIndex = index">
             <div class="py-3 px-1 h-14 flex flex-row items-center">
                 <div class="w-10 h-10 rounded-full mr-8 border border-slate-400 flex justify-center items-center">
                     <div class="w-5 h-5">
@@ -27,7 +29,6 @@
                 </div>
             </div>
         </router-link>
-
     </div>
 </template>
 <script setup lang="ts">
@@ -37,14 +38,19 @@ import { useUserStore } from '@/stores/user';
 import { searchUser } from '@/api/user';
 import { searchTag } from '@/api/tag';
 import { ref, watch } from 'vue';
+import router from '@/router';
 
 const search = ref("");
 const userStore = useUserStore();
 const usersSearched = ref();
 const tagsSearched = ref();
 const isSearchingUsers = ref(true);
-const isSelectedIndex = ref(0);
+const highlightedIndex = ref(-1);
+
+
+
 loadSearchedUser("");
+
 
 watch(search, (newValue, oldValue) => {
     filterSearch(newValue);
@@ -54,8 +60,28 @@ function emptySearch() {
     search.value = "";
     loadSearchedUser("");
 }
+function highlightPrevious() {
+    if (highlightedIndex.value > 0) {
+        highlightedIndex.value--;
+    }
+}
+function highlightNext() {
+    if (isSearchingUsers.value) {
+        if (highlightedIndex.value < usersSearched.value.length - 1) {
+            highlightedIndex.value++;
+        }
+    } else {
+        if (highlightedIndex.value < tagsSearched.value.length - 1) {
+            highlightedIndex.value++;
+        }
+    }
+}
+function isCurrentIndex(index: number) {
+    return highlightedIndex.value === index;
+}
 
 function filterSearch(search: string) {
+    highlightedIndex.value = -1;
     if (search.startsWith("#")) {
         isSearchingUsers.value = false;
         loadSearchedTags(search.substring(1));
@@ -84,11 +110,21 @@ async function loadSearchedTags(search: string) {
         tagsSearched.value = data;
     }
 }
+function enterPressed(index: number) {
+    if (isSearchingUsers.value) {
+        router.push('/user/' + usersSearched.value[index].username);
+        emit('closeSearchModal')
+        return;
+    } else {
+        router.push('/explore/' + tagsSearched.value[index].tag);
+        emit('closeSearchModal');
+        return;
+    }
+}
 const vFocus = {
     mounted: (el: { focus: () => any; }) => el.focus(),
 };
 const emit = defineEmits(["closeSearchModal"]);
-function closeSearchModal() {
-    emit("closeSearchModal");
-}
+
 </script>
+<style scoped></style>
