@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 z-50 flex flex-col gap-8 overflow-y-scroll py-10 items-center">
+  <div class="fixed inset-0 z-40 flex flex-col gap-8 overflow-y-scroll py-10 items-center">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
 
     <!-- Spinners showing status (updating, loading) -->
@@ -8,15 +8,16 @@
     <RingLoader v-if="isLoading" color="#465A82" size="60px" class="m-auto translate-x-[126px] PRO:translate-x-0" />
 
     <!-- Publication -->
-    <div v-else-if="!isShowingModifModal"
+    <div v-else-if="!isShowingModifModal && !isShowingGalleryPickingModal"
       class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
-      <publication-component @delete-pub="deletePub" @search-tag="searchTag" @add-to-gallery="addToGallery"
-        @modify="isShowingModifModal = true" :publication="shownPublication"
-        :is-current-user="isCurrentUser"></publication-component>
+      <publication-component @delete-pub="deletePub" @search-tag="searchTag"
+        @add-to-gallery="isShowingGalleryPickingModal = true" @modify="isShowingModifModal = true"
+        :publication="shownPublication" :is-current-user="isCurrentUser"></publication-component>
     </div>
-
-    <PublicationModification v-else :publication="shownPublication" @save="save">
-    </PublicationModification>
+    <!-- Publication Modification -->
+    <PublicationModification v-else-if="isShowingModifModal" :publication="shownPublication" @save="saveModification" />
+    <!-- Gallery Picking Modal -->
+    <GalleryPickingModal v-else-if="isShowingGalleryPickingModal" @save="saveGalleryPicking" />
   </div>
 </template>
 
@@ -29,6 +30,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 import { deletePublication } from "@/api/publication";
 import { useUserStore } from '@/stores/user'
 import { usePublicationStore } from "@/stores/publication";
+import GalleryPickingModal from "@/components/galleryComponents/GalleryPickingModal.vue";
 
 
 onMounted(() => {
@@ -43,7 +45,6 @@ function onKeyDownEscape(e: KeyboardEvent) {
     emit("close");
   }
 }
-
 const props = defineProps({
   publicationId: {
     type: String,
@@ -65,6 +66,7 @@ const userStore = useUserStore();
 const publicationStore = usePublicationStore();
 const shownPublication = ref();
 const isShowingModifModal = ref(false);
+const isShowingGalleryPickingModal = ref(false);
 const isLoading = ref(true);
 const isUpdating = ref(false);
 
@@ -81,10 +83,16 @@ async function loadPublication() {
   isLoading.value = false;
   isUpdating.value = false
 };
-async function save(desc: string, tags: string[]) {
+async function saveModification(desc: string, tags: string[]) {
   isUpdating.value = true;
   isShowingModifModal.value = false;
   await publicationStore.modifyShownPublication(shownPublication.value.publication_id, desc, tags);
+  isUpdating.value = false;
+}
+async function saveGalleryPicking() {
+  isUpdating.value = true;
+  isShowingGalleryPickingModal.value = false;
+  //call api
   isUpdating.value = false;
 }
 const deletePub = () => {

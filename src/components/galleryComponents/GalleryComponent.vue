@@ -28,12 +28,11 @@
     </div>
 </template>
 <script setup lang="ts">
-import ImgLoader from "./ImgLoader.vue";
 import type { Gallery } from "@/api/type";
 import type { PropType } from "vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
-import DeleteComponent from "./subComponents/DeleteComponent.vue";
-import RatingInterface from "./subComponents/RatingInterface.vue";
+import DeleteComponent from "../subComponents/DeleteComponent.vue";
+import RatingInterface from "../subComponents/RatingInterface.vue";
 import PublicationGalleryComponent from "./PublicationGalleryComponent.vue";
 import { useGalleryStore } from "@/stores/gallery";
 
@@ -75,9 +74,5 @@ async function deleteEntireGallery() {
 div.scrollmenu {
     overflow: auto;
     white-space: nowrap;
-}
-
-.open-button {
-    transform: translate(-50%, -50%);
 }
 </style>

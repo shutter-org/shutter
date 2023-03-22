@@ -12,9 +12,8 @@
 <script setup lang="ts">
 import type { SimplifiedPublication } from '@/api/type';
 import { defineProps, type PropType, ref } from 'vue';
-import ImgLoader from "./ImgLoader.vue";
-import DeleteComponent from "./subComponents/DeleteComponent.vue";
-import { useGalleryStore } from '@/stores/gallery';
+import ImgLoader from "../ImgLoader.vue";
+import DeleteComponent from "../subComponents/DeleteComponent.vue";
 
 const hover = ref(false);
 const props = defineProps({
@@ -36,3 +35,8 @@ const emit = defineEmits({
     }
 });
 </script>
+<style>
+.open-button {
+    transform: translate(-50%, -50%);
+}
+</style>
