@@ -16,7 +16,7 @@ span {
 }
 
 @media (hover: hover) {
-  a:not(.disable-hover)hover {
+  a:hover {
     background-color: var(--hover-color);
   }
 }
@@ -44,6 +44,7 @@ span {
 .shutter-hover-color {
   background-color: var(--hover-color);
 }
+
 .colored-border {
   border-color: var(--color-text);
 }
