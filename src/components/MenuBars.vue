@@ -83,7 +83,7 @@ import UserIcon from "@/components/icons/menu/UserIcon.vue";
 import LogoutIcon from "@/components/icons/menu/LogoutIcon.vue";
 import LogoAnimation from "@/components/LogoAnimation.vue";
 import SearchModal from "@/components/modals/SearchModal.vue";
-import PublicationCreatorModal from "@/components/modals/publicationsModals/PublicationCreatorModal.vue";
+import PublicationCreatorModal from "@/components/publicationsComponents/PublicationCreatorModal.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
 const isSearchModalShown = ref(false);

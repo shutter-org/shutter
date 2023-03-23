@@ -31,7 +31,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import PublicationModal from "@/components/modals/publicationsModals/PublicationModal.vue";
+import PublicationModal from "@/components/publicationsComponents/PublicationModal.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
 import SadIcon from "@/components/icons/SadIcon.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";

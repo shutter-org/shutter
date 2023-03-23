@@ -84,7 +84,7 @@ const save = () => {
     background-color: var(--hover-color);
 }
 
-.postButton:hover {
+.saveButton:hover {
     background-color: var(--color-border);
 }
 
