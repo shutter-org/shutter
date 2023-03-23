@@ -6,6 +6,7 @@
 
             <!-- No galleries -->
             <span class="ml-3 text-2xl mb-8" v-if="shownGalleries.length === 0"> You have no galleries</span>
+
             <!-- List of galleries -->
             <div class="grid grid-cols-2 gap-4">
                 <div v-for="gallery in shownGalleries" class="flex items-center mb-4">
@@ -17,6 +18,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Save button -->
             <button class="save-button shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="updateGalleries">
                 Save
@@ -27,7 +29,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import type { SimplifiedPublication } from "@/api/type";
+import type { Gallery, SimplifiedPublication } from "@/api/type";
 import { ref, type PropType } from "vue";
 import RingLoader from "vue-spinner/src/RingLoader.vue"
 import { useGalleryStore } from "@/stores/gallery";
@@ -60,9 +62,11 @@ function updateGalleries() {
     for (let i = 0; i < copyOfShownGalleries.value.length; i++) {
         if (copyOfShownGalleries.value[i].checked !== shownGalleries.value[i].checked) {
             if (shownGalleries.value[i].checked) {
-                galleryStore.addPublicationToGallery(shownGalleries.value[i].gallery_id, props.publication);
+                const gallery = galleryStore.getGalleryFromUserGalleries(shownGalleries.value[i].gallery_id) as Gallery;
+                galleryStore.addPublicationToGallery(gallery, props.publication);
             } else {
-                galleryStore.deletePublicationFromGallery(shownGalleries.value[i].gallery_id, props.publication.publication_id);
+                const gallery = galleryStore.getGalleryFromUserGalleries(shownGalleries.value[i].gallery_id) as Gallery;
+                galleryStore.deletePublicationFromGallery(gallery, props.publication.publication_id);
             }
         }
     }

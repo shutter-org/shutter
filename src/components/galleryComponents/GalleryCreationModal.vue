@@ -1,5 +1,6 @@
 <template>
     <div class="fixed inset-0 z-50 flex justify-center items-center">
+        <!-- Gray backgrounds -->
         <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')">
         </div>
         <div
@@ -15,15 +16,18 @@
                     v-model="private_bool" @click="clickOnCheckbox">
                 <span class="mx-3">Private</span>
             </div>
+
             <!-- Title -->
             <div
                 class="mb-5 w-full rounded-md h-12 border-2 shutter-background-color shutter-border-color pl-4 self-center flex items-center">
                 <input class="z-2 outline-none shutter-background-color box-border h-11 w-full rounded-md" v-focus
                     maxlength="50" v-model="title" placeholder="Title..." />
             </div>
+
             <!-- Description -->
             <textarea class="inputable w-full max-h-48 mb-5 p-2 border-2 rounded-lg" placeholder="Description..."
                 maxlength="200" v-model="description"></textarea>
+
             <!-- Save button -->
             <button class="save-button shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="createGallery">
                 Save

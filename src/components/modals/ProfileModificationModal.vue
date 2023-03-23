@@ -1,5 +1,7 @@
 <template>
     <div class="fixed inset-0 z-50 flex justify-center items-center">
+
+        <!-- Gray background -->
         <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')">
         </div>
         <div
@@ -32,7 +34,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Multiline text modification (biography) -->
                 <div class="w-full h-full p-3 pb-2">
                     <textarea id="bioElement" class="inputable w-full max-h-48 text-xl p-2 border-2 rounded-lg"

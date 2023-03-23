@@ -10,13 +10,11 @@
     <!-- Publication -->
     <div v-else-if="!isShowingModifModal && !isShowingGalleryPickingModal"
       class="relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
-
       <publication-component @delete-pub="deletePub" :is-current-user="isCurrentUser" :publication="shownPublication"
         @add-to-gallery="isShowingGalleryPickingModal = true" @modify="isShowingModifModal = true">
       </publication-component>
-
-
     </div>
+
     <!-- Publication Modification -->
     <PublicationModification v-else-if="isShowingModifModal" :publication="shownPublication" @save="saveModification" />
     <!-- Gallery Picking -->

@@ -8,11 +8,11 @@ import { ref } from "vue";
 export const useGalleryStore = defineStore('gallery', () => {
 
     const userStore = useUserStore();
-    const userGalleries = ref([] as Gallery[]);
+    const userGalleries = ref(new Map<string, Gallery>());
     const shownGalleriesPicking = ref([] as SimplifedGallery[]);
     const isRating = ref(false);
 
-    async function getShownGallery(gallery_id: string){
+    async function getAGallery(gallery_id: string){
         const res = await getGallery(gallery_id, userStore.authKey);
         if (res.status !== 200) {
             console.log("erreur dans le fetch de la gallery");
@@ -22,34 +22,92 @@ export const useGalleryStore = defineStore('gallery', () => {
             return shownGallery;
         }
     }
-    function getUserGalleries(){
-        return userGalleries.value;
+    function getUserGalleries() {
+        const galleriesArray = Array.from(userGalleries.value.values());
+        galleriesArray.sort((a, b) => {
+          const dateA = getDateFromString(a.created_date);
+          const dateB = getDateFromString(b.created_date);
+          if (dateA && dateB) {
+            return dateB.getTime() - dateA.getTime();
+          }
+          return 0;
+        });
+        return galleriesArray;
     }
-    function updateUserGalleries(galleries: Gallery[]){
+    function getDateFromString(dateString:string) {
+        if (dateString === 'now') {
+            return new Date();
+          }
+        const regex = /^(\d+) (\w+) ago$/;
+        const matches = regex.exec(dateString);
+        if (matches) {
+          const amount = parseInt(matches[1]);
+          const unit = matches[2];
+          const now = new Date();
+          switch (unit) {
+            case 'minutes':
+              return new Date(now.getTime() - amount * 60 * 1000);
+            case 'hours':
+              return new Date(now.getTime() - amount * 60 * 60 * 1000);
+            case 'days':
+              return new Date(now.getTime() - amount * 24 * 60 * 60 * 1000);
+            case 'weeks':
+              return new Date(now.getTime() - amount * 7 * 24 * 60 * 60 * 1000);
+            case 'months':
+              return new Date(now.getFullYear(), now.getMonth() - amount, now.getDate());
+            case 'years':
+              return new Date(now.getFullYear() - amount, now.getMonth(), now.getDate());
+            default:
+              return null;
+          }
+        } else {
+          return null;
+        }
+    }
+      
+    function updateUserGalleries(galleries: Map<string, Gallery>){
         userGalleries.value = galleries;
     }
-    async function getSimplifiedGalleries(){
-      
-                const res = await getUser(userStore.username, userStore.authKey);
-                if (res.status !== 200) {
-                    console.log("erreur dans le fetch de l'utilisateur pour get les galleries");
-                }else{
-                    const user = await res.json() as User;
-                    shownGalleriesPicking.value = user.galleries;
-                }
-                return shownGalleriesPicking.value;
-      
+    function setGallery(gallery: Gallery){
+        userGalleries.value.set(gallery.gallery_id, gallery);
     }
-    async function addPublicationToGallery( gallery_id: string, publication: SimplifiedPublication){
-        const res = await addPublicationToGalleryApi(gallery_id, publication.publication_id, userStore.authKey);
+    function removeFromUserGalleries(gallery_id: string){
+        userGalleries.value.delete(gallery_id);
+    }
+    function getGalleryFromUserGalleries(gallery_id: string){
+        return userGalleries.value.get(gallery_id);
+    }
+    async function getSimplifiedGalleries(){
+        const res = await getUser(userStore.username, userStore.authKey);
         if (res.status !== 200) {
             console.log("erreur dans le fetch de l'utilisateur pour get les galleries");
         }else{
-            for (let i = 0; i < userGalleries.value.length; i++){
-                if (userGalleries.value[i].gallery_id === gallery_id){
-                    userGalleries.value[i].publications.push(publication);
-                }
-            }
+            const user = await res.json() as User;
+            shownGalleriesPicking.value = user.galleries;
+        }
+        return shownGalleriesPicking.value;
+    }
+    async function addPublicationToGallery(gallery: Gallery, publication: SimplifiedPublication){
+        const res = await addPublicationToGalleryApi(gallery.gallery_id, publication.publication_id, userStore.authKey);
+        if (res.status !== 200) {
+            console.log("erreur dans le fetch de l'utilisateur pour get les galleries");
+        }else{
+            const simplifiedPublication = {
+                publication_id: publication.publication_id,
+                picture: publication.picture,
+            } as SimplifiedPublication;
+            gallery.publications.push(simplifiedPublication);
+            setGallery(gallery);
+            return true;
+        }
+    }
+    async function deletePublicationFromGallery(gallery: Gallery, publication_id: string, ) {
+        const res = await deletePublicationFromGalleryApi(gallery.gallery_id, publication_id, userStore.authKey);
+        if (res.status !== 200) {
+            console.log("erreur dans le delete de la publication de la gallery");
+        }else{
+            gallery.publications = gallery.publications.filter((publication) => publication.publication_id !== publication_id);
+            setGallery(gallery);
             return true;
         }
     }
@@ -102,28 +160,7 @@ export const useGalleryStore = defineStore('gallery', () => {
         if(res.status !== 200){
             console.log("erreur dans le delete de la gallery");
         }else{
-            for (let i = 0; i < userGalleries.value.length; i++){
-                if (userGalleries.value[i].gallery_id === gallery.gallery_id){
-                    userGalleries.value.splice(i, 1);
-                }
-            }
-            return true;
-        }
-    }
-    async function deletePublicationFromGallery(gallery_id: string, publication_id: string) {
-        const res = await deletePublicationFromGalleryApi(gallery_id, publication_id, userStore.authKey);
-        if (res.status !== 200) {
-            console.log("erreur dans le delete de la publication de la gallery");
-        }else{
-            for (let i = 0; i < userGalleries.value.length; i++){
-                if (userGalleries.value[i].gallery_id === gallery_id){
-                    for (let j = 0; j < userGalleries.value[i].publications.length; j++){
-                        if (userGalleries.value[i].publications[j].publication_id === publication_id){
-                            userGalleries.value[i].publications.splice(j, 1);
-                        }
-                    }
-                }
-            }
+            removeFromUserGalleries(gallery.gallery_id)
             return true;
         }
     }
@@ -134,8 +171,7 @@ export const useGalleryStore = defineStore('gallery', () => {
         }else{
             const gallery_id = await res.json();
             const resGallery = await getGallery(gallery_id.gallery_id, userStore.authKey);
-            const gallery = await resGallery.json() as Gallery;
-            userGalleries.value.unshift(gallery);
+            setGallery(await resGallery.json() as Gallery);
             shownGalleriesPicking.value = [];
             return true;
         }
@@ -145,29 +181,29 @@ export const useGalleryStore = defineStore('gallery', () => {
         if(res.status !== 200){
             console.log("erreur dans le update de la gallery");
         }else{
-            for (let i = 0; i < userGalleries.value.length; i++){
-                if (userGalleries.value[i].gallery_id === gallery_id){
-                    userGalleries.value[i].title = gallery_parameters.title;
-                    userGalleries.value[i].description = gallery_parameters.description;
-                    userGalleries.value[i].private = gallery_parameters.private;
-                }
-            }
+            let gallery = getGalleryFromUserGalleries(gallery_id) as Gallery;
+            gallery = { ...gallery, ...gallery_parameters };
+            setGallery(gallery);
             return true;
         }
-        
     }
-    function removePublicationFromGallery(publication_id: string){
-        for (let i = 0; i < userGalleries.value.length; i++){
-            for (let j = 0; j < userGalleries.value[i].publications.length; j++){
-                if (userGalleries.value[i].publications[j].publication_id === publication_id){
-                    userGalleries.value[i].publications.splice(j, 1);
-                }
+    function removePublicationFromGallery(publication_id: string) {
+        for (let gallery of userGalleries.value.values()) {
+          for (let j = 0; j < gallery.publications.length; j++) {
+            if (gallery.publications[j].publication_id === publication_id) {
+            console.log(gallery)
+              gallery.publications.splice(j, 1);
+              console.log(gallery)
+              setGallery(gallery);
+              return; 
             }
+          }
         }
-    }
+      }
+      
     function reset(){
-        userGalleries.value = [];
+        userGalleries.value.clear();
         shownGalleriesPicking.value = [];
     }
-    return { getShownGallery, voteDownGallery, voteUpGallery, deleteGallery, deletePublicationFromGallery, getSimplifiedGalleries, addPublicationToGallery, updateUserGalleries, getUserGalleries, createGallery, updateGallery, reset, removePublicationFromGallery }
+    return { getAGallery,getGalleryFromUserGalleries, voteDownGallery,removeFromUserGalleries, setGallery, voteUpGallery, deleteGallery, deletePublicationFromGallery, getSimplifiedGalleries, addPublicationToGallery, updateUserGalleries, getUserGalleries, createGallery, updateGallery, reset, removePublicationFromGallery }
 })

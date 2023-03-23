@@ -5,18 +5,24 @@
       <LogoAnimation />
       <p id="errorMessage" class="text-lg inline h-7 items-center text-red-500">{{ errorMessage }}</p>
       <div class="flex gap-2 flex-col w-full">
+
+        <!-- Email -->
         <div v-if="!login" class="rounded-md items-center flex flex-col relative">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full" placeholder="Email"
               v-model="email" @keydown.enter.prevent="onPressEnter" />
           </div>
         </div>
+
+        <!-- Name -->
         <div v-if="!login" class="rounded-md this">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full"
               placeholder="Full Name" v-model="name" @keydown.enter.prevent="onPressEnter" />
           </div>
         </div>
+
+        <!-- Birthdate -->
         <div v-if="!login" class="rounded-md this">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input type="date" name="birthday"
@@ -24,18 +30,24 @@
               v-model="birthdate" @keydown.enter.prevent="onPressEnter" />
           </div>
         </div>
+
+        <!-- Username -->
         <div class="rounded-md items-center flex flex-col relative">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full"
               placeholder="Username" v-model="username" @keydown.enter.prevent="onPressEnter" />
           </div>
         </div>
+
+        <!-- Password -->
         <div class="rounded-md this">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full hidePassword"
               placeholder="Password" v-model="password" @keydown.enter.prevent="onPressEnter" />
           </div>
         </div>
+
+        <!-- Confirm password -->
         <div v-if="!login" class="rounded-md this">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full hidePassword"
@@ -43,14 +55,20 @@
           </div>
         </div>
       </div>
+
+      <!-- Login button -->
       <button v-if="login" @click="SignIn"
         class="signButton bg-gray-100 special-text-color font-bold rounded-md h-9 w-36 mt-4">
         Log in
       </button>
+
+      <!-- Sign up button -->
       <button v-if="!login" @click="SignUp"
         class="signButton bg-gray-100 special-text-color font-bold rounded-md h-9 w-36 mt-4">
         Sign up
       </button>
+
+      <!-- Switch to login/signup -->
       <div class="border-t shutter-border-color w-full flex justify-center items-center space-x-2 pt-2">
         <span v-if="login">Don't have an account?</span>
         <button v-if="login" @click="switchView" class="special-text-color text-lg">
