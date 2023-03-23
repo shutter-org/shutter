@@ -7,38 +7,38 @@
         <div v-if="!login" class="rounded-md items-center flex flex-col relative">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full" placeholder="Email"
-              v-model="email" />
+              v-model="email" @keydown.enter.prevent="onPressEnter" />
           </div>
         </div>
         <div v-if="!login" class="rounded-md this">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full"
-              placeholder="Full Name" v-model="name" />
+              placeholder="Full Name" v-model="name" @keydown.enter.prevent="onPressEnter" />
           </div>
         </div>
         <div v-if="!login" class="rounded-md this">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input type="date" name="birthday"
               class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full" placeholder="Birthdate"
-              v-model="birthdate" />
+              v-model="birthdate" @keydown.enter.prevent="onPressEnter" />
           </div>
         </div>
         <div class="rounded-md items-center flex flex-col relative">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full"
-              placeholder="Username" v-model="username" />
+              placeholder="Username" v-model="username" @keydown.enter.prevent="onPressEnter" />
           </div>
         </div>
         <div class="rounded-md this">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full hidePassword"
-              placeholder="Password" v-model="password" />
+              placeholder="Password" v-model="password" @keydown.enter.prevent="onPressEnter" />
           </div>
         </div>
         <div v-if="!login" class="rounded-md this">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full hidePassword"
-              placeholder="Confirm password" v-model="passwordConfirmation" />
+              placeholder="Confirm password" v-model="passwordConfirmation" @keydown.enter.prevent="onPressEnter" />
           </div>
         </div>
       </div>
@@ -87,8 +87,16 @@ function switchView() {
   name.value = "";
   bio.value = "";
   birthdate.value = "";
+  passwordConfirmation.value = "";
 
   login.value = !login.value;
+}
+function onPressEnter() {
+  if (login.value) {
+    SignIn();
+  } else {
+    SignUp();
+  }
 }
 async function SignIn() {
   const returningUser: SignInUser = {
