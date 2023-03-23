@@ -1,5 +1,6 @@
 <template>
     <div class="fixed inset-0 z-50 flex justify-center items-center">
+        <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full" @click="emit('save')"></div>
         <div v-if="!isLoading"
             class="shutter-modal-color border-2 shutter-border-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-lg PRO:mx-4 translate-x-[126px] PRO:translate-x-0 flex flex-col justify-center items-center">
 

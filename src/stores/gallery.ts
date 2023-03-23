@@ -29,8 +29,7 @@ export const useGalleryStore = defineStore('gallery', () => {
         userGalleries.value = galleries;
     }
     async function getSimplifiedGalleries(){
-        console.log(shownGalleriesPicking.value)
-        if (shownGalleriesPicking.value.length === 0){
+      
                 const res = await getUser(userStore.username, userStore.authKey);
                 if (res.status !== 200) {
                     console.log("erreur dans le fetch de l'utilisateur pour get les galleries");
@@ -39,8 +38,7 @@ export const useGalleryStore = defineStore('gallery', () => {
                     shownGalleriesPicking.value = user.galleries;
                 }
                 return shownGalleriesPicking.value;
-        }
-        return shownGalleriesPicking.value;
+      
     }
     async function addPublicationToGallery( gallery_id: string, publication: SimplifiedPublication){
         const res = await addPublicationToGalleryApi(gallery_id, publication.publication_id, userStore.authKey);
