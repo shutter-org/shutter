@@ -19,19 +19,24 @@
     <div class="w-full p-3 h-full">
       <ul
         class="flex flex-col justify-between space-y-5 PRO:items-center PRO:flex-row PRO:space-x-2 PRO:space-y-0 PRO:h-full">
+
+        <!-- Logo -->
         <li class="mb-4 PRO:hidden">
           <router-link to="/" class="flex items-center p-2 text-base font-normal rounded-lg hover:bg-inherit">
             <LogoAnimation />
           </router-link>
         </li>
+
+        <!-- Home -->
         <li>
           <router-link to="/" class="flex items-center p-2 text-base font-normal rounded-lg">
             <HomeIcon />
             <span class="ml-3 whitespace-nowrap PRO:hidden">Home</span>
           </router-link>
         </li>
-        <li>
 
+        <!-- Search -->
+        <li>
           <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="showSearchModal">
             <SearchIcon />
             <div class="flex-1 ml-3 PRO:hidden flex justify-between">
@@ -44,24 +49,32 @@
           </a>
           <SearchModal v-if="isSearchModalShown" @close-search-modal="closeSearchModal" />
         </li>
+
+        <!-- Explore -->
         <li>
           <router-link to="/explore" class="flex items-center p-2 text-base font-normal rounded-lg">
             <ExploreIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Explore</span>
           </router-link>
         </li>
+
+        <!-- Create -->
         <li>
           <a href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="showCreateModal">
             <CreateIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Create</span>
           </a>
         </li>
+
+        <!-- Profile -->
         <li>
           <router-link to="/profile" class="flex items-center p-2 font-normal rounded-lg">
             <UserIcon />
             <span class="flex-1 ml-3 whitespace-nowrap PRO:hidden">Profile</span>
           </router-link>
         </li>
+
+        <!-- Logout -->
         <li>
           <a id="logoutButton" href="#" class="flex items-center p-2 text-base font-normal rounded-lg" @click="logOut">
             <LogoutIcon />
@@ -71,6 +84,8 @@
       </ul>
     </div>
   </div>
+
+  <!-- Publication creation modal-->
   <PublicationCreatorModal v-if="isCreateModalShown" @close="closeCreateModal" />
 </template>
 

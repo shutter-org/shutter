@@ -3,16 +3,21 @@
     class="shutter-background-mute min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8">
     <div v-if="!isLoading"
       class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2 h-full">
+
+      <!-- Command to search tags -->
       <span class="flex-1 ml-3 text-LG">
         <kbd class="hx_kbd border-2 shutter-border-mute">
           <span v-if="isWindows">Ctrl K</span>
           <span v-else>&#x2318; K</span>
         </kbd> to search for tags
       </span>
+
+      <!-- Tag name, number of publications, recent posts -->
       <span class="flex-1 ml-3 text-4xl" v-if="!isTagNameEmpty">#{{ route.params.tag }}</span>
       <span class="flex-1 ml-3 text-2xl" v-if="!isTagNameEmpty">{{ numberOfPublications }} posts</span>
       <span class="flex-1 ml-3 text-4xl" v-if="isTagNameEmpty">Recent posts</span>
 
+      <!-- List of every publications -->
       <div class="w-full h-full grid grid-cols-3 PRO:grid-cols-2 gap-6 PRO:gap-4 p-4 pt-10">
         <button v-for="publication in shownPublications" @click="openPublicationModal(publication.publication_id)">
           <img class="w-full object-cover aspect-square rounded-lg" :src="publication.picture" />
@@ -27,6 +32,8 @@
           @delete="deletePublication" />
       </div>
     </div>
+
+    <!-- Loading animation -->
     <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
   </div>
 </template>

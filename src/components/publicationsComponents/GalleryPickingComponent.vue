@@ -6,6 +6,7 @@
 
             <!-- No galleries -->
             <span class="ml-3 text-2xl mb-8" v-if="shownGalleries.length === 0"> You have no galleries</span>
+
             <!-- List of galleries -->
             <div class="grid grid-cols-2 gap-4">
                 <div v-for="gallery in shownGalleries" class="flex items-center mb-4">
@@ -17,6 +18,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Save button -->
             <button class="save-button shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="updateGalleries">
                 Save

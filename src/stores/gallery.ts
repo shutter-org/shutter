@@ -63,7 +63,7 @@ export const useGalleryStore = defineStore('gallery', () => {
         } else {
           return null;
         }
-      }
+    }
       
     function updateUserGalleries(galleries: Map<string, Gallery>){
         userGalleries.value = galleries;
@@ -88,7 +88,6 @@ export const useGalleryStore = defineStore('gallery', () => {
         return shownGalleriesPicking.value;
     }
     async function addPublicationToGallery(gallery: Gallery, publication: SimplifiedPublication){
-        console.log(gallery)
         const res = await addPublicationToGalleryApi(gallery.gallery_id, publication.publication_id, userStore.authKey);
         if (res.status !== 200) {
             console.log("erreur dans le fetch de l'utilisateur pour get les galleries");

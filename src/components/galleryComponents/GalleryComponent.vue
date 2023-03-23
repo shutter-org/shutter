@@ -1,10 +1,12 @@
 <template>
     <div class="flex flex-col border-2 shutter-border-color my-3 rounded-md p-2 shutter-background-mute">
+        <!-- Gallery title, description and date -->
         <div class="flex flex-row justify-between p-2">
             <div class="font-bold text-2xl">{{ props.gallery.title }}</div>
             <div class="text-xl">{{ props.gallery.created_date }}</div>
         </div>
         <div class="pl-2 break-words">{{ props.gallery.description }}</div>
+        <!-- Gallery scroll -->
         <div class="scrollmenu" v-dragscroll>
             <div class="p-2">
                 <PublicationGalleryComponent v-for="publication in props.gallery.publications"
@@ -21,6 +23,7 @@
                 </div>
             </div>
         </div>
+        <!-- Gallery rating, modify and delete -->
         <div class="flex flex-row justify-between p-2">
             <RatingInterface @vote-up="galleryStore.voteUpGallery(props.gallery)"
                 @vote-down="galleryStore.voteDownGallery(props.gallery)" :total_rate="props.gallery.rating"

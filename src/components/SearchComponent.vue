@@ -1,5 +1,7 @@
 <template>
     <div class="rounded-lg items-center flex flex-col relative max-w-full">
+
+        <!-- Search input -->
         <div
             class="mb-5 w-full rounded-md h-12 border-2 shutter-background-color shutter-border-color pl-4 self-center flex items-center">
             <input class="z-2 outline-none shutter-background-color box-border h-11 w-full" v-focus v-model="search"
@@ -7,9 +9,13 @@
                 @keydown.down.prevent="highlightNext" @keydown.enter="enterPressed(highlightedIndex)" />
             <CrossIcon class="h-6 pr-2" @click="emptySearch" />
         </div>
+
+        <!-- Searched users -->
         <UserBarComponentVue v-for="(user, index) in usersSearched" v-if="isSearchingUsers" :user="user" :key="index"
             class="PRO:h-12" :class="{ 'shutter-hover-color': isCurrentIndex(index) }" @mouseover="highlightedIndex = index"
             @click="emit('closeSearchModal')" @close-search-modal="emit('closeSearchModal')"></UserBarComponentVue>
+
+        <!-- Searched tags -->
         <router-link :to="'/explore/' + tag.tag" class="w-full rounded-md disable-hover PRO:h-12"
             :class="{ 'shutter-hover-color': isCurrentIndex(index) }" v-for="(tag, index) in tagsSearched" :key="index"
             v-if="!isSearchingUsers" @click="emit('closeSearchModal')" @mouseover="highlightedIndex = index">
