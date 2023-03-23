@@ -149,6 +149,7 @@ export const useGalleryStore = defineStore('gallery', () => {
                 if (userGalleries.value[i].gallery_id === gallery_id){
                     userGalleries.value[i].title = gallery_parameters.title;
                     userGalleries.value[i].description = gallery_parameters.description;
+                    userGalleries.value[i].private = gallery_parameters.private;
                 }
             }
             return true;

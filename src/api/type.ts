@@ -66,6 +66,7 @@ export interface Gallery {
   rating: number;
   user_rating: number;
   publications: SimplifiedPublication[];
+  private: boolean;
 }
 export interface GalleryParameters{
   title: string;

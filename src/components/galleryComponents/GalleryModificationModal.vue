@@ -52,13 +52,17 @@ const props = defineProps({
 
 title.value = props.gallery.title
 description.value = props.gallery.description
+private_bool.value = props.gallery.private
+public_bool.value = !props.gallery.private
 
 
 function clickOnCheckbox() {
     if (private_bool.value == true) {
         private_bool.value = false
+        public_bool.value = true
     } else {
         private_bool.value = true
+        public_bool.value = false
     }
 }
 function modifyGallery() {
