@@ -115,7 +115,7 @@
       <GalleryComponent v-if="!isGalleryLoading" v-for="gallery in galleryStore.getUserGalleries()" :gallery="gallery"
         :is-current-user="props.isCurrentUser" @open-publication-modal="openPublicationModalFromGallery"
         @open-gallery-modification-modal="emit('openGalleryModificationModal', gallery)" />
-      <RingLoader v-if="isGalleryLoading" color="#465A82" size="64px" class="m-full self-center" />
+      <SkewLoader v-if="isGalleryLoading" color="#465A82" size="10px" class="m-full self-center" />
     </div>
 
     <!-- time passsed since user's creation -->
