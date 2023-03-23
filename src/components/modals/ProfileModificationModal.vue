@@ -23,11 +23,11 @@
 
                     <!-- Inline text modifications (username, name) -->
                     <div class="h-full w-full flex flex-col gap-4 justify-center overflow-x-auto p-1">
-                        <input class="w-full font-bold text-4xl inputable p-2 border-2 rounded-lg" placeholder="Username..."
-                            maxlength="50" v-model="username" />
+                        <input class="w-full font-bold text-4xl inputable p-2 border-2 rounded-lg outline-none"
+                            placeholder="Username..." maxlength="50" v-model="username" />
                         <div class="w-full flex flex-row PRO:justify-center">
-                            <input class="w-full font-bold text-2xl inputable p-2 border-2 rounded-lg" placeholder="Name..."
-                                maxlength="50" v-model="name" />
+                            <input class="w-full font-bold text-2xl inputable p-2 border-2 rounded-lg outline-none"
+                                placeholder="Name..." maxlength="50" v-model="name" />
                             <p class="w-max font-bold text-2xl p-2 inline whitespace-nowrap">
                                 • {{ props.user.age }}
                             </p>
