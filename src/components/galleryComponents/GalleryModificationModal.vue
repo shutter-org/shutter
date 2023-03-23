@@ -19,7 +19,7 @@
             <div
                 class="mb-5 w-full rounded-md h-12 border-2 shutter-background-color shutter-border-color pl-4 self-center flex items-center">
                 <input class="z-2 outline-none shutter-background-color box-border h-11 w-full rounded-md" v-focus
-                    v-model="title" placeholder="Title..." />
+                    maxlength="50" v-model="title" placeholder="Title..." />
             </div>
             <!-- Description -->
             <textarea class="inputable w-full max-h-48 mb-5 p-2 border-2 rounded-lg" placeholder="Description..."
@@ -33,7 +33,7 @@
 </template>
 <script setup lang="ts">
 import type { Gallery, GalleryParameters } from '@/api/type';
-import { ref, type PropType } from 'vue';
+import { ref, type PropType, onMounted } from 'vue';
 import { useGalleryStore } from '@/stores/gallery';
 
 const galleryStore = useGalleryStore()
@@ -50,10 +50,12 @@ const props = defineProps({
     }
 })
 
-title.value = props.gallery.title
-description.value = props.gallery.description
-private_bool.value = props.gallery.private
-public_bool.value = !props.gallery.private
+onMounted(() => {
+    title.value = props.gallery.title
+    description.value = props.gallery.description
+    private_bool.value = props.gallery.private
+    public_bool.value = !props.gallery.private
+})
 
 
 function clickOnCheckbox() {
@@ -90,6 +92,11 @@ const vFocus = {
 }
 
 input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+textarea:focus {
     outline: none;
     box-shadow: none;
 }

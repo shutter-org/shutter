@@ -19,7 +19,7 @@
             <div
                 class="mb-5 w-full rounded-md h-12 border-2 shutter-background-color shutter-border-color pl-4 self-center flex items-center">
                 <input class="z-2 outline-none shutter-background-color box-border h-11 w-full rounded-md" v-focus
-                    v-model="title" placeholder="Title..." />
+                    maxlength="50" v-model="title" placeholder="Title..." />
             </div>
             <!-- Description -->
             <textarea class="inputable w-full max-h-48 mb-5 p-2 border-2 rounded-lg" placeholder="Description..."
