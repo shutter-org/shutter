@@ -9,7 +9,7 @@
             <PublicationGalleryComponent v-for="publication in props.gallery.publications"
                 :is-current-user="props.isCurrentUser" :publication="publication"
                 @open-publication-modal="emit('openPublicationModal', publication.publication_id)"
-                @delete-publication="emit('deletePublicationFromGallery', props.gallery.gallery_id, publication.publication_id)">
+                @delete-publication="deletePublicationFromGallery(publication.publication_id)">
             </PublicationGalleryComponent>
             <div class="w-80  h-80 px-2" v-if="props.gallery.publications.length === 0">
                 <div
@@ -58,18 +58,16 @@ const props = defineProps({
     }
 })
 
+function deletePublicationFromGallery(publication_id: string) {
+    galleryStore.deletePublicationFromGallery(props.gallery, publication_id);
+}
+
 const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
     },
     deleteGallery: (gallery_id: string) => {
         return !!gallery_id;
-    },
-    deletePublicationFromGallery: (gallery_id: string, publication_id: string) => {
-        return {
-            gallery_id,
-            publication_id
-        }
     },
     openGalleryModificationModal: (gallery: Gallery) => {
         return !!gallery;

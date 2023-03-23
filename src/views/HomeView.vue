@@ -49,7 +49,6 @@ const shownPublication = ref({} as SimplifiedPublication);
 loadPublications();
 
 function addToGallery(publication: SimplifiedPublication) {
-  console.log('here')
   isShowingGalleryPickingModal.value = true
   shownPublication.value = publication;
 }

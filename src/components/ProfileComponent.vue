@@ -115,7 +115,6 @@
       <GalleryComponent v-if="!isGalleryLoading" v-for="gallery in galleryStore.getUserGalleries()" :gallery="gallery"
         :is-current-user="props.isCurrentUser" @open-publication-modal="openPublicationModalFromGallery"
         @deleteGallery="(gallery_id) => deleteGalleryFromList(gallery_id)"
-        @delete-publication-from-gallery="(gallery_id, publication_id) => deletePublicationFromGalleryList(gallery_id, publication_id)"
         @open-gallery-modification-modal="emit('openGalleryModificationModal', gallery)" />
       <RingLoader v-if="isGalleryLoading" color="#465A82" size="64px" class="m-full self-center" />
     </div>
@@ -187,7 +186,7 @@ const isPictureTabShown = ref(true);
 const isFollowingShown = ref(false);
 const isFollowerShown = ref(false);
 const isBusy = ref(false);
-const shownGalleries = ref<Gallery[]>([]);
+const shownGalleries = ref(new Map<string, Gallery>());
 const isGalleryLoading = ref(true);
 
 const emit = defineEmits({
@@ -207,27 +206,20 @@ const emit = defineEmits({
     return !!gallery;
   }
 });
+
 loadGalleries();
 async function loadGalleries() {
   for (let gallery of props.user.galleries) {
-    let shownGallery = await galleryStore.getShownGallery(gallery.gallery_id);
+    let shownGallery = await galleryStore.getAGallery(gallery.gallery_id);
     if (shownGallery !== undefined) {
-      shownGalleries.value.push(shownGallery);
+      galleryStore.setGallery(shownGallery);
     }
   }
-  galleryStore.updateUserGalleries(shownGalleries.value);
   isGalleryLoading.value = false;
 }
+
 function deleteGalleryFromList(gallery_id: string) {
-  shownGalleries.value = shownGalleries.value.filter(gallery => gallery.gallery_id !== gallery_id);
-}
-async function deletePublicationFromGalleryList(gallery_id: string, publication_id: string) {
-  if (await galleryStore.deletePublicationFromGallery(gallery_id, publication_id)) {
-    let gallery = shownGalleries.value.find(gallery => gallery.gallery_id === gallery_id);
-    if (gallery !== undefined) {
-      gallery.publications = gallery.publications.filter(publication => publication.publication_id !== publication_id);
-    }
-  }
+  galleryStore.removeFromUserGalleries(gallery_id);
 }
 const showMore = async () => {
   if (!isBusy.value) {
