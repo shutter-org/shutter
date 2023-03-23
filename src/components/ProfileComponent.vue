@@ -209,6 +209,7 @@ const emit = defineEmits({
 
 loadGalleries();
 async function loadGalleries() {
+  galleryStore.updateUserGalleries(new Map<string, Gallery>());
   for (let gallery of props.user.galleries) {
     let shownGallery = await galleryStore.getAGallery(gallery.gallery_id);
     if (shownGallery !== undefined) {

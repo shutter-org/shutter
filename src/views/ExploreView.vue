@@ -127,6 +127,4 @@ const handleScroll = () => {
     loadMorePublications();
   }
 }
-
-
 </script>
