@@ -18,7 +18,7 @@
                 </div>
             </div>
             <!-- Save button -->
-            <button class="shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="updateGalleries">
+            <button class="save-button shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="updateGalleries">
                 Save
             </button>
         </div>
@@ -83,6 +83,10 @@ const emit = defineEmits(['save']);
 
 </script>
 <style scoped>
+.save-button:hover {
+    background-color: var(--color-border);
+}
+
 input[type="checkbox"]:focus {
     outline: none;
     box-shadow: none;

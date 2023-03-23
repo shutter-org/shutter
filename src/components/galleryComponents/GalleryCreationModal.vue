@@ -25,7 +25,7 @@
             <textarea class="inputable w-full max-h-48 mb-5 p-2 border-2 rounded-lg" placeholder="Description..."
                 maxlength="200" v-model="description"></textarea>
             <!-- Save button -->
-            <button class="shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="createGallery">
+            <button class="save-button shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="createGallery">
                 Save
             </button>
         </div>
@@ -73,6 +73,10 @@ const vFocus = {
     background-color: var(--color-background);
     box-shadow: none;
     resize: none;
+}
+
+.save-button:hover {
+    background-color: var(--color-border);
 }
 
 input[type="checkbox"]:focus {

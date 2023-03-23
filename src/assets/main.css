@@ -40,10 +40,15 @@ span {
 .shutter-modal-color {
   background-color: var(--modal-color);
 }
+
 .shutter-hover-color {
   background-color: var(--hover-color);
 }
 
 .colored-border {
   border-color: var(--color-text);
+}
+
+input[type="checkbox"] {
+  color: var(--special-text-color);
 }

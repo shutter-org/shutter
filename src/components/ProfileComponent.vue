@@ -164,7 +164,7 @@ import { useUserStore } from "@/stores/user";
 import type { PropType } from "vue";
 import type { Gallery, User } from "@/api/type";
 import { useGalleryStore } from "@/stores/gallery";
-import CreateIcon from "./icons/CreateIcon.vue";
+import CreateIcon from "./icons/menu/CreateIcon.vue";
 
 
 

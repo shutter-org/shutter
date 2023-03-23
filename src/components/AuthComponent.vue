@@ -3,7 +3,7 @@
     <div
       class="shutter-modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-md PRO:mx-4 gap-3 flex flex-col items-center">
       <LogoAnimation />
-      <div class="flex gap-1 flex-col w-full">
+      <div class="flex gap-2 flex-col w-full">
         <div v-if="!login" class="rounded-md items-center flex flex-col relative">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full" placeholder="Email"
@@ -42,13 +42,15 @@
           </div>
         </div>
       </div>
-      <button v-if="login" @click="SignIn" class="bg-gray-100 special-text-color rounded-md h-9 w-36">
+      <button v-if="login" @click="SignIn"
+        class="signButton bg-gray-100 special-text-color font-bold rounded-md h-9 w-36">
         Log in
       </button>
-      <button v-if="!login" @click="SignUp" class="bg-gray-100 special-text-color rounded-md h-9 w-36">
+      <button v-if="!login" @click="SignUp"
+        class="signButton bg-gray-100 special-text-color font-bold rounded-md h-9 w-36">
         Sign up
       </button>
-      <div class="border-t shutter-border-color w-full flex justify-center items-center space-x-2">
+      <div class="border-t shutter-border-color w-full flex justify-center items-center space-x-2 pt-2">
         <span v-if="login">Don't have an account?</span>
         <button v-if="login" @click="switchView" class="special-text-color text-lg">
           Signup
@@ -155,6 +157,10 @@ async function SignUp() {
 
 .hidePassword {
   -webkit-text-security: disc;
+}
+
+.signButton:hover {
+  background-color: #e7e7e7;
 }
 
 input[type="date"] {
