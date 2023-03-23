@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-import { deleteRatingGallery, getGallery, rateGallery, updateRateGallery, deleteGalleryApi, deletePublicationFromGalleryApi, addPublicationToGalleryApi } from "@/api/gallery";
+import { deleteRatingGallery, getGallery, rateGallery, updateRateGallery, deleteGalleryApi, deletePublicationFromGalleryApi, addPublicationToGalleryApi, updateGalleryApi, createGalleryApi } from "@/api/gallery";
 import { getUser } from "@/api/user";
 import { useUserStore } from "./user";
-import type { Gallery, SimplifedGallery, User , SimplifiedPublication} from "@/api/type";
+import type { Gallery, SimplifedGallery, User , SimplifiedPublication, GalleryParameters} from "@/api/type";
 import { ref } from "vue";
 
 export const useGalleryStore = defineStore('gallery', () => {
@@ -128,5 +128,32 @@ export const useGalleryStore = defineStore('gallery', () => {
             return true;
         }
     }
-    return { getShownGallery, voteDownGallery, voteUpGallery, deleteGallery, deletePublicationFromGallery, getSimplifiedGalleries, addPublicationToGallery, updateUserGalleries, getUserGalleries }
+    async function createGallery(gallery_parameters:GalleryParameters) {
+        const res = await createGalleryApi(gallery_parameters.title, gallery_parameters.description, gallery_parameters.private, userStore.authKey);
+        if(res.status !== 201){
+            console.log("erreur dans le create de la gallery");
+        }else{
+            const gallery_id = await res.json();
+            const resGallery = await getGallery(gallery_id.gallery_id, userStore.authKey);
+            const gallery = await resGallery.json() as Gallery;
+            userGalleries.value.unshift(gallery);
+            return true;
+        }
+    }
+    async function updateGallery(gallery_id:string, gallery_parameters: GalleryParameters) {
+        const res = await updateGalleryApi(gallery_id, gallery_parameters.title, gallery_parameters.description, gallery_parameters.private, userStore.authKey);
+        if(res.status !== 200){
+            console.log("erreur dans le update de la gallery");
+        }else{
+            for (let i = 0; i < userGalleries.value.length; i++){
+                if (userGalleries.value[i].gallery_id === gallery_id){
+                    userGalleries.value[i].title = gallery_parameters.title;
+                    userGalleries.value[i].description = gallery_parameters.description;
+                }
+            }
+            return true;
+        }
+        
+    }
+    return { getShownGallery, voteDownGallery, voteUpGallery, deleteGallery, deletePublicationFromGallery, getSimplifiedGalleries, addPublicationToGallery, updateUserGalleries, getUserGalleries, createGallery, updateGallery }
 })

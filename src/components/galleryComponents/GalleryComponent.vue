@@ -19,7 +19,7 @@
             </RatingInterface>
             <div class="flex flex-row pr-2">
                 <button v-if="props.isCurrentUser">
-                    <ModifyIcon></ModifyIcon>
+                    <ModifyIcon @click="emit('openGalleryModificationModal', props.gallery)"></ModifyIcon>
                 </button>
                 <DeleteComponent v-if="props.isCurrentUser" @delete="deleteEntireGallery">
                 </DeleteComponent>
@@ -61,6 +61,9 @@ const emit = defineEmits({
             gallery_id,
             publication_id
         }
+    },
+    openGalleryModificationModal: (gallery: Gallery) => {
+        return !!gallery;
     }
 });
 

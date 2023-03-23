@@ -8,7 +8,9 @@
 
     <!-- Current user's profile -->
     <Profile v-else :user="user" :is-current-user="true" @open-publication-modal="openPublicationModal"
-      @open-profile-modification-modal="openProfileModificationModal" @open-delete-modal="openDeleteModal"></Profile>
+      @open-profile-modification-modal="openProfileModificationModal" @open-delete-modal="openDeleteModal"
+      @open-gallery-creation-modal="openGalleryCreationModal"
+      @open-gallery-modification-modal="openGalleryModificationModal"></Profile>
 
     <!-- Post consultation modal -->
     <PublicationModal class="PRO:my-[80px] p-12" v-if="isPublicationModalShown" :publicationId="shownPublicationId"
@@ -20,6 +22,13 @@
 
     <!-- Delete user account modal -->
     <DeleteModal v-if="isDeleteModalShown" @close="closeDeleteModal" @delete-user="delUser" />
+
+    <!-- Gallery creation modal -->
+    <GalleryCreationModal v-if="isGalleryCreationModalShown" @close="closeGalleryCreationModal" />
+
+    <!-- Gallery modify modal -->
+    <GalleryModificationModal v-if="isGalleryModificationModalShown" @close="closeGalleryModificationModal"
+      :gallery="galleryToModify" />
   </div>
 </template>
 
@@ -33,7 +42,9 @@ import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import { ref, watch } from "vue";
 import { updateUser } from "@/api/user";
 import { useUserStore } from '@/stores/user'
-import type { SimplifiedPublication, User } from "@/api/type";
+import type { Gallery, SimplifiedPublication, User } from "@/api/type";
+import GalleryCreationModal from "@/components/galleryComponents/GalleryCreationModal.vue";
+import GalleryModificationModal from "@/components/galleryComponents/GalleryModificationModal.vue";
 
 const userStore = useUserStore();
 const user = ref();
@@ -41,8 +52,11 @@ const isPublicationModalShown = ref(false);
 const shownPublicationId = ref("");
 const isProfileModificationShown = ref(false);
 const isDeleteModalShown = ref(false);
+const isGalleryCreationModalShown = ref(false);
+const isGalleryModificationModalShown = ref(false);
 const isLoading = ref(true);
 const isUpdating = ref(false);
+const galleryToModify = ref();
 
 loadUser();
 
@@ -136,8 +150,21 @@ const openPublicationModal = (publicationId: string) => {
   shownPublicationId.value = publicationId;
   isPublicationModalShown.value = true;
 };
+const openGalleryCreationModal = () => {
+  isGalleryCreationModalShown.value = true;
+};
 const closePublicationModal = () => {
   isPublicationModalShown.value = false;
+};
+const closeGalleryCreationModal = () => {
+  isGalleryCreationModalShown.value = false;
+};
+const openGalleryModificationModal = (gallery: Gallery) => {
+  galleryToModify.value = gallery;
+  isGalleryModificationModalShown.value = true;
+};
+const closeGalleryModificationModal = () => {
+  isGalleryModificationModalShown.value = false;
 };
 const openProfileModificationModal = () => {
   isProfileModificationShown.value = true;

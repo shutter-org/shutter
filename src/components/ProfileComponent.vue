@@ -101,11 +101,17 @@
       class="w-full rounded-lg font-bold text-xl p-2 px-4">Show more</button>
 
     <!-- Galleries display -->
-    <div v-if="!isPictureTabShown" class="w-full">
+    <div v-if="!isPictureTabShown" class="w-full flex flex-col">
+      <button class="flex items-center p-2 text-base font-normal rounded-lg w-10 self-center"
+        @click="emit('openGalleryCreationModal')">
+        <CreateIcon />
+      </button>
+
       <GalleryComponent v-for="gallery in galleryStore.getUserGalleries()" :gallery="gallery"
         :is-current-user="props.isCurrentUser" @open-publication-modal="openPublicationModalFromGallery"
         @deleteGallery="(gallery_id) => deleteGalleryFromList(gallery_id)"
-        @delete-publication-from-gallery="(gallery_id, publication_id) => deletePublicationFromGalleryList(gallery_id, publication_id)" />
+        @delete-publication-from-gallery="(gallery_id, publication_id) => deletePublicationFromGalleryList(gallery_id, publication_id)"
+        @open-gallery-modification-modal="emit('openGalleryModificationModal', gallery)" />
     </div>
 
     <!-- time passsed since user's creation -->
@@ -150,9 +156,9 @@ import EmptyIcon from "@/components/icons/EmptyIcon.vue";
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import type { PropType } from "vue";
-import { onMounted } from "vue";
 import type { Gallery, User } from "@/api/type";
 import { useGalleryStore } from "@/stores/gallery";
+import CreateIcon from "./icons/CreateIcon.vue";
 
 
 const props = defineProps({
@@ -185,10 +191,13 @@ const emit = defineEmits({
   openDeleteModal: () => {
     return true;
   },
+  openGalleryCreationModal: () => {
+    return true;
+  },
+  openGalleryModificationModal: (gallery: Gallery) => {
+    return !!gallery;
+  }
 });
-onMounted(() => {
-  console.log("mounted")
-})
 loadGalleries();
 async function loadGalleries() {
   for (let gallery of props.user.galleries) {

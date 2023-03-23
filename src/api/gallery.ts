@@ -82,3 +82,27 @@ export const addPublicationToGalleryApi = async (gallery_id: string, publication
     });
     return response;
 }
+export const createGalleryApi = async (title: string, description:string, private_bool: boolean, authKey: String) => {
+    const key = "Bearer " + authKey;
+    const response = await fetch(`${API_URL}/galleries`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": key,
+        },
+        body: JSON.stringify({"description": description, "title": title , "private": private_bool}),
+    });
+    return response;
+}
+export const updateGalleryApi = async (gallery_id: string, title: string, despcription:string, private_bool: boolean, authKey: String) => {
+    const key = "Bearer " + authKey;
+    const response = await fetch(`${API_URL}/galleries/${gallery_id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": key,
+        },
+        body: JSON.stringify({ "title": title , "description": despcription, "private": private_bool}),
+    });
+    return response;
+}

@@ -1,7 +1,7 @@
 <template>
     <div class="fixed inset-0 z-50 flex justify-center items-center">
         <div v-if="!isLoading"
-            class="shutter-modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-lg PRO:mx-4 translate-x-[126px] PRO:translate-x-0 flex flex-col justify-center items-center">
+            class="shutter-modal-color border-2 shutter-border-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-lg PRO:mx-4 translate-x-[126px] PRO:translate-x-0 flex flex-col justify-center items-center">
             <!-- List of galleries -->
             <div v-for="gallery in shownGalleries" class="flex flex-row justify-center items-center">
                 <input type="checkbox" class=" outline-none w-7 h-7 bg-gray-100 border-gray-300 rounded-lg"
