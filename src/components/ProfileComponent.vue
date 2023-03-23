@@ -102,16 +102,17 @@
 
     <!-- Galleries display -->
     <div v-if="!isPictureTabShown" class="w-full flex flex-col">
-      <button class="flex items-center p-2 text-base font-normal rounded-lg w-10 self-center"
+      <button v-if="!isGalleryLoading" class="flex items-center p-2 text-base font-normal rounded-lg w-10 self-center"
         @click="emit('openGalleryCreationModal')">
         <CreateIcon />
       </button>
 
-      <GalleryComponent v-for="gallery in galleryStore.getUserGalleries()" :gallery="gallery"
+      <GalleryComponent v-if="!isGalleryLoading" v-for="gallery in galleryStore.getUserGalleries()" :gallery="gallery"
         :is-current-user="props.isCurrentUser" @open-publication-modal="openPublicationModalFromGallery"
         @deleteGallery="(gallery_id) => deleteGalleryFromList(gallery_id)"
         @delete-publication-from-gallery="(gallery_id, publication_id) => deletePublicationFromGalleryList(gallery_id, publication_id)"
         @open-gallery-modification-modal="emit('openGalleryModificationModal', gallery)" />
+      <RingLoader v-if="isGalleryLoading" color="#465A82" size="64px" class="m-full self-center" />
     </div>
 
     <!-- time passsed since user's creation -->
@@ -149,7 +150,8 @@ import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import ImgLoader from "./ImgLoader.vue";
 import FollowModal from "./modals/FollowModal.vue";
-import SkewLoader from "vue-spinner/src/SkewLoader.vue";
+import RingLoader from "vue-spinner/src/RingLoader.vue"
+import SkewLoader from "vue-spinner/src/SkewLoader.vue"
 import GalleryComponent from "./galleryComponents/GalleryComponent.vue";
 import DeleteUserIcon from "./icons/DeleteUserIcon.vue"
 import EmptyIcon from "@/components/icons/EmptyIcon.vue";
@@ -159,6 +161,7 @@ import type { PropType } from "vue";
 import type { Gallery, User } from "@/api/type";
 import { useGalleryStore } from "@/stores/gallery";
 import CreateIcon from "./icons/CreateIcon.vue";
+
 
 
 const props = defineProps({
@@ -180,6 +183,7 @@ const isFollowingShown = ref(false);
 const isFollowerShown = ref(false);
 const isBusy = ref(false);
 const shownGalleries = ref<Gallery[]>([]);
+const isGalleryLoading = ref(true);
 
 const emit = defineEmits({
   openPublicationModal: (publicationId: string) => {
@@ -207,6 +211,7 @@ async function loadGalleries() {
     }
   }
   galleryStore.updateUserGalleries(shownGalleries.value);
+  isGalleryLoading.value = false;
 }
 function deleteGalleryFromList(gallery_id: string) {
   shownGalleries.value = shownGalleries.value.filter(gallery => gallery.gallery_id !== gallery_id);

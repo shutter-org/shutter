@@ -1,10 +1,11 @@
 <template>
     <button class="w-80 px-2" @mouseover="hover = true" @mouseleave="hover = false">
         <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="props.publication.picture" />
-        <DeleteComponent v-if="props.isCurrentUser && hover" class="absolute top-0 right-0 px-2"
+        <DeleteComponent v-if="props.isCurrentUser && hover"
+            class="absolute top-0 right-2  shutter-background-mute rounded-md border-2 shutter-border-color"
             @delete="emit('deletePublication', props.publication.publication_id)" />
         <button v-if="hover"
-            class="absolute top-2/4 left-2/4 open-button w-24 h-24 bg-gray-900 bg-opacity-80 rounded-lg text-lg"
+            class="absolute top-2/4 left-2/4 open-button w-24 h-24 shutter-background-mute bg-opacity-80 rounded-lg text-lg border-2 shutter-border-color"
             @click="emit('openPublicationModal', props.publication.publication_id)"> open </button>
     </button>
 </template>

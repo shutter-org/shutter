@@ -11,8 +11,15 @@
                 @open-publication-modal="emit('openPublicationModal', publication.publication_id)"
                 @delete-publication="emit('deletePublicationFromGallery', props.gallery.gallery_id, publication.publication_id)">
             </PublicationGalleryComponent>
+            <div class="w-80  h-80 px-2" v-if="props.gallery.publications.length === 0">
+                <div
+                    class="border-2 w-full h-full rounded-md shutter-border-color flex flex-col justify-center items-center shutter-background-color">
+                    <span class="text-xl">No publications in this gallery</span>
+                    <CameraIcon class="w-40" />
+                </div>
+            </div>
         </div>
-        <div class="flex flex-row justify-between">
+        <div class="flex flex-row justify-between px-2">
             <RatingInterface @vote-up="galleryStore.voteUpGallery(props.gallery)"
                 @vote-down="galleryStore.voteDownGallery(props.gallery)" :total_rate="props.gallery.rating"
                 :user_rate="props.gallery.user_rating">
@@ -35,6 +42,8 @@ import DeleteComponent from "../subComponents/DeleteComponent.vue";
 import RatingInterface from "../subComponents/RatingInterface.vue";
 import PublicationGalleryComponent from "./PublicationGalleryComponent.vue";
 import { useGalleryStore } from "@/stores/gallery";
+import CameraIcon from "../icons/CameraIcon.vue";
+
 
 
 const galleryStore = useGalleryStore();
