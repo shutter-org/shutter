@@ -92,15 +92,14 @@ async function saveModification(desc: string, tags: string[]) {
   await publicationStore.modifyShownPublication(shownPublication.value.publication_id, desc, tags);
   isUpdating.value = false;
 }
-async function saveGalleryPicking() {
+function saveGalleryPicking() {
   isUpdating.value = true;
   isShowingGalleryPickingModal.value = false;
-  //call api
   isUpdating.value = false;
 }
 const deletePub = () => {
   deletePublication(shownPublication.value.publication_id, userStore.authKey);
-  galleryStore.removePublicationFromGallery(shownPublication.value.publication_id);
+  galleryStore.removePublicationFromGalleryWithOnlyPublication(shownPublication.value.publication_id);
   emit("delete", shownPublication.value.publication_id);
   emit("close");
 }

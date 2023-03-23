@@ -70,15 +70,14 @@ function clickOnCheckbox() {
         public_bool.value = false
     }
 }
-function modifyGallery() {
+async function modifyGallery() {
     const galleryParameters: GalleryParameters = {
         title: title.value,
         description: description.value,
         private: private_bool.value
     }
-    galleryStore.updateGallery(props.gallery.gallery_id, galleryParameters)
+    await galleryStore.updateGallery(props.gallery.gallery_id, galleryParameters)
     emit('close')
-
 }
 const emit = defineEmits(['close'])
 

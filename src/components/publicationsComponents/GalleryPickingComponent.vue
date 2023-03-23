@@ -58,15 +58,16 @@ async function loadSimplifiedGalleries() {
     copyOfShownGalleries.value = JSON.parse(JSON.stringify(shownGalleries.value));
 }
 
-function updateGalleries() {
+async function updateGalleries() {
     for (let i = 0; i < copyOfShownGalleries.value.length; i++) {
         if (copyOfShownGalleries.value[i].checked !== shownGalleries.value[i].checked) {
             if (shownGalleries.value[i].checked) {
-                const gallery = galleryStore.getGalleryFromUserGalleries(shownGalleries.value[i].gallery_id) as Gallery;
-                galleryStore.addPublicationToGallery(gallery, props.publication);
+                const gallery = galleryStore.getGalleryFromMap(shownGalleries.value[i].gallery_id) as Gallery;
+                await galleryStore.addPublicationToGallery(gallery.gallery_id, props.publication.publication_id);
+
             } else {
-                const gallery = galleryStore.getGalleryFromUserGalleries(shownGalleries.value[i].gallery_id) as Gallery;
-                galleryStore.deletePublicationFromGallery(gallery, props.publication.publication_id);
+                const gallery = galleryStore.getGalleryFromMap(shownGalleries.value[i].gallery_id) as Gallery;
+                await galleryStore.removePublicationFromGallery(gallery.gallery_id, props.publication.publication_id);
             }
         }
     }

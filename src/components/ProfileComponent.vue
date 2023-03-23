@@ -107,13 +107,14 @@
         <CreateIcon />
       </button>
 
-      <div v-if="!isPictureTabShown && galleryStore.getUserGalleries().length === 0 && !isGalleryLoading"
+      <div v-if="!isPictureTabShown && galleryStore.getUsersGalleries(user.username).length === 0 && !isGalleryLoading"
         class="flex flex-col m-auto my-8 items-center">
         <EmptyIcon class="w-40 h-40"></EmptyIcon>
         <p class="text-3xl">It's empty here...</p>
       </div>
-      <GalleryComponent v-if="!isGalleryLoading" v-for="gallery in galleryStore.getUserGalleries()" :gallery="gallery"
-        :is-current-user="props.isCurrentUser" @open-publication-modal="openPublicationModalFromGallery"
+      <GalleryComponent v-if="!isGalleryLoading" v-for="gallery in galleryStore.getUsersGalleries(user.username)"
+        :gallery="gallery" :is-current-user="props.isCurrentUser"
+        @open-publication-modal="openPublicationModalFromGallery"
         @open-gallery-modification-modal="emit('openGalleryModificationModal', gallery)" />
       <SkewLoader v-if="isGalleryLoading" color="#465A82" size="10px" class="m-full self-center" />
     </div>
@@ -162,8 +163,8 @@ import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import type { PropType } from "vue";
 import type { Gallery, User } from "@/api/type";
-import { useGalleryStore } from "@/stores/gallery";
 import CreateIcon from "./icons/menu/CreateIcon.vue";
+import { useGalleryStore } from "@/stores/gallery";
 
 
 
@@ -206,17 +207,9 @@ const emit = defineEmits({
   }
 });
 
-loadGalleries();
-async function loadGalleries() {
-  galleryStore.updateUserGalleries(new Map<string, Gallery>());
-  for (let gallery of props.user.galleries) {
-    let shownGallery = await galleryStore.getAGallery(gallery.gallery_id);
-    if (shownGallery !== undefined) {
-      galleryStore.setGallery(shownGallery);
-    }
-  }
+galleryStore.loadGalleries(props.user).then(() => {
   isGalleryLoading.value = false;
-}
+});
 const showMore = async () => {
   if (!isBusy.value) {
     isBusy.value = true;

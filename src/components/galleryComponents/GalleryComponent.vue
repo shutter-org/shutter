@@ -49,9 +49,8 @@ import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import DeleteComponent from "../subComponents/DeleteComponent.vue";
 import RatingInterface from "../subComponents/RatingInterface.vue";
 import PublicationGalleryComponent from "./PublicationGalleryComponent.vue";
-import { useGalleryStore } from "@/stores/gallery";
 import CameraIcon from "../icons/CameraIcon.vue";
-
+import { useGalleryStore } from "@/stores/gallery";
 
 
 const galleryStore = useGalleryStore();
@@ -76,13 +75,12 @@ const emit = defineEmits({
     }
 });
 
-function deletePublicationFromGallery(publication_id: string) {
-    galleryStore.deletePublicationFromGallery(props.gallery, publication_id);
+async function deletePublicationFromGallery(publication_id: string) {
+    await galleryStore.removePublicationFromGallery(props.gallery.gallery_id, publication_id);
 }
 
 async function deleteEntireGallery() {
-    await galleryStore.deleteGallery(props.gallery)
-
+    await galleryStore.deleteGallery(props.gallery.gallery_id)
 }
 </script>
 <style>
