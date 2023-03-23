@@ -3,13 +3,14 @@
         <div v-if="!isLoading"
             class="shutter-modal-color border-2 shutter-border-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-lg PRO:mx-4 translate-x-[126px] PRO:translate-x-0 flex flex-col justify-center items-center">
             <!-- List of galleries -->
-            <div v-for="gallery in shownGalleries" class="flex flex-row justify-center items-center">
-                <input type="checkbox" class=" outline-none w-7 h-7 bg-gray-100 border-gray-300 rounded-lg"
-                    v-model="gallery.checked">
-                <div class="flex flex-col">
-
-                    <label class="ml-2 text-xl font-medium ">{{ gallery.title }}</label>
-                    <label class="ml-2 text-md">{{ gallery.publications.length }} posts</label>
+            <div class="grid grid-cols-2 gap-4">
+                <div v-for="gallery in shownGalleries" class="flex items-center mb-4">
+                    <input type="checkbox" class="outline-none w-7 h-7 bg-gray-100 border-gray-300 rounded-lg mr-2"
+                        v-model="gallery.checked">
+                    <div class="flex flex-col">
+                        <label class="ml-2 text-xl font-medium">{{ gallery.title }}</label>
+                        <label class="ml-2 text-md">{{ gallery.publications.length }} posts</label>
+                    </div>
                 </div>
             </div>
             <!-- Save button -->
