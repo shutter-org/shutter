@@ -85,7 +85,6 @@ async function saveGalleryPicking() {
 
 const handleScroll = () => {
   let container = document.getElementById("publicationsContainer")!;
-
   if ((container.offsetHeight + container.scrollTop + 500) >= container.scrollHeight) {
     loadMorePublications();
   }

@@ -11,6 +11,7 @@
       </span>
       <span class="flex-1 ml-3 text-4xl" v-if="!isTagNameEmpty">#{{ route.params.tag }}</span>
       <span class="flex-1 ml-3 text-2xl" v-if="!isTagNameEmpty">{{ numberOfPublications }} posts</span>
+      <span class="flex-1 ml-3 text-4xl" v-if="isTagNameEmpty">Recent posts</span>
 
       <div class="flex flex-wrap justify-center gap-4">
         <button class="w-80" v-for="publication in shownPublications"
@@ -34,7 +35,7 @@
 import PublicationModal from "@/components/modals/publicationsModals/PublicationModal.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
 import SadIcon from "@/components/icons/SadIcon.vue";
-import { ref } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { getPublicationByTag } from "@/api/publication";
 import { useUserStore } from "@/stores/user";
 import type { Publication } from "@/api/type";
@@ -45,6 +46,7 @@ const route = useRoute();
 const isPublicationModalShown = ref(false);
 const shownPublications = ref<Publication[]>([]);
 const numberOfPublications = ref(0);
+const pageIndex = ref(1);
 const shownPublicationId = ref();
 const shownPublication = ref();
 const loggedUsername = userStore.username;
@@ -54,8 +56,15 @@ const isLoading = ref(true);
 const isWindows = navigator.userAgent.indexOf("Win") > -1;
 
 
+onMounted(() => {
+  document.addEventListener('scroll', handleScroll);
+})
+onBeforeUnmount(() => {
+  document.removeEventListener('scroll', handleScroll);
+})
 
-searchPublicationByTag(route.params.tag.toString(), 1);
+
+searchPublicationByTag(route.params.tag.toString(), pageIndex.value);
 if (route.params.tag.toString() !== "") {
   isTagNameEmpty.value = false;
 
@@ -91,6 +100,27 @@ const deletePublication = (publicationId: string) => {
   });
 }
 
+async function loadMorePublications() {
+  if (numberOfPublications.value / 12 < pageIndex.value) return;
+  pageIndex.value++;
+  const res = await getPublicationByTag(pageIndex.value, route.params.tag.toString(), userStore.authKey);
+  if (res.status !== 200) {
+    return;
+  } else {
+    const data = await res.json()
+    shownPublications.value = shownPublications.value.concat(data.publications);
+  }
+}
+const handleScroll = () => {
+  let windowHeight = window.innerHeight;
+  let documentHeight = document.body.clientHeight;
+  let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  let scrollHeight = documentHeight - windowHeight;
+
+  if (scrollTop >= scrollHeight - 300) {
+    loadMorePublications();
+  }
+}
 
 
 </script>

@@ -60,6 +60,7 @@ async function createGallery() {
     }
 
     await galleryStore.createGallery(galleryParameters)
+    emit('close')
 }
 const emit = defineEmits(["close", "createGallery"]);
 const vFocus = {

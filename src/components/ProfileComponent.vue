@@ -107,6 +107,11 @@
         <CreateIcon />
       </button>
 
+      <div v-if="!isPictureTabShown && galleryStore.getUserGalleries().length === 0 && !isGalleryLoading"
+        class="flex flex-col m-auto my-8 items-center">
+        <EmptyIcon class="w-40 h-40"></EmptyIcon>
+        <p class="text-3xl">It's empty here...</p>
+      </div>
       <GalleryComponent v-if="!isGalleryLoading" v-for="gallery in galleryStore.getUserGalleries()" :gallery="gallery"
         :is-current-user="props.isCurrentUser" @open-publication-modal="openPublicationModalFromGallery"
         @deleteGallery="(gallery_id) => deleteGalleryFromList(gallery_id)"
