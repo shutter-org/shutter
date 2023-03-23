@@ -1,30 +1,32 @@
 <template>
-    <div class="flex flex-col border-2 shutter-border-color my-3 rounded-md py-2">
-        <div class="flex flex-row justify-between">
-            <div class="font-bold text-2xl pl-2 py-1">{{ props.gallery.title }}</div>
-            <div class="text-xl pr-2 py-1">{{ props.gallery.created_date }}</div>
+    <div class="flex flex-col border-2 shutter-border-color my-3 rounded-md p-2 shutter-background-mute">
+        <div class="flex flex-row justify-between p-2">
+            <div class="font-bold text-2xl">{{ props.gallery.title }}</div>
+            <div class="text-xl">{{ props.gallery.created_date }}</div>
         </div>
-        <div class="pl-2">{{ props.gallery.description }}</div>
-        <div class="scrollmenu" v-dragscroll>
-            <PublicationGalleryComponent v-for="publication in props.gallery.publications"
-                :is-current-user="props.isCurrentUser" :publication="publication"
-                @open-publication-modal="emit('openPublicationModal', publication.publication_id)"
-                @delete-publication="emit('deletePublicationFromGallery', props.gallery.gallery_id, publication.publication_id)">
-            </PublicationGalleryComponent>
-            <div class="w-80  h-80 px-2" v-if="props.gallery.publications.length === 0">
-                <div
-                    class="border-2 w-full h-full rounded-md shutter-border-color flex flex-col justify-center items-center shutter-background-color">
-                    <span class="text-xl">No publications in this gallery</span>
-                    <CameraIcon class="w-40" />
+        <div class="p-2">{{ props.gallery.description }}</div>
+        <div class="p-2">
+            <div class="scrollmenu" v-dragscroll>
+                <PublicationGalleryComponent v-for="publication in props.gallery.publications"
+                    :is-current-user="props.isCurrentUser" :publication="publication"
+                    @open-publication-modal="emit('openPublicationModal', publication.publication_id)"
+                    @delete-publication="emit('deletePublicationFromGallery', props.gallery.gallery_id, publication.publication_id)">
+                </PublicationGalleryComponent>
+                <div class="w-80  h-80 px-2" v-if="props.gallery.publications.length === 0">
+                    <div
+                        class="border-2 w-full h-full rounded-md shutter-border-color flex flex-col justify-center items-center shutter-background-color">
+                        <span class="text-xl">No publications in this gallery</span>
+                        <CameraIcon class="w-40" />
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="flex flex-row justify-between px-2">
+        <div class="flex flex-row justify-between p-2">
             <RatingInterface @vote-up="galleryStore.voteUpGallery(props.gallery)"
                 @vote-down="galleryStore.voteDownGallery(props.gallery)" :total_rate="props.gallery.rating"
                 :user_rate="props.gallery.user_rating">
             </RatingInterface>
-            <div class="flex flex-row pr-2">
+            <div class="flex flex-row gap-2">
                 <button v-if="props.isCurrentUser">
                     <ModifyIcon @click="emit('openGalleryModificationModal', props.gallery)"></ModifyIcon>
                 </button>

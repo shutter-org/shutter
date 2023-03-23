@@ -1,11 +1,12 @@
 <template>
     <button class="w-80 px-2" @mouseover="hover = true" @mouseleave="hover = false">
         <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="props.publication.picture" />
-        <DeleteComponent v-if="props.isCurrentUser && hover"
-            class="absolute top-0 right-2  shutter-background-mute rounded-md border-2 shutter-border-color"
+
+        <DeleteComponent v-if="props.isCurrentUser && hover" class="absolute top-2 right-4 rounded-md transparent"
             @delete="emit('deletePublication', props.publication.publication_id)" />
+
         <button v-if="hover"
-            class="absolute top-2/4 left-2/4 open-button w-24 h-24 shutter-background-mute bg-opacity-80 rounded-lg text-lg border-2 shutter-border-color"
+            class="absolute top-2/4 left-2/4 open-button w-24 h-24 rounded-lg text-lg font-bold text-see-through"
             @click="emit('openPublicationModal', props.publication.publication_id)"> open </button>
     </button>
 </template>
@@ -36,8 +37,19 @@ const emit = defineEmits({
     }
 });
 </script>
+
 <style>
 .open-button {
     transform: translate(-50%, -50%);
+}
+
+.transparent {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.text-see-through {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #000000;
+    mix-blend-mode: lighten;
 }
 </style>

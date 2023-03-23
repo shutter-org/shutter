@@ -13,9 +13,8 @@
       <span class="flex-1 ml-3 text-2xl" v-if="!isTagNameEmpty">{{ numberOfPublications }} posts</span>
       <span class="flex-1 ml-3 text-4xl" v-if="isTagNameEmpty">Recent posts</span>
 
-      <div class="flex flex-wrap justify-center gap-4">
-        <button class="w-80" v-for="publication in shownPublications"
-          @click="openPublicationModal(publication.publication_id)">
+      <div class="w-full h-full grid grid-cols-3 PRO:grid-cols-2 gap-6 PRO:gap-4 p-4 pt-10">
+        <button v-for="publication in shownPublications" @click="openPublicationModal(publication.publication_id)">
           <img class="w-full object-cover aspect-square rounded-lg" :src="publication.picture" />
         </button>
         <div v-if="isTagPublicationsEmpty"
