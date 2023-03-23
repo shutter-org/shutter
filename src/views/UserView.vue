@@ -29,7 +29,7 @@ import PublicationModal from "@/components/publicationsComponents/PublicationMod
 import SyncLoader from "vue-spinner/src/SyncLoader.vue";
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import SadIcon from "@/components/icons/SadIcon.vue";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
 import { useRoute, useRouter } from "vue-router";
 

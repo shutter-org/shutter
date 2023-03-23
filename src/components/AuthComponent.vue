@@ -3,6 +3,7 @@
     <div
       class="shutter-modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-md PRO:mx-4 gap-3 flex flex-col items-center">
       <LogoAnimation />
+      <p id="errorMessage" class="text-lg inline h-7 items-center text-red-500">{{ errorMessage }}</p>
       <div class="flex gap-2 flex-col w-full">
         <div v-if="!login" class="rounded-md items-center flex flex-col relative">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
@@ -43,11 +44,11 @@
         </div>
       </div>
       <button v-if="login" @click="SignIn"
-        class="signButton bg-gray-100 special-text-color font-bold rounded-md h-9 w-36">
+        class="signButton bg-gray-100 special-text-color font-bold rounded-md h-9 w-36 mt-4">
         Log in
       </button>
       <button v-if="!login" @click="SignUp"
-        class="signButton bg-gray-100 special-text-color font-bold rounded-md h-9 w-36">
+        class="signButton bg-gray-100 special-text-color font-bold rounded-md h-9 w-36 mt-4">
         Sign up
       </button>
       <div class="border-t shutter-border-color w-full flex justify-center items-center space-x-2 pt-2">
@@ -65,7 +66,7 @@
 </template>
 <script setup lang="ts">
 import LogoAnimation from "@/components/LogoAnimation.vue";
-import { signIn, signUp } from "@/api/auth";
+import { signIn, signUp, encryptWithAES } from "@/api/auth";
 import { ref } from "vue";
 import { useUserStore } from '@/stores/user'
 import type { SignInUser, SignUpUser } from "@/api/auth";
@@ -79,6 +80,7 @@ const name = ref("");
 const bio = ref("");
 const birthdate = ref("");
 const login = ref(true);
+const errorMessage = ref("")
 
 const emit = defineEmits(["LoggedIn"]);
 
@@ -103,12 +105,14 @@ function onPressEnter() {
 async function SignIn() {
   const returningUser: SignInUser = {
     username: username.value,
-    password: password.value,
+    password: encryptWithAES(password.value),
   };
 
   const res = await signIn(returningUser)
   if (res.status !== 200) {
-    console.log("erreur dans le username ou mdp");
+    errorMessage.value = "Incorrect username or password";
+    setTimeout(() => errorMessage.value = "", 3000);
+
   }
   else {
     const data = await res.json();
@@ -123,7 +127,7 @@ async function SignUp() {
     if (!!username.value && !!password.value && !!email.value && !!name.value && !!birthdate.value) {
       const newUser: SignUpUser = {
         username: username.value,
-        password: password.value,
+        password: encryptWithAES(password.value),
         email: email.value,
         name: name.value,
         birthdate: birthdate.value.replace(/-/g, '/'),
@@ -131,22 +135,33 @@ async function SignUp() {
 
       const res = await signUp(newUser)
       if (res.status !== 201) {
-        console.log("erreur dans la creation du user");
+        const data = await res.json();
+        errorMessage.value = data.Error;
+        setTimeout(() => errorMessage.value = "", 3000);
       }
       else {
         const data = await res.json();
         userStore.setUsername(username.value);
         userStore.setAuthKey(data.access_token);
-        console.log("account created");
+
+        document.getElementById("errorMessage")!.classList.add("text-green-400");
+        errorMessage.value = "Account created with success";
+        setTimeout(() => {
+          errorMessage.value = "";
+          document.getElementById("errorMessage")!.classList.remove("text-green-400");
+        }, 3000);
+
         switchView();
       }
     }
     else {
-      console.log("champs vide");
+      errorMessage.value = "Empty fields";
+      setTimeout(() => errorMessage.value = "", 3000);
     }
   }
   else {
-    console.log("mdp diff");
+    errorMessage.value = "Passswords are not the same";
+    setTimeout(() => errorMessage.value = "", 3000);
   }
 }
 </script>
