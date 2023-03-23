@@ -156,9 +156,18 @@ export const useGalleryStore = defineStore('gallery', () => {
         }
         
     }
+    function removePublicationFromGallery(publication_id: string){
+        for (let i = 0; i < userGalleries.value.length; i++){
+            for (let j = 0; j < userGalleries.value[i].publications.length; j++){
+                if (userGalleries.value[i].publications[j].publication_id === publication_id){
+                    userGalleries.value[i].publications.splice(j, 1);
+                }
+            }
+        }
+    }
     function reset(){
         userGalleries.value = [];
         shownGalleriesPicking.value = [];
     }
-    return { getShownGallery, voteDownGallery, voteUpGallery, deleteGallery, deletePublicationFromGallery, getSimplifiedGalleries, addPublicationToGallery, updateUserGalleries, getUserGalleries, createGallery, updateGallery, reset }
+    return { getShownGallery, voteDownGallery, voteUpGallery, deleteGallery, deletePublicationFromGallery, getSimplifiedGalleries, addPublicationToGallery, updateUserGalleries, getUserGalleries, createGallery, updateGallery, reset, removePublicationFromGallery }
 })

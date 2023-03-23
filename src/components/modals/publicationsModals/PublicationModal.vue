@@ -34,6 +34,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 import { deletePublication } from "@/api/publication";
 import { useUserStore } from '@/stores/user'
 import { usePublicationStore } from "@/stores/publication";
+import { useGalleryStore } from "@/stores/gallery";
 
 
 onMounted(() => {
@@ -67,6 +68,7 @@ const emit = defineEmits({
 
 const userStore = useUserStore();
 const publicationStore = usePublicationStore();
+const galleryStore = useGalleryStore();
 const shownPublication = ref();
 const isShowingModifModal = ref(false);
 const isShowingGalleryPickingModal = ref(false);
@@ -100,13 +102,10 @@ async function saveGalleryPicking() {
 }
 const deletePub = () => {
   deletePublication(shownPublication.value.publication_id, userStore.authKey);
+  galleryStore.removePublicationFromGallery(shownPublication.value.publication_id);
   emit("delete", shownPublication.value.publication_id);
   emit("close");
 }
-const addToGallery = () => {
-  console.log("add publication " + shownPublication.value.publication_id + " to gallery");
-  //addPublicationToGallery("gallery_id", shownPublication.value.publication_id, userStore.authKey);
-};
 </script>
 
 <style scoped></style>
