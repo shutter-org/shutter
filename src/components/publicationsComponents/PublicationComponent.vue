@@ -30,7 +30,7 @@
         <DeleteComponent v-if="isCurrentUser" @delete="emit('deletePub')"></DeleteComponent>
 
         <!-- Add to gallery button -->
-        <button @click="emit('addToGallery', props.publication.publication_id)">
+        <button @click="emit('addToGallery', props.publication)">
           <GalleryIcon></GalleryIcon>
         </button>
       </div>
@@ -101,7 +101,7 @@ import ImgLoader from "../ImgLoader.vue";
 import SubmitIcon from "@/components/icons/SubmitIcon.vue"
 import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
-import type { Publication, Comment as Com } from "@/api/type";
+import type { Publication, Comment as Com, SimplifiedPublication } from "@/api/type";
 import type { PropType } from "vue";
 import router from "@/router";
 
@@ -121,8 +121,8 @@ const emit = defineEmits({
   deletePub: () => {
     return true;
   },
-  addToGallery: (publicationId: string) => {
-    return !!publicationId;
+  addToGallery: (publication: SimplifiedPublication) => {
+    return !!publication;
   },
   modify: () => {
     return true;

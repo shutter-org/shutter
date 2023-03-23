@@ -20,6 +20,8 @@
 
     <!-- Spinner showing loading more post status -->
     <SkewLoader v-if="isBusy" color="#465A82" size="10px" class="m-full h-8" />
+    <GalleryPicking v-if="isShowingGalleryPickingModal" @save="saveGalleryPicking" :publication="shownPublication" />
+
   </div>
 </template>
 
@@ -30,19 +32,27 @@ import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import EmptyIcon from "@/components/icons/EmptyIcon.vue";
 import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
-import type { Publication as Pub } from "@/api/type";
+import type { Publication as Pub, SimplifiedPublication } from "@/api/type";
+import GalleryPicking from "@/components/publicationsComponents/GalleryPickingComponent.vue";
 
 
 const publicationStore = usePublicationStore();
+const isShowingGalleryPickingModal = ref(false);
 const publications = ref([] as Pub[]);
 const nextPage = ref(2);
 const nb_publications = ref(0);
 const isBusy = ref(false);
 const isLoading = ref(true);
 const isUpdating = ref(false);
+const shownPublication = ref({} as SimplifiedPublication);
 
 loadPublications();
 
+function addToGallery(publication: SimplifiedPublication) {
+  console.log('here')
+  isShowingGalleryPickingModal.value = true
+  shownPublication.value = publication;
+}
 async function loadPublications() {
   if (publicationStore.getHomePublications() !== undefined) {
     publications.value = publicationStore.getHomePublications();
@@ -66,9 +76,13 @@ async function loadMorePublications() {
     isBusy.value = false;
   }
 }
-const addToGallery = (pubId: string) => {
-  console.log("add publication " + pubId + " to gallery");
-};
+async function saveGalleryPicking() {
+  isUpdating.value = true;
+  isShowingGalleryPickingModal.value = false;
+  //call api
+  isUpdating.value = false;
+}
+
 const handleScroll = () => {
   let container = document.getElementById("publicationsContainer")!;
 
