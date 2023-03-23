@@ -2,7 +2,7 @@
   <div class="fixed inset-0 z-50 flex justify-center items-center">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full" @click="closeSearchModal"></div>
     <div
-      class="shutter-modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-lg PRO:mx-4 translate-x-[126px] PRO:translate-x-0">
+      class="shutter-modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-lg PRO:mx-10 translate-x-[126px] PRO:translate-x-0 PRO:">
       <SearchComponent @close-search-modal="closeSearchModal" />
     </div>
   </div>

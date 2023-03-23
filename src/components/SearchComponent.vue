@@ -8,9 +8,9 @@
             <CrossIcon class="h-6 pr-2" @click="emptySearch" />
         </div>
         <UserBarComponentVue v-for="(user, index) in usersSearched" v-if="isSearchingUsers" :user="user" :key="index"
-            :class="{ 'shutter-hover-color': isCurrentIndex(index) }" @mouseover="highlightedIndex = index"
+            class="PRO:h-12" :class="{ 'shutter-hover-color': isCurrentIndex(index) }" @mouseover="highlightedIndex = index"
             @click="emit('closeSearchModal')" @close-search-modal="emit('closeSearchModal')"></UserBarComponentVue>
-        <router-link :to="'/explore/' + tag.tag" class="w-full rounded-md disable-hover"
+        <router-link :to="'/explore/' + tag.tag" class="w-full rounded-md disable-hover PRO:h-12"
             :class="{ 'shutter-hover-color': isCurrentIndex(index) }" v-for="(tag, index) in tagsSearched" :key="index"
             v-if="!isSearchingUsers" @click="emit('closeSearchModal')" @mouseover="highlightedIndex = index">
             <div class="py-3 px-1 h-14 flex flex-row items-center">

@@ -4,7 +4,7 @@
             <div class="font-bold text-2xl">{{ props.gallery.title }}</div>
             <div class="text-xl">{{ props.gallery.created_date }}</div>
         </div>
-        <div class="pl-2">{{ props.gallery.description }}</div>
+        <div class="pl-2 break-words">{{ props.gallery.description }}</div>
         <div class="scrollmenu" v-dragscroll>
             <div class="p-2">
                 <PublicationGalleryComponent v-for="publication in props.gallery.publications"
