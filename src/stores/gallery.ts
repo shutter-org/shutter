@@ -155,5 +155,9 @@ export const useGalleryStore = defineStore('gallery', () => {
         }
         
     }
-    return { getShownGallery, voteDownGallery, voteUpGallery, deleteGallery, deletePublicationFromGallery, getSimplifiedGalleries, addPublicationToGallery, updateUserGalleries, getUserGalleries, createGallery, updateGallery }
+    function reset(){
+        userGalleries.value = [];
+        shownGalleriesPicking.value = [];
+    }
+    return { getShownGallery, voteDownGallery, voteUpGallery, deleteGallery, deletePublicationFromGallery, getSimplifiedGalleries, addPublicationToGallery, updateUserGalleries, getUserGalleries, createGallery, updateGallery, reset }
 })

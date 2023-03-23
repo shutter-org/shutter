@@ -21,12 +21,14 @@ import { RouterView } from "vue-router";
 import { ref, watch } from "vue";
 import { useUserStore } from "./stores/user";
 import { usePublicationStore } from "./stores/publication";
+import { useGalleryStore } from "./stores/gallery";
 import Menubars from "@/components/MenuBars.vue";
 import Auth from "@/components/AuthComponent.vue";
 import router from "./router";
 
 const userStore = useUserStore();
 const publicationStore = usePublicationStore();
+const galleryStore = useGalleryStore();
 const isLoggedIn = ref(!!userStore.authKey);
 const clock = ref(Date.now());
 
@@ -63,6 +65,7 @@ function LoggedIn() {
 function logOut() {
   userStore.reset();
   publicationStore.reset();
+  galleryStore.reset();
   isLoggedIn.value = false;
   router.push("/");
 }
