@@ -1,11 +1,13 @@
 <template>
     <div class="flex flex-col border-2 shutter-border-color my-3 rounded-md p-2 shutter-background-mute">
+
         <!-- Gallery title, description and date -->
         <div class="flex flex-row justify-between p-2">
             <div class="font-bold text-2xl">{{ props.gallery.title }}</div>
             <div class="text-xl">{{ props.gallery.created_date }}</div>
         </div>
         <div class="pl-2 break-words">{{ props.gallery.description }}</div>
+
         <!-- Gallery scroll -->
         <div class="scrollmenu" v-dragscroll>
             <div class="p-2">
@@ -23,6 +25,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Gallery rating, modify and delete -->
         <div class="flex flex-row justify-between p-2">
             <RatingInterface @vote-up="galleryStore.voteUpGallery(props.gallery)"
@@ -63,26 +66,23 @@ const props = defineProps({
     }
 })
 
-function deletePublicationFromGallery(publication_id: string) {
-    galleryStore.deletePublicationFromGallery(props.gallery, publication_id);
-}
 
 const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
-    },
-    deleteGallery: (gallery_id: string) => {
-        return !!gallery_id;
     },
     openGalleryModificationModal: (gallery: Gallery) => {
         return !!gallery;
     }
 });
 
+function deletePublicationFromGallery(publication_id: string) {
+    galleryStore.deletePublicationFromGallery(props.gallery, publication_id);
+}
+
 async function deleteEntireGallery() {
-    if (await galleryStore.deleteGallery(props.gallery)) {
-        emit('deleteGallery', props.gallery.gallery_id);
-    }
+    await galleryStore.deleteGallery(props.gallery)
+
 }
 </script>
 <style>

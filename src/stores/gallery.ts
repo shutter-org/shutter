@@ -72,6 +72,7 @@ export const useGalleryStore = defineStore('gallery', () => {
         userGalleries.value.set(gallery.gallery_id, gallery);
     }
     function removeFromUserGalleries(gallery_id: string){
+        console.log(gallery_id)
         userGalleries.value.delete(gallery_id);
     }
     function getGalleryFromUserGalleries(gallery_id: string){
