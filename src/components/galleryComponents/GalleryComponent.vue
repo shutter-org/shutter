@@ -66,26 +66,23 @@ const props = defineProps({
     }
 })
 
-function deletePublicationFromGallery(publication_id: string) {
-    galleryStore.deletePublicationFromGallery(props.gallery, publication_id);
-}
 
 const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
-    },
-    deleteGallery: (gallery_id: string) => {
-        return !!gallery_id;
     },
     openGalleryModificationModal: (gallery: Gallery) => {
         return !!gallery;
     }
 });
 
+function deletePublicationFromGallery(publication_id: string) {
+    galleryStore.deletePublicationFromGallery(props.gallery, publication_id);
+}
+
 async function deleteEntireGallery() {
-    if (await galleryStore.deleteGallery(props.gallery)) {
-        emit('deleteGallery', props.gallery.gallery_id);
-    }
+    await galleryStore.deleteGallery(props.gallery)
+
 }
 </script>
 <style>

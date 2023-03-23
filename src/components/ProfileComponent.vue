@@ -114,7 +114,6 @@
       </div>
       <GalleryComponent v-if="!isGalleryLoading" v-for="gallery in galleryStore.getUserGalleries()" :gallery="gallery"
         :is-current-user="props.isCurrentUser" @open-publication-modal="openPublicationModalFromGallery"
-        @deleteGallery="(gallery_id) => deleteGalleryFromList(gallery_id)"
         @open-gallery-modification-modal="emit('openGalleryModificationModal', gallery)" />
       <RingLoader v-if="isGalleryLoading" color="#465A82" size="64px" class="m-full self-center" />
     </div>
@@ -217,10 +216,6 @@ async function loadGalleries() {
     }
   }
   isGalleryLoading.value = false;
-}
-
-function deleteGalleryFromList(gallery_id: string) {
-  galleryStore.removeFromUserGalleries(gallery_id);
 }
 const showMore = async () => {
   if (!isBusy.value) {
