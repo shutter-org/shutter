@@ -1,15 +1,15 @@
 <template>
   <!-- Infinite scroll loading post as scrolling -->
   <div id="publicationsContainer" @scroll="handleScroll"
-    class="shutter-background-mute h-screen PRO:h-[calc(100vh-160px)] p-10 max-w-5xl ml-auto mr-auto flex flex-col gap-8 overflow-y-scroll">
+    class="shutter-background-mute h-screen PRO:h-[calc(100vh-160px)] p-10 w-full flex flex-col gap-8 overflow-y-scroll">
 
     <!-- Spinner showing status (updating, loading home page) -->
     <SkewLoader v-if="isUpdating" color="#465A82" size="10px" class="m-full h-8 absolute top-2 left-1/2" />
     <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
 
     <!-- Posts display -->
-    <publication v-else-if="publications.length > 0" @add-to-gallery="addToGallery" v-for="pub in publications"
-      :publication="pub" :key="pub.publication_id"></publication>
+    <publication class="max-w-5xl w-full mx-auto" v-else-if="publications.length > 0" @add-to-gallery="addToGallery"
+      v-for="pub in publications" :publication="pub" :key="pub.publication_id"></publication>
 
     <!-- Empty home (if no post) -->
     <div v-else
