@@ -52,3 +52,7 @@ span {
 input[type="checkbox"] {
   color: var(--special-text-color);
 }
+
+input[type="checkbox"]:hover {
+  cursor: pointer;
+}

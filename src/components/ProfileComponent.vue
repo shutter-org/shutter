@@ -101,8 +101,9 @@
       class="w-full rounded-lg font-bold text-xl p-2 px-4">Show more</button>
 
     <!-- Galleries display -->
-    <div v-if="!isPictureTabShown" class="w-full flex flex-col">
-      <button v-if="!isGalleryLoading" class="flex items-center p-2 text-base font-normal rounded-lg w-10 self-center"
+    <div v-if="!isPictureTabShown" class="w-full flex flex-col p-2">
+      <button v-if="!isGalleryLoading && isCurrentUser"
+        class="flex items-center p-2 text-base font-normal rounded-lg w-10 self-center"
         @click="emit('openGalleryCreationModal')">
         <CreateIcon />
       </button>
@@ -154,7 +155,6 @@ import GalleryIcon from "@/components/icons/GalleryIcon.vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import ImgLoader from "./ImgLoader.vue";
 import FollowModal from "./modals/FollowModal.vue";
-import RingLoader from "vue-spinner/src/RingLoader.vue"
 import SkewLoader from "vue-spinner/src/SkewLoader.vue"
 import GalleryComponent from "./galleryComponents/GalleryComponent.vue";
 import DeleteUserIcon from "./icons/DeleteUserIcon.vue"
