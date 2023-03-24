@@ -8,7 +8,7 @@ import type { Publication, Comment } from "@/api/type";
 export const usePublicationStore = defineStore('publication', () => {
     const userStore = useUserStore();
     const homePublications = ref();
-    const lastShownPublications = ref(new Map());
+    const lastShownPublications = ref(new Map<String, Publication>());
     const isBusy = ref(false);
     const serverPageQte = ref(12);
 
@@ -76,8 +76,8 @@ export const usePublicationStore = defineStore('publication', () => {
         }
         else {
             let pub = lastShownPublications.value.get(publicationId);
-            pub.description = desc;
-            pub.tags = tags;
+            pub!.description = desc;
+            pub!.tags = tags;
             isBusy.value = false;
         }
     };

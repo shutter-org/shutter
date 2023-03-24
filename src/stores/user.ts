@@ -9,7 +9,7 @@ export const useUserStore = defineStore('user', () => {
   const profile_picture = ref("");
   const authKey = ref("");
   const sessionStartDate = ref(Number.NaN);
-  const lastShownUsers = ref(new Map());
+  const lastShownUsers = ref(new Map<String, User>());
   const isBusy = ref(false);
 
   if (sessionStorage.getItem("username")) {
@@ -91,7 +91,7 @@ export const useUserStore = defineStore('user', () => {
     if (res.status === 200) {
       console.log("loaded");
       const publications = await res.json() as SimplifiedPublication[];
-      lastShownUsers.value.get(username).publications = lastShownUsers.value.get(username).publications.concat(publications);
+      lastShownUsers.value.get(username)!.publications = lastShownUsers.value.get(username)!.publications.concat(publications);
     }
   }
   async function loadMoreFollows(username: string, follows: string, page: number) {
@@ -99,10 +99,10 @@ export const useUserStore = defineStore('user', () => {
     if (res.status === 200) {
       const users = await res.json() as SimplifiedUser[];
       if (follows === "followers") {
-        lastShownUsers.value.get(username).followers = lastShownUsers.value.get(username).followers.concat(users);
+        lastShownUsers.value.get(username)!.followers = lastShownUsers.value.get(username)!.followers.concat(users);
       }
       else {
-        lastShownUsers.value.get(username).following = lastShownUsers.value.get(username).following.concat(users);
+        lastShownUsers.value.get(username)!.following = lastShownUsers.value.get(username)!.following.concat(users);
       }
     }
   }
