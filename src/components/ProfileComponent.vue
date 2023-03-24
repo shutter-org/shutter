@@ -102,7 +102,8 @@
 
     <!-- Galleries display -->
     <div v-if="!isPictureTabShown" class="w-full flex flex-col">
-      <button v-if="!isGalleryLoading" class="flex items-center p-2 text-base font-normal rounded-lg w-10 self-center"
+      <button v-if="!isGalleryLoading && isCurrentUser"
+        class="flex items-center p-2 text-base font-normal rounded-lg w-10 self-center"
         @click="emit('openGalleryCreationModal')">
         <CreateIcon />
       </button>

@@ -3,7 +3,7 @@
 
         <!-- Gallery title, description and date -->
         <div class="flex flex-row justify-between p-2">
-            <div class="font-bold text-2xl">{{ props.gallery.title }}</div>
+            <div class="font-bold text-2xl break-words">{{ props.gallery.title }}</div>
             <div class="text-xl">{{ props.gallery.created_date }}</div>
         </div>
         <div class="pl-2 break-words">{{ props.gallery.description }}</div>
