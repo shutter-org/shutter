@@ -57,6 +57,24 @@ export const deleteRatingGalleryApi = async (
   });
   return response;
 };
+export const getPublicationFromGalleryApi = async (
+  gallery_id: string,
+  page: number,
+  authKey: String
+) => {
+  const key = "Bearer " + authKey;
+  const response = await fetch(
+    `${API_URL}/galleries/${gallery_id}/publications?page=${page}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: key,
+      },
+    }
+  );
+  return response;
+};
 export const deleteGalleryApi = async (gallery_id: string, authKey: String) => {
   const key = "Bearer " + authKey;
   const response = await fetch(`${API_URL}/galleries/${gallery_id}`, {

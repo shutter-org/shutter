@@ -36,7 +36,10 @@ span {
 .shutter-background-mute {
   background-color: var(--color-background-mute);
 }
-
+.shutter-background-mute-transparent {
+  background-color: var(--color-background-mute);
+  opacity: 0.55;
+}
 .shutter-modal-color {
   background-color: var(--modal-color);
 }
@@ -47,6 +50,9 @@ span {
 
 .colored-border {
   border-color: var(--color-text);
+}
+.shutter-color-border {
+  color: var(--color-border);
 }
 
 input[type="checkbox"] {

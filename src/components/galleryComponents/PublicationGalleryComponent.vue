@@ -4,7 +4,7 @@
 
         <!-- Button to open publication modal -->
         <DeleteComponent v-if="props.isCurrentUser && hover" class="absolute top-2 right-4 rounded-md transparent"
-            @delete="emit('deletePublication', props.publication.publication_id)" />
+            @delete="emit('deletePublication')" />
 
         <!-- Button to open publication modal -->
         <button v-if="hover"
@@ -34,8 +34,8 @@ const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
     },
-    deletePublication: (publication_id: string) => {
-        return !!publication_id;
+    deletePublication: () => {
+        return
     }
 });
 </script>

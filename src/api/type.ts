@@ -63,7 +63,7 @@ export interface Gallery {
   created_date: string;
   creator_user: SimplifiedUser;
   description: string;
-  nb_publications: number;
+  nb_publication: number;
   rating: number;
   user_rating: number;
   publications: SimplifiedPublication[];

@@ -80,14 +80,14 @@ async function updateGalleries() {
         if (copyOfShownGalleries.value[i].checked !== galleryStore.getShownPickingGalleries(props.publication.publication_id)[i].checked) {
             if (galleryStore.getShownPickingGalleries(props.publication.publication_id)[i].checked) {
                 const gallery = galleryStore.getGalleryFromMap(galleryStore.getShownPickingGalleries(props.publication.publication_id)[i].gallery_id) as Gallery;
-                const res = await galleryStore.addPublicationToGallery(gallery.gallery_id, props.publication.publication_id);
+                const res = await galleryStore.addPublicationToGallery(gallery.gallery_id, props.publication);
                 if (res === true) {
                     galleryStore.checkGallery(props.publication.publication_id, gallery.gallery_id);
                 }
 
             } else {
                 const gallery = galleryStore.getGalleryFromMap(galleryStore.getShownPickingGalleries(props.publication.publication_id)[i].gallery_id) as Gallery;
-                const res = await galleryStore.removePublicationFromGallery(gallery.gallery_id, props.publication.publication_id);
+                const res = await galleryStore.removePublicationFromGallery(gallery.gallery_id, props.publication);
                 if (res === true) {
                     galleryStore.unCheckGallery(props.publication.publication_id, gallery.gallery_id);
                 }
