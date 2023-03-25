@@ -31,6 +31,8 @@
           :publication-id="shownPublicationId" :is-current-user="loggedUsername === shownPublication.poster_user.username"
           @delete="deletePublication" />
       </div>
+      <SkewLoader v-if="isUpdating" color="#465A82" size="10px" class="m-full h-8" />
+
     </div>
 
     <!-- Loading animation -->
@@ -40,6 +42,7 @@
 <script setup lang="ts">
 import PublicationModal from "@/components/publicationsComponents/PublicationModal.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
+import SkewLoader from "vue-spinner/src/SkewLoader.vue"
 import SadIcon from "@/components/icons/SadIcon.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { getPublicationByTag } from "@/api/publication";
@@ -52,6 +55,7 @@ const route = useRoute();
 const isPublicationModalShown = ref(false);
 const shownPublications = ref<Publication[]>([]);
 const numberOfPublications = ref(0);
+const isUpdating = ref(false);
 const pageIndex = ref(1);
 const shownPublicationId = ref();
 const shownPublication = ref();
@@ -107,8 +111,10 @@ const deletePublication = (publicationId: string) => {
 }
 
 async function loadMorePublications() {
+
   if (numberOfPublications.value / 12 < pageIndex.value) return;
   pageIndex.value++;
+  isUpdating.value = true;
   const res = await getPublicationByTag(pageIndex.value, route.params.tag.toString(), userStore.authKey);
   if (res.status !== 200) {
     return;
@@ -116,6 +122,7 @@ async function loadMorePublications() {
     const data = await res.json()
     shownPublications.value = shownPublications.value.concat(data.publications);
   }
+  isUpdating.value = false;
 }
 const handleScroll = () => {
   let windowHeight = window.innerHeight;

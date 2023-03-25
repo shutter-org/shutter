@@ -26,6 +26,7 @@
 </template>
 
 <script setup lang="ts">
+import GalleryPicking from "@/components/publicationsComponents/GalleryPickingComponent.vue";
 import Publication from "@/components/publicationsComponents/PublicationComponent.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
@@ -33,7 +34,6 @@ import EmptyIcon from "@/components/icons/EmptyIcon.vue";
 import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
 import type { Publication as Pub, SimplifiedPublication } from "@/api/type";
-import GalleryPicking from "@/components/publicationsComponents/GalleryPickingComponent.vue";
 
 
 const publicationStore = usePublicationStore();

@@ -53,9 +53,8 @@
 <script setup lang="ts">
 import ImgLoader from "../ImgLoader.vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, type PropType } from "vue";
 import type { User } from "@/api/type";
-import type { PropType } from "vue";
 
 const props = defineProps({
     user: {

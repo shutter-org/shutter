@@ -37,12 +37,10 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
-//import { useGalleryStore } from '@/stores/gallery';
 import { useGalleryStore } from '@/stores/gallery';
 import type { GalleryParameters } from '@/api/type';
 
 const galleryStore = useGalleryStore();
-//const galleryStore = useGalleryStore();
 const title = ref('')
 const description = ref('')
 const private_bool = ref(true)

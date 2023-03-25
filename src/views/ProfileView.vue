@@ -36,6 +36,8 @@
 import Profile from "@/components/ProfileComponent.vue";
 import PublicationModal from "@/components/publicationsComponents/PublicationModal.vue";
 import ProfileModificationModal from "@/components/modals/ProfileModificationModal.vue";
+import GalleryCreationModal from "@/components/galleryComponents/GalleryCreationModal.vue";
+import GalleryModificationModal from "@/components/galleryComponents/GalleryModificationModal.vue";
 import DeleteModal from "@/components/modals/DeleteModal.vue";
 import SyncLoader from "vue-spinner/src/SyncLoader.vue"
 import SkewLoader from "vue-spinner/src/SkewLoader.vue";
@@ -43,8 +45,6 @@ import { ref, watch } from "vue";
 import { updateUser } from "@/api/user";
 import { useUserStore } from '@/stores/user'
 import type { Gallery, SimplifiedPublication, User } from "@/api/type";
-import GalleryCreationModal from "@/components/galleryComponents/GalleryCreationModal.vue";
-import GalleryModificationModal from "@/components/galleryComponents/GalleryModificationModal.vue";
 
 const userStore = useUserStore();
 const user = ref();

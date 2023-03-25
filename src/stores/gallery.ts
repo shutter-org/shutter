@@ -1,6 +1,6 @@
 import type {
   Gallery,
-  SimplifedGallery,
+  SimplifiedGalleryForPublication,
   GalleryParameters,
   User,
 } from "@/api/type";
@@ -24,7 +24,9 @@ export const useGalleryStore = defineStore("gallery", () => {
   const userStore = useUserStore();
   const isRating = ref(false);
   const galleries = ref(new Map<string, Gallery>());
-  const shownGalleriesPicking = ref([] as SimplifedGallery[]);
+  const shownGalleriesPicking = ref(
+    new Map<string, SimplifiedGalleryForPublication[]>()
+  );
 
   //basic operations
   function setGalleryMap(gallery: Gallery) {
@@ -242,7 +244,39 @@ export const useGalleryStore = defineStore("gallery", () => {
     }
   }
   //to change
-  async function getSimplifiedGalleries() {
+  function unCheckGallery(publication_id: string, gallery_id: string) {
+    const galleryList = shownGalleriesPicking.value.get(publication_id);
+    if (galleryList !== undefined) {
+      const index = galleryList.findIndex(
+        (gallery) => gallery.gallery_id === gallery_id
+      );
+      if (index !== -1) {
+        galleryList[index].checked = false;
+      }
+      shownGalleriesPicking.value.set(publication_id, galleryList);
+    }
+  }
+  function checkGallery(publication_id: string, gallery_id: string) {
+    const galleryList = shownGalleriesPicking.value.get(publication_id);
+    if (galleryList !== undefined) {
+      const index = galleryList.findIndex(
+        (gallery) => gallery.gallery_id === gallery_id
+      );
+      if (index !== -1) {
+        galleryList[index].checked = true;
+      }
+      shownGalleriesPicking.value.set(publication_id, galleryList);
+    }
+  }
+  function getShownPickingGalleries(
+    publication_id: string
+  ): SimplifiedGalleryForPublication[] {
+    return shownGalleriesPicking.value.get(
+      publication_id
+    ) as SimplifiedGalleryForPublication[];
+  }
+
+  async function loadShownPickingGalleries(publication_id: string) {
     const res = await getUser(userStore.username, userStore.authKey);
     if (res.status !== 200) {
       console.log(
@@ -250,9 +284,18 @@ export const useGalleryStore = defineStore("gallery", () => {
       );
     } else {
       const user = (await res.json()) as User;
-      shownGalleriesPicking.value = user.galleries;
+      const userGalleries = user.galleries;
+      for (let i = 0; i < userGalleries.length; i++) {
+        for (let j = 0; j < userGalleries[i].publications.length; j++) {
+          if (
+            userGalleries[i].publications[j].publication_id === publication_id
+          ) {
+            userGalleries[i].checked = true;
+          }
+        }
+      }
+      shownGalleriesPicking.value.set(publication_id, userGalleries);
     }
-    return shownGalleriesPicking.value;
   }
   return {
     createGallery,
@@ -267,7 +310,10 @@ export const useGalleryStore = defineStore("gallery", () => {
     reset,
     removePublicationFromGalleryWithOnlyPublication,
     getGalleryFromMap,
-    getSimplifiedGalleries,
+    loadShownPickingGalleries,
+    getShownPickingGalleries,
+    unCheckGallery,
+    checkGallery,
   };
 });
 
