@@ -51,7 +51,7 @@ export const getMoreUserPublications = async (username: String, page: number, au
 
 export const getMoreUserFollows = async (username: String, follows: string, page: number, authKey: String) => {
     const key = "Bearer " + authKey;
-    const response = await fetch(`${API_URL}/users/${username}/publications?page=${page}`, {
+    const response = await fetch(`${API_URL}/users/${username}/${follows}?page=${page}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

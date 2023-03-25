@@ -186,7 +186,6 @@ const isPictureTabShown = ref(true);
 const isFollowingShown = ref(false);
 const isFollowerShown = ref(false);
 const isBusy = ref(false);
-const shownGalleries = ref(new Map<string, Gallery>());
 const isGalleryLoading = ref(true);
 
 const emit = defineEmits({
