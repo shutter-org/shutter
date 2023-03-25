@@ -8,7 +8,6 @@
         </div>
         <div class="pl-2 break-words">{{ props.gallery.description }}</div>
 
-
         <!-- Publications scroll -->
         <div class="flex flex-row items-center relative">
 
