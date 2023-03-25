@@ -3,7 +3,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "[vue, ts]": {
+  "[vue]": {
     "editor.defaultFormatter": "Vue.volar"
   },
   "workbench.tree.indent": 20
