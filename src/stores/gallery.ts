@@ -1,23 +1,7 @@
-import type {
-  Gallery,
-  SimplifiedGalleryForPublication,
-  GalleryParameters,
-  User,
-  SimplifiedPublication,
-} from "@/api/type";
+import type { Gallery, SimplifiedGalleryForPublication, GalleryParameters, User, SimplifiedPublication, } from "@/api/type";
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import {
-  createGalleryApi,
-  getGalleryApi,
-  deleteGalleryApi,
-  updateGalleryApi,
-  addPublicationToGalleryApi,
-  deletePublicationFromGalleryApi,
-  deleteRatingGalleryApi,
-  updateRateGalleryApi,
-  rateGalleryApi,
-} from "@/api/gallery";
+import { createGalleryApi, getGalleryApi, deleteGalleryApi, updateGalleryApi, addPublicationToGalleryApi, deletePublicationFromGalleryApi, deleteRatingGalleryApi, updateRateGalleryApi, rateGalleryApi } from "@/api/gallery";
 import { getUser } from "@/api/user";
 import { useUserStore } from "./user";
 
@@ -166,10 +150,7 @@ export const useGalleryStore = defineStore("gallery", () => {
     }
   }
 
-  async function addPublicationToGallery(
-    gallery_id: string,
-    publication: SimplifiedPublication
-  ) {
+  async function addPublicationToGallery(gallery_id: string, publication: SimplifiedPublication) {
     const res = await addPublicationToGalleryApi(
       gallery_id,
       publication.publication_id,
@@ -182,10 +163,7 @@ export const useGalleryStore = defineStore("gallery", () => {
       return true;
     }
   }
-  async function removePublicationFromGallery(
-    gallery_id: string,
-    publication: SimplifiedPublication
-  ) {
+  async function removePublicationFromGallery(gallery_id: string, publication: SimplifiedPublication) {
     const res = await deletePublicationFromGalleryApi(
       gallery_id,
       publication.publication_id,
@@ -198,9 +176,7 @@ export const useGalleryStore = defineStore("gallery", () => {
       return true;
     }
   }
-  function removePublicationFromGalleryWithOnlyPublication(
-    publication_id: string
-  ) {
+  function removePublicationFromGalleryWithOnlyPublication(publication_id: string) {
     const galleriesArray = Array.from(galleries.value.values());
     galleriesArray.forEach((gallery) => {
       const index = gallery.publications.findIndex(
@@ -293,9 +269,7 @@ export const useGalleryStore = defineStore("gallery", () => {
       shownGalleriesPicking.value.set(publication_id, galleryList);
     }
   }
-  function getShownPickingGalleries(
-    publication_id: string
-  ): SimplifiedGalleryForPublication[] {
+  function getShownPickingGalleries(publication_id: string): SimplifiedGalleryForPublication[] {
     return shownGalleriesPicking.value.get(
       publication_id
     ) as SimplifiedGalleryForPublication[];
@@ -323,26 +297,9 @@ export const useGalleryStore = defineStore("gallery", () => {
     }
   }
   return {
-    createGallery,
-    getUsersGalleries,
-    deleteGallery,
-    updateGallery,
-    addPublicationToGallery,
-    removePublicationFromGallery,
-    voteDownGallery,
-    voteUpGallery,
-    loadGalleries,
-    reset,
-    removePublicationFromGalleryWithOnlyPublication,
-    getGalleryFromMap,
-    loadShownPickingGalleries,
-    getShownPickingGalleries,
-    unCheckGallery,
-    checkGallery,
-    addPublicationToGalleryMap,
-    setGalleryIndex,
-    getGalleryIndex,
-    addIndexToGalleryIndex,
+    createGallery, getUsersGalleries, deleteGallery, updateGallery, addPublicationToGallery, removePublicationFromGallery, voteDownGallery, voteUpGallery,
+    loadGalleries, reset, removePublicationFromGalleryWithOnlyPublication, getGalleryFromMap, loadShownPickingGalleries, getShownPickingGalleries, unCheckGallery,
+    checkGallery, addPublicationToGalleryMap, setGalleryIndex, getGalleryIndex, addIndexToGalleryIndex,
   };
 });
 

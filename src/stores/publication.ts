@@ -1,22 +1,8 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import {
-  deleteRatingPublication,
-  getFollowingPublications,
-  getPublication,
-  ratePublication,
-  updatePublication,
-  updateRatingPublication,
-} from "@/api/publication";
+import { deleteRatingPublication, getFollowingPublications, getPublication, ratePublication, updatePublication, updateRatingPublication } from "@/api/publication";
 import { useUserStore } from "./user";
-import {
-  deleteRatingComment,
-  rateComment,
-  updateRatingComment,
-  postComment,
-  deleteComment,
-  getComments,
-} from "@/api/comment";
+import { deleteRatingComment, rateComment, updateRatingComment, postComment, deleteComment, getComments, } from "@/api/comment";
 import type { Publication, Comment } from "@/api/type";
 
 export const usePublicationStore = defineStore("publication", () => {
@@ -284,20 +270,7 @@ export const usePublicationStore = defineStore("publication", () => {
   };
 
   return {
-    getHomePublications,
-    loadHomePublications,
-    loadMorePublications,
-    getShownPublication,
-    modifyShownPublication,
-    reset,
-    serverPageQte,
-    loadShownPublication,
-    voteUpPub,
-    voteDownPub,
-    voteUpComment,
-    voteDownComment,
-    addComment,
-    delComment,
-    getMoreComments,
+    getHomePublications, loadHomePublications, loadMorePublications, getShownPublication, modifyShownPublication, reset, serverPageQte,
+    loadShownPublication, voteUpPub, voteDownPub, voteUpComment, voteDownComment, addComment, delComment, getMoreComments,
   };
 });
