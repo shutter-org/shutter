@@ -99,11 +99,11 @@ import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import DeleteComponent from "../subComponents/DeleteComponent.vue";
 import ImgLoader from "../ImgLoader.vue";
 import SubmitIcon from "@/components/icons/SubmitIcon.vue"
+import router from "@/router";
 import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
 import type { Publication, Comment as Com, SimplifiedPublication } from "@/api/type";
 import type { PropType } from "vue";
-import router from "@/router";
 
 const props = defineProps({
   publication: {

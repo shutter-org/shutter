@@ -159,11 +159,11 @@ import SkewLoader from "vue-spinner/src/SkewLoader.vue"
 import GalleryComponent from "./galleryComponents/GalleryComponent.vue";
 import DeleteUserIcon from "./icons/DeleteUserIcon.vue"
 import EmptyIcon from "@/components/icons/EmptyIcon.vue";
+import CreateIcon from "./icons/menu/CreateIcon.vue";
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import type { PropType } from "vue";
 import type { Gallery, User } from "@/api/type";
-import CreateIcon from "./icons/menu/CreateIcon.vue";
 import { useGalleryStore } from "@/stores/gallery";
 
 

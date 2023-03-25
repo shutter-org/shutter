@@ -35,10 +35,10 @@
     </div>
 </template>
 <script setup lang="ts">
-import type { Gallery, SimplifiedPublication } from "@/api/type";
-import { ref, type PropType, onMounted } from "vue";
 import RingLoader from "vue-spinner/src/RingLoader.vue"
 import SkewLoader from "vue-spinner/src/SkewLoader.vue"
+import type { Gallery, SimplifiedPublication } from "@/api/type";
+import { ref, type PropType, onMounted } from "vue";
 import { useGalleryStore } from "@/stores/gallery";
 
 
@@ -46,6 +46,15 @@ const galleryStore = useGalleryStore();
 const isLoading = ref(true);
 const isUpdating = ref(true);
 const copyOfShownGalleries = ref();
+
+const props = defineProps({
+    publication: {
+        type: Object as PropType<SimplifiedPublication>,
+        required: true,
+    },
+});
+
+const emit = defineEmits(['save']);
 
 
 onMounted(() => {
@@ -88,15 +97,6 @@ async function updateGalleries() {
     emit('save');
 }
 
-const props = defineProps({
-    publication: {
-        type: Object as PropType<SimplifiedPublication>,
-        required: true,
-    },
-});
-
-
-const emit = defineEmits(['save']);
 
 </script>
 <style scoped>

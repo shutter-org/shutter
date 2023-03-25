@@ -13,11 +13,11 @@
 </template>
 
 <script setup lang="ts">
+import SearchComponent from '../SearchComponent.vue';
 import { useUserStore } from '@/stores/user';
 import { searchUser } from '@/api/user';
 import { searchTag } from '@/api/tag';
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
-import SearchComponent from '../SearchComponent.vue';
 
 const search = ref();
 const userStore = useUserStore();

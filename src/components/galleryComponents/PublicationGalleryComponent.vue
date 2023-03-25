@@ -1,5 +1,5 @@
 <template>
-    <button class="w-80 px-2" @mouseover="hover = true" @mouseleave="hover = false">
+    <button class="w-80 px-2 mt-2" @mouseover="hover = true" @mouseleave="hover = false">
         <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="props.publication.picture" />
 
         <!-- Button to open publication modal -->
@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import type { SimplifiedPublication } from '@/api/type';
-import { defineProps, type PropType, ref } from 'vue';
 import ImgLoader from "../ImgLoader.vue";
 import DeleteComponent from "../subComponents/DeleteComponent.vue";
+import type { SimplifiedPublication } from '@/api/type';
+import { type PropType, ref } from 'vue';
 
 const hover = ref(false);
 const props = defineProps({

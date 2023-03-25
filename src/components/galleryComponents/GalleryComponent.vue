@@ -8,21 +8,41 @@
         </div>
         <div class="pl-2 break-words">{{ props.gallery.description }}</div>
 
-        <!-- Gallery scroll -->
-        <div class="scrollmenu" v-dragscroll>
-            <div class="p-2">
-                <PublicationGalleryComponent v-for="publication in props.gallery.publications"
+
+
+        <!-- Publications scroll -->
+        <div class="flex flex-row items-center relative">
+
+            <!-- Left Icon -->
+            <div class="h-72 flex items-center rounded-r-md z-10 absolute left-0 shutter-background-color shutter-border-color border-r-2"
+                v-if="isAtStart && props.gallery.publications.length > 0">
+                <LeftChevron class="h-8" />
+            </div>
+
+
+            <!-- Publications -->
+            <div class="scrollmenu grow w-full p-2" v-dragscroll.x @scroll="handleScroll" id="publicationListContainer">
+                <PublicationGalleryComponent v-for="publication in props.gallery.publications" id="publications"
                     :is-current-user="props.isCurrentUser" :publication="publication"
                     @open-publication-modal="emit('openPublicationModal', publication.publication_id)"
                     @delete-publication="deletePublicationFromGallery(publication.publication_id)">
                 </PublicationGalleryComponent>
-                <div class="w-80  h-80 px-2" v-if="props.gallery.publications.length === 0">
-                    <div
-                        class="border-2 w-full h-full rounded-md shutter-border-color flex flex-col justify-center items-center shutter-background-color">
-                        <span class="text-xl">No publications in this gallery</span>
-                        <CameraIcon class="w-40" />
-                    </div>
-                </div>
+            </div>
+
+            <!-- Right Icon -->
+            <div class="z-10 absolute right-0 shutter-background-color border-l-2 shutter-border-color rounded-l-md h-72 flex items-center"
+                v-if="isAtEnd && props.gallery.publications.length > 0">
+                <RightChevron class="h-8" />
+            </div>
+
+        </div>
+
+        <!-- No Publications -->
+        <div class="w-80 h-80 px-2" v-if="props.gallery.publications.length === 0">
+            <div
+                class="border-2 w-full h-full rounded-md shutter-border-color flex flex-col justify-center items-center shutter-background-color">
+                <span class="text-xl">No publications in this gallery</span>
+                <CameraIcon class="w-40" />
             </div>
         </div>
 
@@ -43,17 +63,21 @@
     </div>
 </template>
 <script setup lang="ts">
-import type { Gallery } from "@/api/type";
-import type { PropType } from "vue";
 import ModifyIcon from "@/components/icons/modifyIcon.vue";
 import DeleteComponent from "../subComponents/DeleteComponent.vue";
 import RatingInterface from "../subComponents/RatingInterface.vue";
 import PublicationGalleryComponent from "./PublicationGalleryComponent.vue";
+import RightChevron from "@/components/icons/RightChevron.vue";
+import LeftChevron from "@/components/icons/LeftChevron.vue";
 import CameraIcon from "../icons/CameraIcon.vue";
+import type { Gallery } from "@/api/type";
+import { type PropType, ref, onMounted } from "vue";
 import { useGalleryStore } from "@/stores/gallery";
 
 
 const galleryStore = useGalleryStore();
+const isAtEnd = ref(false);
+const isAtStart = ref(true);
 const props = defineProps({
     gallery: {
         type: Object as PropType<Gallery>,
@@ -65,7 +89,6 @@ const props = defineProps({
     }
 })
 
-
 const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
@@ -75,6 +98,32 @@ const emit = defineEmits({
     }
 });
 
+
+
+function handleScroll(e: any) {
+    let container = document.getElementById("publicationListContainer")!;
+    let containerPublications = document.getElementById("publications")!;
+
+    console.log('scroll left container: ' + container.scrollLeft)
+    console.log('scroll left publications: ' + containerPublications.scrollLeft)
+
+    // if ((container.offsetHeight + container.scrollTop + 200) >= container.scrollHeight) {
+    //     //loadMoreFollows();
+    // }
+    // if ((container.offsetHeight + container.scrollTop) >= container.scrollHeight) {
+    //     isAtEnd.value = true;
+    // }
+    // else {
+    //     isAtEnd.value = false;
+    // }
+
+    // if (container.scrollTop === 0) {
+    //     isAtStart.value = true;
+    // }
+    // else {
+    //     isAtStart.value = false;
+    // }
+}
 async function deletePublicationFromGallery(publication_id: string) {
     await galleryStore.removePublicationFromGallery(props.gallery.gallery_id, publication_id);
 }
@@ -85,7 +134,14 @@ async function deleteEntireGallery() {
 </script>
 <style>
 div.scrollmenu {
-    overflow: auto;
+    overflow-x: auto;
     white-space: nowrap;
+}
+
+.middle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
 }
 </style>
