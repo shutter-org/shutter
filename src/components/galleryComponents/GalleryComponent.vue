@@ -8,15 +8,14 @@
         </div>
         <div class="pl-2 break-words">{{ props.gallery.description }}</div>
 
-
         <!-- Publications scroll -->
         <div class="flex flex-row items-center relative">
 
             <!-- Left Icon -->
             <button
-                class="h-72 flex items-center rounded-r-md z-10 absolute left-0 shutter-background-color shutter-border-color border-r-2"
+                class="h-72 flex items-center rounded-r-md z-10 absolute left-0 shutter-background-mute-transparent shutter-border-color border-r-2 border-y-2"
                 v-if="!isAtStart && props.gallery.publications.length > 0" @click="animateListToTheLeft">
-                <LeftChevron class="h-8" />
+                <LeftChevron class="h-8 shutter-color-border" />
             </button>
 
 
@@ -25,17 +24,16 @@
                 <PublicationGalleryComponent v-for="publication in props.gallery.publications" id="publications"
                     :is-current-user="props.isCurrentUser" :publication="publication"
                     @open-publication-modal="emit('openPublicationModal', publication.publication_id)"
-                    @delete-publication="deletePublicationFromGallery(publication.publication_id)">
+                    @delete-publication="deletePublicationFromGallery(publication)">
                 </PublicationGalleryComponent>
             </div>
 
             <!-- Right Icon -->
             <button
-                class="z-10 absolute right-0 shutter-background-color border-l-2 shutter-border-color rounded-l-md h-72 flex items-center"
+                class="z-10 absolute right-0 shutter-background-mute-transparent border-l-2 border-y-2 shutter-border-color rounded-l-md h-72 flex items-center w-8"
                 v-if="!isAtEnd && props.gallery.publications.length > 0" @click="animateListToTheRight">
-                <RightChevron class="h-8" />
+                <RightChevron class="h-8 shutter-color-border" />
             </button>
-
         </div>
 
         <!-- No Publications -->
@@ -71,16 +69,21 @@ import PublicationGalleryComponent from "./PublicationGalleryComponent.vue";
 import RightChevron from "@/components/icons/RightChevron.vue";
 import LeftChevron from "@/components/icons/LeftChevron.vue";
 import CameraIcon from "../icons/CameraIcon.vue";
-import type { Gallery } from "@/api/type";
+import SkewLoader from "vue-spinner/src/SkewLoader.vue";
+import type { Gallery, SimplifiedPublication } from "@/api/type";
 import { type PropType, ref, onMounted, onBeforeUnmount } from "vue";
 import { useGalleryStore } from "@/stores/gallery";
+import { useUserStore } from "@/stores/user";
+import { getPublicationFromGalleryApi } from "@/api/gallery";
 
 
 
 const publicationListContainer = ref();
 const galleryStore = useGalleryStore();
+const userStore = useUserStore();
 const isAtEnd = ref(false);
 const isAtStart = ref(true);
+const isUpdating = ref(false);
 let scrollInterval: number | null | undefined = null
 
 const props = defineProps({
@@ -95,11 +98,14 @@ const props = defineProps({
 })
 
 onMounted(() => {
+    galleryStore.setGalleryIndex(props.gallery.gallery_id, 1);
+    publicationListContainer.value.addEventListener('scroll', checkLoading);
     scrollInterval = setInterval(() => {
         checkScroll();
     }, 25);
 })
 onBeforeUnmount(() => {
+    publicationListContainer.value.removeEventListener('scroll', checkLoading);
     clearInterval(scrollInterval!);
 })
 
@@ -132,10 +138,13 @@ function animateListToTheLeft() {
         }
     }, 10);
 }
-function checkScroll() {
+function checkLoading() {
+
     if ((publicationListContainer.value.offsetWidth + publicationListContainer.value.scrollLeft + 200) >= publicationListContainer.value.scrollWidth) {
-        //loadMorePublications(props.gallery.gallery_id);
+        loadMorePublications();
     }
+}
+function checkScroll() {
 
     if ((publicationListContainer.value.offsetWidth + publicationListContainer.value.scrollLeft) >= publicationListContainer.value.scrollWidth) {
         isAtEnd.value = true;
@@ -151,12 +160,32 @@ function checkScroll() {
         isAtStart.value = false;
     }
 }
-async function deletePublicationFromGallery(publication_id: string) {
-    await galleryStore.removePublicationFromGallery(props.gallery.gallery_id, publication_id);
+async function deletePublicationFromGallery(publication: SimplifiedPublication) {
+    await galleryStore.removePublicationFromGallery(props.gallery.gallery_id, publication);
 }
 
 async function deleteEntireGallery() {
     await galleryStore.deleteGallery(props.gallery.gallery_id)
+}
+
+async function loadMorePublications() {
+    if (!isUpdating.value) {
+        let index = galleryStore.getGalleryIndex(props.gallery.gallery_id)!;
+        if (props.gallery.nb_publication / 12 < index) return;
+        isUpdating.value = true;
+
+        galleryStore.addIndexToGalleryIndex(props.gallery.gallery_id, index + 1);
+        console.log(galleryStore.getGalleryIndex(props.gallery.gallery_id))
+        isUpdating.value = true;
+        const res = await getPublicationFromGalleryApi(props.gallery.gallery_id, index + 1, userStore.authKey);
+        const data = await res.json();
+        console.log(data)
+        for (let i = 0; i < data.length; i++) {
+            galleryStore.addPublicationToGalleryMap(props.gallery.gallery_id, data[i])
+        }
+        console.log(data);
+        isUpdating.value = false;
+    }
 }
 </script>
 <style>
@@ -169,6 +198,5 @@ div.scrollmenu {
     position: fixed;
     top: 50%;
     left: 50%;
-
 }
 </style>

@@ -1,22 +1,7 @@
-import type {
-  Gallery,
-  SimplifiedGalleryForPublication,
-  GalleryParameters,
-  User,
-} from "@/api/type";
+import type { Gallery, SimplifiedGalleryForPublication, GalleryParameters, User, SimplifiedPublication, } from "@/api/type";
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import {
-  createGalleryApi,
-  getGalleryApi,
-  deleteGalleryApi,
-  updateGalleryApi,
-  addPublicationToGalleryApi,
-  deletePublicationFromGalleryApi,
-  deleteRatingGalleryApi,
-  updateRateGalleryApi,
-  rateGalleryApi,
-} from "@/api/gallery";
+import { createGalleryApi, getGalleryApi, deleteGalleryApi, updateGalleryApi, addPublicationToGalleryApi, deletePublicationFromGalleryApi, deleteRatingGalleryApi, updateRateGalleryApi, rateGalleryApi } from "@/api/gallery";
 import { getUser } from "@/api/user";
 import { useUserStore } from "./user";
 
@@ -27,8 +12,22 @@ export const useGalleryStore = defineStore("gallery", () => {
   const shownGalleriesPicking = ref(
     new Map<string, SimplifiedGalleryForPublication[]>()
   );
+  const galleriesIndex = ref(new Map<string, number>());
 
   //basic operations
+  function setGalleryIndex(gallery_id: string, index: number) {
+    if (galleriesIndex.value.get(gallery_id) === undefined) {
+      galleriesIndex.value.set(gallery_id, index);
+    }
+  }
+  function getGalleryIndex(gallery_id: string) {
+    return galleriesIndex.value.get(gallery_id);
+  }
+  function addIndexToGalleryIndex(gallery_id: string, index: number) {
+    if (galleriesIndex.value.get(gallery_id) !== undefined) {
+      galleriesIndex.value.set(gallery_id, index);
+    }
+  }
   function setGalleryMap(gallery: Gallery) {
     galleries.value.set(gallery.gallery_id, gallery);
   }
@@ -44,6 +43,32 @@ export const useGalleryStore = defineStore("gallery", () => {
   }
   function reset() {
     galleries.value.clear();
+  }
+  function removePublicationFromGalleryMap(
+    gallery_id: string,
+    publication: SimplifiedPublication
+  ) {
+    const gallery = getGalleryFromMap(gallery_id) as Gallery;
+    if (gallery !== undefined) {
+      const publications = gallery.publications;
+      for (let i = 0; i < publications.length; i++) {
+        if (publications[i].publication_id === publication.publication_id) {
+          publications.splice(i, 1);
+          break;
+        }
+      }
+    }
+    setGalleryMap(gallery);
+  }
+  function addPublicationToGalleryMap(
+    gallery_id: string,
+    publication: SimplifiedPublication
+  ) {
+    const gallery = getGalleryFromMap(gallery_id) as Gallery;
+    if (gallery !== undefined) {
+      gallery.publications.push(publication);
+    }
+    setGalleryMap(gallery);
   }
   //to use in components
   function getUsersGalleries(username: string) {
@@ -125,57 +150,33 @@ export const useGalleryStore = defineStore("gallery", () => {
     }
   }
 
-  async function addPublicationToGallery(
-    gallery_id: string,
-    publication_id: string
-  ) {
+  async function addPublicationToGallery(gallery_id: string, publication: SimplifiedPublication) {
     const res = await addPublicationToGalleryApi(
       gallery_id,
-      publication_id,
+      publication.publication_id,
       userStore.authKey
     );
     if (res.status !== 200) {
       console.log("erreur dans le add de la publication à la gallery");
     } else {
-      const resGallery = await getGalleryApi(gallery_id, userStore.authKey);
-      if (resGallery.status !== 200) {
-        console.log(
-          "erreur dans le fetch de la gallery: addPublicationToGallery"
-        );
-      } else {
-        const gallery = (await resGallery.json()) as Gallery;
-        setGalleryMap(gallery);
-        return true;
-      }
+      addPublicationToGalleryMap(gallery_id, publication);
+      return true;
     }
   }
-  async function removePublicationFromGallery(
-    gallery_id: string,
-    publication_id: string
-  ) {
+  async function removePublicationFromGallery(gallery_id: string, publication: SimplifiedPublication) {
     const res = await deletePublicationFromGalleryApi(
       gallery_id,
-      publication_id,
+      publication.publication_id,
       userStore.authKey
     );
     if (res.status !== 200) {
       console.log("erreur dans le delete de la publication de la gallery");
     } else {
-      const resGallery = await getGalleryApi(gallery_id, userStore.authKey);
-      if (resGallery.status !== 200) {
-        console.log(
-          "erreur dans le fetch de la gallery: removePublicationFromGallery"
-        );
-      } else {
-        const gallery = (await resGallery.json()) as Gallery;
-        setGalleryMap(gallery);
-        return true;
-      }
+      removePublicationFromGalleryMap(gallery_id, publication);
+      return true;
     }
   }
-  function removePublicationFromGalleryWithOnlyPublication(
-    publication_id: string
-  ) {
+  function removePublicationFromGalleryWithOnlyPublication(publication_id: string) {
     const galleriesArray = Array.from(galleries.value.values());
     galleriesArray.forEach((gallery) => {
       const index = gallery.publications.findIndex(
@@ -268,9 +269,7 @@ export const useGalleryStore = defineStore("gallery", () => {
       shownGalleriesPicking.value.set(publication_id, galleryList);
     }
   }
-  function getShownPickingGalleries(
-    publication_id: string
-  ): SimplifiedGalleryForPublication[] {
+  function getShownPickingGalleries(publication_id: string): SimplifiedGalleryForPublication[] {
     return shownGalleriesPicking.value.get(
       publication_id
     ) as SimplifiedGalleryForPublication[];
@@ -298,22 +297,9 @@ export const useGalleryStore = defineStore("gallery", () => {
     }
   }
   return {
-    createGallery,
-    getUsersGalleries,
-    deleteGallery,
-    updateGallery,
-    addPublicationToGallery,
-    removePublicationFromGallery,
-    voteDownGallery,
-    voteUpGallery,
-    loadGalleries,
-    reset,
-    removePublicationFromGalleryWithOnlyPublication,
-    getGalleryFromMap,
-    loadShownPickingGalleries,
-    getShownPickingGalleries,
-    unCheckGallery,
-    checkGallery,
+    createGallery, getUsersGalleries, deleteGallery, updateGallery, addPublicationToGallery, removePublicationFromGallery, voteDownGallery, voteUpGallery,
+    loadGalleries, reset, removePublicationFromGalleryWithOnlyPublication, getGalleryFromMap, loadShownPickingGalleries, getShownPickingGalleries, unCheckGallery,
+    checkGallery, addPublicationToGalleryMap, setGalleryIndex, getGalleryIndex, addIndexToGalleryIndex,
   };
 });
 
