@@ -11,18 +11,22 @@
                 v-if="galleryStore.getShownPickingGalleries(props.publication.publication_id).length === 0">
                 You have no galleries</span>
 
+            <p class="text-2xl p-2 font-bold">Add to galleries</p>
+
             <UpvoteIcon v-if="!isAtStart" class="w-full h-8 border-b-2 shutter-border-color" />
             <div class="w-full h-8" v-if="isAtStart"></div>
 
             <!-- List of galleries second try -->
-            <div class="mb-4 overflow-y-auto h-80" id="galleriesContainer" @scroll="handleScroll">
-                <div v-for="gallery in galleryStore.getShownPickingGalleries(props.publication.publication_id)">
-                    <div class="flex flex-row items-center gap-5">
+            <div class="p-4 overflow-y-auto max-h-80 flex flex-col w-full gap-2" id="galleriesContainer"
+                @scroll="handleScroll">
+                <div v-for="gallery in galleryStore.getShownPickingGalleries(props.publication.publication_id)"
+                    class="w-full">
+                    <div class="flex flex-row items-center gap-5 w-full">
                         <input type="checkbox" class="outline-none w-7 h-7 bg-gray-100 border-gray-300 rounded-lg mr-2"
                             v-model="gallery.checked">
-                        <div class="flex flex-col">
-                            <label class="ml-2 text-xl font-medium break-words">{{ gallery.title }}</label>
-                            <label class="ml-2 text-md">{{ gallery.publications.length }} posts</label>
+                        <div class="flex flex-col w-[calc(100%-3rem)]">
+                            <p class="text-xl font-medium inline overflow-ellipsis overflow-x-clip">{{ gallery.title }}</p>
+                            <p class="text-md">{{ gallery.publications.length }} posts</p>
                         </div>
                     </div>
                 </div>
