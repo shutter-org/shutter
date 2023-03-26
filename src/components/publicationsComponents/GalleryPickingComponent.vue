@@ -13,7 +13,7 @@
 
 
             <!-- List of galleries second try -->
-            <div class="mb-4">
+            <div class="mb-4 flex flex-col gap-2">
                 <div v-for="gallery in galleryStore.getShownPickingGalleries(props.publication.publication_id)">
                     <div class="flex flex-row items-center gap-5">
                         <input type="checkbox" class="outline-none w-7 h-7 bg-gray-100 border-gray-300 rounded-lg mr-2"
