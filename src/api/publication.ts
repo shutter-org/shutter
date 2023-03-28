@@ -1,4 +1,4 @@
-const API_URL = "https://64220970a99ef00ff477ebd8--chic-klepon-7630da.netlify.app/";
+const API_URL = "http://127.0.0.1:5000/";
 
 export const getFollowingPublications = async (page: number, authKey: String) => {
     const key = "Bearer " + authKey;

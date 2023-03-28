@@ -69,21 +69,22 @@ const props = defineProps({
 const emit = defineEmits(['save']);
 
 const handleScroll = () => {
-    let container = document.getElementById("galleriesContainer")!;
+    let container = document.getElementById("galleriesContainer");
 
+    if (container !== null) {
+        if ((container.offsetHeight + container.scrollTop) >= container.scrollHeight) {
+            isAtEnd.value = true;
+        }
+        else {
+            isAtEnd.value = false;
+        }
 
-    if ((container.offsetHeight + container.scrollTop) >= container.scrollHeight) {
-        isAtEnd.value = true;
-    }
-    else {
-        isAtEnd.value = false;
-    }
-
-    if (container.scrollTop === 0) {
-        isAtStart.value = true;
-    }
-    else {
-        isAtStart.value = false;
+        if (container.scrollTop === 0) {
+            isAtStart.value = true;
+        }
+        else {
+            isAtStart.value = false;
+        }
     }
 }
 

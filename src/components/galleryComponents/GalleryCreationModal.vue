@@ -10,10 +10,10 @@
             <div
                 class="mb-5 w-full rounded-md h-12 border-2 shutter-background-color shutter-border-color pl-4 self-center flex items-center justify-center">
                 <input type="checkbox" class=" outline-none w-7 h-7 bg-gray-100 border-gray-300 rounded-lg"
-                    v-model="public_bool" @click="clickOnCheckbox">
+                    :checked="public_bool" @click="clickOnCheckbox">
                 <span class="ml-3 mr-5">Public</span>
-                <input type="checkbox" class="outline-none w-7 h-7 bg-gray-100 border-gray-300 rounded-lg" checked
-                    v-model="private_bool" @click="clickOnCheckbox">
+                <input type="checkbox" class="outline-none w-7 h-7 bg-gray-100 border-gray-300 rounded-lg"
+                    :checked="private_bool" @click="clickOnCheckbox">
                 <span class="mx-3">Private</span>
             </div>
 
