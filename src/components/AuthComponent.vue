@@ -3,7 +3,8 @@
     <div
       class="shutter-modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-md PRO:mx-4 gap-3 flex flex-col items-center">
       <LogoAnimation />
-      <p id="errorMessage" class="text-lg inline h-7 items-center text-red-500">{{ errorMessage }}</p>
+      <p v-if="errorMessage !== ''" class="text-lg inline h-7 items-center text-red-500">{{ errorMessage }}</p>
+      <p v-else class="text-lg inline h-7 items-center text-green-400">{{ message }}</p>
       <div class="flex gap-2 flex-col w-full">
 
         <!-- Email -->
@@ -98,7 +99,8 @@ const name = ref("");
 const bio = ref("");
 const birthdate = ref("");
 const login = ref(true);
-const errorMessage = ref("")
+const errorMessage = ref("");
+const message = ref("");
 
 const emit = defineEmits(["LoggedIn"]);
 
@@ -162,11 +164,9 @@ async function SignUp() {
         userStore.setUsername(username.value);
         userStore.setAuthKey(data.access_token);
 
-        document.getElementById("errorMessage")!.classList.add("text-green-400");
-        errorMessage.value = "Account created with success";
+        message.value = "Account created with success";
         setTimeout(() => {
-          errorMessage.value = "";
-          document.getElementById("errorMessage")!.classList.remove("text-green-400");
+          message.value = "";
         }, 3000);
 
         switchView();
