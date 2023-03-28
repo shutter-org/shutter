@@ -1,4 +1,5 @@
-const API_URL = "http://127.0.0.1:5000/";
+
+const API_URL = "https://faleraza12.pythonanywhere.com/";
 
 export const getGalleryApi = async (gallery_id: string, authKey: String) => {
   const key = "Bearer " + authKey;
