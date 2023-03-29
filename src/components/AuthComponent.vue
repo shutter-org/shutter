@@ -36,7 +36,8 @@
         <div class="rounded-md items-center flex flex-col relative">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full"
-              placeholder="Username" v-model="username" @keydown.enter.prevent="onPressEnter" />
+              placeholder="Username" v-model="username" @keydown.enter.prevent="onPressEnter" name="username"
+              autocomplete="on" />
           </div>
         </div>
 
@@ -44,7 +45,8 @@
         <div class="rounded-md this">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full hidePassword"
-              placeholder="Password" v-model="password" @keydown.enter.prevent="onPressEnter" />
+              placeholder="Password" v-model="password" @keydown.enter.prevent="onPressEnter" name="password"
+              autocomplete="on" />
           </div>
         </div>
 
@@ -204,5 +206,14 @@ input[type="date"] {
 
 input[type="date"]:focus {
   box-shadow: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+input[data-autocompleted] {
+  background-color: transparent !important;
 }
 </style>
