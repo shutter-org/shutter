@@ -1,8 +1,8 @@
-import type { Gallery, SimplifiedGalleryForPublication, GalleryParameters, User, SimplifiedPublication, } from "@/api/type";
+import type { Gallery, SimplifiedGalleryForPublication, GalleryParameters, User, SimplifiedPublication, } from "../api/type";
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { createGalleryApi, getGalleryApi, deleteGalleryApi, updateGalleryApi, addPublicationToGalleryApi, deletePublicationFromGalleryApi, deleteRatingGalleryApi, updateRateGalleryApi, rateGalleryApi } from "@/api/gallery";
-import { getUser } from "@/api/user";
+import { createGalleryApi, getGalleryApi, deleteGalleryApi, updateGalleryApi, addPublicationToGalleryApi, deletePublicationFromGalleryApi, deleteRatingGalleryApi, updateRateGalleryApi, rateGalleryApi } from "../api/gallery";
+import { getUser } from "../api/user";
 import { useUserStore } from "./user";
 
 export const useGalleryStore = defineStore("gallery", () => {
@@ -159,7 +159,10 @@ export const useGalleryStore = defineStore("gallery", () => {
     if (res.status !== 200) {
       console.log("erreur dans le add de la publication à la gallery");
     } else {
-      addPublicationToGalleryMap(gallery_id, publication);
+      if (galleries.value.size !== 0) {
+        addPublicationToGalleryMap(gallery_id, publication);
+      }
+
       return true;
     }
   }
@@ -172,7 +175,9 @@ export const useGalleryStore = defineStore("gallery", () => {
     if (res.status !== 200) {
       console.log("erreur dans le delete de la publication de la gallery");
     } else {
-      removePublicationFromGalleryMap(gallery_id, publication);
+      if (galleries.value.size !== 0) {
+        removePublicationFromGalleryMap(gallery_id, publication);
+      }
       return true;
     }
   }
