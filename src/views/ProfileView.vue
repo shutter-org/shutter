@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8 shutter-background-mute">
+    class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full PRO:p-2 PRO:py-2 p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8 shutter-background-mute">
 
     <!-- Spinner showing status (updating, loading) -->
     <SkewLoader v-if="isUpdating" color="#465A82" size="10px" class="m-full h-8 absolute top-2 left-1/2" />
