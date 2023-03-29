@@ -3,6 +3,7 @@
   <div id="publicationsContainer" @scroll="handleScroll" class="h-screen PRO:h-[calc(100vh-160px)] overflow-y-scroll">
 
     <div class="shutter-background-mute max-w-7xl w-full mx-auto PRO:p-2 PRO:py-2 p-10 flex flex-col gap-8 ">
+
       <!-- Spinner showing status (updating, loading home page) -->
       <SkewLoader v-if="isUpdating" color="#465A82" size="10px" class="m-full h-8 absolute top-2 left-1/2" />
       <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
@@ -90,4 +91,3 @@ const handleScroll = () => {
   }
 }
 </script>
-
