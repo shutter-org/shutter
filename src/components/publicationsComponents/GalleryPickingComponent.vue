@@ -112,20 +112,18 @@ onMounted(() => {
 
 async function updateGalleries() {
     isLoading.value = true;
+    let shownPickingGalleries = galleryStore.getShownPickingGalleries(props.publication.publication_id);
     for (let i = 0; i < copyOfShownGalleries.value.length; i++) {
-        if (copyOfShownGalleries.value[i].checked !== galleryStore.getShownPickingGalleries(props.publication.publication_id)[i].checked) {
-            if (galleryStore.getShownPickingGalleries(props.publication.publication_id)[i].checked) {
-                const gallery = galleryStore.getGalleryFromMap(galleryStore.getShownPickingGalleries(props.publication.publication_id)[i].gallery_id) as Gallery;
-                const res = await galleryStore.addPublicationToGallery(gallery.gallery_id, props.publication);
+        if (copyOfShownGalleries.value[i].checked !== shownPickingGalleries[i].checked) {
+            if (shownPickingGalleries[i].checked) {
+                const res = await galleryStore.addPublicationToGallery(shownPickingGalleries[i].gallery_id, props.publication);
                 if (res === true) {
-                    galleryStore.checkGallery(props.publication.publication_id, gallery.gallery_id);
+                    galleryStore.checkGallery(props.publication.publication_id, shownPickingGalleries[i].gallery_id);
                 }
-
             } else {
-                const gallery = galleryStore.getGalleryFromMap(galleryStore.getShownPickingGalleries(props.publication.publication_id)[i].gallery_id) as Gallery;
-                const res = await galleryStore.removePublicationFromGallery(gallery.gallery_id, props.publication);
+                const res = await galleryStore.removePublicationFromGallery(shownPickingGalleries[i].gallery_id, props.publication);
                 if (res === true) {
-                    galleryStore.unCheckGallery(props.publication.publication_id, gallery.gallery_id);
+                    galleryStore.unCheckGallery(props.publication.publication_id, shownPickingGalleries[i].gallery_id);
                 }
             }
         }
