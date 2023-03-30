@@ -1,8 +1,8 @@
-import type { Gallery, SimplifiedGalleryForPublication, GalleryParameters, User, SimplifiedPublication, } from "@/api/type";
+import type { Gallery, SimplifiedGalleryForPublication, GalleryParameters, User, SimplifiedPublication, } from "../api/type";
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { createGalleryApi, getGalleryApi, deleteGalleryApi, updateGalleryApi, addPublicationToGalleryApi, deletePublicationFromGalleryApi, deleteRatingGalleryApi, updateRateGalleryApi, rateGalleryApi } from "@/api/gallery";
-import { getUser } from "@/api/user";
+import { createGalleryApi, getGalleryApi, deleteGalleryApi, updateGalleryApi, addPublicationToGalleryApi, deletePublicationFromGalleryApi, deleteRatingGalleryApi, updateRateGalleryApi, rateGalleryApi } from "../api/gallery";
+import { getUser } from "../api/user";
 import { useUserStore } from "./user";
 
 export const useGalleryStore = defineStore("gallery", () => {
@@ -43,6 +43,7 @@ export const useGalleryStore = defineStore("gallery", () => {
   }
   function reset() {
     galleries.value.clear();
+    shownGalleriesPicking.value.clear();
   }
   function removePublicationFromGalleryMap(
     gallery_id: string,
@@ -74,7 +75,7 @@ export const useGalleryStore = defineStore("gallery", () => {
   function getUsersGalleries(username: string) {
     const galleriesArray = Array.from(galleries.value.values());
     const userGalleries = galleriesArray.filter(
-      (gallery) => gallery.creator_user.username === username
+      (gallery) => gallery.creator_user.username.toLowerCase() === username.toLowerCase()
     );
     return sortGalleriesArrayByDate(userGalleries);
   }
@@ -159,7 +160,10 @@ export const useGalleryStore = defineStore("gallery", () => {
     if (res.status !== 200) {
       console.log("erreur dans le add de la publication à la gallery");
     } else {
-      addPublicationToGalleryMap(gallery_id, publication);
+      if (galleries.value.size !== 0) {
+        addPublicationToGalleryMap(gallery_id, publication);
+      }
+
       return true;
     }
   }
@@ -172,7 +176,9 @@ export const useGalleryStore = defineStore("gallery", () => {
     if (res.status !== 200) {
       console.log("erreur dans le delete de la publication de la gallery");
     } else {
-      removePublicationFromGalleryMap(gallery_id, publication);
+      if (galleries.value.size !== 0) {
+        removePublicationFromGalleryMap(gallery_id, publication);
+      }
       return true;
     }
   }
@@ -192,7 +198,7 @@ export const useGalleryStore = defineStore("gallery", () => {
     });
   }
 
-  async function voteDownGallery(gallery: Gallery) {
+  async function voteUpGallery(gallery: Gallery) {
     console.log("upvote gallery");
     if (!isRating.value) {
       isRating.value = true;
@@ -218,7 +224,7 @@ export const useGalleryStore = defineStore("gallery", () => {
       isRating.value = false;
     }
   }
-  async function voteUpGallery(gallery: Gallery) {
+  async function voteDownGallery(gallery: Gallery) {
     console.log("downvote gallery");
     if (!isRating.value) {
       isRating.value = true;

@@ -2,11 +2,10 @@
     <div class="flex flex-col border-2 shutter-border-color my-3 rounded-md p-2 shutter-background-mute">
 
         <!-- Gallery title, description and date -->
-        <div class="flex flex-row justify-between p-2">
-            <div class="font-bold text-2xl break-words">{{ props.gallery.title }}</div>
-            <div class="text-xl">{{ props.gallery.created_date }}</div>
-        </div>
-        <div class="pl-2 break-words">{{ props.gallery.description }}</div>
+        <div class=" mr-36 pt-2 pl-4 font-bold text-2xl break-words">{{ props.gallery.title }}</div>
+        <div class="p-4 absolute top-0 right-0 text-xl">{{ props.gallery.created_date }}</div>
+
+        <div class="pl-4 break-words">{{ props.gallery.description }}</div>
 
         <!-- Publications scroll -->
         <div class="flex flex-row items-center relative">
@@ -21,6 +20,15 @@
 
             <!-- Publications -->
             <div class="scrollmenu grow w-full p-2" v-dragscroll.x ref="publicationListContainer">
+                <div class="w-80 h-80 px-2" v-if="props.gallery.publications.length === 0">
+                    <div
+                        class="border-2 w-full h-full rounded-md shutter-border-color flex flex-col justify-center items-center shutter-background-color">
+                        <span class="text-xl">No publications in this gallery</span>
+                        <CameraIcon class="w-40" />
+                    </div>
+                </div>
+
+                <!-- No Publications -->
                 <PublicationGalleryComponent v-for="publication in props.gallery.publications" id="publications"
                     :is-current-user="props.isCurrentUser" :publication="publication"
                     @open-publication-modal="emit('openPublicationModal', publication.publication_id)"
@@ -34,15 +42,6 @@
                 v-if="!isAtEnd && props.gallery.publications.length > 0" @click="animateListToTheRight">
                 <RightChevron class="h-8 shutter-color-border" />
             </button>
-        </div>
-
-        <!-- No Publications -->
-        <div class="w-80 h-80 px-2" v-if="props.gallery.publications.length === 0">
-            <div
-                class="border-2 w-full h-full rounded-md shutter-border-color flex flex-col justify-center items-center shutter-background-color">
-                <span class="text-xl">No publications in this gallery</span>
-                <CameraIcon class="w-40" />
-            </div>
         </div>
 
         <!-- Gallery rating, modify and delete -->
@@ -69,7 +68,6 @@ import PublicationGalleryComponent from "./PublicationGalleryComponent.vue";
 import RightChevron from "@/components/icons/RightChevron.vue";
 import LeftChevron from "@/components/icons/LeftChevron.vue";
 import CameraIcon from "../icons/CameraIcon.vue";
-import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import type { Gallery, SimplifiedPublication } from "@/api/type";
 import { type PropType, ref, onMounted, onBeforeUnmount } from "vue";
 import { useGalleryStore } from "@/stores/gallery";
