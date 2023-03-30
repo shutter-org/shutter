@@ -48,7 +48,7 @@ import RingLoader from "vue-spinner/src/RingLoader.vue"
 import SkewLoader from "vue-spinner/src/SkewLoader.vue"
 import DownvoteIcon from "../icons/rate/DownvoteIcon.vue";
 import UpvoteIcon from "../icons/rate/UpvoteIcon.vue";
-import type { Gallery, SimplifiedPublication } from "@/api/type";
+import type { SimplifiedPublication } from "@/api/type";
 import { ref, type PropType, onMounted, onUpdated } from "vue";
 import { useGalleryStore } from "@/stores/gallery";
 

@@ -74,6 +74,9 @@ export const useUserStore = defineStore('user', () => {
   const getShownUser = (username: string) => {
     return lastShownUsers.value.get(username.toLowerCase());
   }
+  const removeShownUser = (username: string) => {
+    lastShownUsers.value.delete(username);
+  }
   async function loadShownUser(username: string) {
     isBusy.value = true;
     const res = await getUser(username, authKey.value);
@@ -151,7 +154,7 @@ export const useUserStore = defineStore('user', () => {
   return {
     username, profile_picture, authKey, sessionStartDate, deleteCurrentUser,
     setUsername, setProfilePicture, setAuthKey, startSession, getSimplifiedUser, reset,
-    getShownUser, loadShownUser, loadMorePublications, loadMoreFollows, follow, unfollow
+    getShownUser, removeShownUser, loadShownUser, loadMorePublications, loadMoreFollows, follow, unfollow
   }
 })
 

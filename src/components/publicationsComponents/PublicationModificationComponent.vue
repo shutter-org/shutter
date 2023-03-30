@@ -17,6 +17,8 @@
         <textarea class="inputable tags h-32 w-full text-xl p-2 border-2 rounded-lg" placeholder="Tags..." maxlength="160"
             v-model="tags" />
 
+        <p class="text-lg inline h-7 items-center text-red-500">{{ errorMessage }}</p>
+
         <!-- Save button -->
         <button @click="save" class="saveButton text-xl p-2 rounded-lg pr-10 pl-10">
             Save
@@ -41,6 +43,7 @@ const props = defineProps({
 const userStore = useUserStore();
 const desc = ref(props.publication.description);
 const tags = ref("#" + props.publication.tags.join(" #"));
+const errorMessage = ref("");
 
 const emit = defineEmits({
     save: (description: string, tags: string[]) => {
@@ -49,13 +52,19 @@ const emit = defineEmits({
 });
 
 const save = () => {
-    let tagsArray = tags.value
-        .replace(/\s/g, "")
-        .split("#")
-        .slice(1)
-        .filter((tag) => tag.length <= 50);
+    if (desc.value !== "") {
+        let tagsArray = tags.value
+            .replace(/\s/g, "")
+            .split("#")
+            .slice(1)
+            .filter((tag) => tag.length <= 50);
 
-    emit('save', desc.value, tagsArray);
+        emit('save', desc.value, tagsArray);
+    }
+    else {
+        errorMessage.value = "The description must not be empty";
+        setTimeout(() => errorMessage.value = "", 3000);
+    }
 };
 </script>
   

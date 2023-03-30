@@ -42,9 +42,10 @@
                         @keydown="preventNextLine" />
                 </div>
 
+                <p class="text-lg inline h-7 items-center text-red-500">{{ errorMessage }}</p>
+
                 <!-- save button -->
-                <button class="text-xl p-2 rounded-lg pr-10 pl-10 saveButton"
-                    @click="emit('save', picture, picture_url, username, name, bio)">save</button>
+                <button class="text-xl p-2 rounded-lg pr-10 pl-10 saveButton" @click="save">save</button>
             </div>
         </div>
     </div>
@@ -54,6 +55,9 @@
 import ImgLoader from "../ImgLoader.vue";
 import ImageIcon from "@/components/icons/ImageIcon.vue";
 import { onMounted, ref, type PropType } from "vue";
+import { updateUser } from "@/api/user";
+import { useUserStore } from "@/stores/user";
+import { useGalleryStore } from "@/stores/gallery";
 import type { User } from "@/api/type";
 
 const props = defineProps({
@@ -63,24 +67,87 @@ const props = defineProps({
     },
 });
 
+const userStore = useUserStore();
+const galleryStore = useGalleryStore();
 const picture = ref();
 const picture_url = ref(props.user.profile_picture);
 const username = ref(props.user.username);
 const name = ref(props.user.name);
 const bio = ref(props.user.biography);
+const errorMessage = ref("");
 
-const emit = defineEmits({
-    openPublicationModal: (publicationId: string) => {
-        return !!publicationId;
-    },
-    save: (picture: Blob, picture_url: string, username: string, name: string, bio: string) => {
-        return !!picture_url && !!username && !!name;
-    },
-    close: () => {
-        return true;
+const emit = defineEmits(["close"]);
+
+const save = async () => {
+    if (username.value !== "") {
+        if (name.value !== "") {
+            const body = {} as User;
+
+            const user = userStore.getShownUser(userStore.username) as User;
+            async function continueSave() {
+                if (user.username !== username.value) {
+                    body.username = username.value;
+                }
+                if (user.name !== name.value) {
+                    body.name = name.value;
+                }
+                if (user.biography !== bio.value) {
+                    body.biography = bio.value;
+                }
+
+                if (Object.keys(body).length !== 0) {
+                    console.log("updating user");
+                    const res = await updateUser(userStore.username, userStore.authKey, body);
+                    const data = await res.json();
+                    if (res.status !== 200) {
+                        errorMessage.value = data.Error;
+                        setTimeout(() => errorMessage.value = "", 3000);
+                    } else {
+                        await userStore.loadShownUser(username.value) as User;
+                        galleryStore.reset();
+                        await galleryStore.loadGalleries(user);
+
+                        if (data.access_token !== undefined) {
+                            console.log("key changed")
+                            userStore.setAuthKey(data.access_token);
+                        }
+                        if (data.user !== undefined && data.user !== null) {
+                            if (data.user.username !== undefined) {
+                                userStore.removeShownUser(userStore.username);
+                                userStore.setUsername(data.user.username);
+                            }
+                            if (data.user.profile_picture !== undefined) {
+                                userStore.setProfilePicture(data.user.profile_picture);
+                            }
+                        }
+                        console.log('updated')
+                    }
+                }
+                emit("close");
+            }
+
+            if (user.profile_picture !== picture_url.value) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    body.profile_picture = reader.result as string;
+                    continueSave();
+                }
+                reader.readAsDataURL(picture.value);
+            }
+            else {
+                continueSave();
+            }
+        }
+        else {
+            errorMessage.value = "Name cannot be empty";
+            setTimeout(() => errorMessage.value = "", 3000);
+        }
     }
-});
-
+    else {
+        errorMessage.value = "Username cannot be empty";
+        setTimeout(() => errorMessage.value = "", 3000);
+    }
+}
 const openUploadForm = () => {
     document.getElementById("imgInput")!.click();
 };
