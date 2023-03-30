@@ -42,9 +42,10 @@
                         @keydown="preventNextLine" />
                 </div>
 
+                <p class="text-lg inline h-7 items-center text-red-500">{{ errorMessage }}</p>
+
                 <!-- save button -->
-                <button class="text-xl p-2 rounded-lg pr-10 pl-10 saveButton"
-                    @click="emit('save', picture, picture_url, username, name, bio)">save</button>
+                <button class="text-xl p-2 rounded-lg pr-10 pl-10 saveButton" @click="save">save</button>
             </div>
         </div>
     </div>
@@ -68,6 +69,7 @@ const picture_url = ref(props.user.profile_picture);
 const username = ref(props.user.username);
 const name = ref(props.user.name);
 const bio = ref(props.user.biography);
+const errorMessage = ref("");
 
 const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
@@ -81,6 +83,21 @@ const emit = defineEmits({
     }
 });
 
+const save = () => {
+    if (username.value !== "") {
+        if (name.value !== "") {
+            emit('save', picture.value, picture_url.value, username.value, name.value, bio.value);
+        }
+        else {
+            errorMessage.value = "Name cannot be empty";
+            setTimeout(() => errorMessage.value = "", 3000);
+        }
+    }
+    else {
+        errorMessage.value = "Username cannot be empty";
+        setTimeout(() => errorMessage.value = "", 3000);
+    }
+}
 const openUploadForm = () => {
     document.getElementById("imgInput")!.click();
 };

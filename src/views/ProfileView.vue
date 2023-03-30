@@ -62,6 +62,10 @@ const galleryToModify = ref();
 
 loadUser();
 
+watch(() => userStore.getShownUser(userStore.username) as User, (newUser: User) => {
+  user.value = newUser;
+});
+
 async function loadUser() {
   const token = userStore.getShownUser(userStore.username);
   if (token !== undefined) {
@@ -94,11 +98,9 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
       if (res.status !== 200) {
         console.log("erreur dans l'update");
       } else {
-        userStore.setProfilePicture(picture_url);
-        user.value.profile_picture = picture_url;
-        user.value.username = username;
-        user.value.name = name;
-        user.value.biography = bio;
+        user.value = await userStore.loadShownUser(username) as User;
+        galleryStore.reset();
+        await galleryStore.loadGalleries(user.value);
 
         const data = await res.json();
         if (data.access_token !== undefined) {
@@ -107,15 +109,13 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
         }
         if (data.user !== undefined && data.user !== null) {
           if (data.user.username !== undefined) {
+            userStore.removeShownUser(userStore.username);
             userStore.setUsername(data.user.username);
           }
           if (data.user.profile_picture !== undefined) {
             userStore.setProfilePicture(data.user.profile_picture);
           }
         }
-        user.value = await userStore.loadShownUser(userStore.username) as User;
-        galleryStore.reset();
-        await galleryStore.loadGalleries(user.value);
         console.log('updated')
       }
     }
