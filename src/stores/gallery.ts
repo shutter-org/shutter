@@ -43,6 +43,7 @@ export const useGalleryStore = defineStore("gallery", () => {
   }
   function reset() {
     galleries.value.clear();
+    shownGalleriesPicking.value.clear();
   }
   function removePublicationFromGalleryMap(
     gallery_id: string,
@@ -74,7 +75,7 @@ export const useGalleryStore = defineStore("gallery", () => {
   function getUsersGalleries(username: string) {
     const galleriesArray = Array.from(galleries.value.values());
     const userGalleries = galleriesArray.filter(
-      (gallery) => gallery.creator_user.username === username
+      (gallery) => gallery.creator_user.username.toLowerCase() === username.toLowerCase()
     );
     return sortGalleriesArrayByDate(userGalleries);
   }
