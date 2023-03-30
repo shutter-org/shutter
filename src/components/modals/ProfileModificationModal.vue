@@ -121,9 +121,12 @@ const save = async () => {
                             }
                         }
                         console.log('updated')
+                        emit("close");
                     }
                 }
-                emit("close");
+                else {
+                    emit("close");
+                }
             }
 
             if (user.profile_picture !== picture_url.value) {
@@ -139,12 +142,12 @@ const save = async () => {
             }
         }
         else {
-            errorMessage.value = "Name cannot be empty";
+            errorMessage.value = "Name must not be empty";
             setTimeout(() => errorMessage.value = "", 3000);
         }
     }
     else {
-        errorMessage.value = "Username cannot be empty";
+        errorMessage.value = "Username must not be empty";
         setTimeout(() => errorMessage.value = "", 3000);
     }
 }
