@@ -1,6 +1,6 @@
 <template>
   <div
-    class="shutter-background-mute min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8">
+    class="shutter-background-mute min-h-screen PRO:min-h-[calc(100vh-160px)] w-full PRO:p-2 PRO:py-2 p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8">
     <div v-if="!isLoading"
       class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2 h-full">
 

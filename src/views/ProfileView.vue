@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8 shutter-background-mute">
+    class="min-h-screen PRO:min-h-[calc(100vh-160px)] w-full PRO:p-2 PRO:py-2 p-10 max-w-7xl ml-auto mr-auto flex flex-col gap-8 shutter-background-mute">
 
     <!-- Spinner showing status (updating, loading) -->
     <SkewLoader v-if="isUpdating" color="#465A82" size="10px" class="m-full h-8 absolute top-2 left-1/2" />
@@ -45,8 +45,10 @@ import { ref, watch } from "vue";
 import { updateUser } from "@/api/user";
 import { useUserStore } from '@/stores/user'
 import type { Gallery, SimplifiedPublication, User } from "@/api/type";
+import { useGalleryStore } from "@/stores/gallery";
 
 const userStore = useUserStore();
+const galleryStore = useGalleryStore();
 const user = ref();
 const isPublicationModalShown = ref(false);
 const shownPublicationId = ref("");
@@ -59,10 +61,6 @@ const isUpdating = ref(false);
 const galleryToModify = ref();
 
 loadUser();
-
-watch(() => userStore.getShownUser(userStore.username) as User, (newUser: User) => {
-  user.value = newUser;
-});
 
 async function loadUser() {
   const token = userStore.getShownUser(userStore.username);
@@ -115,7 +113,9 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
             userStore.setProfilePicture(data.user.profile_picture);
           }
         }
-        user.value = await userStore.loadShownUser(userStore.username);
+        user.value = await userStore.loadShownUser(userStore.username) as User;
+        galleryStore.reset();
+        await galleryStore.loadGalleries(user.value);
         console.log('updated')
       }
     }

@@ -3,7 +3,8 @@
     <div
       class="shutter-modal-color relative mx-auto p-5 w-[640px] PRO:max-w-[640] shadow-lg rounded-md PRO:mx-4 gap-3 flex flex-col items-center">
       <LogoAnimation />
-      <p id="errorMessage" class="text-lg inline h-7 items-center text-red-500">{{ errorMessage }}</p>
+      <p v-if="errorMessage !== ''" class="text-lg inline h-7 items-center text-red-500">{{ errorMessage }}</p>
+      <p v-else class="text-lg inline h-7 items-center text-green-400">{{ message }}</p>
       <div class="flex gap-2 flex-col w-full">
 
         <!-- Email -->
@@ -35,7 +36,8 @@
         <div class="rounded-md items-center flex flex-col relative">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full"
-              placeholder="Username" v-model="username" @keydown.enter.prevent="onPressEnter" />
+              placeholder="Username" v-model="username" @keydown.enter.prevent="onPressEnter" name="username"
+              autocomplete="on" />
           </div>
         </div>
 
@@ -43,7 +45,8 @@
         <div class="rounded-md this">
           <div class="w-full rounded-md h-10 shutter-background-color px-4">
             <input class="z-2 outline-none shutter-background-color border-0 box-border h-10 w-full hidePassword"
-              placeholder="Password" v-model="password" @keydown.enter.prevent="onPressEnter" />
+              placeholder="Password" v-model="password" @keydown.enter.prevent="onPressEnter" name="password"
+              autocomplete="on" />
           </div>
         </div>
 
@@ -98,7 +101,8 @@ const name = ref("");
 const bio = ref("");
 const birthdate = ref("");
 const login = ref(true);
-const errorMessage = ref("")
+const errorMessage = ref("");
+const message = ref("");
 
 const emit = defineEmits(["LoggedIn"]);
 
@@ -162,11 +166,9 @@ async function SignUp() {
         userStore.setUsername(username.value);
         userStore.setAuthKey(data.access_token);
 
-        document.getElementById("errorMessage")!.classList.add("text-green-400");
-        errorMessage.value = "Account created with success";
+        message.value = "Account created with success";
         setTimeout(() => {
-          errorMessage.value = "";
-          document.getElementById("errorMessage")!.classList.remove("text-green-400");
+          message.value = "";
         }, 3000);
 
         switchView();
@@ -204,5 +206,14 @@ input[type="date"] {
 
 input[type="date"]:focus {
   box-shadow: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+input[data-autocompleted] {
+  background-color: transparent !important;
 }
 </style>

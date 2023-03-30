@@ -72,14 +72,14 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const getShownUser = (username: string) => {
-    return lastShownUsers.value.get(username);
+    return lastShownUsers.value.get(username.toLowerCase());
   }
   async function loadShownUser(username: string) {
     isBusy.value = true;
     const res = await getUser(username, authKey.value);
     if (res.status === 200) {
       const shownUser = await res.json() as User;
-      lastShownUsers.value.set(shownUser.username, shownUser);
+      lastShownUsers.value.set(shownUser.username.toLowerCase(), shownUser);
       isBusy.value = false;
       return shownUser;
     }
@@ -91,7 +91,7 @@ export const useUserStore = defineStore('user', () => {
     if (res.status === 200) {
       console.log("loaded");
       const publications = await res.json() as SimplifiedPublication[];
-      lastShownUsers.value.get(username)!.publications = lastShownUsers.value.get(username)!.publications.concat(publications);
+      lastShownUsers.value.get(username.toLowerCase())!.publications = lastShownUsers.value.get(username.toLowerCase())!.publications.concat(publications);
     }
   }
   async function loadMoreFollows(username: string, follows: string, page: number) {
@@ -99,10 +99,10 @@ export const useUserStore = defineStore('user', () => {
     if (res.status === 200) {
       const users = await res.json() as SimplifiedUser[];
       if (follows === "followers") {
-        lastShownUsers.value.get(username)!.followers = lastShownUsers.value.get(username)!.followers.concat(users);
+        lastShownUsers.value.get(username.toLowerCase())!.followers = lastShownUsers.value.get(username.toLowerCase())!.followers.concat(users);
       }
       else {
-        lastShownUsers.value.get(username)!.following = lastShownUsers.value.get(username)!.following.concat(users);
+        lastShownUsers.value.get(username.toLowerCase())!.following = lastShownUsers.value.get(username.toLowerCase())!.following.concat(users);
       }
     }
   }
@@ -112,7 +112,7 @@ export const useUserStore = defineStore('user', () => {
       isBusy.value = true;
       const res = await followUser(usernameProp, authKey.value);
       if (res.status === 200) {
-        let user = lastShownUsers.value.get(usernameProp);
+        let user = lastShownUsers.value.get(usernameProp.toLowerCase());
         if (user !== undefined) {
           user.followed_by_user = true;
           user.nb_followers += 1;
@@ -127,7 +127,7 @@ export const useUserStore = defineStore('user', () => {
       isBusy.value = true;
       const res = await unfollowUser(usernameProp, authKey.value);
       if (res.status === 200) {
-        let user = lastShownUsers.value.get(usernameProp);
+        let user = lastShownUsers.value.get(usernameProp.toLowerCase());
         if (user !== undefined) {
           user.followed_by_user = false;
           user.nb_followers -= 1;
