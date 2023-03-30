@@ -45,8 +45,10 @@ import { ref, watch } from "vue";
 import { updateUser } from "@/api/user";
 import { useUserStore } from '@/stores/user'
 import type { Gallery, SimplifiedPublication, User } from "@/api/type";
+import { useGalleryStore } from "@/stores/gallery";
 
 const userStore = useUserStore();
+const galleryStore = useGalleryStore();
 const user = ref();
 const isPublicationModalShown = ref(false);
 const shownPublicationId = ref("");
@@ -112,6 +114,8 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
           }
         }
         user.value = await userStore.loadShownUser(userStore.username) as User;
+        galleryStore.reset();
+        await galleryStore.loadGalleries(user.value);
         console.log('updated')
       }
     }
