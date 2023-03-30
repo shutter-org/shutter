@@ -198,7 +198,7 @@ export const useGalleryStore = defineStore("gallery", () => {
     });
   }
 
-  async function voteDownGallery(gallery: Gallery) {
+  async function voteUpGallery(gallery: Gallery) {
     console.log("upvote gallery");
     if (!isRating.value) {
       isRating.value = true;
@@ -224,7 +224,7 @@ export const useGalleryStore = defineStore("gallery", () => {
       isRating.value = false;
     }
   }
-  async function voteUpGallery(gallery: Gallery) {
+  async function voteDownGallery(gallery: Gallery) {
     console.log("downvote gallery");
     if (!isRating.value) {
       isRating.value = true;
