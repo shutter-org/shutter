@@ -60,10 +60,6 @@ const galleryToModify = ref();
 
 loadUser();
 
-watch(() => userStore.getShownUser(userStore.username) as User, (newUser: User) => {
-  user.value = newUser;
-});
-
 async function loadUser() {
   const token = userStore.getShownUser(userStore.username);
   if (token !== undefined) {
@@ -115,7 +111,7 @@ async function save(picture: Blob, picture_url: string, username: string, name: 
             userStore.setProfilePicture(data.user.profile_picture);
           }
         }
-        user.value = await userStore.loadShownUser(userStore.username);
+        user.value = await userStore.loadShownUser(userStore.username) as User;
         console.log('updated')
       }
     }
