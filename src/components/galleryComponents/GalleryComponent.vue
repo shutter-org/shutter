@@ -68,7 +68,6 @@ import PublicationGalleryComponent from "./PublicationGalleryComponent.vue";
 import RightChevron from "@/components/icons/RightChevron.vue";
 import LeftChevron from "@/components/icons/LeftChevron.vue";
 import CameraIcon from "../icons/CameraIcon.vue";
-import SkewLoader from "vue-spinner/src/SkewLoader.vue";
 import type { Gallery, SimplifiedPublication } from "@/api/type";
 import { type PropType, ref, onMounted, onBeforeUnmount } from "vue";
 import { useGalleryStore } from "@/stores/gallery";

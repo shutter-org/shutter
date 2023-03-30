@@ -17,10 +17,10 @@
     </router-link>
 </template>
 <script setup lang="ts">
+import ImgLoader from '../ImgLoader.vue';
 import { ref } from 'vue';
 import type { SimplifiedUserWithName } from '@/api/type';
 import { useUserStore } from '@/stores/user';
-import ImgLoader from '../ImgLoader.vue';
 
 
 const emit = defineEmits(["closeSearchModal"]);
