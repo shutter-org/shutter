@@ -1,5 +1,4 @@
-
-const API_URL = "https://faleraza12.pythonanywhere.com/";
+const API_URL = "https://faleraza12.pythonanywhere.com";
 
 export const getUser = async (username: String, authKey: String) => {
     const key = "Bearer " + authKey;

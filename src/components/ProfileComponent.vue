@@ -22,13 +22,15 @@
     </div>
 
     <!-- Biography -->
-    <p v-if="props.user.biography" class="w-full text-2xl p-2 pb-4 px-6 border-t-2 border-b-2 bottom-border break-words">
+    <p v-if="props.user.biography"
+      class="w-full text-2xl p-2 pb-4 px-6 border-t-2 border-b-2 shutter-border-mute break-words">
       {{
         props.user.biography
       }}</p>
 
     <!-- Stats -->
-    <div class="w-full h-20 flex flex-row gap-10 PRO:gap-4 items-center p-2 pb-4 justify-evenly border-b-2 bottom-border">
+    <div
+      class="w-full h-20 flex flex-row gap-10 PRO:gap-4 items-center p-2 pb-4 justify-evenly border-b-2 shutter-border-mute">
 
       <!-- Post counts -->
       <p
@@ -56,7 +58,7 @@
 
     <!-- UnfollowButon (if not current user) -->
     <button v-else-if="!isCurrentUser && user.followed_by_user"
-      class="unFollowButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10"
+      class="unfollowButton mt-4 w-3/4 h-18 text-xl p-2 rounded-lg pr-10 pl-10"
       @click="userStore.unfollow(user.username)">Unfollow</button>
 
     <!-- Tab button posts/galleries -->
@@ -64,14 +66,14 @@
 
       <!-- Pictures tab button -->
       <button id="pictureTabButton"
-        class="w-full h-full p-2 selected-bottom-border border-b-2 flex flex-row justify-center items-center"
+        class="w-full h-full p-2 shutter-border-color border-b-2 flex flex-row justify-center items-center"
         @click="togglePictureTab">
         <ImageIcon class="h-full aspect-square"></ImageIcon>
       </button>
 
       <!-- Galleries tab buttom -->
       <button id="galleryTabButton"
-        class="w-full h-full p-2 bottom-border border-b-2 flex flex-row justify-center items-center"
+        class="w-full h-full p-2 shutter-border-mute border-b-2 flex flex-row justify-center items-center"
         @click="toggleGalleryTab">
         <GalleryIcon class="h-full aspect-square"></GalleryIcon>
       </button>
@@ -121,7 +123,7 @@
     </div>
 
     <!-- time passsed since user's creation -->
-    <p class="text-xs text-center font-bold w-full p-2 pt-6 border-t-2 bottom-border mt-6">
+    <p class="text-xs text-center font-bold w-full p-2 pt-6 border-t-2 shutter-border-mute mt-6">
       member since {{ props.user.created_date }}
     </p>
 
@@ -224,49 +226,26 @@ const togglePictureTab = () => {
   isPictureTabShown.value = true;
 
   let pictureTabButton = document.getElementById("pictureTabButton")!;
-  pictureTabButton.classList.add("selected-bottom-border");
-  pictureTabButton.classList.remove("bottom-border");
+  pictureTabButton.classList.add("shutter-border-color");
+  pictureTabButton.classList.remove("shutter-border-mute");
 
   let galleryTabButton = document.getElementById("galleryTabButton")!;
-  galleryTabButton.classList.add("bottom-border");
-  galleryTabButton.classList.remove("selected-bottom-border");
+  galleryTabButton.classList.add("shutter-border-mute");
+  galleryTabButton.classList.remove("shutter-border-color");
 };
 const toggleGalleryTab = () => {
   isPictureTabShown.value = false;
 
   let galleryTabButton = document.getElementById("galleryTabButton")!;
-  galleryTabButton.classList.add("selected-bottom-border");
-  galleryTabButton.classList.remove("bottom-border");
+  galleryTabButton.classList.add("shutter-border-color");
+  galleryTabButton.classList.remove("shutter-border-mute");
 
   let pictureTabButton = document.getElementById("pictureTabButton")!;
-  pictureTabButton.classList.add("bottom-border");
-  pictureTabButton.classList.remove("selected-bottom-border");
+  pictureTabButton.classList.add("shutter-border-mute");
+  pictureTabButton.classList.remove("shutter-border-color");
 
 };
 const openPublicationModalFromGallery = (publicationId: string) => {
   emit("openPublicationModal", publicationId);
 };
 </script>
-
-<style scoped>
-.profile {
-  border-color: var(--color-border);
-  background-color: var(--color-background);
-}
-
-.bottom-border {
-  border-color: var(--color-background-mute);
-}
-
-.selected-bottom-border {
-  border-color: var(--color-border);
-}
-
-.followButton {
-  background-color: var(--color-border);
-}
-
-.unFollowButton {
-  background-color: var(--hover-color);
-}
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 z-50 flex flex-col gap-8 overflow-y-scroll py-10 items-center">
+  <div class="fixed inset-0 z-50 flex flex-col gap-8 overflow-y-scroll py-10 items-center PRO:min-h-[calc(100vh-160px)]">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
 
     <!-- Spinners showing status (updating, loading) -->
@@ -104,5 +104,3 @@ const deletePub = () => {
   emit("close");
 }
 </script>
-
-<style scoped></style>

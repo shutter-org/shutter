@@ -60,25 +60,23 @@
       </div>
 
       <!-- Login button -->
-      <button v-if="login" @click="SignIn"
-        class="signButton bg-gray-100 special-text-color font-bold rounded-md h-9 w-36 mt-4">
+      <button v-if="login" @click="SignIn" class="signButton bg-gray-100 tags font-bold rounded-md h-9 w-36 mt-4">
         Log in
       </button>
 
       <!-- Sign up button -->
-      <button v-if="!login" @click="SignUp"
-        class="signButton bg-gray-100 special-text-color font-bold rounded-md h-9 w-36 mt-4">
+      <button v-if="!login" @click="SignUp" class="signButton bg-gray-100 tags font-bold rounded-md h-9 w-36 mt-4">
         Sign up
       </button>
 
       <!-- Switch to login/signup -->
       <div class="border-t shutter-border-color w-full flex justify-center items-center space-x-2 pt-2">
         <span v-if="login">Don't have an account?</span>
-        <button v-if="login" @click="switchView" class="special-text-color text-lg">
+        <button v-if="login" @click="switchView" class="tags text-lg">
           Signup
         </button>
         <span v-if="!login">Have an account?</span>
-        <button v-if="!login" @click="switchView" class="special-text-color text-lg">
+        <button v-if="!login" @click="switchView" class="tags text-lg">
           Log in
         </button>
       </div>
@@ -185,11 +183,7 @@ async function SignUp() {
   }
 }
 </script>
-<style>
-.special-text-color {
-  color: var(--special-text-color);
-}
-
+<style scoped>
 .hidePassword {
   -webkit-text-security: disc;
 }

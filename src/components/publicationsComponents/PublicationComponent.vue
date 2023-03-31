@@ -49,7 +49,7 @@
     <!-- Tags display -->
     <div class="w-full flex flex-wrap gap-2 justify-start p-2">
       <button v-for="tag of props.publication.tags" :key="tag"
-        class="tag text-xl underline overflow-hidden whitespace-nowrap overflow-ellipsis" @click="searchTag(tag)">
+        class="tags text-xl underline overflow-hidden whitespace-nowrap overflow-ellipsis" @click="searchTag(tag)">
         #{{ tag }}
       </button>
     </div>
@@ -77,9 +77,9 @@
 
     <!-- Write comment section -->
     <div class="w-full shutter-border-mute border-t-2 p-2 pt-8">
-      <div class="w-full flex flex-row inputableContainer rounded-lg border-2">
-        <textarea class="inputable w-full max-h-36 text-xl p-2 border-0 rounded-lg" placeholder="Leave a comment..."
-          maxlength="200" v-model="message"
+      <div class="w-full flex flex-row shutter-border-color shutter-modal-color rounded-lg border-2">
+        <textarea class="inputable shutter-modal-color w-full max-h-36 text-xl p-2 border-0 rounded-lg"
+          placeholder="Leave a comment..." maxlength="200" v-model="message"
           oninput='this.style.height = "";this.style.height = this.scrollHeight + 4 + "px"' @keydown="preventNextLine"
           onkeyup='this.style.height = "";this.style.height = this.scrollHeight + 4 + "px"' @keyup="submitComment" />
         <button class="h-full w-fit p-2 rounded-lg my-auto" @click="submitCommentClick">
@@ -157,22 +157,3 @@ const searchTag = (tag: string) => {
   router.push('/explore/' + tag);
 }
 </script>
-
-<style scoped>
-.tag {
-  color: var(--special-text-color);
-}
-
-
-.inputableContainer {
-  border-color: var(--color-border);
-  background-color: var(--modal-color);
-}
-
-.inputable {
-  background-color: transparent;
-  box-shadow: none;
-  resize: none;
-  overflow: hidden;
-}
-</style>

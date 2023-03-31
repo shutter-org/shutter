@@ -7,7 +7,7 @@
         <div
             class="post flex flex-col gap-4 items-center rounded-lg p-4 relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
             <div
-                class="modal shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4">
+                class="shutter-modal-color shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4">
                 <div class="w-full h-48 PRO:h-80 flex flex-row PRO:flex-col gap-10 PRO:gap-4 items-center p-2">
 
                     <!-- Picture uploader -->
@@ -23,10 +23,12 @@
 
                     <!-- Inline text modifications (username, name) -->
                     <div class="h-full w-full flex flex-col gap-4 justify-center overflow-x-auto p-1">
-                        <input class="w-full font-bold text-4xl inputable p-2 border-2 rounded-lg outline-none"
+                        <input
+                            class="w-full font-bold text-4xl inputable shutter-border-color shutter-background-color p-2 border-2 rounded-lg"
                             placeholder="Username..." maxlength="50" v-model="username" />
                         <div class="w-full flex flex-row PRO:justify-center">
-                            <input class="w-full font-bold text-2xl inputable p-2 border-2 rounded-lg outline-none"
+                            <input
+                                class="w-full font-bold text-2xl inputable shutter-border-color shutter-background-color p-2 border-2 rounded-lg"
                                 placeholder="Name..." maxlength="50" v-model="name" />
                             <p class="w-max font-bold text-2xl p-2 inline whitespace-nowrap">
                                 • {{ props.user.age }}
@@ -36,16 +38,18 @@
                 </div>
                 <!-- Multiline text modification (biography) -->
                 <div class="w-full h-full p-3 pb-2">
-                    <textarea id="bioElement" class="inputable w-full max-h-48 text-xl p-2 border-2 rounded-lg"
+                    <textarea id="bioElement"
+                        class="inputable shutter-border-color shutter-background-color w-full max-h-48 text-xl p-2 border-2 rounded-lg"
                         placeholder="Biography..." maxlength="200" v-model="bio"
                         oninput='this.style.height = "";this.style.height = this.scrollHeight + 4 + "px"'
                         @keydown="preventNextLine" />
                 </div>
 
+                <!-- error message -->
                 <p class="text-lg inline h-7 items-center text-red-500">{{ errorMessage }}</p>
 
                 <!-- save button -->
-                <button class="text-xl p-2 rounded-lg pr-10 pl-10 saveButton" @click="save">save</button>
+                <button class="text-xl p-2 rounded-lg pr-10 pl-10 modalButton" @click="save">save</button>
             </div>
         </div>
     </div>
@@ -173,38 +177,3 @@ onMounted(() => {
     bioElement.style.height = bioElement.scrollHeight + 4 + "px";
 })
 </script>
-  
-<style scoped>
-.modal {
-    background-color: var(--modal-color);
-}
-
-.saveButton {
-    background-color: var(--hover-color);
-}
-
-.saveButton:hover {
-    background-color: var(--color-border);
-}
-
-.inputable {
-    border-color: var(--color-border);
-    background-color: var(--color-background);
-    box-shadow: none;
-    resize: none;
-}
-
-.stack {
-    grid-row: 1;
-    grid-column: 1;
-}
-
-.inputableImage {
-    color: rgba(255, 255, 255, 0.3);
-
-}
-
-.shadowback {
-    background-color: rgba(0, 0, 0, 0.3);
-}
-</style>
