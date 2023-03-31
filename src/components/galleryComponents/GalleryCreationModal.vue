@@ -30,7 +30,7 @@
                 placeholder="Description..." maxlength="200" v-model="description"></textarea>
 
             <!-- Error message -->
-            <p class="text-lg inline h-7 mb-3 items-center text-red-500">{{ errorMessage }}</p>
+            <p class="text-lg inline h-7 mb-1 items-center text-red-500">{{ errorMessage }}</p>
 
 
             <!-- Save button -->
@@ -41,7 +41,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useGalleryStore } from '@/stores/gallery';
 import type { GalleryParameters } from '@/api/type';
 
@@ -61,8 +61,20 @@ function clickOnCheckbox() {
         public_bool.value = false
     }
 }
+watch([title, () => description.value], ([newTitle, newDesc]) => {
+    if (!newTitle && !newDesc) {
+        errorMessage.value = 'Title and Description are required';
+    } else if (!newTitle) {
+        errorMessage.value = 'Title is required';
+    } else if (!newDesc) {
+        errorMessage.value = 'Description is required';
+    } else {
+        errorMessage.value = '';
+    }
+})
 
 async function createGallery() {
+    if (errorMessage.value) return
     const galleryParameters: GalleryParameters = {
         title: title.value,
         description: description.value,

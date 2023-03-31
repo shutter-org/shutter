@@ -144,12 +144,13 @@ export const useGalleryStore = defineStore("gallery", () => {
     );
     if (res.status !== 200) {
       console.log("erreur dans le update de la gallery");
+      return res;
     } else {
       //update parameter of gallery in map with gallery_id
       let gallery = getGalleryFromMap(gallery_id) as Gallery;
       gallery = { ...gallery, ...galleryParameters };
       setGalleryMap(gallery);
-      return true;
+      return res;
     }
   }
 
