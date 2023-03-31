@@ -46,7 +46,6 @@ const doesUserExist = ref(false);
 loadUser(route.params.username as string);
 
 if ((route.params.username as string).toLowerCase() === userStore.username.toLocaleLowerCase()) {
-    console.log("test");
     router.push("/profile");
 }
 
@@ -64,7 +63,6 @@ async function loadUser(username: string) {
     isUpdating.value = false;
 };
 const openPublicationModal = (publicationId: string) => {
-    console.log(publicationId);
     shownPublicationId.value = publicationId;
     isPublicationModalShown.value = true;
 };
