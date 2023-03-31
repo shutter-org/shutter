@@ -114,7 +114,6 @@ export const useGalleryStore = defineStore("gallery", () => {
         console.log("erreur dans le fetch de la gallery");
       } else {
         const gallery = (await resGallery.json()) as Gallery;
-        console.log(gallery);
         addGalleryToMap(gallery);
         return true;
       }
