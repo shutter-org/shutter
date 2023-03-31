@@ -85,64 +85,70 @@ const emit = defineEmits(["close"]);
 const save = async () => {
     if (username.value !== "") {
         if (name.value !== "") {
-            const body = {} as User;
+            if (/\s/.test(username.value)) {
+                const body = {} as User;
 
-            const user = userStore.getShownUser(userStore.username) as User;
-            async function continueSave() {
-                if (user.username !== username.value) {
-                    body.username = username.value;
-                }
-                if (user.name !== name.value) {
-                    body.name = name.value;
-                }
-                if (user.biography !== bio.value) {
-                    body.biography = bio.value;
-                }
+                const user = userStore.getShownUser(userStore.username) as User;
+                async function continueSave() {
+                    if (user.username !== username.value) {
+                        body.username = username.value;
+                    }
+                    if (user.name !== name.value) {
+                        body.name = name.value;
+                    }
+                    if (user.biography !== bio.value) {
+                        body.biography = bio.value;
+                    }
 
-                if (Object.keys(body).length !== 0) {
-                    console.log("updating user");
-                    const res = await updateUser(userStore.username, userStore.authKey, body);
-                    const data = await res.json();
-                    if (res.status !== 200) {
-                        errorMessage.value = data.Error;
-                        setTimeout(() => errorMessage.value = "", 3000);
-                    } else {
-                        await userStore.loadShownUser(username.value) as User;
-                        galleryStore.reset();
-                        await galleryStore.loadGalleries(user);
+                    if (Object.keys(body).length !== 0) {
+                        console.log("updating user");
+                        const res = await updateUser(userStore.username, userStore.authKey, body);
+                        const data = await res.json();
+                        if (res.status !== 200) {
+                            errorMessage.value = data.Error;
+                            setTimeout(() => errorMessage.value = "", 3000);
+                        } else {
+                            await userStore.loadShownUser(username.value) as User;
+                            galleryStore.reset();
+                            await galleryStore.loadGalleries(user);
 
-                        if (data.access_token !== undefined) {
-                            console.log("key changed")
-                            userStore.setAuthKey(data.access_token);
-                        }
-                        if (data.user !== undefined && data.user !== null) {
-                            if (data.user.username !== undefined) {
-                                userStore.removeShownUser(userStore.username);
-                                userStore.setUsername(data.user.username);
+                            if (data.access_token !== undefined) {
+                                console.log("key changed")
+                                userStore.setAuthKey(data.access_token);
                             }
-                            if (data.user.profile_picture !== undefined) {
-                                userStore.setProfilePicture(data.user.profile_picture);
+                            if (data.user !== undefined && data.user !== null) {
+                                if (data.user.username !== undefined) {
+                                    userStore.removeShownUser(userStore.username);
+                                    userStore.setUsername(data.user.username);
+                                }
+                                if (data.user.profile_picture !== undefined) {
+                                    userStore.setProfilePicture(data.user.profile_picture);
+                                }
                             }
+                            console.log('updated')
+                            emit("close");
                         }
-                        console.log('updated')
+                    }
+                    else {
                         emit("close");
                     }
                 }
-                else {
-                    emit("close");
-                }
-            }
 
-            if (user.profile_picture !== picture_url.value) {
-                const reader = new FileReader();
-                reader.onload = () => {
-                    body.profile_picture = reader.result as string;
+                if (user.profile_picture !== picture_url.value) {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        body.profile_picture = reader.result as string;
+                        continueSave();
+                    }
+                    reader.readAsDataURL(picture.value);
+                }
+                else {
                     continueSave();
                 }
-                reader.readAsDataURL(picture.value);
             }
             else {
-                continueSave();
+                errorMessage.value = "Username must not contain white spaces";
+                setTimeout(() => errorMessage.value = "", 3000);
             }
         }
         else {
