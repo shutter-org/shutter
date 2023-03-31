@@ -146,31 +146,37 @@ async function SignIn() {
 async function SignUp() {
   if (password.value === passwordConfirmation.value) {
     if (!!username.value && !!password.value && !!email.value && !!name.value && !!birthdate.value) {
-      const newUser: SignUpUser = {
-        username: username.value,
-        password: encryptWithAES(password.value),
-        email: email.value,
-        name: name.value,
-        birthdate: birthdate.value.replace(/-/g, '/'),
-      };
+      if (/\s/.test(username.value)) {
+        const newUser: SignUpUser = {
+          username: username.value,
+          password: encryptWithAES(password.value),
+          email: email.value,
+          name: name.value,
+          birthdate: birthdate.value.replace(/-/g, '/'),
+        };
 
-      const res = await signUp(newUser)
-      if (res.status !== 201) {
-        const data = await res.json();
-        errorMessage.value = data.Error;
-        setTimeout(() => errorMessage.value = "", 3000);
+        const res = await signUp(newUser)
+        if (res.status !== 201) {
+          const data = await res.json();
+          errorMessage.value = data.Error;
+          setTimeout(() => errorMessage.value = "", 3000);
+        }
+        else {
+          const data = await res.json();
+          userStore.setUsername(username.value);
+          userStore.setAuthKey(data.access_token);
+
+          message.value = "Account created with success";
+          setTimeout(() => {
+            message.value = "";
+          }, 3000);
+
+          switchView();
+        }
       }
       else {
-        const data = await res.json();
-        userStore.setUsername(username.value);
-        userStore.setAuthKey(data.access_token);
-
-        message.value = "Account created with success";
-        setTimeout(() => {
-          message.value = "";
-        }, 3000);
-
-        switchView();
+        errorMessage.value = "Username must not contain white spaces";
+        setTimeout(() => errorMessage.value = "", 3000);
       }
     }
     else {
