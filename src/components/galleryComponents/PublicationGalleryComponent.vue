@@ -3,7 +3,7 @@
         <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="props.publication.picture" />
 
         <!-- Button to open publication modal -->
-        <DeleteComponent v-if="props.isCurrentUser && hover" class="absolute top-2 right-4 rounded-md transparent"
+        <DeleteComponent v-if="props.isCurrentUser && hover" class="absolute top-2 right-4 rounded-md text-see-through"
             @delete="emit('deletePublication')" />
 
         <!-- Button to open publication modal -->
@@ -39,19 +39,3 @@ const emit = defineEmits({
     }
 });
 </script>
-
-<style>
-.open-button {
-    transform: translate(-50%, -50%);
-}
-
-.transparent {
-    color: rgba(255, 255, 255, 0.3);
-}
-
-.text-see-through {
-    background-color: rgba(255, 255, 255, 0.3);
-    color: #000000;
-    mix-blend-mode: lighten;
-}
-</style>

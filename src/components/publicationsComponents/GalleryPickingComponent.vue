@@ -36,7 +36,7 @@
 
 
             <!-- Save button -->
-            <button class="save-button shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="updateGalleries">
+            <button class="modal-button text-xl p-2 rounded-lg pr-10 pl-10" @click="updateGalleries">
                 Save
             </button>
         </div>
@@ -111,6 +111,7 @@ onMounted(() => {
 });
 
 async function updateGalleries() {
+    if (isUpdating.value === true) return;
     isLoading.value = true;
     let shownPickingGalleries = galleryStore.getShownPickingGalleries(props.publication.publication_id);
     for (let i = 0; i < copyOfShownGalleries.value.length; i++) {
@@ -130,17 +131,6 @@ async function updateGalleries() {
     }
     emit('save');
 }
-
 </script>
-<style scoped>
-.save-button:hover {
-    background-color: var(--color-border);
-}
-
-input[type="checkbox"]:focus {
-    outline: none;
-    box-shadow: none;
-}
-</style>
 
 

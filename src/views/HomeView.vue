@@ -79,7 +79,6 @@ async function loadMorePublications() {
 async function saveGalleryPicking() {
   isUpdating.value = true;
   isShowingGalleryPickingModal.value = false;
-  //call api
   isUpdating.value = false;
 }
 

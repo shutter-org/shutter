@@ -24,11 +24,12 @@
             </div>
 
             <!-- Description -->
-            <textarea class="inputable w-full max-h-48 mb-5 p-2 border-2 rounded-lg" placeholder="Description..."
-                maxlength="200" v-model="description"></textarea>
+            <textarea
+                class="inputable shadow-none resize-none shutter-border-color shutter-background-color w-full max-h-48 mb-5 p-2 border-2 rounded-lg"
+                placeholder="Description..." maxlength="200" v-model="description"></textarea>
 
             <!-- Save button -->
-            <button class="save-button shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="modifyGallery">
+            <button class="modal-button shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="modifyGallery">
                 Save
             </button>
         </div>
@@ -85,25 +86,3 @@ const vFocus = {
     mounted: (el: { focus: () => any; }) => el.focus(),
 };
 </script>
-<style scoped>
-.inputable {
-    border-color: var(--color-border);
-    background-color: var(--color-background);
-    box-shadow: none;
-    resize: none;
-}
-
-.save-button:hover {
-    background-color: var(--color-border);
-}
-
-input[type="checkbox"]:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-textarea:focus {
-    outline: none;
-    box-shadow: none;
-}
-</style>

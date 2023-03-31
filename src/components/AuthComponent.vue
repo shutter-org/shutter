@@ -60,12 +60,13 @@
       </div>
 
       <!-- Login button -->
-      <button v-if="login" @click="SignIn" class="signButton bg-gray-100 tags font-bold rounded-md h-9 w-36 mt-4">
+      <button v-if="login" @click="SignIn" class="hover:bg-[#e7e7e7] bg-gray-100 tags font-bold rounded-md h-9 w-36 mt-4">
         Log in
       </button>
 
       <!-- Sign up button -->
-      <button v-if="!login" @click="SignUp" class="signButton bg-gray-100 tags font-bold rounded-md h-9 w-36 mt-4">
+      <button v-if="!login" @click="SignUp"
+        class="hover:bg-[#e7e7e7] bg-gray-100 tags font-bold rounded-md h-9 w-36 mt-4">
         Sign up
       </button>
 
@@ -186,20 +187,6 @@ async function SignUp() {
 <style scoped>
 .hidePassword {
   -webkit-text-security: disc;
-}
-
-.signButton:hover {
-  background-color: #e7e7e7;
-}
-
-input[type="date"] {
-  background: transparent;
-  color: var(--color-text);
-  padding-left: 0px;
-}
-
-input[type="date"]:focus {
-  box-shadow: none;
 }
 
 input:-webkit-autofill,

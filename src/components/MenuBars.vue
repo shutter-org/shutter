@@ -41,7 +41,7 @@
             <SearchIcon />
             <div class="flex-1 ml-3 PRO:hidden flex justify-between">
               <span>Search</span>
-              <kbd class="hx_kbd border-2 shutter-border-mute">
+              <kbd class="cmd-kbd border-2 shutter-border-mute">
                 <span v-if="isWindows">Ctrl K</span>
                 <span v-else>&#x2318; K</span>
               </kbd>
@@ -142,18 +142,3 @@ const logOut = () => {
   emit("logOut");
 }
 </script>
-<style>
-.hx_kbd {
-  display: inline-flex;
-  align-items: center;
-  min-width: 21px;
-  padding: 0 4px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--color-fg-muted);
-  text-align: center;
-  border-radius: 6px;
-  box-shadow: none;
-}
-</style>

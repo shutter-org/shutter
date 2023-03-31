@@ -186,15 +186,3 @@ async function loadMorePublications() {
     }
 }
 </script>
-<style>
-div.scrollmenu {
-    overflow: auto;
-    white-space: nowrap;
-}
-
-.middle {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-}
-</style>

@@ -18,9 +18,7 @@
 </template>
 <script setup lang="ts">
 import ImgLoader from '../ImgLoader.vue';
-import { ref } from 'vue';
 import type { SimplifiedUserWithName } from '@/api/type';
-import { useUserStore } from '@/stores/user';
 
 
 const emit = defineEmits(["closeSearchModal"]);
@@ -30,6 +28,4 @@ function closeSearchModal() {
 const props = defineProps<{
     user: SimplifiedUserWithName;
 }>();
-const userStore = useUserStore();
-const loggedUsername = ref(userStore.username);
 </script>
