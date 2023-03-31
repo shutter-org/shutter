@@ -1,5 +1,5 @@
 <template>
-    <button class="w-80 px-2 mt-2" @mouseover="hover = true" @mouseleave="hover = false">
+    <button class="w-80 h-80 PRO:w-60 PRO:h-60 px-2 mt-2" @mouseover="hover = true" @mouseleave="hover = false">
         <ImgLoader class="w-full object-cover aspect-square rounded-lg" :src="props.publication.picture" />
 
         <!-- Button to open publication modal -->
