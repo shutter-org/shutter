@@ -99,7 +99,6 @@ function filterSearch(search: string) {
 async function loadSearchedUser(search: string) {
     const res = await searchUser(search, userStore.authKey);
     if (res.status !== 200) {
-        console.log(res);
         return;
     } else {
         const data = await res.json()
@@ -109,7 +108,6 @@ async function loadSearchedUser(search: string) {
 async function loadSearchedTags(search: string) {
     const res = await searchTag(search, userStore.authKey);
     if (res.status !== 200) {
-        console.log(res);
         return;
     } else {
         const data = await res.json()

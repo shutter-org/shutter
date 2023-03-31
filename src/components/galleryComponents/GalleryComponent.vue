@@ -173,15 +173,12 @@ async function loadMorePublications() {
         isUpdating.value = true;
 
         galleryStore.addIndexToGalleryIndex(props.gallery.gallery_id, index + 1);
-        console.log(galleryStore.getGalleryIndex(props.gallery.gallery_id))
         isUpdating.value = true;
         const res = await getPublicationFromGalleryApi(props.gallery.gallery_id, index + 1, userStore.authKey);
         const data = await res.json();
-        console.log(data)
         for (let i = 0; i < data.length; i++) {
             galleryStore.addPublicationToGalleryMap(props.gallery.gallery_id, data[i])
         }
-        console.log(data);
         isUpdating.value = false;
     }
 }

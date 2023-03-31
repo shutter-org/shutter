@@ -85,7 +85,6 @@ const delUser = () => {
   logoutButton?.click();
 }
 const openPublicationModal = (publicationId: string) => {
-  console.log(publicationId);
   shownPublicationId.value = publicationId;
   isPublicationModalShown.value = true;
 };

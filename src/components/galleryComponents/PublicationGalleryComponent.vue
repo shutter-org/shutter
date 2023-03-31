@@ -34,8 +34,6 @@ const emit = defineEmits({
     openPublicationModal: (publicationId: string) => {
         return !!publicationId;
     },
-    deletePublication: () => {
-        return
-    }
+    deletePublication: () => true
 });
 </script>
