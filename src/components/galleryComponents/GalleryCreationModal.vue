@@ -29,6 +29,10 @@
                 class="inputable shadow-none resize-none shutter-border-color shutter-background-color w-full max-h-48 mb-5 p-2 border-2 rounded-lg"
                 placeholder="Description..." maxlength="200" v-model="description"></textarea>
 
+            <!-- Error message -->
+            <p class="text-lg inline h-7 mb-3 items-center text-red-500">{{ errorMessage }}</p>
+
+
             <!-- Save button -->
             <button class="modalButton text-xl p-2 rounded-lg pr-10 pl-10" @click="createGallery">
                 Save
@@ -41,6 +45,7 @@ import { ref } from 'vue';
 import { useGalleryStore } from '@/stores/gallery';
 import type { GalleryParameters } from '@/api/type';
 
+const errorMessage = ref('');
 const galleryStore = useGalleryStore();
 const title = ref('')
 const description = ref('')
@@ -63,7 +68,13 @@ async function createGallery() {
         description: description.value,
         private: private_bool.value
     }
-    await galleryStore.createGallery(galleryParameters)
+    const res = await galleryStore.createGallery(galleryParameters)
+    if (res.status != 201) {
+        const json = await res.json()
+        console.log('here')
+        errorMessage.value = json.Error;
+        return
+    }
     emit('close')
 }
 const emit = defineEmits(["close", "createGallery"]);
