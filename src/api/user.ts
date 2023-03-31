@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = "https://faleraza12.pythonanywhere.com";
 
 export const getUser = async (username: String, authKey: String) => {
     const key = "Bearer " + authKey;
