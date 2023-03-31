@@ -104,5 +104,3 @@ const deletePub = () => {
   emit("close");
 }
 </script>
-
-<style scoped></style>

@@ -36,10 +36,12 @@ span {
 .shutter-background-mute {
   background-color: var(--color-background-mute);
 }
+
 .shutter-background-mute-transparent {
   background-color: var(--color-background-mute);
   opacity: 0.55;
 }
+
 .shutter-modal-color {
   background-color: var(--modal-color);
 }
@@ -51,8 +53,51 @@ span {
 .colored-border {
   border-color: var(--color-text);
 }
+
 .shutter-color-border {
   color: var(--color-border);
+}
+
+.modalButton {
+  background-color: var(--hover-color);
+}
+
+.modalButton:hover {
+  background-color: var(--color-border);
+}
+
+
+.followButton {
+  background-color: var(--color-border);
+}
+
+
+.unfollowButton {
+  background-color: var(--hover-color);
+}
+
+.stack {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.inputableImage {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.shadowback {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.inputable {
+  box-shadow: none;
+  resize: none;
+}
+
+.inputable:focus {
+  outline: 0px;
+  border-color: var(--color-border);
+  box-shadow: none;
 }
 
 input[type="checkbox"] {
@@ -61,4 +106,8 @@ input[type="checkbox"] {
 
 input[type="checkbox"]:hover {
   cursor: pointer;
+}
+
+.tags {
+  color: var(--special-text-color);
 }

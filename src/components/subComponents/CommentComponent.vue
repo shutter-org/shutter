@@ -54,5 +54,3 @@ const emit = defineEmits({
   },
 });
 </script>
-
-<style scoped></style>

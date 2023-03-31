@@ -2,7 +2,7 @@
   <div class="fixed inset-0 z-50 flex flex-col gap-8 overflow-y-scroll py-10 items-center px-12">
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full py-10" @click="emit('close')"></div>
     <div
-      class="post flex flex-col gap-4 items-center rounded-lg p-4 relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
+      class="shutter-modal-color flex flex-col gap-4 items-center rounded-lg p-4 relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
       <!-- User identifications -->
       <div class="flex flex-row items-center justify-between w-full">
         <User class="h-14 mr-auto" :user="userStore.getSimplifiedUser()"></User>
@@ -10,7 +10,7 @@
 
       <!-- Picture uploader -->
       <button @click="openUploadForm"
-        class="inputable w-full aspect-square object-cover rounded-lg grid grid-cols-1 grid-rows-1 justify-center items-center border-2">
+        class="shutter-border-color shutter-background-color inputable w-full aspect-square object-cover rounded-lg grid grid-cols-1 grid-rows-1 justify-center items-center border-2">
         <ImgLoader id="picture" v-if="isPictureUploaded" :src="picture_url" alt=""
           class="w-full aspect-square object-cover rounded-lg stack" />
         <div id="svg" class="w-full aspect-square stack z-50 rounded-lg flex justify-center">
@@ -20,15 +20,18 @@
       <input class="hidden" type="file" id="imgInput" name="img" accept="image/*" @change="loadPicture" />
 
       <!-- Multiline text input (description, tags) -->
-      <textarea class="inputable desc h-36 w-full text-xl p-2 border-2 rounded-lg" placeholder="Description..."
-        maxlength="200" v-model="desc" />
-      <textarea class="inputable tags h-32 w-full text-xl p-2 border-2 rounded-lg" placeholder="Tags..." maxlength="160"
-        v-model="tags" />
+      <textarea
+        class="shutter-border-color shutter-background-color inputable desc h-36 w-full text-xl p-2 border-2 rounded-lg"
+        placeholder="Description..." maxlength="200" v-model="desc" />
+      <textarea
+        class="shutter-border-color shutter-background-color inputable tags h-32 w-full text-xl p-2 border-2 rounded-lg"
+        placeholder="Tags..." maxlength="160" v-model="tags" />
 
+      <!-- error message -->
       <p class="text-lg inline h-7 items-center text-red-500">{{ errorMessage }}</p>
 
       <!-- Post button -->
-      <button @click="post" class="postButton text-xl p-2 rounded-lg pr-10 pl-10">
+      <button @click="post" class="modalButton text-xl p-2 rounded-lg pr-10 pl-10">
         Post
       </button>
     </div>
@@ -125,46 +128,3 @@ async function post() {
   }
 }
 </script>
-
-<style scoped>
-.post {
-  background: var(--modal-color);
-}
-
-.inputable {
-  border-color: var(--color-border);
-  background-color: var(--color-background);
-}
-
-.desc {
-  box-shadow: none;
-  resize: none;
-}
-
-.tags {
-  box-shadow: none;
-  resize: none;
-  color: var(--special-text-color);
-}
-
-.postButton {
-  background-color: var(--hover-color);
-}
-
-.postButton:hover {
-  background-color: var(--color-border);
-}
-
-.stack {
-  grid-row: 1;
-  grid-column: 1;
-}
-
-.inputableImage {
-  color: rgba(255, 255, 255, 0.3);
-}
-
-.shadowback {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-</style>
