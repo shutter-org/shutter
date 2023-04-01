@@ -36,7 +36,6 @@ import { ref } from "vue";
 import { usePublicationStore } from "@/stores/publication";
 import type { Publication as Pub, SimplifiedPublication } from "@/api/type";
 
-
 const publicationStore = usePublicationStore();
 const isShowingGalleryPickingModal = ref(false);
 const publications = ref([] as Pub[]);
@@ -81,7 +80,6 @@ async function saveGalleryPicking() {
   isShowingGalleryPickingModal.value = false;
   isUpdating.value = false;
 }
-
 const handleScroll = () => {
   let container = document.getElementById("publicationsContainer")!;
   if ((container.offsetHeight + container.scrollTop + 500) >= container.scrollHeight) {

@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:5000";
+import { API_URL } from "./url";
 
 export const postComment = async (publicationId: String, message: String, authKey: String) => {
     const key = "Bearer " + authKey;

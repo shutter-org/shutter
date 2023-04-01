@@ -23,5 +23,4 @@ import DeleteComponent from '../subComponents/DeleteComponent.vue';
 import SadIcon from '../icons/SadIcon.vue';
 
 const emit = defineEmits(["close", "deleteUser"]);
-
 </script>

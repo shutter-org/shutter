@@ -48,8 +48,8 @@ import SadIcon from "@/components/icons/SadIcon.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { getPublicationByTag } from "@/api/publication";
 import { useUserStore } from "@/stores/user";
-import type { Publication } from "@/api/type";
 import { useRoute } from "vue-router";
+import type { Publication } from "@/api/type";
 
 const userStore = useUserStore();
 const route = useRoute();
@@ -80,7 +80,6 @@ if (route.params.tag.toString() !== "") {
   isTagNameEmpty.value = false;
 
 }
-
 async function searchPublicationByTag(tag: string, number: number) {
   const res = await getPublicationByTag(number, tag, userStore.authKey);
   if (res.status !== 200) {
@@ -94,7 +93,6 @@ async function searchPublicationByTag(tag: string, number: number) {
     isLoading.value = false;
   }
 }
-
 const openPublicationModal = (publicationId: string) => {
   shownPublicationId.value = publicationId;
   shownPublication.value = shownPublications.value.find((publication: Publication) => {
@@ -110,7 +108,6 @@ const deletePublication = (publicationId: string) => {
     return publication.publication_id !== publicationId;
   });
 }
-
 async function loadMorePublications() {
 
   if (numberOfPublications.value / 12 < pageIndex.value) return;

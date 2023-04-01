@@ -168,8 +168,6 @@ import type { PropType } from "vue";
 import type { Gallery, User } from "@/api/type";
 import { useGalleryStore } from "@/stores/gallery";
 
-
-
 const props = defineProps({
   user: {
     type: Object as PropType<User>,
