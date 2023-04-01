@@ -27,9 +27,6 @@
           <SadIcon class="w-40 h-40"></SadIcon>
           <p class="text-3xl">Tag has no posts...</p>
         </div>
-        <PublicationModal v-if="isPublicationModalShown" @close="closePublicationModal"
-          :publication-id="shownPublicationId" :is-current-user="loggedUsername === shownPublication.poster_user.username"
-          @delete="deletePublication" />
       </div>
       <SkewLoader v-if="isUpdating" color="#465A82" size="10px" class="m-full h-8" />
 
@@ -37,6 +34,10 @@
 
     <!-- Loading animation -->
     <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
+
+    <PublicationModal v-if="isPublicationModalShown" class="p-12" @close="closePublicationModal"
+      :publication-id="shownPublicationId" :is-current-user="loggedUsername === shownPublication.poster_user.username"
+      @delete="deletePublication" />
   </div>
 </template>
 <script setup lang="ts">

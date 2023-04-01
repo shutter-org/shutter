@@ -11,9 +11,10 @@
         </div>
 
         <!-- Searched users -->
-        <UserBarComponentVue v-for="(user, index) in usersSearched" v-if="isSearchingUsers" :user="user" :key="index"
-            class="PRO:h-12" :class="{ 'shutter-hover-color': isCurrentIndex(index) }" @mouseover="highlightedIndex = index"
-            @click="emit('closeSearchModal')" @close-search-modal="emit('closeSearchModal')"></UserBarComponentVue>
+        <UserBarComponentVue v-for="(user, index) in usersSearched.slice(0, 6)" v-if="isSearchingUsers" :user="user"
+            :key="index" class="PRO:h-12" :class="{ 'shutter-hover-color': isCurrentIndex(index) }"
+            @mouseover="highlightedIndex = index" @click="emit('closeSearchModal')"
+            @close-search-modal="emit('closeSearchModal')"></UserBarComponentVue>
 
         <!-- Searched tags -->
         <router-link :to="'/explore/' + tag.tag" class="w-full rounded-md disable-hover PRO:h-12"
