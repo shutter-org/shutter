@@ -11,14 +11,14 @@
         </div>
 
         <!-- Searched users -->
-        <UserBarComponentVue v-for="(user, index) in usersSearched.slice(0, 6)" v-if="isSearchingUsers" :user="user"
+        <UserBarComponentVue v-for="(user, index) in usersSearched?.slice(0, 6)" v-if="isSearchingUsers" :user="user"
             :key="index" class="PRO:h-12" :class="{ 'shutter-hover-color': isCurrentIndex(index) }"
             @mouseover="highlightedIndex = index" @click="emit('closeSearchModal')"
             @close-search-modal="emit('closeSearchModal')"></UserBarComponentVue>
 
         <!-- Searched tags -->
         <router-link :to="'/explore/' + tag.tag" class="w-full rounded-md disable-hover PRO:h-12"
-            :class="{ 'shutter-hover-color': isCurrentIndex(index) }" v-for="(tag, index) in tagsSearched.slice(0, 6)"
+            :class="{ 'shutter-hover-color': isCurrentIndex(index) }" v-for="(tag, index) in tagsSearched?.slice(0, 6)"
             :key="index" v-if="!isSearchingUsers" @click="emit('closeSearchModal')" @mouseover="highlightedIndex = index">
             <div class="py-3 px-1 h-14 flex flex-row items-center">
                 <div class="w-10 h-10 rounded-full mr-8 border border-slate-400 flex justify-center items-center">
