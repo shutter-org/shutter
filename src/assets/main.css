@@ -107,7 +107,51 @@ input[type="checkbox"] {
 input[type="checkbox"]:hover {
   cursor: pointer;
 }
-
+input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+input[type="date"] {
+  background: transparent;
+  color: var(--color-text);
+  padding-left: 0px;
+}
+input[type="date"]:focus {
+  box-shadow: none;
+}
 .tags {
   color: var(--special-text-color);
+}
+
+div.scrollmenu {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.middle {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+.cmd-kbd {
+  display: inline-flex;
+  align-items: center;
+  min-width: 21px;
+  padding: 0 4px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-fg-muted);
+  text-align: center;
+  border-radius: 6px;
+  box-shadow: none;
+}
+.open-button {
+  transform: translate(-50%, -50%);
+}
+
+.text-see-through {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #000000;
+  mix-blend-mode: lighten;
 }

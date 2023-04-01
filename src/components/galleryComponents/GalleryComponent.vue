@@ -12,7 +12,7 @@
 
             <!-- Left Icon -->
             <button
-                class="h-72 flex items-center rounded-r-md z-10 absolute left-0 shutter-background-mute-transparent shutter-border-color border-r-2 border-y-2"
+                class="h-72 PRO:h-60 flex items-center rounded-r-md z-10 absolute left-0 shutter-background-mute-transparent shutter-border-color border-r-2 border-y-2"
                 v-if="!isAtStart && props.gallery.publications.length > 0" @click="animateListToTheLeft">
                 <LeftChevron class="h-8 shutter-color-border" />
             </button>
@@ -20,10 +20,10 @@
 
             <!-- Publications -->
             <div class="scrollmenu grow w-full p-2" v-dragscroll.x ref="publicationListContainer">
-                <div class="w-80 h-80 px-2" v-if="props.gallery.publications.length === 0">
+                <div class="w-80 h-80 px-2 PRO:w-60 PRO:h-60" v-if="props.gallery.publications.length === 0">
                     <div
                         class="border-2 w-full h-full rounded-md shutter-border-color flex flex-col justify-center items-center shutter-background-color">
-                        <span class="text-xl">No publications in this gallery</span>
+                        <span class="text-xl PRO:text-base">No publications in this gallery</span>
                         <CameraIcon class="w-40" />
                     </div>
                 </div>
@@ -38,7 +38,7 @@
 
             <!-- Right Icon -->
             <button
-                class="z-10 absolute right-0 shutter-background-mute-transparent border-l-2 border-y-2 shutter-border-color rounded-l-md h-72 flex items-center w-8"
+                class="z-10 absolute right-0 shutter-background-mute-transparent border-l-2 border-y-2 shutter-border-color rounded-l-md h-72 PRO:h-60 flex items-center w-8"
                 v-if="!isAtEnd && props.gallery.publications.length > 0" @click="animateListToTheRight">
                 <RightChevron class="h-8 shutter-color-border" />
             </button>
@@ -173,28 +173,13 @@ async function loadMorePublications() {
         isUpdating.value = true;
 
         galleryStore.addIndexToGalleryIndex(props.gallery.gallery_id, index + 1);
-        console.log(galleryStore.getGalleryIndex(props.gallery.gallery_id))
         isUpdating.value = true;
         const res = await getPublicationFromGalleryApi(props.gallery.gallery_id, index + 1, userStore.authKey);
         const data = await res.json();
-        console.log(data)
         for (let i = 0; i < data.length; i++) {
             galleryStore.addPublicationToGalleryMap(props.gallery.gallery_id, data[i])
         }
-        console.log(data);
         isUpdating.value = false;
     }
 }
 </script>
-<style>
-div.scrollmenu {
-    overflow: auto;
-    white-space: nowrap;
-}
-
-.middle {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-}
-</style>

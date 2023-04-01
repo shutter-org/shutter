@@ -8,10 +8,10 @@
             class="post flex flex-col gap-4 items-center rounded-lg p-4 relative shadow-lg w-full mx-auto max-w-2xl translate-x-[126px] PRO:translate-x-0 PRO:mx-4">
             <div
                 class="shutter-modal-color shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4">
-                <div class="w-full h-48 PRO:h-80 flex flex-row PRO:flex-col gap-10 PRO:gap-4 items-center p-2">
+                <div class="w-full flex flex-row PRO:flex-col gap-10 PRO:gap-4 items-center p-2">
 
                     <!-- Picture uploader -->
-                    <button class="h-full PRO:h-1/2 aspect-square rounded-full border-2 grid grid-cols-1 grid-rows-1"
+                    <button class="h-40 aspect-square rounded-full border-2 grid grid-cols-1 grid-rows-1"
                         @click="openUploadForm">
                         <ImgLoader id="picture" class="h-full w-full object-cover aspect-square rounded-full stack"
                             :src="picture_url" :round="true" />
@@ -22,9 +22,9 @@
                     <input class="hidden" type="file" id="imgInput" name="img" accept="image/*" @change="loadPicture" />
 
                     <!-- Inline text modifications (username, name) -->
-                    <div class="h-full w-full flex flex-col gap-4 justify-center overflow-x-auto p-1">
+                    <div class="h-full w-full flex flex-col gap-8 justify-center overflow-x-auto p-1">
                         <input
-                            class="w-full font-bold text-4xl inputable shutter-border-color shutter-background-color p-2 border-2 rounded-lg"
+                            class="w-full font-bold text-4xl inputable shutter-border-color shutter-background-color p-2 border-2 rounded-lg h-16"
                             placeholder="Username..." maxlength="50" v-model="username" />
                         <div class="w-full flex flex-row PRO:justify-center">
                             <input
