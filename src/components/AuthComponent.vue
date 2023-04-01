@@ -146,7 +146,8 @@ async function SignIn() {
 async function SignUp() {
   if (password.value === passwordConfirmation.value) {
     if (!!username.value && !!password.value && !!email.value && !!name.value && !!birthdate.value) {
-      if (/\s/.test(username.value)) {
+      username.value = username.value.trim();
+      if (!/\s/.test(username.value)) {
         const newUser: SignUpUser = {
           username: username.value,
           password: encryptWithAES(password.value),
