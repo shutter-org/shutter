@@ -6,7 +6,7 @@
 
       <!-- Command to search tags -->
       <span class="flex-1 ml-3 text-LG">
-        <kbd class="hx_kbd border-2 shutter-border-mute">
+        <kbd class="cmd-kbd border-2 shutter-border-mute">
           <span v-if="isWindows">Ctrl K</span>
           <span v-else>&#x2318; K</span>
         </kbd> to search for tags

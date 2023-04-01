@@ -104,6 +104,8 @@ export const useGalleryStore = defineStore("gallery", () => {
     );
     if (res.status !== 201) {
       console.log("erreur dans le create de la gallery");
+      console.log('here')
+      return res;
     } else {
       const gallery_idJson = await res.json();
       const resGallery = await getGalleryApi(
@@ -115,8 +117,9 @@ export const useGalleryStore = defineStore("gallery", () => {
       } else {
         const gallery = (await resGallery.json()) as Gallery;
         addGalleryToMap(gallery);
-        return true;
+        return res;
       }
+      return res;
     }
   }
   async function deleteGallery(gallery_id: string) {
@@ -141,12 +144,13 @@ export const useGalleryStore = defineStore("gallery", () => {
     );
     if (res.status !== 200) {
       console.log("erreur dans le update de la gallery");
+      return res;
     } else {
       //update parameter of gallery in map with gallery_id
       let gallery = getGalleryFromMap(gallery_id) as Gallery;
       gallery = { ...gallery, ...galleryParameters };
       setGalleryMap(gallery);
-      return true;
+      return res;
     }
   }
 

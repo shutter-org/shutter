@@ -144,6 +144,7 @@ const submitComment = (event: KeyboardEvent) => {
   }
 };
 const submitCommentClick = () => {
+  if (message.value === "") return;
   publicationStore.addComment(props.publication.publication_id, message.value);
   message.value = "1";
   message.value = "";

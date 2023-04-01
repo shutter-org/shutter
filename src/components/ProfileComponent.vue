@@ -103,7 +103,7 @@
       class="w-full rounded-lg font-bold text-xl p-2 px-4">Show more</button>
 
     <!-- Galleries display -->
-    <div v-if="!isPictureTabShown" class="w-full flex flex-col p-2">
+    <div v-if="!isPictureTabShown" class="w-full flex flex-col p-2 PRO:p-0">
       <button v-if="!isGalleryLoading && isCurrentUser"
         class="flex items-center p-2 text-base font-normal rounded-lg w-10 self-center"
         @click="emit('openGalleryCreationModal')">

@@ -24,11 +24,15 @@
             </div>
 
             <!-- Description -->
-            <textarea class="inputable w-full max-h-48 mb-5 p-2 border-2 rounded-lg" placeholder="Description..."
-                maxlength="200" v-model="description"></textarea>
+            <textarea
+                class="inputable shadow-none resize-none shutter-border-color shutter-background-color w-full max-h-48 mb-5 p-2 border-2 rounded-lg"
+                placeholder="Description..." maxlength="200" v-model="description"></textarea>
+
+            <!-- Error message -->
+            <p class="text-lg inline h-7 mb-1 items-center text-red-500">{{ errorMessage }}</p>
 
             <!-- Save button -->
-            <button class="save-button shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="modifyGallery">
+            <button class="modal-button shutter-hover-color text-xl p-2 rounded-lg pr-10 pl-10" @click="modifyGallery">
                 Save
             </button>
         </div>
@@ -36,10 +40,11 @@
 </template>
 <script setup lang="ts">
 import type { Gallery, GalleryParameters } from '@/api/type';
-import { ref, type PropType, onMounted } from 'vue';
+import { ref, type PropType, onMounted, watch } from 'vue';
 import { useGalleryStore } from '@/stores/gallery';
 
 const galleryStore = useGalleryStore()
+const errorMessage = ref('')
 const title = ref('')
 const description = ref('')
 const private_bool = ref(true)
@@ -70,13 +75,30 @@ function clickOnCheckbox() {
         public_bool.value = false
     }
 }
+watch([title, () => description.value], ([newTitle, newDesc]) => {
+    if (!newTitle && !newDesc) {
+        errorMessage.value = 'Title and Description are required';
+    } else if (!newTitle) {
+        errorMessage.value = 'Title is required';
+    } else if (!newDesc) {
+        errorMessage.value = 'Description is required';
+    } else {
+        errorMessage.value = '';
+    }
+})
 async function modifyGallery() {
     const galleryParameters: GalleryParameters = {
         title: title.value,
         description: description.value,
         private: private_bool.value
     }
-    await galleryStore.updateGallery(props.gallery.gallery_id, galleryParameters)
+    const res = await galleryStore.updateGallery(props.gallery.gallery_id, galleryParameters)
+    if (res.status != 200) {
+        const json = await res.json()
+        console.log('here')
+        errorMessage.value = json.Error;
+        return
+    }
     emit('close')
 }
 const emit = defineEmits(['close'])
@@ -85,25 +107,3 @@ const vFocus = {
     mounted: (el: { focus: () => any; }) => el.focus(),
 };
 </script>
-<style scoped>
-.inputable {
-    border-color: var(--color-border);
-    background-color: var(--color-background);
-    box-shadow: none;
-    resize: none;
-}
-
-.save-button:hover {
-    background-color: var(--color-border);
-}
-
-input[type="checkbox"]:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-textarea:focus {
-    outline: none;
-    box-shadow: none;
-}
-</style>
