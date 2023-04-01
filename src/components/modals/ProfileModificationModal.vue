@@ -85,7 +85,8 @@ const emit = defineEmits(["close"]);
 const save = async () => {
     if (username.value !== "") {
         if (name.value !== "") {
-            if (/\s/.test(username.value)) {
+            username.value = username.value.trim();
+            if (!/\s/.test(username.value)) {
                 const body = {} as User;
 
                 const user = userStore.getShownUser(userStore.username) as User;
