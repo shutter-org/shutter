@@ -1,4 +1,4 @@
-const API_URL = "https://faleraza12.pythonanywhere.com";
+import { API_URL } from "./url";
 
 export const getFollowingPublications = async (page: number, authKey: String) => {
     const key = "Bearer " + authKey;

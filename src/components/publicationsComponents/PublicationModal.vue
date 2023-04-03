@@ -34,19 +34,6 @@ import { useUserStore } from '@/stores/user'
 import { usePublicationStore } from "@/stores/publication";
 import { useGalleryStore } from "@/stores/gallery";
 
-
-onMounted(() => {
-  document.addEventListener("keydown", onKeyDownEscape);
-});
-onBeforeUnmount(() => {
-  document.removeEventListener("keydown", onKeyDownEscape);
-});
-
-function onKeyDownEscape(e: KeyboardEvent) {
-  if (e.key === "Escape") {
-    emit("close");
-  }
-}
 const props = defineProps({
   publicationId: {
     type: String,
@@ -75,6 +62,18 @@ const isUpdating = ref(false);
 
 loadPublication();
 
+onMounted(() => {
+  document.addEventListener("keydown", onKeyDownEscape);
+});
+onBeforeUnmount(() => {
+  document.removeEventListener("keydown", onKeyDownEscape);
+});
+
+function onKeyDownEscape(e: KeyboardEvent) {
+  if (e.key === "Escape") {
+    emit("close");
+  }
+}
 async function loadPublication() {
   const token = publicationStore.getShownPublication(props.publicationId);
   if (token !== undefined) {

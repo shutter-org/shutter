@@ -128,6 +128,7 @@ const emit = defineEmits({
     return true;
   }
 });
+
 const showMoreComments = () => {
   nbCommentsShown.value += publicationStore.serverPageQte;
   if (props.publication.nb_comments > nbCommentsShown.value && props.publication.comments.length == nbCommentsShown.value) {

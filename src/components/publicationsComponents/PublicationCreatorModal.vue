@@ -56,9 +56,6 @@ const tags = ref("");
 const errorMessage = ref("");
 
 const emit = defineEmits(["close"]);
-const openUploadForm = () => {
-  document.getElementById("imgInput")!.click();
-};
 
 onMounted(() => {
   document.addEventListener("keydown", onKeyDownEscape);
@@ -66,7 +63,9 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener("keydown", onKeyDownEscape);
 });
-
+const openUploadForm = () => {
+  document.getElementById("imgInput")!.click();
+};
 function onKeyDownEscape(e: KeyboardEvent) {
   if (e.key === "Escape") {
     emit("close");

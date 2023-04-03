@@ -36,7 +36,7 @@
 
 
             <!-- Save button -->
-            <button class="modal-button text-xl p-2 rounded-lg pr-10 pl-10" @click="updateGalleries">
+            <button class="modalButton text-xl p-2 rounded-lg pr-10 pl-10" @click="updateGalleries">
                 Save
             </button>
         </div>

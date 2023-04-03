@@ -1,6 +1,5 @@
 import CryptoJS from "crypto-js";
-
-const API_URL = "https://faleraza12.pythonanywhere.com";
+import { API_URL } from "./url";
 
 export interface SignInUser {
   username: string;
