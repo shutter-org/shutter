@@ -13,7 +13,7 @@
       @open-gallery-modification-modal="openGalleryModificationModal"></Profile>
 
     <!-- Post consultation modal -->
-    <PublicationModal class="p-12" v-if="isPublicationModalShown" :publicationId="shownPublicationId"
+    <PublicationModal class="p-8" v-if="isPublicationModalShown" :publicationId="shownPublicationId"
       :is-current-user="true" @close="closePublicationModal" @delete="deletePublication" />
 
     <!-- Profile modification modal -->

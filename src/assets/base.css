@@ -16,13 +16,14 @@
 
   --back-alt-color: #B3C5D7;
 }
+
 ::-webkit-calendar-picker-indicator {
   filter: invert(0);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    
+
     --color-background: #111821;
     --color-background-mute: #171F2E;
 
@@ -39,6 +40,7 @@
 
     --back-alt-color: #17212C;
   }
+
   ::-webkit-calendar-picker-indicator {
     filter: invert(1);
   }
@@ -68,4 +70,5 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }

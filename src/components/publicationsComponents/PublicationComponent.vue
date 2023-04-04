@@ -3,8 +3,8 @@
 
     <!-- Header information (poster, post date) -->
     <div class="flex flex-row items-center justify-between w-full">
-      <User class="h-14 mr-auto" :user="props.publication.poster_user"></User>
-      <p class="text-xl p-2">{{ props.publication.created_date }}</p>
+      <User class="h-14 mr-auto overflow-x-hidden overflow-ellipsis" :user="props.publication.poster_user"></User>
+      <p class="text-xl p-2 inline whitespace-nowrap w-fit">{{ props.publication.created_date }}</p>
     </div>
 
     <!-- Picture -->
@@ -19,7 +19,7 @@
         :user_rate="props.publication.user_rating"></RatingInterface>
 
       <!-- Post manipulation subBar -->
-      <div class="flex flex-row gap-4">
+      <div class="flex flex-row gap-4 PRO:gap-2">
 
         <!-- Modify button -->
         <button v-if="isCurrentUser" @click="emit('modify')">

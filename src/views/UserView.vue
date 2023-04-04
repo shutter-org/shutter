@@ -18,7 +18,7 @@
         </div>
 
         <!-- Post consultation modal -->
-        <PublicationModal class="PRO:my-[80px] p-12" v-if="isPublicationModalShown" :publicationId="shownPublicationId"
+        <PublicationModal class="PRO:my-[80px] p-8" v-if="isPublicationModalShown" :publicationId="shownPublicationId"
             @close="closePublicationModal" />
     </div>
 </template>
