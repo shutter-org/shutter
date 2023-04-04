@@ -35,7 +35,7 @@
     <!-- Loading animation -->
     <SyncLoader v-if="isLoading" color="#465A82" size="24px" class="m-auto" />
 
-    <PublicationModal v-if="isPublicationModalShown" class="p-12" @close="closePublicationModal"
+    <PublicationModal v-if="isPublicationModalShown" class="p-8" @close="closePublicationModal"
       :publication-id="shownPublicationId" :is-current-user="loggedUsername === shownPublication.poster_user.username"
       @delete="deletePublication" />
   </div>

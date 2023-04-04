@@ -1,21 +1,21 @@
 <template>
   <div
-    class="shutter-border-color shutter-background-color w-full flex flex-col gap-2 items-center rounded-lg p-4 border-2">
+    class="shutter-border-color shutter-background-color w-full h-full flex flex-col gap-2 items-center rounded-lg p-4 border-2">
 
     <!-- User identifications -->
-    <div class="w-full h-40 PRO:h-80 flex flex-row PRO:flex-col gap-10 items-center p-2">
+    <div class="w-full h-full flex flex-row PRO:flex-col gap-10 items-center p-2">
 
       <!-- Profile picture -->
-      <ImgLoader class="h-full PRO:h-40 object-cover aspect-square rounded-full border-2 colored-border"
+      <ImgLoader class="h-40 object-cover aspect-square rounded-full border-2 colored-border"
         :src="props.user.profile_picture" :round="true" alt="" />
 
       <!-- Username and name -->
       <div class="h-full w-full flex flex-col gap-4 justify-center overflow-x-auto">
         <p
-          class="w-full font-bold text-4xl inline overflow-hidden whitespace-nowrap overflow-ellipsis PRO:text-center p-1">
+          class="w-full h-full font-bold text-4xl inline overflow-hidden whitespace-nowrap overflow-ellipsis PRO:text-center p-1">
           {{ props.user.username }}
         </p>
-        <p class="w-full font-bold text-2xl inline overflow-hidden PRO:text-center p-1">
+        <p class="w-full h-full font-bold text-2xl inline whitespace-pre-wrap PRO:text-center p-1">
           {{ props.user.name }} • {{ props.user.age }}
         </p>
       </div>
