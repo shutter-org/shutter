@@ -18,7 +18,7 @@
       <span class="flex-1 ml-3 text-4xl" v-if="isTagNameEmpty">Recent posts</span>
 
       <!-- List of every publications -->
-      <div class="w-full h-full grid grid-cols-3 PRO:grid-cols-2 gap-6 PRO:gap-4 p-4 pt-10">
+      <div class="w-full h-auto grid grid-cols-3 PRO:grid-cols-2 gap-6 PRO:gap-4 p-4 pt-10">
         <button v-for="publication in shownPublications" @click="openPublicationModal(publication.publication_id)">
           <img class="w-full object-cover aspect-square rounded-lg" :src="publication.picture" />
         </button>
