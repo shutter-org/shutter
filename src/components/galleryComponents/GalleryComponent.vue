@@ -18,8 +18,8 @@
             </button>
 
 
-            <!-- Publications -->
             <div class="scrollmenu grow w-full p-2" v-dragscroll.x ref="publicationListContainer">
+                <!-- No Publications -->
                 <div class="w-80 h-80 px-2 PRO:w-60 PRO:h-60" v-if="props.gallery.publications.length === 0">
                     <div
                         class="border-2 w-full h-full rounded-md shutter-border-color flex flex-col justify-center items-center shutter-background-color">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
 
-                <!-- No Publications -->
+                <!-- Publications -->
                 <PublicationGalleryComponent v-for="publication in props.gallery.publications" id="publications"
                     :is-current-user="props.isCurrentUser" :publication="publication"
                     @open-publication-modal="emit('openPublicationModal', publication.publication_id)"
