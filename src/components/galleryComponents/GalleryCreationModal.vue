@@ -49,8 +49,8 @@ const errorMessage = ref('');
 const galleryStore = useGalleryStore();
 const title = ref('')
 const description = ref('')
-const private_bool = ref(true)
-const public_bool = ref(false)
+const private_bool = ref(false)
+const public_bool = ref(true)
 
 function clickOnCheckbox() {
     if (private_bool.value == true) {
