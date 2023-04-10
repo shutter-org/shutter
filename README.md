@@ -1,6 +1,6 @@
 # shutter
 
-This template should help get you started developing with Vue 3 in Vite.
+Front-end code for our website https://shutter-app.com/
 
 ## Recommended IDE Setup
 
