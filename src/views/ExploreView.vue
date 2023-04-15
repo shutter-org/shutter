@@ -109,8 +109,8 @@ const deletePublication = (publicationId: string) => {
   });
 }
 async function loadMorePublications() {
-
   if (numberOfPublications.value / 12 < pageIndex.value) return;
+  if (isUpdating.value) return;
   pageIndex.value++;
   isUpdating.value = true;
   const res = await getPublicationByTag(pageIndex.value, route.params.tag.toString(), userStore.authKey);
@@ -119,8 +119,8 @@ async function loadMorePublications() {
   } else {
     const data = await res.json()
     shownPublications.value = shownPublications.value.concat(data.publications);
+    isUpdating.value = false;
   }
-  isUpdating.value = false;
 }
 const handleScroll = () => {
   let windowHeight = window.innerHeight;
