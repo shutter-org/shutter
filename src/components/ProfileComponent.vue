@@ -213,7 +213,6 @@ const showMore = async () => {
   if (!isBusy.value) {
     isBusy.value = true;
     if (props.user.publications.length < props.user.nb_publications) {
-      console.log("loading more posts")
       await userStore.loadMorePublications(props.user.username, nextPage.value);
       nextPage.value += 1;
     }

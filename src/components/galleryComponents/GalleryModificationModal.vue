@@ -95,7 +95,6 @@ async function modifyGallery() {
     const res = await galleryStore.updateGallery(props.gallery.gallery_id, galleryParameters)
     if (res.status != 200) {
         const json = await res.json()
-        console.log('here')
         errorMessage.value = json.Error;
         return
     }

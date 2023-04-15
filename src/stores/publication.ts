@@ -19,7 +19,6 @@ export const usePublicationStore = defineStore("publication", () => {
     isBusy.value = true;
     const res = await getFollowingPublications(1, userStore.authKey);
     if (res.status !== 200) {
-      console.log("erreur dans le fetch des publications");
       isBusy.value = false;
     } else {
       const data = await res.json();
@@ -38,7 +37,6 @@ export const usePublicationStore = defineStore("publication", () => {
     ) {
       const res = await getFollowingPublications(page, userStore.authKey);
       if (res.status !== 200) {
-        console.log("erreur dans le fetch des publications");
         return undefined;
       } else {
         const data = await res.json();
@@ -58,7 +56,6 @@ export const usePublicationStore = defineStore("publication", () => {
     isBusy.value = true;
     const res = await getPublication(publicationId, userStore.authKey);
     if (res.status !== 200) {
-      console.log("erreur dans le fetch de la publication");
       isBusy.value = false;
     } else {
       const shownPublication = (await res.json()) as Publication;
@@ -82,7 +79,6 @@ export const usePublicationStore = defineStore("publication", () => {
       userStore.authKey
     );
     if (res.status !== 200) {
-      console.log("erreur dans le update de la publication");
       isBusy.value = false;
     } else {
       let pub = lastShownPublications.value.get(publicationId);
@@ -205,9 +201,7 @@ export const usePublicationStore = defineStore("publication", () => {
         message,
         userStore.authKey
       );
-      if (res.status !== 201) {
-        console.log("erreur dans la creation du commentaire");
-      } else {
+      if (res.status === 201) {
         if (
           pub.nb_comments < 12 ||
           (pub.comments.length === pub.nb_comments &&
@@ -249,9 +243,7 @@ export const usePublicationStore = defineStore("publication", () => {
           page,
           userStore.authKey
         );
-        if (res.status !== 200) {
-          console.log("erreur dans le fetch des commentaires");
-        } else {
+        if (res.status === 200) {
           const data = (await res.json()) as Comment[];
           for (let com of data.splice(
             pub.comments.length - (page - 1) * serverPageQte.value,

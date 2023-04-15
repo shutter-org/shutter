@@ -83,7 +83,6 @@ async function createGallery() {
     const res = await galleryStore.createGallery(galleryParameters)
     if (res.status != 201) {
         const json = await res.json()
-        console.log('here')
         errorMessage.value = json.Error;
         return
     }

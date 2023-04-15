@@ -101,15 +101,8 @@ async function post() {
         };
 
         const res = await createPublication(body, userStore.authKey);
-        if (res.status !== 201) {
-          console.log("erreur dans la creation de la publication");
-        }
         const data = await res.json();
 
-        const newPub = {
-          publication_id: data.publication_id,
-          picture: picture_url.value,
-        } as SimplifiedPublication;
         userStore.loadShownUser(userStore.username);
       };
       reader.readAsDataURL(picture.value);

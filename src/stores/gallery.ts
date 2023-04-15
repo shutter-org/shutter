@@ -86,9 +86,7 @@ export const useGalleryStore = defineStore("gallery", () => {
         user.galleries[i].gallery_id,
         userStore.authKey
       );
-      if (res.status !== 200) {
-        console.log("erreur dans le fetch de la gallery : loadGalleries");
-      } else {
+      if (res.status === 200) {
         const gallery = (await res.json()) as Gallery;
         addGalleryToMap(gallery);
       }
@@ -103,8 +101,6 @@ export const useGalleryStore = defineStore("gallery", () => {
       userStore.authKey
     );
     if (res.status !== 201) {
-      console.log("erreur dans le create de la gallery");
-      console.log('here')
       return res;
     } else {
       const gallery_idJson = await res.json();
@@ -112,9 +108,7 @@ export const useGalleryStore = defineStore("gallery", () => {
         gallery_idJson.gallery_id,
         userStore.authKey
       );
-      if (resGallery.status !== 200) {
-        console.log("erreur dans le fetch de la gallery");
-      } else {
+      if (resGallery.status === 200) {
         const gallery = (await resGallery.json()) as Gallery;
         addGalleryToMap(gallery);
         return res;
@@ -124,9 +118,7 @@ export const useGalleryStore = defineStore("gallery", () => {
   }
   async function deleteGallery(gallery_id: string) {
     const res = await deleteGalleryApi(gallery_id, userStore.authKey);
-    if (res.status !== 200) {
-      console.log("erreur dans le delete de la gallery");
-    } else {
+    if (res.status === 200) {
       removeGalleryFromMap(gallery_id);
       return true;
     }
@@ -143,7 +135,6 @@ export const useGalleryStore = defineStore("gallery", () => {
       userStore.authKey
     );
     if (res.status !== 200) {
-      console.log("erreur dans le update de la gallery");
       return res;
     } else {
       //update parameter of gallery in map with gallery_id
@@ -160,9 +151,7 @@ export const useGalleryStore = defineStore("gallery", () => {
       publication.publication_id,
       userStore.authKey
     );
-    if (res.status !== 200) {
-      console.log("erreur dans le add de la publication à la gallery");
-    } else {
+    if (res.status === 200) {
       if (galleries.value.size !== 0) {
         addPublicationToGalleryMap(gallery_id, publication);
       }
@@ -176,9 +165,7 @@ export const useGalleryStore = defineStore("gallery", () => {
       publication.publication_id,
       userStore.authKey
     );
-    if (res.status !== 200) {
-      console.log("erreur dans le delete de la publication de la gallery");
-    } else {
+    if (res.status === 200) {
       if (galleries.value.size !== 0) {
         removePublicationFromGalleryMap(gallery_id, publication);
       }
@@ -202,7 +189,6 @@ export const useGalleryStore = defineStore("gallery", () => {
   }
 
   async function voteUpGallery(gallery: Gallery) {
-    console.log("upvote gallery");
     if (!isRating.value) {
       isRating.value = true;
       if (gallery !== undefined) {
@@ -228,7 +214,6 @@ export const useGalleryStore = defineStore("gallery", () => {
     }
   }
   async function voteDownGallery(gallery: Gallery) {
-    console.log("downvote gallery");
     if (!isRating.value) {
       isRating.value = true;
       if (gallery !== undefined) {
@@ -286,11 +271,7 @@ export const useGalleryStore = defineStore("gallery", () => {
 
   async function loadShownPickingGalleries(publication_id: string) {
     const res = await getUser(userStore.username, userStore.authKey);
-    if (res.status !== 200) {
-      console.log(
-        "erreur dans le fetch de l'utilisateur pour get les galleries"
-      );
-    } else {
+    if (res.status === 200) {
       const user = (await res.json()) as User;
       const userGalleries = user.galleries;
       for (let i = 0; i < userGalleries.length; i++) {

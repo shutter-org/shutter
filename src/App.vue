@@ -40,7 +40,6 @@ watch(() => clock.value, (newDate: number) => {
   //session d'une heure avec le serveur
   if (!Number.isNaN(userStore.sessionStartDate) && newDate - userStore.sessionStartDate >= 59 * 60 * 1000) {
     logOut();
-    console.log("session expiree");
   }
 });
 
@@ -51,10 +50,6 @@ async function pingServer() {
     const res = await ping(userStore.authKey);
     if (res.status !== 200) {
       logOut();
-      console.log("server lost");
-    }
-    else {
-      console.log("server restore");
     }
   }
 }

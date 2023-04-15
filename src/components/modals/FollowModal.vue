@@ -65,7 +65,6 @@ const loadMoreFollows = async () => {
     if (!isBusy.value) {
         isBusy.value = true;
         if (props.users.length < props.nb_follows) {
-            console.log("loading more follows")
             await userStore.loadMoreFollows(props.username, props.title, nextPage.value);
             nextPage.value += 1;
         }

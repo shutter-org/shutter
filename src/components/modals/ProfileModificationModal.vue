@@ -102,7 +102,6 @@ const save = async () => {
                     }
 
                     if (Object.keys(body).length !== 0) {
-                        console.log("updating user");
                         const res = await updateUser(userStore.username, userStore.authKey, body);
                         const data = await res.json();
                         if (res.status !== 200) {
@@ -114,7 +113,6 @@ const save = async () => {
                             await galleryStore.loadGalleries(user);
 
                             if (data.access_token !== undefined) {
-                                console.log("key changed")
                                 userStore.setAuthKey(data.access_token);
                             }
                             if (data.user !== undefined && data.user !== null) {
@@ -126,7 +124,6 @@ const save = async () => {
                                     userStore.setProfilePicture(data.user.profile_picture);
                                 }
                             }
-                            console.log('updated')
                             emit("close");
                         }
                     }

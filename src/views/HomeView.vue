@@ -67,7 +67,6 @@ async function loadMorePublications() {
   if (!isBusy.value) {
     isBusy.value = true;
     if (publications.value.length < nb_publications.value) {
-      console.log("loading more posts")
       const token = await publicationStore.loadMorePublications(nextPage.value);
       publications.value = publicationStore.getHomePublications();
       nextPage.value += 1;

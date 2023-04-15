@@ -66,9 +66,6 @@ export const useUserStore = defineStore('user', () => {
   }
   async function deleteCurrentUser() {
     const res = await deleteUser(username.value, authKey.value);
-    if (res.status === 200) {
-      console.log("user deleted with success");
-    }
   }
 
   const getShownUser = (username: string) => {
@@ -92,7 +89,6 @@ export const useUserStore = defineStore('user', () => {
   async function loadMorePublications(username: string, page: number) {
     const res = await getMoreUserPublications(username, page, authKey.value);
     if (res.status === 200) {
-      console.log("loaded");
       const publications = await res.json() as SimplifiedPublication[];
       lastShownUsers.value.get(username.toLowerCase())!.publications = lastShownUsers.value.get(username.toLowerCase())!.publications.concat(publications);
     }
